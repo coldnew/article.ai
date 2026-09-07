@@ -1,0 +1,171 @@
+---
+title: "Branchless 不是魔法：它只是把 if 的成本，換成更可預測的指令"
+description: "分析 easylang.online 的 branchless 文章，並補上 AArch64 與 RV32I 的實作佐證：什麼時候 branchless 真的更快，什麼時候只是把分支搬到別的地方。"
+publishedAt: 2026-09-07
+topic: "系統程式"
+sourceType: "article"
+sourceUrl: "https://easylang.online/blog/branchless"
+authors: []
+venue: "easylang.online · Branch-Avoidant Programming"
+tags: ["branchless", "CPU branch prediction", "AArch64", "RV32", "編譯器"]
+readTime: "9 分鐘"
+evidence: "高"
+featured: true
+sourceCount: 5
+accent: "blue"
+---
+
+## 先說結論
+
+這篇原文的核心主張是對的，但它真正值得記住的地方不是「把 `if` 拿掉就會快」，而是：當分支結果不穩定、CPU 又很難預測時，branchless 會把不確定的控制流成本，換成更穩定的算術或條件選擇。
+
+但這不是通則。它成立的前提是：
+
+1. 分支真的難以預測。
+2. 你換成 branchless 之後，不會引入更大的副作用。
+3. 目標 ISA 和編譯器真的能把它降成較便宜的指令。
+
+原文的價值，在於它把這個判斷講得很工程化；AArch64 與 RV32I 則補足了「不是所有架構都用同一種方法達成 branchless」這件事。
+
+## 這篇文章真正解決的問題
+
+它解的不是語法問題，而是效能問題。
+
+原文用「把小於 500 的數字複製出來」當例子，說明一個很典型的情境：如果資料分布很隨機，`if (numbers[i] < 500)` 對 branch predictor 來說很難猜，結果就是反覆 mispredict，pipeline 被迫清空，效能掉得很明顯。
+
+所以作者提出的不是玄學技巧，而是一個具體替代方案：
+
+```c
+smlen += (numbers[i] < 500);
+```
+
+也就是把條件結果轉成 0 或 1，交給加法處理。這種寫法的本質，是把控制流的分歧改成資料流的累加。
+
+## 流程拆解
+
+這篇文的思路其實可以拆成五步：
+
+1. 找出不穩定的短分支。
+2. 判斷資料分布是否會讓分支預測失準。
+3. 改成 branchless 寫法，讓結果走算術或條件選擇。
+4. 用 benchmark 與 assembly 驗證，確認編譯器真的照預期下降。
+5. 依架構決定用哪種 branchless 形式。
+
+這個流程很重要，因為它避免了一個常見誤區：不是看到 `if` 就改掉，而是先問這個 `if` 到底是不是效能瓶頸。
+
+## AArch64 佐證：Arm 本身就把條件選擇做成第一級工具
+
+Arm 官方文件很清楚地說，A64 有 conditional select 類指令，而且這些指令可以當成 branch 的替代方案；文件也直接給了 `CINC` 這類別名，說明它就是 `CSINC` 的語法糖。
+
+這代表在 AArch64 上，branchless 不是臨時拼湊出來的技巧，而是 ISA 內建的正常路徑。
+
+我用本機 clang 交叉編譯同一段邏輯，AArch64 的結果也很乾脆：
+
+```asm
+ldr	w10, [x11], #4
+cmp	w10, #500
+cinc	w8, w8, lt
+subs	x9, x9, #1
+b.ne	.LBB0_8
+```
+
+這裡的重點是 `cinc w8, w8, lt`：條件成立就加 1，不成立就維持原值。也就是原文在講的 branchless 目標，在 AArch64 上可以被非常直接地表達出來。
+
+這和 Arm 官方文件一致：對簡單 if/else，編譯器常會改用 conditional select，因為它的指令數固定、控制流更平滑。
+
+## RV32 佐證：RV32I 沒有 conditional move，但可以用比較結果接加法
+
+RISC-V 的 base RV32I 規格也很有意思。官方文件明講過：設計時有考慮 conditional moves / predicated instructions，但最後沒有納入 base ISA。換句話說，RV32I 不會像 AArch64 那樣提供現成的 conditional select 家族。
+
+這不代表 branchless 不可行，而是代表它的表達方式不同。
+
+我用 `zig cc -target riscv32-linux-musl -O2` 交叉編譯同一段「累加小於 500 的個數」邏輯，RV32 的輸出是：
+
+```asm
+lw	a3, 0(a0)
+addi	a0, a0, 4
+slti	a3, a3, 500
+add	a2, a2, a3
+bne	a0, a1, .LBB0_2
+```
+
+這裡沒有 conditional move，也沒有 predication。
+
+做法很直接：
+
+- `slti a3, a3, 500` 把條件轉成 0 或 1。
+- `add a2, a2, a3` 把布林值加回計數器。
+
+也就是說，RV32I 的 branchless 不是靠「條件執行一條指令」，而是靠「先把條件變成數值，再進行普通整數運算」。
+
+這跟原文的精神完全一致，只是落地方式換了一種。
+
+## 這篇原文哪裡講對了，哪裡要補一句
+
+講對的地方是：在隨機資料、短分支、高頻迴圈裡，branchless 常常真的比較快。
+
+但要補一句的是：branchless 不等於一定更快。
+
+原因有三個：
+
+1. 如果分支非常可預測，branchy 版本可能更省事。
+2. 如果 branchless 版本引入了額外 store，代價可能反而更高。
+3. 如果編譯器能把整段直接向量化，真正的贏法可能已經不是 scalar branchless，而是 SIMD。
+
+所以比較正確的結論不是「避免 if」，而是「避免難以預測的 if」。
+
+## 什麼時候適合用 branchless
+
+比較適合的情境是：
+
+- 迴圈很熱。
+- 條件結果接近隨機。
+- 分支 body 很短。
+- 轉成 0/1 再做算術，不會破壞記憶體安全或資料正確性。
+
+不適合硬上的情境是：
+
+- 條件大多數時間都一樣。
+- branchless 會讓你做不必要的 store。
+- 原始邏輯依賴「只有條件成立才可以寫入」。
+- 你其實應該先想的是資料布局或向量化，不是改 if。
+
+## 哪些步驟適合做成 skill 或自動化
+
+這篇文其實很適合拆成一個小工具鏈，而不是讓人每次手工判斷。
+
+可以自動化的步驟有：
+
+1. 輸入一段 C 程式。
+2. 估算條件分支是否可能高頻且難預測。
+3. 依目標 ISA 產生不同版本的 branchless 寫法。
+4. 比對 AArch64 / RV32 / x86_64 的實際 assembly。
+5. 列出哪些版本可能因 store、副作用或可讀性而不值得改。
+
+如果要做成 repo-local skill，我會把它定位成「branchless 取捨檢查器」：不是幫你自動改碼，而是幫你判斷這個 `if` 值不值得拿掉。
+
+## 對 article.ai 的改寫建議
+
+如果這類文章要長期留在站上，我會固定補三種東西：
+
+1. 原文主張，用一句話講清楚。
+2. 架構佐證，至少補一個 ARM、一個 RISC-V。
+3. 風險條件，明說什麼時候 branchless 不該用。
+
+這樣文章不會變成「技巧筆記」，而會變成真的可以回頭查的工程判斷文。
+
+## 我們的判讀
+
+這篇原文不是在鼓吹把所有 `if` 拿掉；它真正要傳達的是：當 CPU 的分支預測沒有把握，而你又剛好處在熱路徑裡，branchless 是一種把不確定性降下來的工程手段。
+
+AArch64 證明了條件選擇是架構原生能力；RV32I 則證明，即使沒有 conditional select，還是能用 `slti` / `add` 這種方式把分支壓成資料流。
+
+所以最後的結論是：branchless 不是魔法，它只是把 if 的成本，換成更容易預測的指令。
+
+## 原文與佐證
+
+- [原始文章：Branch-Avoidant Programming](https://easylang.online/blog/branchless)
+- [Armv8-A Instruction Set Architecture PDF](https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/Learn%20the%20Architecture/Armv8-A%20Instruction%20Set%20Architecture.pdf)
+- [Arm A64 `CINC`](https://developer.arm.com/documentation/dui0801/e/A64-General-Instructions/CINC)
+- [Arm A64 `CSINC`](https://developer.arm.com/documentation/ddi0487/mc/-Part-C-The-AArch64-Instruction-Set/-Chapter-C6-A64-Base-Instruction-Descriptions/-C6-2-Alphabetical-list-of-A64-base-instructions/-C6-2-141-CSINC)
+- [RISC-V RV32I Base Integer Instruction Set](https://docs.riscv.org/reference/isa/v20260120/unpriv/rv32.html)
