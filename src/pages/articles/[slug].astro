@@ -11,11 +11,12 @@ export async function getStaticPaths() {
 }
 
 const { article } = Astro.props;
-const { Content } = await render(article);
+const { Content, headings } = await render(article);
 const { title, description, topic, tags, publishedAt, updatedAt, evidence, sourceCount, readTime, sourceType, sourceUrl, sourceBackup, authors, venue } = article.data;
 const sourceTypeLabel = sourceType === 'patent' ? 'PATENT' : sourceType === 'article' ? 'ARTICLE' : 'PAPER';
+const tocHeadings = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 4);
 ---
-<BaseLayout title={`${title} — article.ai`} description={description}>
+<BaseLayout title={`${title} — article.ai`} description={description} wide={true}>
   <main class="report-layout">
     <nav class="breadcrumb"><a href="/article.ai/">← 文章總覽</a></nav>
 
@@ -47,7 +48,22 @@ const sourceTypeLabel = sourceType === 'patent' ? 'PATENT' : sourceType === 'art
 
     <AdSlot placement="top" />
 
-    <div class="report-shell"><main class="report-content"><Content /></main></div>
+    <div class="report-shell">
+      <div class="report-main">
+        <div class="report-content"><Content /></div>
+      </div>
+
+      {tocHeadings.length > 0 && (
+        <aside class="report-toc" aria-label="文章目錄">
+          <p class="toc-title">Table of contents</p>
+          <nav>
+            {tocHeadings.map((heading) => (
+              <a href={`#${heading.slug}`} data-level={heading.depth}>{heading.text}</a>
+            ))}
+          </nav>
+        </aside>
+      )}
+    </div>
 
     <AdSlot placement="bottom" />
     <AdSlot placement="smartlink" />
@@ -58,3 +74,31 @@ const sourceTypeLabel = sourceType === 'patent' ? 'PATENT' : sourceType === 'art
     </footer>
   </main>
 </BaseLayout>
+
+<script is:inline>
+  (() => {
+    const toc = document.querySelector('.report-toc');
+    if (!toc) return;
+    const links = Array.from(toc.querySelectorAll('a'));
+    const headings = links
+      .map((link) => document.getElementById(link.getAttribute('href')?.slice(1) || ''))
+      .filter(Boolean);
+    if (!headings.length) return;
+
+    const setActive = (id) => {
+      links.forEach((link) => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+      });
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+      if (visible?.target?.id) setActive(visible.target.id);
+    }, { rootMargin: '-20% 0px -70% 0px', threshold: [0, 1] });
+
+    headings.forEach((heading) => observer.observe(heading));
+    if (headings[0]?.id) setActive(headings[0].id);
+  })();
+</script>
