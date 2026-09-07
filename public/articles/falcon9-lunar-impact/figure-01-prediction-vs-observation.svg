@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="660" viewBox="0 0 1200 660" role="img" aria-label="各方法預測坑徑與 LRO 實測對照長條圖">
+  <defs>
+    <linearGradient id="bgf1" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#ecfdf5"/>
+    </linearGradient>
+    <style>
+      .title { font: 700 32px "Noto Sans TC", "PingFang TC", sans-serif; fill: #0f172a; }
+      .sub { font: 500 18px "Noto Sans TC", "PingFang TC", sans-serif; fill: #334155; }
+      .barlabel { font: 700 20px "Noto Sans TC", "PingFang TC", sans-serif; fill: #0f172a; }
+      .barsub { font: 500 16px "Noto Sans TC", "PingFang TC", sans-serif; fill: #475569; }
+      .val { font: 700 22px "SFMono-Regular", Consolas, Menlo, monospace; fill: #0f172a; }
+      .dev { font: 700 19px "SFMono-Regular", Consolas, Menlo, monospace; fill: #b91c1c; }
+      .hit { font: 700 19px "SFMono-Regular", Consolas, Menlo, monospace; fill: #047857; }
+      .note { font: 600 18px "Noto Sans TC", "PingFang TC", sans-serif; fill: #1e293b; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="660" fill="url(#bgf1)"/>
+
+  <text x="60" y="62" class="title">誰猜中了月球上的新坑？各方法預測 vs LRO 實測</text>
+  <text x="60" y="96" class="sub">Falcon 9 上面級撞擊（2026-08-05）· LRO 實測直徑約 18 m 為基準線</text>
+
+  <line x1="330" y1="120" x2="330" y2="560" stroke="#047857" stroke-width="3" stroke-dasharray="10 7"/>
+  <text x="330" y="580" class="hit" text-anchor="middle">LRO 實測 18 m</text>
+
+  <text x="60" y="162" class="barlabel">π-group・實心鋁球</text>
+  <rect x="330" y="132" width="760" height="34" rx="8" fill="#ef4444"/>
+  <text x="1100" y="159" class="val">57 m</text>
+  <text x="940" y="159" class="dev">×3.2</text>
+
+  <text x="60" y="216" class="barlabel">π-group・低密度體</text>
+  <rect x="330" y="186" width="613" height="34" rx="8" fill="#f97316"/>
+  <text x="953" y="213" class="val">46 m</text>
+  <text x="810" y="213" class="dev">×2.6</text>
+
+  <text x="60" y="270" class="barlabel">類比・2022 雙坑合併</text>
+  <rect x="330" y="240" width="360" height="34" rx="8" fill="#3b82f6"/>
+  <text x="700" y="267" class="val">27 m</text>
+  <text x="600" y="267" class="dev">+50%</text>
+
+  <text x="60" y="324" class="barlabel">類比・Apollo S-IVB</text>
+  <rect x="330" y="294" width="347" height="34" rx="8" fill="#3b82f6"/>
+  <text x="687" y="321" class="val">26 m</text>
+  <text x="590" y="321" class="dev">+44%</text>
+
+  <text x="60" y="378" class="barlabel">觀測前首選估計</text>
+  <rect x="330" y="348" width="333" height="34" rx="8" fill="#64748b"/>
+  <text x="673" y="375" class="val">25 m</text>
+  <text x="580" y="375" class="dev">+39%</text>
+
+  <text x="60" y="432" class="barlabel">類比・2022 單瓣</text>
+  <rect x="330" y="402" width="240" height="34" rx="8" fill="#10b981"/>
+  <text x="580" y="429" class="val">18 m</text>
+  <text x="480" y="429" class="hit">命中</text>
+
+  <text x="60" y="486" class="barlabel">Gray 獨立預測</text>
+  <rect x="330" y="456" width="227" height="34" rx="8" fill="#10b981"/>
+  <text x="567" y="483" class="val">17 m</text>
+  <text x="470" y="483" class="hit">命中</text>
+
+  <rect x="60" y="512" width="1080" height="38" rx="12" fill="#d1fae5"/>
+  <text x="90" y="538" class="note">教訓：對空心殘骸，質量相近的前例打敗了物理更漂亮的理論。</text>
+</svg>

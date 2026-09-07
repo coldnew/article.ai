@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" role="img" aria-label="Falcon 9 上面級空心結構與實心球抽象對照圖">
+  <defs>
+    <linearGradient id="bgf2" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#eff6ff"/>
+    </linearGradient>
+    <style>
+      .title { font: 700 32px "Noto Sans TC", "PingFang TC", sans-serif; fill: #0f172a; }
+      .sub { font: 500 18px "Noto Sans TC", "PingFang TC", sans-serif; fill: #334155; }
+      .panel { font: 700 22px "Noto Sans TC", "PingFang TC", sans-serif; fill: #0f172a; }
+      .body { font: 500 18px "Noto Sans TC", "PingFang TC", sans-serif; fill: #334155; }
+      .num { font: 700 24px "SFMono-Regular", Consolas, Menlo, monospace; fill: #0f172a; }
+      .bignum { font: 700 40px "SFMono-Regular", Consolas, Menlo, monospace; fill: #0f172a; }
+      .warn { font: 700 20px "Noto Sans TC", "PingFang TC", sans-serif; fill: #b91c1c; }
+      .ok { font: 700 20px "Noto Sans TC", "PingFang TC", sans-serif; fill: #047857; }
+      .note { font: 600 18px "Noto Sans TC", "PingFang TC", sans-serif; fill: #1e293b; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="600" fill="url(#bgf2)"/>
+
+  <text x="60" y="62" class="title">同樣 4 噸，空心管子 ≠ 實心鋁球</text>
+  <text x="60" y="96" class="sub">Falcon 9 上面級（2025-010D）· 12.6 m × 3.66 m 空心鋁鋰槽體 · 引擎端集中質量 · 旋轉中</text>
+
+  <!-- left: reality -->
+  <text x="60" y="150" class="panel">實際：空心細長體</text>
+  <rect x="60" y="170" width="480" height="180" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <!-- cylinder body -->
+  <rect x="110" y="225" width="300" height="70" rx="6" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/>
+  <!-- hollow indication -->
+  <rect x="130" y="243" width="200" height="34" rx="17" fill="#ffffff" stroke="#93c5fd" stroke-width="2" stroke-dasharray="8 6"/>
+  <text x="230" y="267" class="body" text-anchor="middle">空心</text>
+  <!-- engine mass -->
+  <rect x="410" y="215" width="70" height="90" rx="8" fill="#1e293b"/>
+  <text x="445" y="252" class="body" text-anchor="middle" fill="#ffffff">引擎</text>
+  <text x="445" y="276" class="body" text-anchor="middle" fill="#ffffff">質量集中</text>
+  <!-- rotation arrow -->
+  <path d="M 150 320 A 60 22 0 1 1 149 319" fill="none" stroke="#2563eb" stroke-width="3"/>
+  <polygon points="150,292 138,312 162,312" fill="#2563eb"/>
+  <text x="230" y="330" class="body">旋轉中（姿態未知）</text>
+  <text x="110" y="205" class="num">12.6 m</text>
+  <text x="490" y="260" class="body">⌀ 3.66 m</text>
+
+  <!-- right: abstraction -->
+  <text x="660" y="150" class="panel">π-group 的假設：等質量實心球</text>
+  <rect x="660" y="170" width="480" height="180" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <circle cx="850" cy="260" r="62" fill="#fca5a5" stroke="#b91c1c" stroke-width="3"/>
+  <text x="850" y="254" class="body" text-anchor="middle">實心鋁球</text>
+  <text x="850" y="280" class="body" text-anchor="middle">ρ = 2700 kg/m³</text>
+  <text x="990" y="230" class="warn">耦合效率被高估</text>
+  <text x="990" y="260" class="warn">坑徑預測 ×2.6–3.2</text>
+  <line x1="912" y1="260" x2="980" y2="245" stroke="#b91c1c" stroke-width="3"/>
+
+  <!-- energy strip -->
+  <rect x="60" y="380" width="1080" height="120" rx="14" fill="#0f172a"/>
+  <text x="100" y="425" class="num" fill="#e2e8f0">E = ½mv² ＝ 1.18×10¹⁰ J ≈ 2.8 噸 TNT</text>
+  <text x="100" y="462" class="body" fill="#94a3b8">m = 4,000 kg · v = 2.43 km/s · 2026-08-05 06:34 UTC · Einstein 坑附近 (19.48°N, 266.71°E)</text>
+
+  <rect x="60" y="520" width="1080" height="38" rx="12" fill="#fee2e2"/>
+  <text x="90" y="546" class="note">抽象層次選錯，再嚴謹的公式也只是精確地答錯題。</text>
+</svg>
