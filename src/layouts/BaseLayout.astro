@@ -1,6 +1,5 @@
 ---
 import Analytics from '../components/Analytics.astro';
-import SiteHeader from '../components/SiteHeader.astro';
 import MonetizationScripts from '../components/MonetizationScripts.astro';
 import '../styles/global.css';
 const { title = 'article.ai — 讓複雜的研究變得可讀', description = '用 AI 協助閱讀論文、拆解證據，整理成值得反覆回看的研究文章。' } = Astro.props;
@@ -14,5 +13,5 @@ const { title = 'article.ai — 讓複雜的研究變得可讀', description = '
     <title>{title}</title>
     <Analytics />
   </head>
-  <body><div class="site-shell"><SiteHeader /><slot /><footer class="site-footer"><div class="brand footer-brand"><span class="brand-dot"></span>article<span>.ai</span></div><p>把值得理解的東西，整理成值得回看的文章。</p><div class="footer-meta"><span>© 2026 article.ai</span><span>AI 輔助分析 · 人工校閱</span></div></footer></div><MonetizationScripts /></body>
+  <body><div class="site-shell"><slot /><MonetizationScripts /></div></body>
 </html>

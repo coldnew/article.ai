@@ -1,25 +1,72 @@
 ---
 import { getArticles } from '../lib/articles';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ArticleCard from '../components/ArticleCard.astro';
-import SectionLabel from '../components/SectionLabel.astro';
 import AdSlot from '../components/AdSlot.astro';
+import AiDisclosure from '../components/AiDisclosure.astro';
+import { articlePath, formatDate } from '../lib/articles';
+
 const articles = await getArticles();
-const featured = articles.find((article) => article.data.featured) ?? articles[0];
-const latest = articles.filter((article) => article.id !== featured?.id).slice(0, 4);
-const topics = [...new Set(articles.map((article) => article.data.topic))];
+const tags = [...new Set(articles.flatMap((article) => article.data.tags))].slice(0, 18);
+const articleForTag = (tag: string) => articles.find((article) => article.data.tags.includes(tag)) ?? articles[0];
 ---
-<BaseLayout>
+<BaseLayout title="article.ai｜論文與專利分析" description="用 AI 協助閱讀論文、拆解證據，整理成可驗證、可引用的研究文章。">
+  <header class="index-header">
+    <nav class="site-nav"><a class="site-mark" href="/article.ai/">ARTICLE.AI</a><span>論文與專利分析</span></nav>
+    <p class="eyebrow">每日研究筆記</p>
+    <h1>把論文與專利，讀成可以引用的文章。</h1>
+    <p class="index-intro">每篇文章都附原始來源、本站備份與重點截圖，方便核對、回頭引用，也方便後續讓 AI 再分析。</p>
+    <p class="index-note">我們會持續加入論文與專利分析，並保留原始連結與可追溯的備份檔。</p>
+    <AiDisclosure />
+  </header>
+
+  <AdSlot placement="top" />
+
   <main>
-    <section class="hero">
-      <div class="hero-copy"><p class="eyebrow">AI-assisted research journal</p><h1>把複雜的研究，<em>讀成自己的。</em></h1><p class="hero-lede">article.ai 將論文、技術報告與重要資訊，整理成有脈絡、可驗證、適合慢慢讀的文章。</p><div class="hero-actions"><a class="button button--dark" href="#latest">開始閱讀 <span>↓</span></a><a class="text-link" href="#method">了解我們怎麼分析 <span>↗</span></a></div></div>
-      <div class="hero-note"><span class="note-number">01</span><p>每篇文章都會標示<br /><strong>證據強度</strong>與來源數量。</p><div class="note-line"></div><span class="note-small">閱讀不是找到答案<br />而是知道答案有多可靠。</span></div>
+    <section class="daily-feed" aria-labelledby="feed-title">
+      <div class="section-heading">
+        <p class="eyebrow">編輯室文章</p>
+        <h2 id="feed-title">最新分析</h2>
+      </div>
+
+      <div class="post-list">
+        {articles.map((article) => (
+          <article class="post-row">
+            <div class="post-row-meta">
+              <strong>{article.data.sourceType === 'patent' ? 'PATENT' : 'PAPER'}</strong>
+              <time datetime={article.data.publishedAt.toISOString().slice(0, 10)}>{formatDate(article.data.publishedAt)}</time>
+              <span>{article.data.topic}</span>
+            </div>
+            <div>
+              <h3><a href={articlePath(article.id)}>{article.data.title}</a></h3>
+              <p>{article.data.description}</p>
+              <a class="read-link" href={articlePath(article.id)}>繼續閱讀 →</a>
+            </div>
+          </article>
+        ))}
+      </div>
     </section>
-    {featured && <section class="featured-section"><SectionLabel eyebrow="本週主題" title="值得先讀" /><ArticleCard article={featured} featured /></section>}
-    <AdSlot placement="top" />
-    <section class="latest-section" id="latest"><SectionLabel eyebrow="編輯室" title="最新分析" href="#topics" linkText="依主題瀏覽" /><div class="article-grid">{latest.map((article) => <ArticleCard article={article} />)}</div></section>
+
+    <section class="tag-cloud-section" aria-labelledby="tag-cloud-title">
+      <div class="section-heading">
+        <p class="eyebrow">文章索引</p>
+        <h2 id="tag-cloud-title">依標籤瀏覽</h2>
+      </div>
+
+      <div class="tag-cloud">
+        {tags.map((tag) => (
+          <a class="tag-link" href={articlePath(articleForTag(tag).id)}>{`#${tag}`}<span>{articles.filter((article) => article.data.tags.includes(tag)).length}</span></a>
+        ))}
+      </div>
+    </section>
+
     <AdSlot placement="mid" />
-    <section class="topic-section" id="topics"><SectionLabel eyebrow="探索" title="從你關心的問題開始" /><div class="topic-grid">{topics.map((topic, index) => <a class="topic-tile" href={`#topic-${index}`}><span>0{index + 1}</span><strong>{topic}</strong><small>{articles.filter((article) => article.data.topic === topic).length} 篇文章 ↗</small></a>)}</div></section>
-    <section class="method-section" id="method"><div><span class="eyebrow">我們的方法</span><h2>AI 幫你讀得更快，<br /><em>但判斷仍然要慢。</em></h2></div><div class="method-copy"><p>我們使用 AI 協助摘要、比對來源與找出文章之間的關聯，再由人重新檢查脈絡與限制。</p><div class="method-steps"><div><b>01</b><span>拆解問題</span></div><div><b>02</b><span>追溯證據</span></div><div><b>03</b><span>保留不確定</span></div></div></div></section>
   </main>
+
+  <AdSlot placement="bottom" />
+  <AdSlot placement="smartlink" />
+
+  <footer class="index-footer">
+    <span>僅供教育與資訊參考，不構成研究或投資建議。</span>
+    <span class="footer-links"><a href="/article.ai/">回到首頁</a><a href="/article.ai/papers/2603.14133/paper.pdf">論文備份</a></span>
+  </footer>
 </BaseLayout>
