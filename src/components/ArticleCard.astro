@@ -1,0 +1,13 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { articlePath, formatDate } from '../lib/articles';
+const { article, featured = false } = Astro.props as { article: CollectionEntry<'articles'>; featured?: boolean };
+const { title, description, topic, tags, publishedAt, readTime, evidence, sourceCount, accent, sourceType } = article.data;
+---
+<article class:list={["article-card", featured && "article-card--featured", `accent-${accent}`]}>
+  <div class="card-topline"><span class="topic-label">{sourceType === 'patent' ? '專利分析' : topic}</span><span class="evidence"><i></i>{evidence}證據</span></div>
+  <h3><a href={articlePath(article.id)}>{title}</a></h3>
+  <p>{description}</p>
+  <div class="card-footer"><span>{formatDate(publishedAt)} · {readTime}</span><span>{sourceCount} 個來源 ↗</span></div>
+  <div class="tag-row">{tags.slice(0, 3).map((tag) => <span>#{tag}</span>)}</div>
+</article>

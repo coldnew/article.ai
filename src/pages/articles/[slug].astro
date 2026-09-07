@@ -1,0 +1,13 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdSlot from '../../components/AdSlot.astro';
+import { formatDate } from '../../lib/articles';
+export async function getStaticPaths() { const articles = await getCollection('articles'); return articles.map((article) => ({ params: { slug: article.id.replace(/\.mdx$/, '') }, props: { article } })); }
+const { article } = Astro.props;
+const { Content } = await render(article);
+const { title, description, topic, tags, publishedAt, updatedAt, evidence, sourceCount, readTime, sourceType, sourceUrl, sourceBackup, authors, venue } = article.data;
+---
+<BaseLayout title={`${title} — article.ai`} description={description}>
+  <main class="article-page"><a class="back-link" href="/article.ai/">← 回到文章總覽</a><header class="article-header"><div class="card-topline"><span class="topic-label">{sourceType === 'patent' ? '專利分析' : topic}</span><span class="evidence"><i></i>{evidence}證據</span></div><h1>{title}</h1><p class="article-dek">{description}</p><div class="article-meta"><span>{formatDate(publishedAt)}{updatedAt && ` · 更新於 ${formatDate(updatedAt)}`}</span><span>{readTime} · {sourceCount} 個來源</span></div><div class="tag-row">{tags.map((tag) => <span>#{tag}</span>)}</div></header><AdSlot placement="top" /><div class="source-panel"><div><span class="eyebrow">原始來源</span><strong>{venue ?? (sourceType === 'patent' ? 'Patent record' : 'Research paper')}</strong>{authors.length > 0 && <small>{authors.join(' · ')}</small>}</div><div class="source-links"><a href={sourceUrl} target="_blank" rel="noreferrer">開啟原始來源 ↗</a>{sourceBackup && <a href={sourceBackup}>下載備份 PDF ↓</a>}</div></div><div class="article-layout"><aside class="article-aside"><div><b>本篇摘要</b><p>這篇分析由 AI 協助整理，重點在於讓證據與推論保持可區分。</p></div><div class="aside-rule"></div><span class="aside-label">證據強度</span><strong class="aside-evidence">{evidence}</strong></aside><article class="prose"><Content /></article></div><AdSlot placement="mid" /><AdSlot placement="bottom" /><AdSlot placement="smartlink" /></main>
+</BaseLayout>
