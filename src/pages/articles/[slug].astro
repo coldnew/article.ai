@@ -17,69 +17,96 @@ const sourceTypeLabel = sourceType === 'patent' ? 'PATENT' : sourceType === 'art
 const tocHeadings = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 4);
 ---
 <BaseLayout title={`${title} — article.ai`} description={description} wide={true}>
-  <main class="report-layout">
-    <nav class="breadcrumb"><a href="/article.ai/">← 文章總覽</a></nav>
-
-    <div class="report-header">
-      <div class="ticker-block">
-        <div class="ticker-eyebrow">{sourceType === 'article' ? '工作流文章分析' : topic}</div>
-        <h1 class="ticker-name">{title} <span>{sourceTypeLabel}</span></h1>
-        <div class="ticker-sub">{description}</div>
-        <nav class="report-tags" aria-label="文章標籤">{tags.map((tag) => <a href={`#${tag.replace(/\s+/g, '-').toLowerCase()}`}>#{tag}</a>)}</nav>
-        <AiDisclosure />
-      </div>
-      <div class="price-block">
-        <div class="price-date">
-          發佈日期<br />{formatDate(publishedAt)}{updatedAt && <><br />更新於 {formatDate(updatedAt)}</>}<br />證據強度：{evidence}
-        </div>
-      </div>
-    </div>
-
-    <div class="meta-row">
-      <div>
-        <strong>來源</strong>
-        <span>{venue ?? (sourceType === 'patent' ? 'Patent record' : 'Research paper')}</span>
-        {authors.length > 0 && <small>{authors.join(' · ')}</small>}
-      </div>
-      <div><strong>閱讀時間</strong><span>{readTime}</span></div>
-      <div><strong>來源數</strong><span>{sourceCount}</span></div>
-      <div class="source-links"><a href={sourceUrl} target="_blank" rel="noreferrer">開啟原始來源 ↗</a>{sourceBackup && <a href={sourceBackup}>下載備份 PDF ↓</a>}</div>
-    </div>
-
-    <AdSlot placement="top" />
-
-    <div class="report-shell">
-      <div class="report-main">
-        <div class="report-content"><Content /></div>
-      </div>
-
-      {tocHeadings.length > 0 && (
-        <aside class="report-toc" aria-label="文章目錄">
-          <p class="toc-title">Table of contents</p>
-          <nav>
+  <div class:list={['report-layout', tocHeadings.length > 0 && 'has-sidebar', tocHeadings.length === 0 && 'without-sidebar']} data-report-layout>
+    {tocHeadings.length > 0 && (
+      <aside class="report-sidebar" aria-label="文章目錄">
+        <div class="report-sidebar-content" id="report-sidebar-content">
+          <div class="sidebar-heading">
+            <span class="sidebar-kicker">文章分析</span>
+            <strong>文章目錄</strong>
+          </div>
+          <nav class="sidebar-nav" aria-label={`${title} 文章目錄`}>
             {tocHeadings.map((heading) => (
               <a href={`#${heading.slug}`} data-level={heading.depth}>{heading.text}</a>
             ))}
           </nav>
-        </aside>
-      )}
-    </div>
+        </div>
+      </aside>
+    )}
+    {tocHeadings.length > 0 && <button class="report-sidebar-toggle" type="button" data-sidebar-toggle aria-expanded="true" aria-controls="report-sidebar-content" aria-label="收起文章目錄" title="收起文章目錄"><span aria-hidden="true">‹</span></button>}
 
-    <AdSlot placement="bottom" />
-    <AdSlot placement="smartlink" />
+    <main class="report-main">
+      <nav class="breadcrumb"><a href="/article.ai/">← 文章總覽</a></nav>
 
-    <footer class="index-footer">
-      <span>僅供教育與資訊參考，不構成研究或投資建議。</span>
-      <span class="footer-links"><a href="/article.ai/">回到首頁</a><a href={sourceUrl} target="_blank" rel="noreferrer">原始來源</a></span>
-    </footer>
-  </main>
+      <div class="report-header">
+        <div class="ticker-block">
+          <div class="ticker-eyebrow">{sourceType === 'article' ? '工作流文章分析' : topic}</div>
+          <h1 class="ticker-name">{title} <span>{sourceTypeLabel}</span></h1>
+          <div class="ticker-sub">{description}</div>
+          <nav class="report-tags" aria-label="文章標籤">{tags.map((tag) => <a href={`#${tag.replace(/\s+/g, '-').toLowerCase()}`}>#{tag}</a>)}</nav>
+          <AiDisclosure />
+        </div>
+        <div class="price-block">
+          <div class="price-date">
+            發佈日期<br />{formatDate(publishedAt)}{updatedAt && <><br />更新於 {formatDate(updatedAt)}</>}<br />證據強度：{evidence}
+          </div>
+        </div>
+      </div>
+
+      <div class="meta-row">
+        <div>
+          <strong>來源</strong>
+          <span>{venue ?? (sourceType === 'patent' ? 'Patent record' : 'Research paper')}</span>
+          {authors.length > 0 && <small>{authors.join(' · ')}</small>}
+        </div>
+        <div><strong>閱讀時間</strong><span>{readTime}</span></div>
+        <div><strong>來源數</strong><span>{sourceCount}</span></div>
+        <div class="source-links"><a href={sourceUrl} target="_blank" rel="noreferrer">開啟原始來源 ↗</a>{sourceBackup && <a href={sourceBackup}>下載備份 PDF ↓</a>}</div>
+      </div>
+
+      <AdSlot placement="top" />
+
+      <div class="report-shell">
+        <div class="report-content"><Content /></div>
+      </div>
+
+      <AdSlot placement="bottom" />
+      <AdSlot placement="smartlink" />
+
+      <footer class="index-footer">
+        <span>僅供教育與資訊參考，不構成研究或投資建議。</span>
+        <span class="footer-links"><a href="/article.ai/">回到首頁</a><a href={sourceUrl} target="_blank" rel="noreferrer">原始來源</a></span>
+      </footer>
+    </main>
+  </div>
 </BaseLayout>
 
 <script is:inline>
   (() => {
-    const toc = document.querySelector('.report-toc');
-    if (!toc) return;
-    const links = Array.from(toc.querySelectorAll('a'));
+    const layout = document.querySelector('[data-report-layout]');
+    const sidebar = document.querySelector('.report-sidebar');
+    const toggle = document.querySelector('[data-sidebar-toggle]');
+    if (!layout || !sidebar || !toggle) return;
+
+    const storageKey = 'article-ai-sidebar-collapsed';
+    const applyCollapsed = (collapsed) => {
+      layout.classList.toggle('sidebar-collapsed', collapsed);
+      toggle.setAttribute('aria-expanded', String(!collapsed));
+      toggle.setAttribute('aria-label', collapsed ? '展開文章目錄' : '收起文章目錄');
+      toggle.title = collapsed ? '展開文章目錄' : '收起文章目錄';
+      try { localStorage.setItem(storageKey, collapsed ? '1' : '0'); } catch {}
+    };
+
+    const saved = (() => {
+      try { return localStorage.getItem(storageKey); } catch { return null; }
+    })();
+    applyCollapsed(saved === '1');
+
+    toggle.addEventListener('click', () => {
+      applyCollapsed(!layout.classList.contains('sidebar-collapsed'));
+    });
+
+    const links = Array.from(sidebar.querySelectorAll('a'));
     const headings = links
       .map((link) => document.getElementById(link.getAttribute('href')?.slice(1) || ''))
       .filter(Boolean);
