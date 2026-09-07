@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-label="Dan Koe 文章的身份循環與一日重設流程圖">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#fff7ed"/>
+      <stop offset="100%" stop-color="#f8fafc"/>
+    </linearGradient>
+    <style>
+      .title { font: 700 34px "Noto Sans TC", "PingFang TC", sans-serif; fill: #111827; }
+      .sub { font: 500 18px "Noto Sans TC", "PingFang TC", sans-serif; fill: #475569; }
+      .box { fill: #ffffff; stroke: #f59e0b; stroke-width: 2; rx: 18; }
+      .box2 { fill: #ffffff; stroke: #94a3b8; stroke-width: 2; rx: 18; }
+      .label { font: 700 22px "Noto Sans TC", "PingFang TC", sans-serif; fill: #111827; }
+      .body { font: 500 17px "Noto Sans TC", "PingFang TC", sans-serif; fill: #334155; }
+      .arrow { stroke: #f97316; stroke-width: 5; fill: none; marker-end: url(#arrow); }
+      .arrow2 { stroke: #64748b; stroke-width: 4; fill: none; marker-end: url(#arrowGrey); stroke-dasharray: 8 7; }
+      .note { font: 600 18px "Noto Sans TC", "PingFang TC", sans-serif; fill: #7c2d12; }
+      .pill { font: 700 14px "Noto Sans TC", "PingFang TC", sans-serif; fill: #9a3412; }
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#f97316"/>
+    </marker>
+    <marker id="arrowGrey" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="620" fill="url(#bg)"/>
+
+  <text x="60" y="64" class="title">這篇文章其實是在講：先改身份回路，再改行為</text>
+  <text x="60" y="98" class="sub">它把「人生改不動」拆成一個可操作的循環：目標 → 注意力 → 行為 → 自動化 → 身份 → 防衛。</text>
+
+  <rect x="80" y="150" width="180" height="96" class="box"/>
+  <text x="104" y="186" class="label">目標</text>
+  <text x="104" y="214" class="body">我想要什麼結果？</text>
+
+  <rect x="320" y="150" width="180" height="96" class="box"/>
+  <text x="344" y="186" class="label">注意力</text>
+  <text x="344" y="214" class="body">只看見有助於達成目標的資訊</text>
+
+  <rect x="560" y="150" width="180" height="96" class="box"/>
+  <text x="584" y="186" class="label">行為</text>
+  <text x="584" y="214" class="body">開始朝目標採取動作</text>
+
+  <rect x="800" y="150" width="180" height="96" class="box"/>
+  <text x="824" y="186" class="label">自動化</text>
+  <text x="824" y="214" class="body">重複後變成習慣</text>
+
+  <rect x="320" y="340" width="180" height="96" class="box"/>
+  <text x="344" y="376" class="label">身份</text>
+  <text x="344" y="404" class="body">我就是這種人</text>
+
+  <rect x="560" y="340" width="180" height="96" class="box"/>
+  <text x="584" y="376" class="label">防衛</text>
+  <text x="584" y="404" class="body">開始維持一致性，避免改變</text>
+
+  <path class="arrow" d="M260 198 H320"/>
+  <path class="arrow" d="M500 198 H560"/>
+  <path class="arrow" d="M740 198 H800"/>
+  <path class="arrow" d="M890 246 C890 300, 740 300, 650 340"/>
+  <path class="arrow" d="M560 388 H500"/>
+  <path class="arrow" d="M320 388 C260 388, 240 300, 260 246"/>
+  <path class="arrow2" d="M650 436 C760 500, 940 500, 1000 246"/>
+
+  <rect x="80" y="492" width="1040" height="72" rx="18" fill="#fff7ed" stroke="#fdba74" stroke-width="2"/>
+  <text x="104" y="522" class="note">最實用的一句話：不要問「我怎麼更自律」，先問「我現在到底在維持哪個身份？」</text>
+  <text x="104" y="548" class="pill">一日流程的作用，是把這個回路拆開，讓你重新定義明天要怎麼開始。</text>
+</svg>
