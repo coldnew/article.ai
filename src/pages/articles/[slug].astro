@@ -13,6 +13,7 @@ export async function getStaticPaths() {
 const { article } = Astro.props;
 const { Content } = await render(article);
 const { title, description, topic, tags, publishedAt, updatedAt, evidence, sourceCount, readTime, sourceType, sourceUrl, sourceBackup, authors, venue } = article.data;
+const sourceTypeLabel = sourceType === 'patent' ? 'PATENT' : sourceType === 'article' ? 'ARTICLE' : 'PAPER';
 ---
 <BaseLayout title={`${title} — article.ai`} description={description}>
   <main class="report-layout">
@@ -20,8 +21,8 @@ const { title, description, topic, tags, publishedAt, updatedAt, evidence, sourc
 
     <div class="report-header">
       <div class="ticker-block">
-        <div class="ticker-eyebrow">{topic}</div>
-        <h1 class="ticker-name">{title} <span>{sourceType === 'patent' ? 'PATENT' : 'PAPER'}</span></h1>
+        <div class="ticker-eyebrow">{sourceType === 'article' ? '工作流文章分析' : topic}</div>
+        <h1 class="ticker-name">{title} <span>{sourceTypeLabel}</span></h1>
         <div class="ticker-sub">{description}</div>
         <nav class="report-tags" aria-label="文章標籤">{tags.map((tag) => <a href={`#${tag.replace(/\s+/g, '-').toLowerCase()}`}>#{tag}</a>)}</nav>
         <AiDisclosure />
@@ -53,7 +54,7 @@ const { title, description, topic, tags, publishedAt, updatedAt, evidence, sourc
 
     <footer class="index-footer">
       <span>僅供教育與資訊參考，不構成研究或投資建議。</span>
-      <span class="footer-links"><a href="/article.ai/">回到首頁</a><a href="/article.ai/papers/2603.14133/paper.pdf">論文備份</a></span>
+      <span class="footer-links"><a href="/article.ai/">回到首頁</a><a href={sourceUrl} target="_blank" rel="noreferrer">原始來源</a></span>
     </footer>
   </main>
 </BaseLayout>

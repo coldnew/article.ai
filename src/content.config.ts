@@ -8,7 +8,7 @@ const articles = defineCollection({
     publishedAt: z.coerce.date(),
     updatedAt: z.coerce.date().optional(),
     topic: z.string(),
-    sourceType: z.enum(['paper', 'patent']).default('paper'),
+    sourceType: z.enum(['paper', 'patent', 'article']).default('paper'),
     sourceUrl: z.string().url(),
     sourceBackup: z.string().optional(),
     authors: z.array(z.string()).default([]),

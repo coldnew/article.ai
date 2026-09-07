@@ -8,14 +8,15 @@ import { articlePath, formatDate } from '../lib/articles';
 const articles = await getArticles();
 const tags = [...new Set(articles.flatMap((article) => article.data.tags))].slice(0, 18);
 const articleForTag = (tag: string) => articles.find((article) => article.data.tags.includes(tag)) ?? articles[0];
+const sourceTypeLabel = (sourceType: string) => sourceType === 'patent' ? 'PATENT' : sourceType === 'article' ? 'ARTICLE' : 'PAPER';
 ---
 <BaseLayout title="article.ai｜論文與專利分析" description="用 AI 協助閱讀論文、拆解證據，整理成可驗證、可引用的研究文章。">
   <header class="index-header">
-    <nav class="site-nav"><a class="site-mark" href="/article.ai/">ARTICLE.AI</a><span>論文與專利分析</span></nav>
+    <nav class="site-nav"><a class="site-mark" href="/article.ai/">ARTICLE.AI</a><span>論文、專利與文章分析</span></nav>
     <p class="eyebrow">每日研究筆記</p>
-    <h1>把論文與專利，讀成可以引用的文章。</h1>
+    <h1>把論文、專利與長文，讀成可以引用的分析。</h1>
     <p class="index-intro">每篇文章都附原始來源、本站備份與重點截圖，方便核對、回頭引用，也方便後續讓 AI 再分析。</p>
-    <p class="index-note">我們會持續加入論文與專利分析，並保留原始連結與可追溯的備份檔。</p>
+    <p class="index-note">我們會持續加入論文、專利與工作流文章分析，並保留原始連結與可追溯的備份檔。</p>
     <AiDisclosure />
   </header>
 
@@ -32,7 +33,7 @@ const articleForTag = (tag: string) => articles.find((article) => article.data.t
         {articles.map((article) => (
           <article class="post-row">
             <div class="post-row-meta">
-              <strong>{article.data.sourceType === 'patent' ? 'PATENT' : 'PAPER'}</strong>
+              <strong>{sourceTypeLabel(article.data.sourceType)}</strong>
               <time datetime={article.data.publishedAt.toISOString().slice(0, 10)}>{formatDate(article.data.publishedAt)}</time>
               <span>{article.data.topic}</span>
             </div>
@@ -67,6 +68,6 @@ const articleForTag = (tag: string) => articles.find((article) => article.data.t
 
   <footer class="index-footer">
     <span>僅供教育與資訊參考，不構成研究或投資建議。</span>
-    <span class="footer-links"><a href="/article.ai/">回到首頁</a><a href="/article.ai/papers/2603.14133/paper.pdf">論文備份</a></span>
+    <span class="footer-links"><a href="/article.ai/">回到首頁</a><a href="/article.ai/articles/academic-skill-pipeline/">最新文章</a></span>
   </footer>
 </BaseLayout>
