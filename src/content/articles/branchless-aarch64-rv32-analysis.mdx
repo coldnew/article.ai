@@ -17,7 +17,7 @@ accent: "blue"
 
 ## 先說結論
 
-這篇原文的核心主張是對的，但它真正值得記住的地方不是「把 `if` 拿掉就會快」，而是：當分支結果不穩定、CPU 又很難預測時，branchless 會把不確定的控制流成本，換成更穩定的算術或條件選擇。
+《Branch‑Avoidant Programming》這篇文章的核心主張是對的，但它真正值得記住的地方不是「把 `if` 拿掉就會快」，而是：當分支結果不穩定、CPU 又很難預測時，branchless 會把不確定的控制流成本，換成更穩定的算術或條件選擇。
 
 但這不是通則。它成立的前提是：
 
@@ -25,13 +25,13 @@ accent: "blue"
 2. 你換成 branchless 之後，不會引入更大的副作用。
 3. 目標 ISA 和編譯器真的能把它降成較便宜的指令。
 
-原文的價值，在於它把這個判斷講得很工程化；AArch64 與 RV32I 則補足了「不是所有架構都用同一種方法達成 branchless」這件事。
+《Branch‑Avoidant Programming》的價值，在於它把這個判斷講得很工程化；AArch64 與 RV32I 則補足了「不是所有架構都用同一種方法達成 branchless」這件事。
 
 ## 這篇文章真正解決的問題
 
 它解的不是語法問題，而是效能問題。
 
-原文用「把小於 500 的數字複製出來」當例子，說明一個很典型的情境：如果資料分布很隨機，`if (numbers[i] < 500)` 對 branch predictor 來說很難猜，結果就是反覆 mispredict，pipeline 被迫清空，效能掉得很明顯。
+《Branch‑Avoidant Programming》用「把小於 500 的數字複製出來」當例子，說明一個很典型的情境：如果資料分布很隨機，`if (numbers[i] < 500)` 對 branch predictor 來說很難猜，結果就是反覆 mispredict，pipeline 被迫清空，效能掉得很明顯。
 
 所以作者提出的不是玄學技巧，而是一個具體替代方案：
 
@@ -58,6 +58,10 @@ smlen += (numbers[i] < 500);
 Arm 官方文件很清楚地說，A64 有 conditional select 類指令，而且這些指令可以當成 branch 的替代方案；文件也直接給了 `CINC` 這類別名，說明它就是 `CSINC` 的語法糖。
 
 這代表在 AArch64 上，branchless 不是臨時拼湊出來的技巧，而是 ISA 內建的正常路徑。
+
+![AArch64 與 RV32I 的 branchless lowering 對照圖。左側是 `cmp` + `cinc`，右側是 `slti` + `add`。](/article.ai/articles/branchless/figure-01-asm-compare.svg)
+
+<small class="figure-caption">圖 1｜同一個條件在不同 ISA 的降階方式。AArch64 可以直接用條件選擇；RV32I 則把布林值轉成整數再累加。</small>
 
 我用本機 clang 交叉編譯同一段邏輯，AArch64 的結果也很乾脆：
 
@@ -98,7 +102,9 @@ bne	a0, a1, .LBB0_2
 
 也就是說，RV32I 的 branchless 不是靠「條件執行一條指令」，而是靠「先把條件變成數值，再進行普通整數運算」。
 
-這跟原文的精神完全一致，只是落地方式換了一種。
+這跟《Branch‑Avoidant Programming》的精神完全一致，只是落地方式換了一種。
+
+補一個範圍說明：我下面的 AArch64 與 RV32 組語示範，使用的是較簡化的 `count_if` 版本，目的是直接展示「條件變成數值」這條路徑；原文的完整案例則是帶有無條件 store 的陣列過濾版本。兩者方向一致，但不應該混成同一個程式例子。
 
 ## 這篇原文哪裡講對了，哪裡要補一句
 
@@ -156,7 +162,7 @@ bne	a0, a1, .LBB0_2
 
 ## 我們的判讀
 
-這篇原文不是在鼓吹把所有 `if` 拿掉；它真正要傳達的是：當 CPU 的分支預測沒有把握，而你又剛好處在熱路徑裡，branchless 是一種把不確定性降下來的工程手段。
+《Branch‑Avoidant Programming》不是在鼓吹把所有 `if` 拿掉；它真正要傳達的是：當 CPU 的分支預測沒有把握，而你又剛好處在熱路徑裡，branchless 是一種把不確定性降下來的工程手段。
 
 AArch64 證明了條件選擇是架構原生能力；RV32I 則證明，即使沒有 conditional select，還是能用 `slti` / `add` 這種方式把分支壓成資料流。
 

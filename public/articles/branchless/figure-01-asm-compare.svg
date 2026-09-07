@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-label="AArch64 與 RV32I 的 branchless 組語對照圖">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#eef2ff"/>
+    </linearGradient>
+    <style>
+      .title { font: 700 34px "Noto Sans TC", "PingFang TC", sans-serif; fill: #0f172a; }
+      .sub { font: 500 18px "Noto Sans TC", "PingFang TC", sans-serif; fill: #334155; }
+      .label { font: 700 22px "Noto Sans TC", "PingFang TC", sans-serif; fill: #0f172a; }
+      .mono { font: 600 20px "SFMono-Regular", Consolas, Menlo, monospace; fill: #111827; }
+      .small { font: 500 16px "Noto Sans TC", "PingFang TC", sans-serif; fill: #475569; }
+      .chip { font: 700 14px "Noto Sans TC", "PingFang TC", sans-serif; fill: #1d4ed8; }
+      .note { font: 600 18px "Noto Sans TC", "PingFang TC", sans-serif; fill: #1e293b; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="560" fill="url(#bg)"/>
+
+  <text x="60" y="64" class="title">Branchless 的核心不是「不要 if」，而是把控制流變成資料流</text>
+  <text x="60" y="98" class="sub">同一個條件，在 AArch64 會降成條件選擇，在 RV32I 會降成比較結果 + 加法。</text>
+
+  <rect x="60" y="140" width="520" height="320" rx="22" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="620" y="140" width="520" height="320" rx="22" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+
+  <rect x="88" y="168" width="110" height="32" rx="16" fill="#dbeafe"/>
+  <text x="114" y="190" class="chip">AArch64</text>
+  <text x="88" y="232" class="label">條件選擇是 ISA 原生能力</text>
+
+  <text x="88" y="278" class="mono">cmp   w10, #500</text>
+  <text x="88" y="314" class="mono">cinc  w8, w8, lt</text>
+  <text x="88" y="356" class="small">條件成立就把計數器加 1，</text>
+  <text x="88" y="382" class="small">不成立就維持原值。</text>
+
+  <rect x="648" y="168" width="110" height="32" rx="16" fill="#dbeafe"/>
+  <text x="675" y="190" class="chip">RV32I</text>
+  <text x="648" y="232" class="label">沒有 conditional move，但可把布林值當數字</text>
+
+  <text x="648" y="278" class="mono">slti  a3, a3, 500</text>
+  <text x="648" y="314" class="mono">add   a2, a2, a3</text>
+  <text x="648" y="356" class="small">先把條件轉成 0 / 1，</text>
+  <text x="648" y="382" class="small">再交給普通整數加法處理。</text>
+
+  <rect x="60" y="486" width="1080" height="38" rx="12" fill="#e0e7ff"/>
+  <text x="84" y="511" class="note">結論：branchless 不是消滅分支，而是選擇更可預測、成本更穩定的 lowering 路徑。</text>
+</svg>
