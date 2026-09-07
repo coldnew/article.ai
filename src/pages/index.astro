@@ -68,6 +68,6 @@ const sourceTypeLabel = (sourceType: string) => sourceType === 'patent' ? 'PATEN
 
   <footer class="index-footer">
     <span>僅供教育與資訊參考，不構成研究或投資建議。</span>
-    <span class="footer-links"><a href="/article.ai/">回到首頁</a><a href="/article.ai/articles/academic-skill-pipeline/">最新文章</a></span>
+    <span class="footer-links"><a href="/article.ai/">回到首頁</a><a href={articles[0] ? articlePath(articles[0].id) : '/article.ai/'}>最新文章</a></span>
   </footer>
 </BaseLayout>
