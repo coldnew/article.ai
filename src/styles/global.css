@@ -149,11 +149,12 @@ a { color: var(--brand); }
 .sidebar-group-items a.active small, .sidebar-group-items a.active span { color: var(--brand); }
 
 .ad-slot { min-height: 90px; margin: 28px 0; padding: 12px; text-align: center; border: 1px dashed var(--border); background: var(--surface); overflow: hidden; }
+.ad-slot[data-placement="top"] { min-height: 320px; }
 .ad-slot[data-placement="mid"] { min-height: 324px; }
-.ad-slot[data-placement="bottom"] { min-height: 114px; }
+.ad-slot[data-placement="bottom"] { min-height: 96px; }
 .ad-smartlink-slot { margin: 16px 0; text-align: center; }
-.ad-smartlink { color: var(--muted); font: 13px/1.5 system-ui, sans-serif; text-decoration: none; }
-.ad-smartlink:hover { color: var(--brand); }
+.ad-smartlink { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 0 14px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--brand); font: 13px/1.5 system-ui, sans-serif; text-decoration: none; }
+.ad-smartlink:hover { border-color: var(--brand); }
 
 .report-content p { margin: 0 0 20px; }
 .report-content img { display: block; width: 100%; height: auto; margin: 26px 0 8px; border: 1px solid var(--border); background: #fff; }
