@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 540" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 z" fill="#2563eb"/>
+    </marker>
+    <marker id="arrG" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 z" fill="#16a34a"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="800" height="540" fill="#f8fafc"/>
+  <text x="400" y="34" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">雙軸浮動：兩個正交的自由度</text>
+
+  <!-- Chassis plate -->
+  <rect x="60" y="120" width="680" height="300" rx="10" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/>
+  <text x="80" y="145" font-size="15" fill="#475569">車體鈑金（含切口 202 與定位孔）</text>
+
+  <!-- cutout -->
+  <rect x="250" y="200" width="300" height="140" rx="6" fill="#f8fafc" stroke="#64748b" stroke-width="2" stroke-dasharray="8 5"/>
+  <text x="400" y="228" text-anchor="middle" font-size="14" fill="#64748b">切口（底座在此滑動）</text>
+
+  <!-- base body -->
+  <rect x="290" y="230" width="220" height="90" rx="8" fill="#fed7aa" stroke="#ea580c" stroke-width="2.5"/>
+  <text x="400" y="268" text-anchor="middle" font-size="16" font-weight="700" fill="#9a3412">底座 base 212</text>
+  <text x="400" y="292" text-anchor="middle" font-size="14" fill="#9a3412">中空本體＋側窗 226</text>
+
+  <!-- tracks -->
+  <rect x="230" y="252" width="60" height="26" rx="4" fill="#fdba74" stroke="#ea580c" stroke-width="2"/>
+  <rect x="510" y="252" width="60" height="26" rx="4" fill="#fdba74" stroke="#ea580c" stroke-width="2"/>
+  <text x="180" y="246" font-size="14" fill="#9a3412">滑軌 222</text>
+  <text x="576" y="246" font-size="14" fill="#9a3412">滑軌 224</text>
+
+  <!-- retention snaps -->
+  <circle cx="250" cy="330" r="10" fill="#38bdf8" stroke="#0369a1" stroke-width="2"/>
+  <circle cx="550" cy="330" r="10" fill="#38bdf8" stroke="#0369a1" stroke-width="2"/>
+  <text x="150" y="352" font-size="14" fill="#0369a1">卡勾 218/220</text>
+  <text x="560" y="352" font-size="14" fill="#0369a1">扣入定位孔</text>
+
+  <!-- Axis 1 arrow (horizontal, blue) -->
+  <line x1="180" y1="390" x2="620" y2="390" stroke="#2563eb" stroke-width="3" marker-start="url(#arr)" marker-end="url(#arr)"/>
+  <text x="400" y="415" text-anchor="middle" font-size="16" font-weight="700" fill="#2563eb">第一軸：底座沿切口滑動（公差吸收方向一）</text>
+
+  <!-- tower + clip floating along axis 2 -->
+  <rect x="376" y="60" width="48" height="120" rx="4" fill="#bbf7d0" stroke="#16a34a" stroke-width="2.5"/>
+  <text x="400" y="100" text-anchor="middle" font-size="12" fill="#14532d">飾板</text>
+  <text x="400" y="118" text-anchor="middle" font-size="12" fill="#14532d">tower</text>
+  <text x="400" y="136" text-anchor="middle" font-size="12" fill="#14532d">＋夾子</text>
+  <line x1="452" y1="90" x2="452" y2="200" stroke="#16a34a" stroke-width="3" marker-start="url(#arrG)" marker-end="url(#arrG)"/>
+  <text x="560" y="150" font-size="16" font-weight="700" fill="#16a34a">第二軸：夾子在窗內浮動</text>
+  <text x="560" y="172" font-size="14" fill="#16a34a">（與第一軸正交）</text>
+
+  <!-- legend -->
+  <rect x="60" y="450" width="680" height="70" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="80" y="478" font-size="14" fill="#334155">本站自繪示意（非專利原圖）：橘＝浮動底座、藍＝車體側限位、綠＝飾板側浮動；兩軸正交，殘餘行程由卡勾／孔位與窗面硬止點界定。</text>
+  <text x="80" y="501" font-size="14" fill="#334155">對應專利 FIG.2（分解）、FIG.4（雙軸定義）、FIG.7–8 與 FIG.12–13（兩向限位）。</text>
+</svg>
