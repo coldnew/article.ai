@@ -41,3 +41,24 @@ description: "Use when the user gives a long Zhihu/Medium/blog post about readin
 - 與現有 skill 的分工邊界
 
 不要把作者的宣傳語當成事實。不要把工具名稱當成方法本身。不要省略不確定性。
+
+## X 貼文來源：靜態卡片嵌入規範
+
+來源是 X 貼文時，不用 X widgets.js（需載入外部 JS，離線不可見）。一律用站內靜態卡片還原＋本地頭像，文字、時間、數據逐字核對：
+
+- 頭像：下載 `..._normal` 圖到 `public/articles/<slug>/`，顯示 **40×40 圓形**（X 本尊尺寸）。
+- 卡片結構：header（頭像＋粗體名＋認證徽章＋灰色 handle 行）→ 內文 17px → 時間列（`9:02 PM · Aug 28, 2026 · 2.2M Views`，瀏覽數粗體黑字）→ 圖示操作列（回覆／轉發／喜歡／瀏覽數＋書籤／分享，用 SVG 線條 icon，灰色 `#536471`）→ 灰色小字原文連結。
+- 認證徽章：金勾僅限確認的企業帳號、藍勾僅限確認的個人帳號；**不確定就省略，不亂標**。
+- 只還原可核對的數字；X 本來不顯示書籤數，書籤只留圖示、不編數字。
+- 卡片下方一律加 `<small class="figure-caption">`：註明是靜態還原，並附繁體譯文。
+- 版式範本：以 `src/content/articles/uber-software-factory-analysis.mdx` 內的卡片為準，後續直接沿用，不得各篇自創版式。
+
+## 成文為 repo 文章時的規範
+
+分析完若要收進 article.ai，遵守以下慣例：
+
+- frontmatter 欄位：title、description、publishedAt、topic、sourceType、sourceUrl、authors、venue、tags、readTime、evidence、featured、sourceCount、accent（照抄既有文章的鍵名）。
+- 圖片放 `public/articles/<slug>/`，引用路徑寫 `/article.ai/articles/<slug>/...`；每張圖下方加 `<small class="figure-caption">`；技術圖優先自繪 SVG，不引用外部 CDN（斷鏈風險）。
+- MDX 地雷：內文不可出現 `<` 緊接數字或中文標點（例如 `<3 m`），會被當成 JSX 解析失敗；用 backtick 包起來或改寫。
+- 證據等級：單一公司自述或單則貼文，evidence 只能給「中」或「探索中」，並在內文明確標註未支撐處。
+- 寫完跑 `npm run build`，確認新頁面生成且首頁 index 有收錄。
