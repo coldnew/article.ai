@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="340" viewBox="0 0 900 340" font-family="-apple-system, 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif">
+  <rect x="0" y="0" width="900" height="340" rx="12" fill="#f8fafc"/>
+  <text x="450" y="34" text-anchor="middle" font-size="19" font-weight="700" fill="#0f172a">成本等式：總支出 = 六項相乘</text>
+  <text x="450" y="56" text-anchor="middle" font-size="13" fill="#64748b">《Running a Software Factory Efficiently at Uber Scale》Figure 4 本站重繪</text>
+
+  <g font-size="14" font-weight="700" text-anchor="middle">
+    <rect x="20" y="90" width="124" height="110" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+    <text x="82" y="126" fill="#1e3a8a">用戶數</text>
+    <text x="82" y="148" font-size="12" font-weight="400" fill="#475569">採用</text>
+    <text x="82" y="168" font-size="12" font-weight="400" fill="#16a34a">↗ 希望成長</text>
+
+    <rect x="164" y="90" width="124" height="110" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+    <text x="226" y="126" fill="#1e3a8a">每人 session</text>
+    <text x="226" y="148" font-size="12" font-weight="400" fill="#475569">參與度</text>
+    <text x="226" y="168" font-size="12" font-weight="400" fill="#16a34a">↗ 希望成長</text>
+
+    <rect x="308" y="90" width="124" height="110" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+    <text x="370" y="126" fill="#92400e">每 session</text>
+    <text x="370" y="146" fill="#92400e">turn 數</text>
+    <text x="370" y="168" font-size="12" font-weight="400" fill="#b45309">◎ 優化主戰場</text>
+
+    <rect x="452" y="90" width="124" height="110" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+    <text x="514" y="126" fill="#92400e">每 turn</text>
+    <text x="514" y="146" fill="#92400e">請求數</text>
+    <text x="514" y="168" font-size="12" font-weight="400" fill="#b45309">◎ 優化主戰場</text>
+
+    <rect x="596" y="90" width="124" height="110" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+    <text x="658" y="126" fill="#92400e">每請求</text>
+    <text x="658" y="146" fill="#92400e">token 數</text>
+    <text x="658" y="168" font-size="12" font-weight="400" fill="#b45309">◎ 優化主戰場</text>
+
+    <rect x="740" y="90" width="124" height="110" rx="10" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2"/>
+    <text x="802" y="126" fill="#5b21b6">每 token</text>
+    <text x="802" y="146" fill="#5b21b6">單價</text>
+    <text x="802" y="168" font-size="12" font-weight="400" fill="#7c3aed">選模型決定</text>
+  </g>
+
+  <g font-size="16" font-weight="700" fill="#94a3b8" text-anchor="middle">
+    <text x="154" y="152">×</text>
+    <text x="298" y="152">×</text>
+    <text x="442" y="152">×</text>
+    <text x="586" y="152">×</text>
+    <text x="730" y="152">×</text>
+  </g>
+
+  <rect x="20" y="224" width="844" height="92" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="40" y="252" font-size="14" fill="#0f172a"><tspan font-weight="700">實績（同一模型固定、2026 年 2–7 月）：</tspan></text>
+  <text x="40" y="276" font-size="13.5" fill="#334155">每 1,000 次請求成本較高峰 −34%　｜　每 session 成本較 6 月高峰 −52%　｜　週請求 +9.4 倍下總支出自 4 月持平</text>
+  <text x="40" y="298" font-size="13" fill="#64748b">解讀：中間三項是「agent 為自己工作而花的 token」——省錢＝消滅零價值 token，而非降級工具。</text>
+</svg>
