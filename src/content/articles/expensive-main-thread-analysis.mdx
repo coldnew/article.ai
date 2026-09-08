@@ -1,0 +1,144 @@
+---
+title: "程式不慢，是卡住了主執行緒：瀏覽器 main thread 的省錢花法"
+description: "整理 kciter.so《The Browser's Main Thread Is Expensive》：主執行緒為何昂貴、幀預算怎麼被吃掉，以及兩大家族七種解法——切分、打包、排優先、延後、搬去合成器、送去 Worker、直接消除工作。"
+publishedAt: 2026-09-08
+topic: "前端效能"
+sourceType: "article"
+sourceUrl: "https://kciter.so/posts/the-expensive-main-thread/en/"
+authors: ["Sunhyoup Lee (kciter)"]
+venue: "kciter.so devlog"
+tags: ["瀏覽器", "主執行緒", "效能優化", "requestAnimationFrame", "Web Worker"]
+readTime: "10 分鐘"
+evidence: "中"
+featured: false
+sourceCount: 7
+accent: "blue"
+---
+
+## 先說結論
+
+《The Browser's Main Thread Is Expensive》這篇文章只講一件事：**你的程式通常不慢，慢的是它剛好卡住了瀏覽器那條唯一的 main thread**。解法分成兩大家族——在主執行緒上把時間花得聰明（切分、打包、排優先、延後），以及根本不把工作放上來（搬去合成器、送去 Worker、直接把工作消除掉）。
+
+![主執行緒兩大家族解法](/article.ai/articles/expensive-main-thread/figure-01-two-families.svg)
+
+<small class="figure-caption">圖 1｜本站依 kciter.so 原文架構重繪。家族一管任務的尺寸與時機，家族二把工作移出主執行緒或直接消除。</small>
+
+## 這篇文章真正解決的問題
+
+它解的不是「網路太慢、bundle 太大」，而是另一種卡頓：捲動偶爾頓一下、按鈕慢半拍回應、搜尋框打字慢半個節拍才出現。這種不到惱人但很煩的 jank，就是主執行緒被堵住的樣子。
+
+《The Browser's Main Thread Is Expensive》指出開發者常見的誤判：遇到卡頓先懷疑演算法太慢、拼命找多餘運算，但多數情況下【原文明說】程式碼的速度不是問題，問題是那段程式碼剛好握著主執行緒不放。
+
+背景數字（【原文明說】，出處見註 2 web.dev）：
+
+- 60Hz 螢幕每幀約 16.6ms，扣掉瀏覽器自身開銷，實務預算約 10ms；120Hz 裝置預算直接砍半。
+- 主執行緒一次只做一件事，一個 200ms 的函式跑完之前，瀏覽器不能重繪也不能收使用者的點擊。
+- 超過 50ms 握住主執行緒的任務稱為 long task，一般視為問題。
+- INP 與 TBT 這兩個效能指標，本質上都是在量主執行緒被堵住多久。
+
+![長任務阻塞示意](/article.ai/articles/expensive-main-thread/figure-02-blocking.svg)
+
+<small class="figure-caption">圖 2｜本站重繪的阻塞示意。JS 與算繪管線在同一條線上排隊；合成器在另一條執行緒，所以 transform 動畫不受影響。</small>
+
+## 流程拆解
+
+### 先看主執行緒在幹嘛
+
+【原文明說】主執行緒的工作分兩類。第一類是跑 JavaScript：我們寫的碼、事件處理、計時器、網路回呼、框架內部，全部在這裡依進佇列順序執行，與螢幕刷新週期無關。第二類是畫畫面，步驟依序是 `requestAnimationFrame` 回呼、樣式計算、版面配置（layout／reflow）、繪製（paint）；沒變化的步驟會整段跳過，只有最後的合成交給合成器執行緒。
+
+【從原文可直接推出】掉幀的結構性原因：JS 任務與算繪管線站在同一條單行道上，管線只能在任務之間的空隙執行。所以「讓出空隙」是家族一全部手法的共同原理。
+
+### 家族一：在主執行緒上省著用
+
+#### 1. Splitting 切分：一切的前提
+
+【原文明說】直播聊天室尖峰每秒數百則訊息，一次全算繪會把 DOM 建立、樣式、版面、繪製連續塞在同一個任務裡，使用者的輸入框跟著結巴。解法是每畫 20 則就用 `setTimeout(..., 0)` 讓出主執行緒一次，讓輸入與畫面更新在空隙中插隊。
+
+【你的合理推斷】讓出（yield）並沒有讓總工作變少，牆鐘時間反而因每次讓出的 overhead 變長；使用者感覺變快，純粹是因為輸入與幀產出拿到了調度空隙。這是整篇最重要的觀念轉換：優化的是體感，不是吞吐量。
+
+按數量切之外，【原文明說】動畫進行中要用按時間切：每幀只工作到用掉約 5ms 就停，用 `performance.now()` 當碼表、`requestAnimationFrame` 當鬧鐘，並以 rAF 回傳的幀起始時間戳為預算錨點——因為同一幀可能有多個動畫回呼共享預算。5ms 只是經驗法則（10ms 預算分一半給背景工作），動畫重就再縮。
+
+切分的四個注意事項（【原文明說】）：
+
+- 切太碎會反噬，yield 來回本身有成本。
+- `setTimeout` 巢狀超過 5 層有至少 4ms 保底延遲；React 的 scheduler 用 `MessageChannel` 繞過，新標準 `scheduler.yield()` 則讓回來的工作排在佇列前面而非最後，但瀏覽器支援仍不齊。
+- `setTimeout` 與 `scheduler.yield()` 回來時不看算繪週期，`requestAnimationFrame` 回來時正好是畫下一幀之前；要跟畫面同節奏就用 rAF。
+- 有些工作原子不可切，例如 `JSON.parse` 幾 MB 回應時中途停不下來——這就是「省著用」的邊界，只能換家族二。
+
+#### 2. Batching 打包：對付 backpressure
+
+【原文明說】切分救了輸入與算繪，但沒讓聊天室畫得更快；若訊息流入速度超過吞吐量，積壓只會越堆越舊，這叫 backpressure。切分管「太長」的任務，打包管「太頻繁」的任務，兩者都是把任務修到適當尺寸，並不矛盾。
+
+打包的三種打法（【原文明說】）：
+
+- 事件打包：scroll／resize／input 短時間觸發數十上百次，用 debounce（安靜後跑一次）或 throttle（每段時間至多跑一次）壓成一次執行。文中 demo 是 2000 行 CHANGELOG 的 markdown 預覽：無 debounce 時每字元重建一次 DOM 導致輸入落後，300ms debounce 後只在停筆時算一次。
+- 視覺更新打包：螢幕一幀只畫一次，再多更新請求也只要每幀畫一次。用 `requestAnimationFrame` 旗標把每秒上千次的 60 檔報價推送壓成每幀一次繪製，資料一筆不丟、fps 回來。
+- DOM 寫入打包：一次 append 一百個節點、一次切 class 勝過逐條改 style；`innerHTML` 一次賦值是同一思想。React 的 virtual DOM 本質也是打包裝置：狀態改再多次，先在虛擬樹累積比對，一次把差異寫回真實 DOM。
+
+#### 3. Prioritizing 排優先：順序即體感
+
+【原文明說】不可中斷的主執行緒上，順序就是使用者感受到的回應速度。做法是自建 `MessageChannel` 佇列：平時 FIFO，急件 `unshift` 插到最前面。文中範例是一次產生 60 張照片預覽（逐像素濾波的重活），使用者點了還沒好的灰格就把那件工作提到最前面——總工作量不變，只改順序，體感完全不同。這種先閒時預做、急時趕工的模式叫 idle-until-urgent（註 4 Philip Walton）。
+
+【從原文可直接推出】優先級不是固定值，而是「此刻對使用者最重要什麼」的函數；佇列設計的重點是支援事後提權（priority bump），而不只是進隊時分級。
+
+【原文明說】現代瀏覽器有 Scheduler API 與 TaskController 等標準，但支援不全，實務上多用 polyfill 或自建佇列；React 的 `startTransition`／`useDeferredValue` 背後就是 MessageChannel＋優先佇列的 scheduler，另有防餓死、打包、續體等機制。
+
+#### 4. Deferring 延後：最可靠的省法
+
+【原文明說】前面三招問尺寸與順序，這招問的是「這工作現在非做不可嗎」。初始載入用 code splitting 只跑當前畫面要的碼；社群 feed 用 `IntersectionObserver`（配 400px rootMargin 提前量）只填可視區附近的貼文，離開可視區倒空只留高度——1500 篇堆積的 demo 中，切回 feed 從數百毫秒凍結變成即時。持續性工作（輪播、直播圖表）離開可視區就該停，沒人看的畫面每幀重畫純屬浪費；文中十幾個 demo 能共存一頁，靠的就是滾出可視區即停。
+
+【原文明說】CSS 的 `content-visibility: auto` 想一行達成類似效果，但截至寫文時各引擎實作不一，且 Safari 有讓返回更慢的效能 bug，所以可預測的選項仍是 `IntersectionObserver`。
+
+### 家族二：根本不放上主執行緒
+
+#### 5. 搬去 Compositor：換個屬性，換條執行緒
+
+【原文明說】`transform` 與 `opacity` 只搬運已畫好的圖層、不重做版面與繪製，可直接由合成器執行緒處理，主執行緒再忙也不受影響。同樣是左右滑動，用 `left` 逐幀觸發 layout 的盒子會頓，用 `transform` 的盒子穩如泰山；縮放用 `transform: scale` 而非 `width`，同理。
+
+版面真的要變時用 FLIP（註 6 Aerotwist）：【原文明說】量舊位（First）→ 改版面並量新位（Last，整段動畫唯一的一次 layout）→ 用 transform 把元素壓回看似舊位（Invert）→ 把 transform 動畫歸零放開（Play，屬於合成器）。Vue 的 `TransitionGroup` 與 Framer Motion 的 layout 動畫底層都是 FLIP。
+
+兩個附帶知識（【原文明說】）：`will-change: transform` 可預建圖層讓動畫起步順，但濫用會圖層爆炸吃記憶體；讀寫版面值順序錯亂會造成 layout thrashing——讀（`getBoundingClientRect`／`offsetWidth`）與寫（改 style）交錯在迴圈裡會每圈強制重算一次版面，習慣是讀全收完再一次寫。
+
+#### 6. 送去 Worker：整包搬走，但要算運費
+
+【原文明說】大 payload 解析、影像處理、複雜運算這類純計算可整包丟給 Web Worker；代價是 Worker 碰不到 DOM，只能算完把結果 `postMessage` 回來，而傳遞要序列化拷貝，大資料時成本可觀。太輕的工作丟過去，運費比工錢貴，反而虧。
+
+文中 demo 是 seam carving（註 7 Wikipedia）：找能量最低的垂直路徑逐條移除、縮圖 30% 保主體，數百萬次運算放主執行緒整頁凍結一兩秒且中間幀一格都生不出來（沒有任務邊界給 paint 插隊），放 Worker 則可即時看圖變窄。大檔傳遞用 transferable objects（`postMessage(msg, [buffer])`）直接移交所有權，成本近零，代價是交出方不能再碰那塊 buffer。
+
+#### 7. 消除工作：最大的收益來自不做
+
+【原文明說】backpressure 下再會打包也有吞吐上限，瀏覽器又沒法叫伺服器慢一點，只能放棄「全部都做」。消除三式：dropping（直播 log 跟不上就靜靜丟掉最舊的，跟上現在比顯示全部重要）、merging（排行榜只取最終值，工作量釘在螢幕吃得下的量）、skipping（同輸入同結果就不算第二次，即 memoization）。
+
+【從原文可直接推出】debounce 省掉的執行、feed 沒算繪的離屏貼文，換個角度看都是消除——文中自陳「這篇文章有一半在講消除工作」。下手優化前先問：這工作非做不可嗎、非現在嗎、非在這裡嗎、非做嗎。
+
+## 哪些步驟適合做成 skill 或自動化
+
+- **Long-task 稽核清單**：50ms 門檻掃描＋INP／TBT 對照，定位「握著主執行緒的程式碼」而非「慢程式碼」——觀念檢查最適合做成每次效能排查的開場。
+- **Yield／切分模板**：按數量（`setTimeout`）與按時間（5ms＋rAF 錨定幀起始）的兩段式程式碼可直接做成 snippet。
+- **事件打包預設**：scroll／resize／input 處理器預設包 debounce／throttle；視覺更新預設走 rAF 每幀一次旗標。
+- **CSS 動畫 lint 規則**：動畫屬性只允許 `transform`／`opacity`，出現 `left`／`top`／`width`／`height` 告警；讀寫版面值分離（先讀後寫）列入 review 檢查點。
+- **Worker 決策樹**：重到蓋過通訊成本＋無關 DOM 才搬；大 buffer 走 transferable——適合做成一頁決策圖而非每次重想。
+- **不適合自動化**：FLIP 的量測時機、idle-until-urgent 的提權點、要 drop 還是 merge 的取捨，都依場景而定，只能給模式不能給答案。
+
+## 風險與盲點
+
+- 【仍未被支撐的主張】全文 demo（聊天室、粒子、報價板、1500 篇 feed、seam carving）都是為戲劇效果設計的合成場景，作者自承 1500 篇實務罕見；數字只能證明方向，不能直接當生產環境保證。
+- 【合理推斷】10ms 實務預算、5ms 背景工作配額都是經驗法則，重動畫頁面要自行下修，不是常數。
+- 【原文明說＋時效】`scheduler.yield()` 支援不齊、`content-visibility` 的 Safari bug、Scheduler API／TaskController 需 polyfill——這些都是 2026-07 寫文時點的快照，採用前要重查 Can I Use。
+- 【未被支撐】全文無真實 INP 田野數據與 A／B 對照，屬於機制講解＋作者 demo，不是實證研究；evidence 維持「中」。
+- 【合理推斷】文末「前端不簡單、一切都是取捨、靠經驗判斷」是作者的價值判斷，聽聽就好；可操作的部分都在前面的七招裡。
+
+## 對 article.ai 的改寫建議
+
+- 本文已按「兩大家族七招」重組（尺寸→時機→移出→消除），比跟原文 demo 順序更好當手冊查。
+- 證據等級給「中」：個人技術部落格但引用完整（web.dev、Philip Walton、Aerotwist、Wikipedia 共 7 註），機制正確、數據限於 demo；未支撐處已標註。
+- 與站上 Uber 軟體工廠文是姊妹篇：Uber 講 AI agent 的成本等式，這篇講瀏覽器的主執行緒預算——都是「昂貴資源的記帳與分配」，可互鏈。
+- 後續可追：`scheduler.yield()` 與 Scheduler API 支援度變化、Safari 修復 `content-visibility` 問題後，deferring 一節要回來更新。
+
+## 來源
+
+- kciter.so 英文原文（2026-07-12，另有韓文版）：https://kciter.so/posts/the-expensive-main-thread/en/ ——全部機制、demo、數據之出處
+- 幀預算：https://web.dev/articles/rendering-performance
+- idle-until-urgent：https://philipwalton.com/articles/idle-until-urgent/
+- FLIP：https://aerotwist.com/blog/flip-your-animations/
+- Seam carving：https://en.wikipedia.org/wiki/Seam_carving

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="340" viewBox="0 0 800 340" role="img" aria-label="主執行緒兩大家族解法">
+<rect x="0" y="0" width="800" height="340" rx="16" fill="#ffffff" stroke="#e2e8f0"/>
+<text x="400" y="32" text-anchor="middle" font-size="20" font-weight="700" fill="#1e293b">主執行緒很貴：兩大家族解法（本站重繪）</text>
+<g>
+<rect x="30" y="55" width="355" height="255" rx="12" fill="#fffbeb" stroke="#d97706"/>
+<text x="207" y="85" text-anchor="middle" font-size="16" font-weight="700" fill="#92400e">家族一：在上面省著用</text>
+<g font-size="14" fill="#333">
+<rect x="50" y="100" width="315" height="44" rx="8" fill="#fef3c7"/>
+<text x="207" y="118" text-anchor="middle" font-weight="700">Splitting 切分</text>
+<text x="207" y="136" text-anchor="middle" font-size="12" fill="#555">setTimeout / rAF 讓出，造出 frame 空隙</text>
+<rect x="50" y="152" width="315" height="44" rx="8" fill="#fef3c7"/>
+<text x="207" y="170" text-anchor="middle" font-weight="700">Batching 打包</text>
+<text x="207" y="188" text-anchor="middle" font-size="12" fill="#555">debounce / throttle / 每 frame 只畫一次</text>
+<rect x="50" y="204" width="315" height="44" rx="8" fill="#fef3c7"/>
+<text x="207" y="222" text-anchor="middle" font-weight="700">Prioritizing 排優先</text>
+<text x="207" y="240" text-anchor="middle" font-size="12" fill="#555">MessageChannel 佇列，急件插隊</text>
+<rect x="50" y="256" width="315" height="38" rx="8" fill="#fef3c7"/>
+<text x="207" y="272" text-anchor="middle" font-weight="700">Deferring 延後</text>
+<text x="207" y="288" text-anchor="middle" font-size="12" fill="#555">code splitting / IntersectionObserver</text>
+</g>
+</g>
+<g>
+<rect x="415" y="55" width="355" height="255" rx="12" fill="#f0fdf4" stroke="#16a34a"/>
+<text x="592" y="85" text-anchor="middle" font-size="16" font-weight="700" fill="#166534">家族二：根本不放上面</text>
+<g font-size="14" fill="#333">
+<rect x="435" y="100" width="315" height="60" rx="8" fill="#dcfce7"/>
+<text x="592" y="122" text-anchor="middle" font-weight="700">搬去 Compositor</text>
+<text x="592" y="140" text-anchor="middle" font-size="12" fill="#555">transform / opacity 動畫</text>
+<text x="592" y="156" text-anchor="middle" font-size="12" fill="#555">FLIP：只做一次 layout</text>
+<rect x="435" y="168" width="315" height="60" rx="8" fill="#dcfce7"/>
+<text x="592" y="190" text-anchor="middle" font-weight="700">送去 Worker</text>
+<text x="592" y="208" text-anchor="middle" font-size="12" fill="#555">重運算＋無 DOM，傳大檔用轉移</text>
+<text x="592" y="224" text-anchor="middle" font-size="12" fill="#555">postMessage 拷貝成本要先算</text>
+<rect x="435" y="236" width="315" height="60" rx="8" fill="#dcfce7"/>
+<text x="592" y="258" text-anchor="middle" font-weight="700">直接消除工作</text>
+<text x="592" y="276" text-anchor="middle" font-size="12" fill="#555">drop 丟棄 / merge 合併 / skip 快取</text>
+<text x="592" y="292" text-anchor="middle" font-size="12" fill="#555">最大收益常來自不做</text>
+</g>
+</g>
+</svg>

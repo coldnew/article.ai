@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="300" viewBox="0 0 800 300" role="img" aria-label="單一主執行緒與長任務阻塞示意">
+<rect x="0" y="0" width="800" height="300" rx="16" fill="#ffffff" stroke="#e2e8f0"/>
+<text x="400" y="30" text-anchor="middle" font-size="18" font-weight="700" fill="#1e293b">單一主執行緒：長任務＝凍結畫面（本站重繪）</text>
+<g font-size="13" fill="#475569">
+<text x="30" y="70">JS 任務</text>
+<text x="30" y="150">算繪管線</text>
+<text x="30" y="230">合成器</text>
+</g>
+<g>
+<rect x="120" y="48" width="90" height="34" rx="6" fill="#bfdbfe"/>
+<text x="165" y="70" text-anchor="middle" font-size="12" fill="#1e3a8a">click 處理</text>
+<rect x="215" y="48" width="300" height="34" rx="6" fill="#fca5a5"/>
+<text x="365" y="70" text-anchor="middle" font-size="12" font-weight="700" fill="#7f1d1d">長任務 200ms（阻塞）</text>
+<rect x="520" y="48" width="90" height="34" rx="6" fill="#bfdbfe"/>
+<text x="565" y="70" text-anchor="middle" font-size="12" fill="#1e3a8a">input 回應</text>
+<rect x="120" y="128" width="90" height="34" rx="6" fill="#e2e8f0"/>
+<text x="165" y="150" text-anchor="middle" font-size="12" fill="#64748b">frame N</text>
+<rect x="215" y="128" width="300" height="34" rx="6" fill="#f1f5f9" stroke="#fca5a5" stroke-dasharray="5 4"/>
+<text x="365" y="150" text-anchor="middle" font-size="12" fill="#b91c1c">掉幀：管線只能排隊等</text>
+<rect x="520" y="128" width="90" height="34" rx="6" fill="#e2e8f0"/>
+<text x="165" y="150" text-anchor="middle" font-size="12" fill="#64748b"></text>
+<text x="565" y="150" text-anchor="middle" font-size="12" fill="#64748b">frame N+1</text>
+<rect x="120" y="208" width="540" height="34" rx="6" fill="#bbf7d0"/>
+<text x="390" y="230" text-anchor="middle" font-size="12" font-weight="700" fill="#166534">transform / opacity 動畫照跑（另一條執行緒）</text>
+</g>
+<text x="400" y="280" text-anchor="middle" font-size="13" fill="#64748b">60Hz 下每幀約 16.6ms，實務預算約 10ms；超過 50ms 的任務即視為 long task。</text>
+</svg>
