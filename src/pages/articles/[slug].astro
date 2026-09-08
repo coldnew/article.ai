@@ -41,7 +41,7 @@ const tocHeadings = headings.filter((heading) => heading.depth >= 2 && heading.d
       <div class="report-header">
         <div class="ticker-block">
           <div class="ticker-eyebrow">{sourceType === 'article' ? '工作流文章分析' : topic}</div>
-          <h1 class="ticker-name">{title} <span>{sourceTypeLabel}</span></h1>
+          <h1 class="ticker-name"><a href={sourceUrl} target="_blank" rel="noreferrer">{title}</a> <span>{sourceTypeLabel}</span></h1>
           <div class="ticker-sub">{description}</div>
           <nav class="report-tags" aria-label="文章標籤">{tags.map((tag) => <a href={`#${tag.replace(/\s+/g, '-').toLowerCase()}`}>#{tag}</a>)}</nav>
           <AiDisclosure />
