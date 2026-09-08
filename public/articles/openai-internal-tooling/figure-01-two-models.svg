@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="740" viewBox="0 0 1200 740" role="img" aria-label="集中式與去中心化內部工具生產模式對照圖">
+  <defs>
+    <linearGradient id="bgg1" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#eff6ff"/>
+    </linearGradient>
+    <style>
+      .title { font: 700 32px "Noto Sans TC", "PingFang TC", sans-serif; fill: #0f172a; }
+      .sub { font: 500 18px "Noto Sans TC", "PingFang TC", sans-serif; fill: #334155; }
+      .panel { font: 700 24px "Noto Sans TC", "PingFang TC", sans-serif; fill: #0f172a; }
+      .box { font: 600 19px "Noto Sans TC", "PingFang TC", sans-serif; fill: #0f172a; }
+      .boxsub { font: 500 16px "Noto Sans TC", "PingFang TC", sans-serif; fill: #475569; }
+      .tag { font: 700 17px "Noto Sans TC", "PingFang TC", sans-serif; }
+      .note { font: 600 18px "Noto Sans TC", "PingFang TC", sans-serif; fill: #1e293b; }
+      .cond { font: 700 20px "Noto Sans TC", "PingFang TC", sans-serif; fill: #92400e; }
+      .condsub { font: 500 17px "Noto Sans TC", "PingFang TC", sans-serif; fill: #78350f; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="740" fill="url(#bgg1)"/>
+
+  <text x="60" y="62" class="title">內部工具的兩種生產模式</text>
+  <text x="60" y="96" class="sub">左：Meta 式集中編制 · 右：OpenAI 式 Agent 自助生成（Gergely Orosz 貼文主張）</text>
+
+  <!-- LEFT PANEL -->
+  <rect x="40" y="120" width="520" height="440" rx="16" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="70" y="162" class="panel">集中式：內部工具團隊</text>
+
+  <rect x="70" y="185" width="140" height="56" rx="10" fill="#e2e8f0"/>
+  <text x="140" y="220" class="box" text-anchor="middle">團隊 A</text>
+  <rect x="230" y="185" width="140" height="56" rx="10" fill="#e2e8f0"/>
+  <text x="300" y="220" class="box" text-anchor="middle">團隊 B</text>
+  <rect x="390" y="185" width="140" height="56" rx="10" fill="#e2e8f0"/>
+  <text x="460" y="220" class="box" text-anchor="middle">團隊 C</text>
+  <text x="300" y="262" class="boxsub" text-anchor="middle">需求排隊 ↓</text>
+
+  <rect x="110" y="280" width="380" height="110" rx="12" fill="#1e3a8a"/>
+  <text x="300" y="322" class="tag" text-anchor="middle" fill="#ffffff">內部工具團隊（專職編制）</text>
+  <text x="300" y="352" class="boxsub" text-anchor="middle" fill="#bfdbfe">排期 · backlog · 統一維護</text>
+
+  <line x1="300" y1="390" x2="300" y2="425" stroke="#64748b" stroke-width="3" marker-end="none"/>
+  <polygon points="300,435 290,421 310,421" fill="#64748b"/>
+
+  <rect x="110" y="435" width="380" height="70" rx="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+  <text x="300" y="478" class="box" text-anchor="middle">工具交付：品質穩 · 排隊慢</text>
+
+  <text x="70" y="540" class="boxsub">成本結構：固定人力，需求越多排越久</text>
+
+  <!-- RIGHT PANEL -->
+  <rect x="640" y="120" width="520" height="440" rx="16" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="670" y="162" class="panel">去中心化：Codex 自助生成</text>
+
+  <rect x="670" y="185" width="140" height="56" rx="10" fill="#e2e8f0"/>
+  <text x="740" y="220" class="box" text-anchor="middle">團隊 A</text>
+  <rect x="830" y="185" width="140" height="56" rx="10" fill="#e2e8f0"/>
+  <text x="900" y="220" class="box" text-anchor="middle">團隊 B</text>
+  <rect x="990" y="185" width="140" height="56" rx="10" fill="#e2e8f0"/>
+  <text x="1060" y="220" class="box" text-anchor="middle">團隊 C</text>
+  <text x="900" y="262" class="boxsub" text-anchor="middle">各自呼叫 ↓</text>
+
+  <rect x="710" y="280" width="380" height="110" rx="12" fill="#065f46"/>
+  <text x="900" y="322" class="tag" text-anchor="middle" fill="#ffffff">Codex ＋ 內部 skills（100+）</text>
+  <text x="900" y="352" class="boxsub" text-anchor="middle" fill="#a7f3d0">無專職工具團隊 · 人人自助</text>
+
+  <line x1="900" y1="390" x2="900" y2="425" stroke="#64748b" stroke-width="3"/>
+  <polygon points="900,435 890,421 910,421" fill="#64748b"/>
+
+  <rect x="670" y="435" width="115" height="70" rx="12" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+  <text x="727" y="478" class="box" text-anchor="middle">工具 1</text>
+  <rect x="797" y="435" width="115" height="70" rx="12" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+  <text x="854" y="478" class="box" text-anchor="middle">工具 2</text>
+  <rect x="924" y="435" width="115" height="70" rx="12" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+  <text x="981" y="478" class="box" text-anchor="middle">工具 3</text>
+  <rect x="1051" y="435" width="79" height="70" rx="12" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+  <text x="1090" y="478" class="box" text-anchor="middle">…N</text>
+
+  <text x="670" y="540" class="boxsub">成本結構：token 邊際成本，爆發快 · 品質參差 · 維護分散</text>
+
+  <!-- PRECONDITION STRIP -->
+  <rect x="40" y="584" width="1120" height="116" rx="16" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+  <text x="70" y="626" class="cond">前提條件（Kun Chen 異議）：token 邊際成本必須趨近於零</text>
+  <text x="70" y="658" class="condsub">OpenAI 員工 Codex 用量無上限；真實公司要付 token 帳單時，每個人重複 vibe coding 同樣工具，經濟帳完全不同。</text>
+  <text x="70" y="684" class="condsub">Gergely 的回應是預測而非事實：token 價格持續下跌，有一天「無限 token」可能處處可行——也可能不行。</text>
+</svg>

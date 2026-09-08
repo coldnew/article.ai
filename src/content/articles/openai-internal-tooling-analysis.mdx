@@ -1,0 +1,123 @@
+---
+title: "「不需要內部工具團隊」：OpenAI 的豪賭成立嗎？"
+description: "分析 Gergely Orosz 的 OpenAI 總部見聞：前 Meta 員工主張重金投入內部工具團隊，OpenAI leadership 以「AGI 世界不需要工具團隊」拒絕，Codex 帶來工具大爆發——以及 Codex 負責人 Tibo 親自下場的三點反駁。"
+publishedAt: 2026-09-08
+topic: "工程組織"
+sourceType: "article"
+sourceUrl: "https://x.com/GergelyOrosz/status/2097055218173423886"
+authors: ["Gergely Orosz"]
+venue: "X 貼文串 · The Pragmatic Engineer"
+tags: ["OpenAI", "Codex", "內部工具", "工程組織", "Meta"]
+readTime: "6 分鐘"
+evidence: "探索中"
+featured: false
+sourceCount: 5
+accent: "blue"
+---
+
+## 先說結論
+
+《The Pragmatic Engineer》作者 Gergely Orosz 參訪 OpenAI 總部後爆料：前 Meta 員工主張重金投入內部工具團隊，OpenAI leadership 以「在 AGI 優先的世界裡，將不存在內部工具團隊」為由拒絕——而 Codex 帶來的內部工具大爆發，似乎證明 leadership 賭對了。但這個漂亮故事在 24 小時內就被當事人之一、Codex 負責人 Thibault Sottiaux（Tibo）親自修正：**Codex 最初就是作為內部工具啟動的；過去幾年大量 infra 與內部工具照樣有人建；「Meta vs 非 Meta」的框架沒什麼啟發性。**
+
+真正的教訓可能不是「不要工具團隊」，而是「**把稀缺的工具投入，押在能自我複製的最高槓桿點上**」——Codex 本身，就是那個內部工具。
+
+## 當事人貼文嵌入
+
+以下兩則貼文以本站靜態卡片還原（原文為英文，X 原生嵌入需載入外部 JS 且離線不可見，故改以靜態還原＋本地頭像呈現；文字、時間、數據皆逐字核對）：
+
+<div style="border:1px solid #e1e8ed;border-radius:16px;padding:20px 20px 12px;max-width:600px;margin:24px auto;background:#ffffff;color:#0f1419;">
+<div style="display:flex;gap:12px;align-items:center;">
+<img src="/article.ai/articles/openai-internal-tooling/gergely-avatar.png" alt="Gergely Orosz 頭像" width="48" height="48" style="border-radius:50%;" />
+<div>
+<div style="font-weight:700;">Gergely Orosz</div>
+<div style="color:#536471;">@GergelyOrosz · The Pragmatic Engineer</div>
+</div>
+</div>
+<p style="margin:12px 0;font-size:16px;line-height:1.55;">Super interesting detail from inside OpenAI:</p>
+<p style="margin:12px 0;font-size:16px;line-height:1.55;">The company hired a bunch of ex-Meta people. Some of these people wanted to invest heavily into internal tooling teams (Meta did it, worked great)</p>
+<p style="margin:12px 0;font-size:16px;line-height:1.55;">OpenAI leadership resisted, saying that in an AGI-first world, there will be no internal tooling teams. And they were right: now, with Codex, there's a massive internal tools explosion, without having any internal tooling teams!</p>
+<div style="color:#536471;border-top:1px solid #eff3f4;padding-top:12px;font-size:15px;">8:11 PM · Sep 7, 2026 · 約 39 萬瀏覽</div>
+<div style="display:flex;gap:20px;color:#536471;border-top:1px solid #eff3f4;margin-top:12px;padding-top:12px;font-size:15px;">
+<span>94 則回覆</span>
+<span>68 轉發</span>
+<span>2.6K 讚</span>
+<span>685 書籤</span>
+</div>
+<div style="margin-top:12px;font-size:15px;"><a href="https://x.com/GergelyOrosz/status/2097055218173423886">在 X 上查看原文 →</a></div>
+</div>
+
+<small class="figure-caption">嵌入 1｜Gergely Orosz 主貼文靜態還原。繁體譯文：OpenAI 找來一批前 Meta 員工，其中一些人主張重金投入內部工具團隊（Meta 就是這樣做且效果很好）；OpenAI 高層拒絕，理由是在 AGI 優先的世界裡將不存在內部工具團隊——而他們是對的：現在有了 Codex，內部工具大爆發，且沒有任何內部工具團隊。</small>
+
+## 這則貼文真正解決的問題
+
+它回答的不是技術問題，而是一個組織設計問題：**當 AI 寫工具的成本趨近於零時，還要不要用固定編制做內部工具？**
+
+背景脈絡（Gergely 同串補充，皆為原文明說）：細節來自他參訪 OpenAI 總部，完整 deepdive 約一週後刊於《The Pragmatic Engineer》；他的分析框架是「hyperscaler 的成功之道 ≠ AI lab 的成功之道」；他特別點出「Codex 2024 年才啟動」，暗示從零到支撐全公司內部工具只花了約兩年。
+
+![集中式工具團隊與 Codex 自助生成兩種模式對照，以及 token 成本前提。](/article.ai/articles/openai-internal-tooling/figure-01-two-models.svg)
+
+<small class="figure-caption">圖 1｜本站依貼文主張與回覆串異議繪製的兩種模式對照。左側為 Meta 式集中編制，右側為 OpenAI 式去中心化自助生成；底部黃框是 Kun Chen 異議指出的前提條件——X 原貼文串本身無任何視覺材料。</small>
+
+## 流程拆解
+
+兩種模式的生產函數完全不同：
+
+1. **Meta 模式（集中式）**：各產品團隊提出工具需求 → 排進內部工具團隊的 backlog → 專職編制按排期交付。優點是品質穩定、有人長期維護；代價是需求越多排越久，工具團隊本身成為瓶頸。
+2. **OpenAI 模式（去中心化＋Agent）**：各團隊直接呼叫 Codex＋內部 skills 自助生成工具，無專職工具團隊經手。優點是爆發式成長、零排隊；代價是品質參差、維護責任分散。
+3. **關鍵差別不在有沒有投入，而在投入押在哪**：Tibo 的反駁揭示，OpenAI 並非零投入——Codex 啟動時的目標就是「最高槓桿、加速 infra 建設」的內部工具，只是這筆投入被押在**單一可自我複製的槓桿點**上，而非分散成一個服務型團隊。
+
+## 哪些步驟適合做成 skill 或自動化
+
+諷刺的是，這則貼文本身就是最佳論據——Gergely 二月的 Codex deepdive 明說 Codex 團隊內部已有 100+ skills：
+
+- **一次性工具需求 → skill 化**：某團隊寫過一次的工具流程，沉澱為可被全公司呼叫的 agent skill，而非成立團隊重寫（安全審查、自動寫 PR、Datadog 告警修復都是現成例子）。
+- **nightly 自檢迴圈**：固定排程讓 agent 掃描 codebase 找問題，早上等人審——低成本高槓桿，Codex 團隊已在實行。
+- **onboarding 配對制**：新人第一天 shadowing、當天 shipping——適合寫成獨立流程規範。
+
+## 風險與盲點
+
+### Tibo 的三點反駁（全文嵌入，逐字還原）
+
+<div style="border:1px solid #e1e8ed;border-radius:16px;padding:20px 20px 12px;max-width:600px;margin:24px auto;background:#ffffff;color:#0f1419;">
+<div style="display:flex;gap:12px;align-items:center;">
+<img src="/article.ai/articles/openai-internal-tooling/tibo-avatar.jpg" alt="Tibo 頭像" width="48" height="48" style="border-radius:50%;" />
+<div>
+<div style="font-weight:700;">Tibo</div>
+<div style="color:#536471;">@thsottiaux · Head of Codex, OpenAI</div>
+</div>
+</div>
+<p style="margin:12px 0;font-size:16px;line-height:1.55;">I challenge this a bit</p>
+<p style="margin:12px 0;font-size:16px;line-height:1.55;">(a) Codex was started as an internal tool. The goal was explicitly to build what was the highest leverage tool to accelerate infrastructure buildout.</p>
+<p style="margin:12px 0;font-size:16px;line-height:1.55;">(b) I don't think the Meta vs non-Meta is particularly enlightening here. Most of us who came from older tech companies were surprised at how far OpenAI had taken Python scripts and had a desire to scale OpenAI further.</p>
+<p style="margin:12px 0;font-size:16px;line-height:1.55;">(c) A ton of infrastructure and internal tools were built over the last few years, it's not the case that we were just waiting for AGI to appear.</p>
+<div style="color:#536471;border-top:1px solid #eff3f4;padding-top:12px;font-size:15px;">10:06 PM · Sep 7, 2026 · 77.5K 瀏覽</div>
+<div style="display:flex;gap:20px;color:#536471;border-top:1px solid #eff3f4;margin-top:12px;padding-top:12px;font-size:15px;">
+<span>36 則回覆</span>
+<span>21 轉發</span>
+<span>約 960 讚</span>
+</div>
+<div style="margin-top:12px;font-size:15px;"><a href="https://x.com/thsottiaux/status/2097084139627561041">在 X 上查看原文 →</a></div>
+</div>
+
+<small class="figure-caption">嵌入 2｜Tibo 回覆靜態還原。繁體譯文要點：(a) Codex 最初就是內部工具，目標是最高槓桿、加速 infra 建設；(b) Meta vs 非 Meta 的框架沒什麼啟發性，來自大公司的員工反而驚訝於 OpenAI 靠 Python 腳本撐了多遠；(c) 過去幾年大量 infra 與內部工具照樣有人建，沒人乾等 AGI 出現。Gergely 隨後回覆表示會把這些補充納入 deepdive。</small>
+
+### 其他盲點
+
+- **token 經濟學（Kun Chen 異議，原文明說）**：OpenAI 內部 token 近乎無限量供應——Gergely 二月 deepdive 明說員工 Codex 用量無上限；真實公司要為 token 付錢，當每個人重複 vibe coding 同樣的工具時，經濟帳完全不同。Gergely 承認「出了 OpenAI 當然不一樣」，把希望寄於 token 價格持續下跌——這是**預測，不是事實**。
+- **證據等級**：整則貼文是單一匿名來源的軼事（"detail from inside OpenAI"），無規模、品質、維護成本數據，「被證明是對的」只有軼事等級支撐，故本文 evidence 標為探索中。
+- **敘事誘因**：Gergely 靠 OpenAI／Codex deepdive 獲得流量與付費訂閱，有把故事講得更傳奇的動機；Tibo 的公開修正恰好是必要的平衡。
+- **倖存者偏誤**：只看到賭贏的這一次；若 Codex 失敗，同一決策會被寫成「傲慢導致 infra 落後」。
+
+## 對 article.ai 的改寫建議
+
+- 本篇定位為「工程組織／AI 工具鏈」短評，與 Gergely 二月 Codex deepdive（Codex 寫了自身 90% 程式碼、工程師同時跑 4–8 個 agent、員工用量無上限）綁定成系列——後者正是「token 無限」前提的直接證據。
+- 標題避免「OpenAI 證明不需要工具團隊」這類斷言式寫法；條件式問句更誠實。
+- 單則貼文資訊密度不足以撐長文：Gergely 承諾的完整 deepdive 約一週後刊出，到時應回來補寫完整版；本篇適合作短評先行。
+
+## 來源
+
+- Gergely Orosz 主貼文（2026-09-07）：https://x.com/GergelyOrosz/status/2097055218173423886 ——參訪見聞、deepdive 預告、「hyperscaler ≠ AI lab」框架
+- Gergely 後續回覆：token 價格下跌可能讓「無限 token」處處可行（也可能不行）
+- Kun Chen 回覆：真實公司的 token 經濟帳不同
+- Tibo（Thibault Sottiaux, Head of Codex）回覆全文：https://x.com/thsottiaux/status/2097084139627561041
+- Gergely《How Codex is built》deepdive（2026-02-17，付費）：https://newsletter.pragmaticengineer.com/p/how-codex-is-built ——Codex 2024 年底內部實驗、90% 程式碼自寫、100+ 內部 skills、員工用量無上限
