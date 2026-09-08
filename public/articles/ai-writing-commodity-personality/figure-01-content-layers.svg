@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="470" viewBox="0 0 800 470" font-family="system-ui, -apple-system, 'Noto Sans TC', 'PingFang TC', sans-serif">
+  <rect x="0" y="0" width="800" height="470" rx="16" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="32" y="42" font-size="20" font-weight="700" fill="#0f172a">三層內容：越往上越難複製，越值得花時間</text>
+  <text x="32" y="66" font-size="13" fill="#64748b">本站依《The Right Way To Write With AI》框架重繪・寬度＝可複製程度，高度＝投入時間建議</text>
+
+  <g font-size="14">
+    <rect x="120" y="100" width="560" height="70" rx="10" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="140" y="128" font-weight="700" fill="#334155">底層・商品化內容 Commodity Content</text>
+    <text x="140" y="152" font-size="13" fill="#64748b">是什麼＋怎麼做・常識、SEO 文、操作指南・外包給 AI・花最少時間</text>
+
+    <rect x="190" y="182" width="420" height="90" rx="10" fill="#ffedd5" stroke="#fdba74"/>
+    <text x="210" y="210" font-weight="700" fill="#9a3412">中層・人格化內容 Personality Content</text>
+    <text x="210" y="232" font-size="13" fill="#9a3412">為什麼・人生事實＋觀點＋洞察＋故事＋教訓</text>
+    <text x="210" y="252" font-size="13" fill="#9a3412">累積成「個人語言模型」・花大部分時間</text>
+
+    <rect x="275" y="284" width="250" height="70" rx="10" fill="#0f172a"/>
+    <text x="295" y="312" font-weight="700" fill="#ffffff">頂層・原創內容 Original</text>
+    <text x="295" y="334" font-size="13" fill="#cbd5e1">說沒人說過的話・多年深耕後才出現</text>
+  </g>
+
+  <line x1="32" y1="378" x2="768" y2="378" stroke="#e2e8f0" stroke-width="1.5"/>
+  <g font-size="13.5" fill="#475569">
+    <text x="32" y="402">聲音 Voice ＝ 用詞 Vocabulary × 節奏 Rhythm × 目的 EDAN（解釋／描寫／行動／敘述）</text>
+    <text x="32" y="426">判準：把作者名蓋住還認得出是誰寫的，才算人格化；否則就是商品，AI 寫得比你便宜</text>
+    <text x="32" y="450">槓桿順序：人負責提供輸入（講清楚自己怎麼變成自己），機器負責放大與重複</text>
+  </g>
+</svg>
