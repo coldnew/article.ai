@@ -22,7 +22,6 @@ description: "Use when the user gives a long Zhihu/Medium/blog post about readin
 - 流程拆解
 - 哪些步驟適合做成 skill 或自動化
 - 風險與盲點
-- 對 article.ai 的改寫建議
 
 如果文章屬於技術／工程／系統程式內容，預設要附上至少一項可視化佐證，例如：
 
@@ -44,14 +43,23 @@ description: "Use when the user gives a long Zhihu/Medium/blog post about readin
 
 ## X 貼文來源：靜態卡片嵌入規範
 
-來源是 X 貼文時，不用 X widgets.js（需載入外部 JS，離線不可見）。一律用站內靜態卡片還原＋本地頭像，文字、時間、數據逐字核對：
+來源是 X 貼文時，不用 X widgets.js（需載入外部 JS，離線不可見）。一律用站內 `XPostCard` 元件（`src/components/XPostCard.astro`，對標 stock 的 `XPostCard` 版式），文字、時間、數據逐字核對：
 
-- 頭像：下載 `..._normal` 圖到 `public/articles/<slug>/`，顯示 **40×40 圓形**（X 本尊尺寸）。
-- 卡片結構：header（頭像＋粗體名＋認證徽章＋灰色 handle 行）→ 內文 17px → 時間列（`9:02 PM · Aug 28, 2026 · 2.2M Views`，瀏覽數粗體黑字）→ 圖示操作列（回覆／轉發／喜歡／瀏覽數＋書籤／分享，用 SVG 線條 icon，灰色 `#536471`）→ 灰色小字原文連結。
-- 認證徽章：金勾僅限確認的企業帳號、藍勾僅限確認的個人帳號；**不確定就省略，不亂標**。
-- 只還原可核對的數字；X 本來不顯示書籤數，書籤只留圖示、不編數字。
+```mdx
+import XPostCard from '../../components/XPostCard.astro';
+
+<XPostCard author="Ming" handle="@tslaming" avatar="/article.ai/articles/<slug>/xxx-avatar.jpg" timestamp="2:07 AM · Sep 6, 2026" views="3.8K" replies="2" reposts="31" likes="5" sourceUrl="https://x.com/..." mediaUrl="" mediaAlt="">
+<p><strong>標題段（如有）</strong></p>
+<p>內文段落逐字還原……</p>
+</XPostCard>
+```
+
+- 頭像：下載 `..._normal` 圖到 `public/articles/<slug>/`，以 `avatar` 傳入，顯示 **40×40 圓形**（X 本尊尺寸）；拿不到頭像就省略，元件會用首字佔位圓代替。
+- 認證徽章：`verified="gold"` 僅限確認的企業帳號、`verified="blue"` 僅限確認的個人帳號；**不確定就省略，不亂標**。
+- 只還原可核對的數字；缺的指標直接省略該 prop（元件只渲染有傳的）；X 本來不顯示書籤數，書籤只留圖示、不編數字。
 - 卡片下方一律加 `<small class="figure-caption">`：註明是靜態還原，並附繁體譯文。
-- 版式範本：以 `src/content/articles/uber-software-factory-analysis.mdx` 內的卡片為準，後續直接沿用，不得各篇自創版式。
+- 內文一律用乾淨 `<p>`，不得寫內聯 `style`；需要附圖時用 `mediaUrl`（本地存檔圖，外部圖床一律先存到 `public/articles/<slug>/`）。
+- 版式以元件為準，不得各篇自創版式。
 
 ## 成文為 repo 文章時的規範
 

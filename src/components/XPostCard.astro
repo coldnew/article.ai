@@ -1,0 +1,145 @@
+---
+// X 貼文靜態卡片：對標 stock 的 XPostCard 版式，不載入 X widgets.js，離線可見。
+// 用法：<XPostCard author handle avatar verified timestamp views replies reposts likes sourceUrl mediaUrl mediaAlt>內文段落</XPostCard>
+// verified: 'gold'（企業）| 'blue'（個人）| 省略（不確定就不標）
+interface Props {
+  author: string;
+  handle: string;
+  timestamp: string;
+  views: string;
+  sourceUrl: string;
+  avatar?: string;
+  verified?: 'gold' | 'blue';
+  replies?: string;
+  reposts?: string;
+  likes?: string;
+  mediaUrl?: string;
+  mediaAlt?: string;
+}
+
+const {
+  author,
+  handle,
+  timestamp,
+  views,
+  sourceUrl,
+  avatar = '',
+  verified = '',
+  replies = '',
+  reposts = '',
+  likes = '',
+  mediaUrl = '',
+  mediaAlt = '',
+} = Astro.props as Props;
+
+const initial = author.trim().charAt(0) || '@';
+const badgeColor = verified === 'gold' ? '#ffc400' : '#1d9bf0';
+---
+<article class="x-post-card" aria-label={`X 貼文：${author}`}>
+  <header class="x-post-card-header">
+    {avatar
+      ? <img class="x-post-card-avatar" src={avatar} alt={`${author} 頭像`} width="40" height="40" />
+      : <span class="x-post-card-avatar x-post-card-avatar-placeholder" aria-hidden="true">{initial}</span>}
+    <div class="x-post-card-author">
+      <div class="x-post-card-name">
+        {author}
+        {verified && (
+          <svg viewBox="0 0 24 24" width="18" height="18" role="img" aria-label={verified === 'gold' ? '企業認證' : '藍勾認證'}>
+            <path fill={badgeColor} d="M12 1.8l2.5 2.5 3.5-.5.9 3.4 3.1 1.7-1.5 3.1 1.5 3.1-3.1 1.7-.9 3.4-3.5-.5L12 22.2l-2.5-2.5-3.5.5-.9-3.4-3.1-1.7L3.5 12 2 8.9l3.1-1.7.9-3.4 3.5.5z"/>
+            <path fill="#ffffff" d="M10.6 14.7l-3-3 1.4-1.4 1.6 1.6 4.4-4.4 1.4 1.4z"/>
+          </svg>
+        )}
+      </div>
+      <div class="x-post-card-handle">{handle}</div>
+    </div>
+    <a class="x-post-card-mark" href={sourceUrl} target="_blank" rel="noreferrer" aria-label="在 X 開啟原始貼文">𝕏</a>
+  </header>
+  <div class="x-post-card-body"><slot /></div>
+  {mediaUrl && (
+    <a class="x-post-card-media" href={sourceUrl} target="_blank" rel="noreferrer">
+      <img src={mediaUrl} alt={mediaAlt} loading="lazy" />
+    </a>
+  )}
+  <footer class="x-post-card-footer">
+    <div class="x-post-card-time">{timestamp} · <strong>{views}</strong> Views</div>
+    <div class="x-post-card-metrics" aria-label="貼文互動數據">
+      {replies && (
+        <span>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3C6.5 3 2 6.9 2 11.7c0 2.7 1.4 5.1 3.7 6.6-.1 1-1 3.2-1 3.2s2.7-.2 4.2-1.2c1 .3 2 .4 3.1.4 5.5 0 10-3.9 10-8.7S17.5 3 12 3z"/></svg>
+          {replies}
+        </span>
+      )}
+      {reposts && (
+        <span>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 4L3.5 7.5M3.5 7.5L7 11M3.5 7.5H16a4 4 0 0 1 4 4v1M17 13l3.5 3.5M20.5 16.5L17 20M20.5 16.5H8a4 4 0 0 1-4-4v-1"/></svg>
+          {reposts}
+        </span>
+      )}
+      {likes && (
+        <span>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20.5C7 16.5 3 13.2 3 9.3 3 6.4 5.2 4.5 7.7 4.5c1.7 0 3.3.9 4.3 2.4 1-1.5 2.6-2.4 4.3-2.4 2.5 0 4.7 1.9 4.7 4.8 0 3.9-4 7.2-9 11.2z"/></svg>
+          {likes}
+        </span>
+      )}
+      <span>
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 16V10M9.3 16V5M14.6 16v-7M20 16V8M2.5 20h19"/></svg>
+        {views}
+      </span>
+      <span class="x-post-card-static-icons" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3.5h12V21L12 16.5 6 21z"/></svg>
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 15V3M8 7l4-4 4 4M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>
+      </span>
+    </div>
+    <div class="x-post-card-source"><a href={sourceUrl} target="_blank" rel="noreferrer">在 X 查看原文 ↗</a></div>
+  </footer>
+</article>
+<style>
+  .x-post-card {
+    max-width: 600px;
+    margin: 24px auto;
+    padding: 12px 16px;
+    border: 1px solid #cfd9de;
+    border-radius: 16px;
+    background: #ffffff;
+    color: #0f1419;
+  }
+  .x-post-card-header { display: flex; align-items: center; gap: 12px; }
+  .x-post-card-avatar { flex: none; width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+  .x-post-card-avatar-placeholder {
+    display: flex; align-items: center; justify-content: center;
+    background: #0f1419; color: #ffffff; font-weight: 700; font-size: 18px;
+  }
+  .x-post-card-author { min-width: 0; line-height: 1.25; }
+  .x-post-card-name { display: flex; align-items: center; gap: 4px; font-weight: 700; font-size: 15px; }
+  .x-post-card-handle { color: #536471; font-size: 15px; }
+  .x-post-card-mark {
+    margin-left: auto; color: #0f1419; font-size: 20px; font-weight: 700;
+    line-height: 1; text-decoration: none;
+  }
+  .x-post-card-body { margin: 12px 0; font-size: 17px; line-height: 1.5; }
+  .x-post-card-body p { margin: 12px 0; }
+  .x-post-card-body p:first-child { margin-top: 0; }
+  .x-post-card-body p:last-child { margin-bottom: 0; }
+  .x-post-card-media {
+    display: block; margin: 12px 0; overflow: hidden;
+    border: 1px solid #e5eaed; border-radius: 12px; background: #f5f8fa;
+  }
+  .x-post-card-media img { display: block; width: 100%; height: auto; }
+  .x-post-card-footer {
+    display: grid; gap: 12px; padding-top: 12px;
+    border-top: 1px solid #eff3f4; color: #536471; font-size: 15px;
+  }
+  .x-post-card-footer strong { color: #0f1419; }
+  .x-post-card-metrics {
+    display: flex; justify-content: space-between; align-items: center;
+    max-width: 425px; font-size: 14px;
+  }
+  .x-post-card-metrics span { display: inline-flex; align-items: center; gap: 6px; }
+  .x-post-card-static-icons { gap: 12px !important; }
+  .x-post-card-source { font-size: 14px; }
+  .x-post-card-source a { color: #536471; text-decoration: none; }
+  .x-post-card-source a:hover { color: #1d9bf0; }
+  @media (max-width: 640px) {
+    .x-post-card { margin: 16px 0 20px; }
+  }
+</style>
