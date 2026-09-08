@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="430" viewBox="0 0 800 430" font-family="system-ui, -apple-system, 'Noto Sans TC', 'PingFang TC', sans-serif">
+  <rect x="0" y="0" width="800" height="430" rx="16" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="32" y="42" font-size="20" font-weight="700" fill="#0f172a">智能保溫杯創業：近 120 萬支出的燒錢結構</text>
+  <text x="32" y="66" font-size="13" fill="#64748b">本站依《有故事的NPC》貼文數字重繪（單位：人民幣萬元）・回款不到 40 萬，淨虧 80 多萬</text>
+
+  <g font-size="13">
+    <text x="32" y="110" fill="#334155">開模 20</text>
+    <rect x="150" y="94" width="200" height="22" rx="6" fill="#f97316"/>
+    <text x="358" y="110" fill="#334155">20</text>
+
+    <text x="32" y="144" fill="#334155">兩批貨 56</text>
+    <rect x="150" y="128" width="400" height="22" rx="6" fill="#ef4444"/>
+    <text x="558" y="144" fill="#334155">17 + 39＝56</text>
+
+    <text x="32" y="178" fill="#334155">房租 10</text>
+    <rect x="150" y="162" width="100" height="22" rx="6" fill="#6366f1"/>
+    <text x="258" y="178" fill="#334155">10</text>
+
+    <text x="32" y="212" fill="#334155">人力 20</text>
+    <rect x="150" y="196" width="200" height="22" rx="6" fill="#0ea5e9"/>
+    <text x="358" y="212" fill="#334155">5 個月 × 4＝20</text>
+
+    <text x="32" y="246" fill="#334155">推廣 8</text>
+    <rect x="150" y="230" width="80" height="22" rx="6" fill="#22c55e"/>
+    <text x="238" y="246" fill="#334155">8</text>
+
+    <text x="32" y="280" fill="#334155">雜項 5</text>
+    <rect x="150" y="264" width="50" height="22" rx="6" fill="#94a3b8"/>
+    <text x="208" y="280" fill="#334155">5</text>
+  </g>
+
+  <line x1="32" y1="304" x2="768" y2="304" stroke="#e2e8f0" stroke-width="1.5"/>
+  <g font-size="14">
+    <rect x="32" y="318" width="220" height="34" rx="8" fill="#fef2f2" stroke="#fecaca"/>
+    <text x="48" y="340" font-weight="700" fill="#b91c1c">總支出：約 119 萬</text>
+    <rect x="264" y="318" width="220" height="34" rx="8" fill="#f0fdf4" stroke="#bbf7d0"/>
+    <text x="280" y="340" font-weight="700" fill="#15803d">回款：不到 40 萬</text>
+    <rect x="496" y="318" width="272" height="34" rx="8" fill="#0f172a"/>
+    <text x="512" y="340" font-weight="700" fill="#ffffff">淨虧：80 多萬，全數自貼</text>
+  </g>
+
+  <g font-size="12.5" fill="#475569">
+    <text x="32" y="382">時間線：前 2 週賣 300+ 個 → 第 3 週退貨率 5% 漲至 25%（漏水＋藍牙）→ 追加 5000 個壓倉 → 撐 2 個月後退租裁員</text>
+    <text x="32" y="404">第二批單價 78 元（首批 85 元）・售價 299 元・退回庫存堆滿三個貨架，最後按廢品價處理</text>
+  </g>
+</svg>
