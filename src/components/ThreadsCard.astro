@@ -1,0 +1,55 @@
+---
+// Threads 靜態卡片：對標站內 X 靜態卡片做法，不載入外部 JS，離線可見。
+// 為遵守智慧財產：不轉載原貼文圖片與頭像，頭像以首字佔位圓呈現；
+// 內文只收錄可核對的標題與摘要改寫，完整插畫請回原文查看。
+interface Props {
+  displayName: string;
+  handle: string;
+  postTitle?: string;
+  postText: string;
+  postedAt: string;
+  views?: string;
+  likes?: string;
+  replies?: string;
+  reposts?: string;
+  sourceUrl: string;
+  imageNote?: string;
+}
+
+const {
+  displayName,
+  handle,
+  postTitle = '',
+  postText,
+  postedAt,
+  views = '',
+  likes = '',
+  replies = '',
+  reposts = '',
+  sourceUrl,
+  imageNote = '原貼文含教學插畫（版權屬原作者），本文未轉載原圖，教學以繁中改寫＋自繪示意圖呈現。',
+} = Astro.props as Props;
+
+const initial = displayName.trim().charAt(0) || '@';
+---
+<div style="border:1px solid #e2e8f0;border-radius:16px;padding:14px 16px;max-width:600px;margin:24px auto;background:#ffffff;color:#0f1419;">
+  <div style="display:flex;gap:12px;align-items:center;">
+    <div aria-hidden="true" style="width:40px;height:40px;border-radius:50%;background:#0f1419;color:#ffffff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;flex:none;">{initial}</div>
+    <div>
+      <div style="font-weight:700;font-size:15px;">{displayName}</div>
+      <div style="color:#536471;font-size:14px;">{handle} · Threads</div>
+    </div>
+    <div style="margin-left:auto;color:#0f1419;font-weight:700;font-size:20px;" aria-hidden="true">@</div>
+  </div>
+  {postTitle && <p style="margin:12px 0 0;font-size:17px;line-height:1.5;font-weight:700;">{postTitle}</p>}
+  <p style="margin:12px 0;font-size:15px;line-height:1.7;white-space:pre-line;">{postText}</p>
+  <div style="color:#536471;border-top:1px solid #eff3f4;padding-top:12px;font-size:14px;">{postedAt}{views && <span> · <span style="font-weight:700;color:#0f1419;">{views}</span> 瀏覽</span>}</div>
+  <div style="display:flex;gap:20px;color:#536471;border-top:1px solid #eff3f4;margin-top:12px;padding-top:12px;font-size:14px;">
+    {replies && <span>💬 {replies}</span>}
+    {reposts && <span>🔁 {reposts}</span>}
+    {likes && <span>♡ {likes}</span>}
+    {(!replies && !reposts && !likes) && <span>按讚・回覆・轉發數以原文為準</span>}
+  </div>
+  <div style="margin-top:12px;font-size:13px;color:#536471;background:#f8fafc;border:1px solid #eef2f7;border-radius:10px;padding:8px 10px;">{imageNote}</div>
+  <div style="margin-top:12px;font-size:14px;"><a href={sourceUrl} target="_blank" rel="noreferrer" style="color:#536471;">在 Threads 上查看原文 →</a></div>
+</div>
