@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="300" viewBox="0 0 720 300" font-family="Noto Sans TC, PingFang TC, Microsoft JhengHei, sans-serif">
+  <rect x="0" y="0" width="720" height="300" fill="#faf9f5"/>
+  <text x="24" y="34" font-size="18" font-weight="bold" fill="#141413">三組數據，三種「慘法」：畢業生職缺年減</text>
+  <text x="24" y="58" font-size="12" fill="#6b6a64">同一個英國就業市場，三個口徑量出三個世界（2026 年中數據）</text>
+
+  <text x="24" y="102" font-size="14" fill="#141413">Adzuna 畢業生職缺（7 月，8,383 vs 15,397）</text>
+  <rect x="24" y="112" width="450" height="26" fill="#c0392b" rx="3"/>
+  <text x="482" y="132" font-size="15" font-weight="bold" fill="#c0392b">−45%</text>
+
+  <text x="24" y="168" font-size="14" fill="#141413">LinkedIn 整體 hiring（4 月，YoY）</text>
+  <rect x="24" y="178" width="140" height="26" fill="#8a5a2b" rx="3"/>
+  <text x="172" y="198" font-size="15" font-weight="bold" fill="#8a5a2b">−14%</text>
+
+  <text x="24" y="234" font-size="14" fill="#141413">High Fliers 頂尖百大雇主（2025）</text>
+  <rect x="24" y="244" width="51" height="26" fill="#1b365d" rx="3"/>
+  <text x="83" y="264" font-size="15" font-weight="bold" fill="#1b365d">−5.1%</text>
+
+  <text x="24" y="292" font-size="11" fill="#6b6a64">本站自繪：長度按年減幅度等比。Adzuna 量的是「掛畢業生標籤的刊登數」，High Fliers 量的是頂尖雇主實際招募，口徑不同不可直接互斥。</text>
+</svg>

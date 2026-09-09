@@ -24,6 +24,8 @@ description: "Use when the user gives a long Zhihu/Medium/blog post about readin
 
 文章是給讀者看的成品，不要出現面向站長的後設章節（例如改寫備忘、追蹤清單、skill 化建議）。
 
+用戶貼來源連結一律默認寫成分析文收進 article.ai，不再詢問「摘要還是分析文」。只有抓不到內文、來源完全無法核實時，才停下來先回報所見、請用戶指示。
+
 如果文章屬於技術／工程／系統程式內容，預設要附上至少一項可視化佐證，例如：
 
 - 原文截圖
