@@ -1,0 +1,69 @@
+---
+title: "治肺纖維化順便測抗老：rentosertib 六個蛋白時鐘全說變年輕了"
+description: "整理 Nature Biotechnology 2026-09-07 論文：Insilico 把自家 AI 設計的 TNIK 抑制劑 rentosertib 二期試驗血清拿六個蛋白質衰老時鐘重算，用藥組生物年齡一致下降，第 4 週最強、30mg BID 最一致；但第一作者是公司創辦人，解讀前先看利益衝突與三處方法學天花板。"
+publishedAt: 2026-09-09
+topic: "生技"
+sourceType: "paper"
+sourceUrl: "https://www.nature.com/articles/s41587-026-03286-y"
+authors: ["Alex Zhavoronkov 等（Insilico Medicine、合作團隊）"]
+venue: "Nature Biotechnology"
+tags: ["衰老時鐘", "蛋白質體", "臨床試驗", "IPF", "AI 製藥"]
+readTime: "10 分鐘"
+evidence: "中"
+featured: false
+sourceCount: 6
+accent: "green"
+---
+
+## 先說結論
+
+《Integration of proteomic aging clocks in a phase 2a clinical trial》這篇論文做了一件以前沒人規模化做過的事：**在一場以肺纖維化為適應症的二期試驗裡，系統性地附帶測量衰老**——42 位 IPF 患者的血清拿六個蛋白質衰老時鐘重算，六個鐘一致顯示用藥組生物年齡下降。但解讀前請先看盲點節：第一作者是藥廠創辦人兼 CEO，七位共同作者是員工，樣本 42 人且屬事後附加分析；evidence 給「中」，當概念驗證讀，不當療效證明讀。
+
+## 這篇文章真正解決的問題
+
+【原文明說】治老化相關疾病的藥可能同時調節老化本身，但標準試驗設計測不到這種效果。表觀遺傳鐘（甲基化）在臨床試驗裡讀數不一致、難解釋；蛋白質是生物過程的直接執行者，蛋白質鐘可能同時給出生物年齡讀數與機制線索（通路分析）。2023 年 UK Biobank 蛋白數據釋出後冒出一批蛋白鐘，但幾乎沒在臨床場景驗證過——本篇就是拿一場真實二期試驗來做六鐘對打。
+
+【從原文可直接推出】rentosertib（曾名 INS018_055）是 AI 設計的 TNIK 抑制劑，當初選靶時就押了「老化＋IPF」雙用途（TNIK 牽涉六個老化 hallmark），IPF 因與老化高度共線成為優先適應症；整篇論文是這家公司「從立項就圍繞老化生物學做藥」敘事的一環，讀時要把科學結果與公司敘事分開看。
+
+## 流程拆解
+
+### 1. 雙用途試驗設計：在原試驗上外掛衰老採血
+
+【原文明說】原試驗是 2023–2024 在中國 21 中心做的隨機雙盲安慰劑對照：128 人篩選、71 人入組（30mg QD／30mg BID／60mg QD／安慰劑各約 17–18 人，16 人中途退出），主要終點是 12 週前後肺活量（FVC）。外掛部分：以 Olink Explore 3072 平台在第 0／2／4／12 週做血清蛋白縱向採血，43 人同意、1 人缺終點數據，最終 42 人（平均 67.1 歲）进入時鐘分析——作者自陳這是難得的人體干預數據集。
+
+![左為原二期試驗四臂設計，右為六鐘重算與旁證分析。](/article.ai/articles/rentosertib-proteomic-aging-clocks/figure-01-dual-purpose-design.svg)
+
+<small class="figure-caption">圖 1｜本站依論文 Fig.1 與 Methods 自繪。注意：衰老分析是事後附加（ancillary），非試驗預設主要終點。</small>
+
+### 2. 六個鐘先比準度：測年齡的贏，測死亡的輸（符合預期）
+
+【原文明說】四個測實際年齡的鐘（ProtAge、OrganAgechrono、ipfP3GPT、PAOPAC）基線相關係數 r 在 0.70–0.84，校正系統偏移後誤差不到 4 年；兩個測死亡風險的鐘（PAC、OrganAgemortality）r 僅 0.16–0.23——作者解釋這符合訓練目標，且重病隊列本來就會被死亡鐘判得更老。同類鐘之間高度一致（r 0.78–0.89），跨類則低（r 0.25–0.61）。
+
+### 3. 用藥後變化：六鐘一致向下，第 4 週最強、BID 最穩
+
+【原文明說】54 組比較（6 鐘 × 3 時點 × 3 劑量）中 21 組達顯著（`Q < 0.10`，打亂標籤的 permutation 檢定期望僅 0.15 組），集中在第 4 週（18 組中 11 組）；劑量上 30mg BID 最一致（9 組），其次 60mg QD（7 組）、30mg QD（5 組）。60mg QD 在四個年齡鐘第 4 週降 2.71–3.46 年，但兩個死亡鐘全不顯著；BID 則兩類鐘都抓到。器官鐘屬探索性：動脈死亡鐘在所有時點全顯著，降幅 6.95–16.57 年——數字大到要打折看（見盲點）。第 12 週訊號轉為高原而非反轉；BMI 與降幅無關，排除體重稀釋劑量的解釋。
+
+![四個年齡鐘與兩個死亡鐘的反應差異，以及脫鉤論證。](/article.ai/articles/rentosertib-proteomic-aging-clocks/figure-02-six-clocks.svg)
+
+<small class="figure-caption">圖 2｜本站依論文 Fig.3 與內文數字自繪。動脈鐘降幅以年計大得異常，論文放延伸數據、本文字體縮小處理。</small>
+
+### 4. 解不開就繞路：三招間接論證「不只是病好了」
+
+【原文明說】蛋白鐘本身分不開「抗老」與「抗纖維化」訊號（纖維化主調控子 LTBP2 恰是六鐘共同的最大貢獻特徵），作者用三招旁證：(1) **脫鉤**：FVC 進步最多的 60mg QD，衰老訊號反而不如 BID，且 ΔFVC 對 ΔBioAge 的解釋力中位 `R² = 0.06`；(2) **對照正常老化**：與 UK Biobank 55,319 人的年齡相關蛋白比對，BID 組的用藥變化與正常老化方向負相關（r = −0.30、`P < 0.01`），QD 組無此相關，安慰劑組則順著老化方向走；(3) **衰老通路**：GSEA 顯示安慰劑組 SenMayo 衰老特徵富集於上調蛋白（NES = 1.48、`Q < 0.01`），用藥組走向相反；326 個被藥物改變的蛋白中，BID 獨有的偏向代謝通路（戊糖磷酸、穀胱甘肽、膽固醇），QD 獨有的偏向 Wnt 與免疫——同總劑量、不同給藥頻率走不同通路，可解釋兩組鐘譜差異。
+
+## 風險與盲點
+
+- **利益衝突拉滿（原文明說）**：通訊作者 Zhavoronkov 是 Insilico Medicine 創辦人兼 CEO（公司已上市 3696.HK），七位共同作者是員工，公司正在開發 rentosertib 治 IPF。Nature Biotech 有同儕審查與公開審稿報告，但讀者應把「藥廠證明自家藥可能抗老」當預設立場打折。
+- **小樣本事後分析（原文明說＋推斷）**：最終 42 人、每臂約 9–11 人，54 組比較僅 21 組顯著且用 `Q < 0.10` 寬鬆閾值；衰老分析非預設終點，屬機會型挖掘，p-hacking 風險只能靠 permutation 檢定部分緩解。
+- **糾纏未解（作者自承）**：LTBP2 等纖維化蛋白主導鐘訊號，徹底分離需在健康人或無纖維化人群驗證，目前只有間接證據；FVC 只是疾病狀態的不完整代理，脫鉤論證有上限。
+- **數字解讀留白（合理推斷）**：動脈鐘降 7–16 年在生物學上難以置信，更可能是死亡鐘在重病隊列的校準外推失真，而非血管年輕十幾歲；第 4 週達峰轉高原，究竟是藥效適應、新穩態，還是 12 週視窗太短，論文未定論。
+- **可重現性加分（原文明說）**：蛋白數據已存 China National Center for Bioinformation（OMIX008341），四個鐘的分析碼放 GitHub（Insilico-org/proteoclock），審稿報告公開——有興趣者可自行重算，這是本篇最硬的加分項。
+
+## 來源
+
+- 論文原文（Nature Biotechnology，2026-09-07，open access）：https://www.nature.com/articles/s41587-026-03286-y ——全部設計、數字、圖表之出處
+- 論文 PDF：https://www.nature.com/articles/s41587-026-03286-y.pdf
+- 原二期試驗註冊（ClinicalTrials.gov）：https://clinicaltrials.gov/study/NCT05975983
+- 分析程式碼（GitHub）：https://github.com/Insilico-org/proteoclock
+- 蛋白數據（CNCB OMIX008341）：http://ngdc.cncb.ac.cn/omix/release/OMIX008341
+- TNIK 抑制劑臨床前研究（同團隊，Nature Biotech 2025）：https://doi.org/10.1038/s41587-024-02143-0
