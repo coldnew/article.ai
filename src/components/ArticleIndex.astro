@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AdSlot from './AdSlot.astro';
+import AiDisclosure from './AiDisclosure.astro';
+import { articlePath, formatDate } from '../lib/articles';
+import { groupArticlesByTag, tagHref } from '../lib/tags';
+import type { ArticleEntry } from '../lib/tags';
+
+interface Props {
+  articles: ArticleEntry[];
+  page?: number;
+  pageSize?: number;
+}
+
+const { articles, page = 1, pageSize = 10 } = Astro.props as Props;
+const totalPages = Math.max(1, Math.ceil(articles.length / pageSize));
+const currentPage = Math.min(Math.max(page, 1), totalPages);
+const feed = articles.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+const tagCloud = groupArticlesByTag(articles).slice(0, 18);
+const pageHref = (number: number) => (number === 1 ? '/article.ai/' : `/article.ai/page/${number}/`);
+const sourceTypeLabel = (sourceType: string) => sourceType === 'patent' ? 'PATENT' : sourceType === 'article' ? 'ARTICLE' : 'PAPER';
+const pageTitle = currentPage === 1 ? 'article.ai｜論文與專利分析' : `article.ai｜第 ${currentPage} 頁`;
+---
+
+<BaseLayout title={pageTitle} description="用 AI 協助閱讀論文、拆解證據，整理成可驗證、可引用的研究文章。">
+  <header class="index-header">
+    <nav class="site-nav"><a class="site-mark" href="/article.ai/">ARTICLE.AI</a><span>論文、專利與文章分析</span></nav>
+    <p class="eyebrow">每日研究筆記</p>
+    <h1>把論文、專利與長文，讀成可以引用的分析。</h1>
+    <p class="index-intro">每篇文章都附原始來源、本站備份與重點截圖，方便核對、回頭引用，也方便後續讓 AI 再分析。</p>
+    <p class="index-note">我們會持續加入論文、專利與工作流文章分析，並保留原始連結與可追溯的備份檔。</p>
+    <AiDisclosure />
+  </header>
+
+  <AdSlot placement="top" />
+
+  <main>
+    <section class="daily-feed" aria-labelledby="feed-title">
+      <div class="section-heading">
+        <p class="eyebrow">編輯室文章</p>
+        <h2 id="feed-title">最新分析</h2>
+      </div>
+
+      <div class="post-list">
+        {feed.map((article) => (
+          <article class="post-row">
+            <div class="post-row-meta">
+              <strong>{sourceTypeLabel(article.data.sourceType)}</strong>
+              <time datetime={article.data.publishedAt.toISOString().slice(0, 10)}>{formatDate(article.data.publishedAt)}</time>
+              <span>{article.data.topic}</span>
+            </div>
+            <div>
+              <h3><a href={articlePath(article.id)}>{article.data.title}</a></h3>
+              <p>{article.data.description}</p>
+              <a class="read-link" href={articlePath(article.id)}>繼續閱讀 →</a>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      {totalPages > 1 && (
+        <nav class="pagination" aria-label="最新分析分頁">
+          {currentPage > 1 && <a class="pagination-prev" href={pageHref(currentPage - 1)} rel="prev">‹ 上一頁</a>}
+          <div class="pagination-pages">
+            {Array.from({ length: totalPages }, (_, index) => index + 1).map((number) => (
+              number === currentPage
+                ? <span aria-current="page">{number}</span>
+                : <a href={pageHref(number)}>{number}</a>
+            ))}
+          </div>
+          {currentPage < totalPages && <a class="pagination-next" href={pageHref(currentPage + 1)} rel="next">下一頁 ›</a>}
+        </nav>
+      )}
+    </section>
+
+    <section class="tag-cloud-section" aria-labelledby="tag-cloud-title">
+      <div class="section-heading">
+        <p class="eyebrow">文章索引</p>
+        <h2 id="tag-cloud-title">依標籤瀏覽</h2>
+      </div>
+
+      <div class="tag-cloud">
+        {tagCloud.map((tag) => (
+          <a class="tag-link" href={tagHref(tag.label)}>{`#${tag.label}`}<span>{tag.articles.length}</span></a>
+        ))}
+      </div>
+    </section>
+
+    <AdSlot placement="mid" />
+  </main>
+
+  <AdSlot placement="bottom" />
+  <AdSlot placement="smartlink" />
+
+  <footer class="index-footer">
+    <span>僅供教育與資訊參考，不構成研究或投資建議。</span>
+    <span class="footer-links"><a href="/article.ai/">回到首頁</a><a href={articles[0] ? articlePath(articles[0].id) : '/article.ai/'}>最新文章</a></span>
+  </footer>
+</BaseLayout>

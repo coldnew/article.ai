@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+import { articlePath, formatDate, getArticles } from '../../../lib/articles';
+import { groupArticlesByTag, tagHref, tagSlug } from '../../../lib/tags';
+
+export async function getStaticPaths() {
+  const articles = await getArticles();
+  return groupArticlesByTag(articles).map((group) => ({
+    params: { tag: group.slug },
+    props: { label: group.label, articles: group.articles },
+  }));
+}
+
+const { label, articles } = Astro.props as { label: string; articles: Awaited<ReturnType<typeof getArticles>> };
+const allArticles = await getArticles();
+const relatedTags = groupArticlesByTag(allArticles).slice(0, 18);
+const sourceTypeLabel = (sourceType: string) => sourceType === 'patent' ? 'PATENT' : sourceType === 'article' ? 'ARTICLE' : 'PAPER';
+---
+
+<BaseLayout title={`#${label}｜article.ai`} description={`瀏覽所有標記為 #${label} 的研究分析文章。`}>
+  <header class="index-header">
+    <nav class="site-nav"><a class="site-mark" href="/article.ai/">ARTICLE.AI</a><span>文章標籤</span></nav>
+    <p class="eyebrow">文章標籤</p>
+    <h1>{'# '}{label}</h1>
+    <p class="index-intro">共 {articles.length} 篇分析文章。</p>
+  </header>
+
+  <AdSlot placement="top" />
+
+  <main>
+    <section class="daily-feed" aria-labelledby="tag-articles-title">
+      <div class="section-heading">
+        <p class="eyebrow">標籤文章</p>
+        <h2 id="tag-articles-title">{'#'}{label}</h2>
+      </div>
+
+      <div class="post-list">
+        {articles.map((article) => (
+          <article class="post-row">
+            <div class="post-row-meta">
+              <strong>{sourceTypeLabel(article.data.sourceType)}</strong>
+              <time datetime={article.data.publishedAt.toISOString().slice(0, 10)}>{formatDate(article.data.publishedAt)}</time>
+              <span>{article.data.topic}</span>
+            </div>
+            <div>
+              <h3><a href={articlePath(article.id)}>{article.data.title}</a></h3>
+              <p>{article.data.description}</p>
+              <a class="read-link" href={articlePath(article.id)}>繼續閱讀 →</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="tag-cloud-section" aria-labelledby="related-tags-title">
+      <div class="section-heading">
+        <p class="eyebrow">標籤索引</p>
+        <h2 id="related-tags-title">其他標籤</h2>
+      </div>
+
+      <div class="tag-cloud">
+        {relatedTags.map((tag) => (
+          <a class="tag-link" href={tagHref(tag.label)}>{`#${tag.label}`}<span>{tag.articles.length}</span></a>
+        ))}
+      </div>
+    </section>
+
+    <AdSlot placement="mid" />
+  </main>
+
+  <AdSlot placement="bottom" />
+
+  <footer class="index-footer">
+    <span>僅供教育與資訊參考，不構成研究或投資建議。</span>
+    <span class="footer-links"><a href="/article.ai/">回到首頁</a></span>
+  </footer>
+</BaseLayout>
