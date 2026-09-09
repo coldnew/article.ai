@@ -111,15 +111,6 @@ accent: "blue"
 
 【從原文可直接推出】debounce 省掉的執行、feed 沒算繪的離屏貼文，換個角度看都是消除——文中自陳「這篇文章有一半在講消除工作」。下手優化前先問：這工作非做不可嗎、非現在嗎、非在這裡嗎、非做嗎。
 
-## 哪些步驟適合做成 skill 或自動化
-
-- **Long-task 稽核清單**：50ms 門檻掃描＋INP／TBT 對照，定位「握著主執行緒的程式碼」而非「慢程式碼」——觀念檢查最適合做成每次效能排查的開場。
-- **Yield／切分模板**：按數量（`setTimeout`）與按時間（5ms＋rAF 錨定幀起始）的兩段式程式碼可直接做成 snippet。
-- **事件打包預設**：scroll／resize／input 處理器預設包 debounce／throttle；視覺更新預設走 rAF 每幀一次旗標。
-- **CSS 動畫 lint 規則**：動畫屬性只允許 `transform`／`opacity`，出現 `left`／`top`／`width`／`height` 告警；讀寫版面值分離（先讀後寫）列入 review 檢查點。
-- **Worker 決策樹**：重到蓋過通訊成本＋無關 DOM 才搬；大 buffer 走 transferable——適合做成一頁決策圖而非每次重想。
-- **不適合自動化**：FLIP 的量測時機、idle-until-urgent 的提權點、要 drop 還是 merge 的取捨，都依場景而定，只能給模式不能給答案。
-
 ## 風險與盲點
 
 - 【仍未被支撐的主張】全文 demo（聊天室、粒子、報價板、1500 篇 feed、seam carving）都是為戲劇效果設計的合成場景，作者自承 1500 篇實務罕見；數字只能證明方向，不能直接當生產環境保證。
@@ -127,13 +118,6 @@ accent: "blue"
 - 【原文明說＋時效】`scheduler.yield()` 支援不齊、`content-visibility` 的 Safari bug、Scheduler API／TaskController 需 polyfill——這些都是 2026-07 寫文時點的快照，採用前要重查 Can I Use。
 - 【未被支撐】全文無真實 INP 田野數據與 A／B 對照，屬於機制講解＋作者 demo，不是實證研究；evidence 維持「中」。
 - 【合理推斷】文末「前端不簡單、一切都是取捨、靠經驗判斷」是作者的價值判斷，聽聽就好；可操作的部分都在前面的七招裡。
-
-## 對 article.ai 的改寫建議
-
-- 本文已按「兩大家族七招」重組（尺寸→時機→移出→消除），比跟原文 demo 順序更好當手冊查。
-- 證據等級給「中」：個人技術部落格但引用完整（web.dev、Philip Walton、Aerotwist、Wikipedia 共 7 註），機制正確、數據限於 demo；未支撐處已標註。
-- 與站上 Uber 軟體工廠文是姊妹篇：Uber 講 AI agent 的成本等式，這篇講瀏覽器的主執行緒預算——都是「昂貴資源的記帳與分配」，可互鏈。
-- 後續可追：`scheduler.yield()` 與 Scheduler API 支援度變化、Safari 修復 `content-visibility` 問題後，deferring 一節要回來更新。
 
 ## 來源
 

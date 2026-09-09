@@ -53,14 +53,6 @@ import XPostCard from '../../components/XPostCard.astro';
 2. **OpenAI 模式（去中心化＋Agent）**：各團隊直接呼叫 Codex＋內部 skills 自助生成工具，無專職工具團隊經手。優點是爆發式成長、零排隊；代價是品質參差、維護責任分散。
 3. **關鍵差別不在有沒有投入，而在投入押在哪**：Tibo 的反駁揭示，OpenAI 並非零投入——Codex 啟動時的目標就是「最高槓桿、加速 infra 建設」的內部工具，只是這筆投入被押在**單一可自我複製的槓桿點**上，而非分散成一個服務型團隊。
 
-## 哪些步驟適合做成 skill 或自動化
-
-諷刺的是，這則貼文本身就是最佳論據——Gergely 二月的 Codex deepdive 明說 Codex 團隊內部已有 100+ skills：
-
-- **一次性工具需求 → skill 化**：某團隊寫過一次的工具流程，沉澱為可被全公司呼叫的 agent skill，而非成立團隊重寫（安全審查、自動寫 PR、Datadog 告警修復都是現成例子）。
-- **nightly 自檢迴圈**：固定排程讓 agent 掃描 codebase 找問題，早上等人審——低成本高槓桿，Codex 團隊已在實行。
-- **onboarding 配對制**：新人第一天 shadowing、當天 shipping——適合寫成獨立流程規範。
-
 ## 風險與盲點
 
 ### Tibo 的三點反駁（全文嵌入，逐字還原）
@@ -80,12 +72,6 @@ import XPostCard from '../../components/XPostCard.astro';
 - **證據等級**：整則貼文是單一匿名來源的軼事（"detail from inside OpenAI"），無規模、品質、維護成本數據，「被證明是對的」只有軼事等級支撐，故本文 evidence 標為探索中。
 - **敘事誘因**：Gergely 靠 OpenAI／Codex deepdive 獲得流量與付費訂閱，有把故事講得更傳奇的動機；Tibo 的公開修正恰好是必要的平衡。
 - **倖存者偏誤**：只看到賭贏的這一次；若 Codex 失敗，同一決策會被寫成「傲慢導致 infra 落後」。
-
-## 對 article.ai 的改寫建議
-
-- 本篇定位為「工程組織／AI 工具鏈」短評，與 Gergely 二月 Codex deepdive（Codex 寫了自身 90% 程式碼、工程師同時跑 4–8 個 agent、員工用量無上限）綁定成系列——後者正是「token 無限」前提的直接證據。
-- 標題避免「OpenAI 證明不需要工具團隊」這類斷言式寫法；條件式問句更誠實。
-- 單則貼文資訊密度不足以撐長文：Gergely 承諾的完整 deepdive 約一週後刊出，到時應回來補寫完整版；本篇適合作短評先行。
 
 ## 來源
 

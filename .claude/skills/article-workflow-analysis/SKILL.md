@@ -20,8 +20,9 @@ description: "Use when the user gives a long Zhihu/Medium/blog post about readin
 - 一句話結論
 - 這篇文章真正解決的問題
 - 流程拆解
-- 哪些步驟適合做成 skill 或自動化
 - 風險與盲點
+
+文章是給讀者看的成品，不要出現面向站長的後設章節（例如改寫備忘、追蹤清單、skill 化建議）。
 
 如果文章屬於技術／工程／系統程式內容，預設要附上至少一項可視化佐證，例如：
 
@@ -31,13 +32,6 @@ description: "Use when the user gives a long Zhihu/Medium/blog post about readin
 - 指令或 assembly 截圖
 
 沒有圖就要明說來源沒有可用視覺材料，或目前無法取得；不要只輸出純文字長文，因為那不算完整的技術文章分析。
-
-如果文章在講「如何把多個 skill 串成流水線」，你要額外輸出：
-
-- 建議的 repo-local skill 名稱
-- 觸發詞
-- 最小可用職責
-- 與現有 skill 的分工邊界
 
 不要把作者的宣傳語當成事實。不要把工具名稱當成方法本身。不要省略不確定性。
 

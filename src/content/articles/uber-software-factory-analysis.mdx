@@ -64,14 +64,6 @@ Uber 把 agent 用量分成由專到廣的四層，越往專用層，對成本�
 
 <small class="figure-caption">圖 2｜本站依部落格 Figure 7、Figure 8、Figure 10 數據重繪。三組數字共同指向同一結論：省的是 agent 的額外開銷，不是模型單價。</small>
 
-## 哪些步驟適合做成 skill 或自動化
-
-- **Benchmark-driven 選型迴圈**：固定四步，可直接做成 repo-local skill——從生產 log 抽真實任務建成效集，輸出 Pareto 表， frontier 一動就重跑。
-- **Subagent 降級預設**：任何多 agent 編排的預設配置項，零成本照抄。
-- **Code-mode 封裝**：把 chatty 工具協議（輪詢、翻頁、重試）包成一次執行的腳本＋只回摘要，做成 skill 模板。
-- **16 反模式掃描器**：session 結束後掃 trace（大 MCP 回應常駐、cache 過期續跑、Opus 殺雞用牛刀），輸出金額＋修法——個人版可用輕量規則先行。
-- **不適合照抄**：千級 MCP gateway 與 2,400 萬節點 Context Graph 是平台團隊規模的產物；小團隊的對應物是「常用表與服務的精簡可查詢索引」，而不是自建 graph。
-
 ## 風險與盲點
 
 - **歸因口徑黑箱（未被支撐）**：「70% PR attributed to agents」從未說明定義——碰過 agent 的 PR 都算，還是 agent 為主要作者才算？分母是否含 bot 自動 PR？這是全文最大的方法論缺口。
@@ -80,13 +72,6 @@ Uber 把 agent 用量分成由專到廣的四層，越往專用層，對成本�
 - **作者自陳的但書值得尊重（原文明說）**：具體降幅取決於 codebase、團隊規模與工作流，可遷移的是方法論——小團隊照抄數字會失望。
 - **原文疑似筆誤**："24M nodes and 80M edges across 86 nodes and 117 edge types"——86 應為節點「型別」之誤，本文逕寫為 86 種節點型別。
 - **社群回應是背書，不是驗證**：Roblox 的 Chase 回覆「會偷走一堆點子」、Gaetan Semet 稱「Uber 順手解決了 agentic coding 的所有問題」——熱烈，但無人獨立驗證數字。
-
-## 對 article.ai 的改寫建議
-
-- 本篇與前篇 OpenAI 文綁定成「AI 工程組織」系列：OpenAI 講工具的生產函數，Uber 講生產之後的成本函數，兩篇互為上下集。
-- 全文已按成本等式六項組織（每項＝量測＋槓桿＋數字），沿用此結構比跟原文順序更好讀。
-- 證據等級維持「中」：單一公司自述、歸因口徑不明、無獨立驗證；歸因口徑處已明確標註未支撐。
-- 後續可追：Uber 文末列出的 Dynamic Model Routing 與即時 session 指導若有新部落格，應回來續寫。
 
 ## 來源
 
