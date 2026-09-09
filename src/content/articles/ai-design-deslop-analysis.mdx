@@ -1,0 +1,96 @@
+---
+title: "工程師的 AI 設計去 slop 七招：約束迴圈、做減法、別在 codebase 裡迭代"
+description: "整理 Matt Dailey（@reactiverobot）82.6 萬瀏覽長文《How I Design with AI》：每個 landing page、app、TUI 長一個樣，叫 slop。解法七招——約束迴圈治打地鼠、做減法治 agent 愛加料、設計工具迭代治 prototype gravity，外加元件庫、preview deploy、截圖餵 context、品味 threshing。本文按三層重組，並標出哪句是原文明說、哪句是推論。"
+publishedAt: 2026-09-09
+topic: "設計"
+sourceType: "article"
+sourceUrl: "https://x.com/reactiverobot/status/2092638003789439075"
+authors: ["Matt Dailey（@reactiverobot）"]
+venue: "X · Matt Dailey"
+tags: ["設計", "AI", "工程師", "品味", "Figma"]
+readTime: "9 分鐘"
+evidence: "探索中"
+featured: false
+sourceCount: 2
+accent: "orange"
+---
+
+import XPostCard from '../../components/XPostCard.astro';
+
+## 先說結論
+
+《Matt Dailey》這篇長文指出，工程師用 AI 做設計會得到 slop——每個 landing page、app、TUI 長一個樣，還難用到看不懂——不是因為 AI 不夠強，而是因為三個壞習慣沒治：收到回饋就跳解法（設計打地鼠）、放任 agent 加料、在 production codebase 裡迭代。他的七招可以壓成三層：**決策框架治腦（約束迴圈＋品味）、駕馭 AI 治手（減法＋設計工具迭代＋偷截圖）、工程實踐治流程（元件庫＋preview deploy）**。**全文是單一從業者（Ref 團隊、無專職設計師）的實戰心得，無對照、無數據，證據等級只能給探索中；但每招都有可操作的檢查點，本文逐招展開並標出推論邊界。**
+
+## 當事人貼文嵌入
+
+以下貼文以本站靜態卡片還原（X 原生嵌入需載入外部 JS 且離線不可見，故改以靜態還原＋本地頭像呈現；文字、時間、數據皆逐字核對；原文附封面圖一張，依本站 IP 慣例不轉載）：
+
+<XPostCard author="Matt Dailey" handle="@reactiverobot" avatar="/article.ai/articles/ai-design-deslop-analysis/matt-avatar.jpg" timestamp="3:39 PM · Aug 26, 2026" views="825.7K" replies="54" reposts="290" likes="3.2K" sourceUrl="https://x.com/reactiverobot/status/2092638003789439075">
+<p>Here's my advice for engineers looking to up their design game.</p>
+<p><strong>How I Design with AI. As an engineer who is not a designer and hates slop.</strong> Every landing page, app and tui look the same. They're slop and most of them are incomprehensible. Here's how I de-slop my product design.</p>
+<p><strong>1. Always consider the whole.</strong> The design process is roughly 3 steps: Lay out all the constraints you are designing for. Consider an array of solutions that satisfy those constraints. If you realize a constraint must be added or one can be removed, go to #1. This is from Notes on the Synthesis of Form by Christopher Alexander. Constraints can take many forms — font and sizing rules, workflows you must support, business-logic states. The important thing is that you decide the constraints. The common problem is skipping Step 3 and playing design wackamole. A user gets confused and it's natural to jump into solution mode. AI exacerbates the draw to wackamole design — it encourages prompting "Make X more prominent" or "Add an affordance to do Y". In the end, more users are confused. When feedback arrives, evaluate if it changes your design constraints before jumping to solutions. We keep a document tracking papercuts and annoyances — fast on obvious fixes, minor ones batched for the next redesign, never overly reactive.</p>
+<p><strong>2. Remove stuff.</strong> Agents love to add stuff. Your job is to remove the unnecessary parts. Same as code and plans — belt-and-suspenders try-catch, re-implemented utilities. In UI they add extra copy, lines and icons. You end up with designs that look better than most engineers would create by hand but are actually kind of bad. Look at every element and ask "Do I actually need that?"</p>
+<p><strong>3. Iterate in a design tool.</strong> Do not iterate on design in the product. Prototype gravity is the silent killer — once the agent builds v1 in your codebase it feels easier to refine that than explore options, and the agent grafts onto your real code. Figma is still the GOAT and its AI integration gets better every week; Cursor Design Mode, Claude Design, HTML prototypes are great too. Use a tool meant for design and have AI generate 3-4 variants of everything.</p>
+<p><strong>4. Use components and libraries.</strong> Separate views and logic. Create reusable components. Your app stays visually cohesive instead of a patchwork of re-implemented buttons. At Ref we maintain a /showcase page — agents build the component there first before connecting to the main app.</p>
+<p><strong>5. Use preview deploys.</strong> The best way to evaluate a design is with real data. There is always polish and re-work — even a perfect build can feel wrong in your hands with real data. At Ref we separate frontend and backend PRs: backend verified by tests, frontend by human verification, preview deploys make the link shareable.</p>
+<p><strong>6. Steal stuff.</strong> Most UX problems have been solved already. Every cracked designer starts a project pulling screenshots — do the same, it makes amazing context to send to your agent.</p>
+<p><strong>7. Explore your taste.</strong> Taste is reflecting on your own reaction to something. Product engineers are excellent at identifying when a design doesn't work but lack the solution library from experience. Building that takes reps. At Ref we have no full-time designer so we thresh — throw a design in the middle and beat it with sticks until we feel good about it. That's all I've got. GLHF.</p>
+</XPostCard>
+
+<small class="figure-caption">嵌入｜Matt Dailey 主貼文靜態還原，約 82.6 萬瀏覽。內文為英文原文節錄重排（分段與粗體為本站便於對照所加，文字逐字核對），完整原文請見來源連結。作者 8 月 28 日回覆預告 pt2 續篇，並附自家產品 ref.tools 連結。</small>
+
+## 這篇真正解決的問題
+
+【原文明說】工程師＋AI 的設計輸出有兩個病徵：**長一個樣**（slop），以及**難用到看不懂**（incomprehensible）。Dailey 的診斷是：病根不在模型，而在三個被 AI 放大的壞習慣——
+
+1. **打地鼠式修補**：用戶一困惑就跳解法，左側 sidebar 這種資訊密度高的地方最容易被 nerd-sniped，spot-fix 一路修成拼布。
+2. **加法偏誤**：agent 天性加料（文案、線條、icon），輸出「比多數工程師手刻好看、實際上不行」的設計。
+3. **原型重力**：v1 建在 codebase 裡之後，探索其他選項的心理成本飆升，只能沿著第一版修。
+
+【從原文可直接推出】三個習慣剛好對應設計流程的三個階段：收到回饋時（第 1 招）、審稿時（第 2 招）、開工位置選擇時（第 3 招）。這也是為什麼七招裡前三招是心法、後四招是手法——心法管住 AI 放大壞習慣的那隻手。
+
+## 流程拆解：七招壓成三層
+
+![七招的三層結構：決策框架、駕馭 AI、工程實踐。](/article.ai/articles/ai-design-deslop-analysis/figure-02-seven-steps.svg)
+
+<small class="figure-caption">圖 2｜本站依原文七點重組。原順序是 1–7 條列，這裡按「治腦／治手／治流程」分層，方便當檢查清單用。</small>
+
+**第一層：決策框架（治腦）。**
+
+- **① 整體約束迴圈**【原文明說，出自 Christopher Alexander《Notes on the Synthesis of Form》】：列約束 → 想一組解 → 發現約束要增刪就回第一步。關鍵操作只有一個：**回饋進來先問「約束變了嗎」，再決定動不動手**。Ref 的做法是 papercuts 文件——明顯的修，小毛病記下來等改版一次清，避免 reactive 修出更多亂債。
+- **⑦ 品味 threshing**【原文明說】：品味＝對自己反應的反思；工程師缺的不是審美，是解法庫（solution library），只能拿 reps 換。Ref 沒有專職設計師，做法是圍毆式評審——丟中間、打到順眼為止。
+
+![約束迴圈與設計打地鼠的對照圖。](/article.ai/articles/ai-design-deslop-analysis/figure-01-constraint-loop.svg)
+
+<small class="figure-caption">圖 1｜本站依 Alexander 框架與原文「wackamole」比喻重繪。AI 讓邪路變便宜（下一句提示詞就行），所以正路必須寫成流程，不是靠自制力。</small>
+
+**第二層：駕馭 AI（治手）。**
+
+- **② 做減法**【原文明說】：跟 code review 同一個肌肉——agent 愛 belt-and-suspenders（多餘 try-catch、重複造的工具函式），UI 上就是多餘文案線條 icon。檢查點是逐件問「Do I actually need that?」。
+- **③ 在設計工具裡迭代**【原文明說】：不要在產品裡迭代。Figma 仍是首選（AI 整合每週變強），Cursor Design Mode、Claude Design、HTML 原型都行；重點是**一次要 3–4 個變體**，用數量對抗原型重力。
+- **⑥ 偷**【原文明說】：多數 UX 問題前人解過；cracked designer 每案必先蒐截圖。對 AI 工作流的加值是：**截圖是最強的 context**，直接餵給 agent。
+
+**第三層：工程實踐（治流程）。**
+
+- **④ 元件庫**【原文明說】：視圖與邏輯分離；Ref 維護 `/showcase` 頁，agent 先在那裡把元件玩熟再接主 app。
+- **⑤ preview deploy**【原文明說】：拿真實資料驗；大功能拆前後端 PR，後端靠測試，**前端一定要人眼驗**，preview 連結就是為了讓人眼驗可以分享。
+
+## 風險與盲點
+
+- 【未被支撐】全文零數據：沒有改版前後對照、沒有用戶指標、沒有「slop 度」量法。82.6 萬瀏覽證明共鳴，不證明療效；evidence 維持探索中。
+- 【合理推斷＋利益揭露】作者 8 月 28 日在回覆區預告 pt2 並掛自家產品 ref.tools（「review the plan before the diff」的協作工具）——長文既是心得也是獲客，讀第 3、5 招（迭代工具、preview 流程）時要記得他有賣鏟子的立場。
+- 【原文明說＋推斷】「偷截圖」在 UX 致敬與抄襲之間只有一線之隔，原文沒給邊界（致敬互動模式 vs 照搬視覺資產）；餵截圖給 agent 當 context 是合法工作流，但產出長得像原站時責任在下提示詞的人，不在模型。
+- 【未被支撐】品味 threshing 預設團隊有話直說的文化；階層嚴明、沒人敢打第一棍的團隊，圍毆只會產出平均值——這是組織前提，原文沒提。
+- 【可直接推出】七招對「一人＋agent」的獨立開發者最有效（全是個人／小團隊可執行項）；大到要過設計系統委員會的組織，第 ① 招的約束清單會先卡在誰有權增刪約束——權力問題，心法解不了。
+
+## 我們的判讀
+
+《How I Design with AI》最值得偷的不是七招，是第一招的那個問題：**「這個回饋改變了約束嗎？」**——答不上來就不動手。這句話同時是 Alexander 1964 年的老思想，也是 2026 年對 agent 工作流最省 token 的閘門：多數「Make X more prominent」類提示詞，在約束層根本排不上號。
+
+跟站上 Cole 那篇對讀會更有味：Cole 說商品化內容不值得親手寫、要把時間花在人格；Dailey 說 agent 的加料不值得保留、要把時間花在減法和品味。兩個人在講同一件事——**AI 時代工程師的價值不在產出量，而在刪掉什麼、留下什麼的判斷力**。而判斷力目前唯一的量產方法，兩篇都給了同一個答案：reps。
+
+## 來源
+
+- Matt Dailey X 主貼文（2026-08-26，約 82.6 萬瀏覽）：https://x.com/reactiverobot/status/2092638003789439075 ——七招全文、Ref 團隊做法之出處
+- 作者後續回覆（2026-08-28）：pt2 預告＋ref.tools 產品連結——利益揭露之依據
+- Christopher Alexander《Notes on the Synthesis of Form》（1964）：約束迴圈的思想源頭，Dailey 原文明示出處

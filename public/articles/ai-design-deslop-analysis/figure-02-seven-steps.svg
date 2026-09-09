@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="400" viewBox="0 0 720 400" font-family="Noto Sans TC, PingFang TC, Microsoft JhengHei, sans-serif">
+  <rect x="0" y="0" width="720" height="400" fill="#faf9f5"/>
+  <text x="24" y="34" font-size="18" font-weight="bold" fill="#141413">七招的三層結構：框架 → 駕馭 AI → 工程實踐</text>
+  <text x="24" y="58" font-size="12" fill="#6b6a64">本站依 Matt Dailey 七點建議重組，原順序為 1–7 條列</text>
+
+  <rect x="24" y="76" width="672" height="86" fill="#fff" stroke="#1b365d" stroke-width="2" rx="8"/>
+  <text x="44" y="104" font-size="14" font-weight="bold" fill="#1b365d">決策框架（治腦）</text>
+  <text x="44" y="130" font-size="13" fill="#141413">① 整體約束迴圈 —— 回饋先對約束，不對解法</text>
+  <text x="44" y="152" font-size="13" fill="#141413">⑦ 品味 threshing —— 圍著打到順眼為止， reps 練解法庫</text>
+
+  <rect x="24" y="174" width="672" height="112" fill="#fff" stroke="#8a5a2b" stroke-width="2" rx="8"/>
+  <text x="44" y="202" font-size="14" font-weight="bold" fill="#8a5a2b">駕馭 AI（治手）</text>
+  <text x="44" y="228" font-size="13" fill="#141413">② 做減法 —— agent 愛加料，你負責每件問「真要嗎」</text>
+  <text x="44" y="250" font-size="13" fill="#141413">③ 在設計工具裡迭代 —— 避開 prototype gravity，一次要 3–4 個變體</text>
+  <text x="44" y="272" font-size="13" fill="#141413">⑥ 偷 —— 截圖餵給 agent 當 context，UX 問題前人多半解過</text>
+
+  <rect x="24" y="298" width="672" height="86" fill="#fff" stroke="#2e7d32" stroke-width="2" rx="8"/>
+  <text x="44" y="326" font-size="14" font-weight="bold" fill="#2e7d32">工程實踐（治流程）</text>
+  <text x="44" y="352" font-size="13" fill="#141413">④ 元件庫＋ /showcase 先行 —— 視圖與邏輯分離，別拼布式按鈕</text>
+  <text x="44" y="374" font-size="13" fill="#141413">⑤ preview deploy —— 拿真實資料驗，前後端 PR 分開</text>
+</svg>

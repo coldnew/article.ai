@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="360" viewBox="0 0 720 360" font-family="Noto Sans TC, PingFang TC, Microsoft JhengHei, sans-serif">
+  <rect x="0" y="0" width="720" height="360" fill="#faf9f5"/>
+  <text x="24" y="34" font-size="18" font-weight="bold" fill="#141413">約束迴圈 vs 打地鼠：收到回饋時你走哪條路</text>
+  <text x="24" y="58" font-size="12" fill="#6b6a64">本站依 Matt Dailey 引述 Christopher Alexander《Notes on the Synthesis of Form》重繪</text>
+
+  <rect x="24" y="80" width="320" height="240" fill="#fff" stroke="#1b365d" stroke-width="2" rx="8"/>
+  <text x="44" y="110" font-size="15" font-weight="bold" fill="#1b365d">正路：約束迴圈</text>
+  <rect x="44" y="124" width="280" height="40" fill="#1b365d" rx="4"/>
+  <text x="184" y="149" font-size="13" fill="#fff" text-anchor="middle">1. 列出全部設計約束</text>
+  <rect x="44" y="172" width="280" height="40" fill="#1b365d" rx="4"/>
+  <text x="184" y="197" font-size="13" fill="#fff" text-anchor="middle">2. 想出一組滿足約束的解</text>
+  <rect x="44" y="220" width="280" height="40" fill="#e8e6dc" rx="4"/>
+  <text x="184" y="245" font-size="13" fill="#141413" text-anchor="middle">3. 約束要增刪？回第 1 步</text>
+  <text x="44" y="272" font-size="12" fill="#6b6a64">回饋先問：約束變了嗎？</text>
+  <text x="44" y="292" font-size="12" fill="#6b6a64">papercuts 記文件，改版一次清</text>
+
+  <rect x="376" y="80" width="320" height="240" fill="#fff" stroke="#c0392b" stroke-width="2" stroke-dasharray="6 4" rx="8"/>
+  <text x="396" y="110" font-size="15" font-weight="bold" fill="#c0392b">邪路：設計打地鼠</text>
+  <rect x="396" y="124" width="280" height="40" fill="#c0392b" rx="4"/>
+  <text x="536" y="149" font-size="13" fill="#fff" text-anchor="middle">用戶困惑 → 直接跳解法</text>
+  <rect x="396" y="172" width="280" height="40" fill="#c0392b" rx="4"/>
+  <text x="536" y="197" font-size="13" fill="#fff" text-anchor="middle">「把 X 調明顯一點」</text>
+  <rect x="396" y="220" width="280" height="40" fill="#f3d9d4" rx="4"/>
+  <text x="536" y="245" font-size="13" fill="#c0392b" text-anchor="middle">拼布式介面，越改越亂</text>
+  <text x="396" y="272" font-size="12" fill="#6b6a64">AI 放大這條路：下提示詞太容易</text>
+  <text x="396" y="292" font-size="12" fill="#6b6a64">spot-fix 一時爽，整體一致性破產</text>
+</svg>
