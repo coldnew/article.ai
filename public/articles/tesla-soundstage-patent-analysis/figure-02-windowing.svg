@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="380" viewBox="0 0 720 380" font-family="Noto Sans TC, PingFang TC, Microsoft JhengHei, sans-serif">
+  <rect x="0" y="0" width="720" height="380" fill="#faf9f5"/>
+  <text x="24" y="34" font-size="18" font-weight="bold" fill="#141413">該修的修、該留的留：頻率相依開窗</text>
+  <text x="24" y="58" font-size="12" fill="#6b6a64">本站依專利 Step III（CFOS 等效多窗）與背景章節的長短窗兩難重繪</text>
+
+  <rect x="24" y="76" width="328" height="180" fill="#fff" stroke="#1b365d" stroke-width="2" rx="8"/>
+  <text x="44" y="106" font-size="15" font-weight="bold" fill="#1b365d">低頻：寬窗，徹底補償</text>
+  <text x="44" y="132" font-size="13" fill="#141413">車室駐波（room modes）波長長、</text>
+  <text x="44" y="152" font-size="13" fill="#141413">行為乖、好預測 → 用寬窗（含 341ms</text>
+  <text x="44" y="172" font-size="13" fill="#141413">Tukey 窗範例）把轟鳴感修掉。</text>
+  <rect x="44" y="186" width="288" height="26" fill="#1b365d" rx="4"/>
+  <text x="188" y="204" font-size="12" fill="#fff" text-anchor="middle">直達音＋早期反射＋低頻轟鳴：全修</text>
+  <text x="44" y="232" font-size="12" fill="#6b6a64">短窗做不到這段（低頻需要頻譜控制）。</text>
+
+  <rect x="368" y="76" width="328" height="180" fill="#fff" stroke="#8a5a2b" stroke-width="2" rx="8"/>
+  <text x="388" y="106" font-size="15" font-weight="bold" fill="#8a5a2b">高頻：窄窗，故意放生</text>
+  <text x="388" y="132" font-size="13" fill="#141413">晚期高頻反射波長短、難等化、</text>
+  <text x="388" y="152" font-size="13" fill="#141413">頭一動就對不上 → 不補償，留著</text>
+  <text x="388" y="172" font-size="13" fill="#141413">給大腦當作「距離感」的環境線索。</text>
+  <rect x="388" y="186" width="288" height="26" fill="#e8e6dc" rx="4"/>
+  <text x="532" y="204" font-size="12" fill="#141413" text-anchor="middle">晚期高頻反射：不修（換深度＋強壯）</text>
+  <text x="388" y="232" font-size="12" fill="#6b6a64">修了反而更糟：頭一偏，音場直接碎掉。</text>
+
+  <rect x="24" y="272" width="672" height="84" fill="#1b365d" rx="8"/>
+  <text x="44" y="300" font-size="14" font-weight="bold" fill="#fff">紅利：濾波器變短 → 兩件以前做不到的事變得可行</text>
+  <text x="44" y="324" font-size="13" fill="#fff">① crosstalk cancellation（左右耳串音消除，車內免耳機 3D 音） ② 頭部追蹤即時內插（短才切得動）</text>
+  <text x="44" y="344" font-size="12" fill="#e8e6dc">附帶：記憶體與乘加運算下降、延遲下降、動態餘量保住。專利背景章節把長窗四宗罪一次列清。</text>
+</svg>

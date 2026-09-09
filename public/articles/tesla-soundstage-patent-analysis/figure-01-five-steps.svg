@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="400" viewBox="0 0 720 400" font-family="Noto Sans TC, PingFang TC, Microsoft JhengHei, sans-serif">
+  <rect x="0" y="0" width="720" height="400" fill="#faf9f5"/>
+  <text x="24" y="34" font-size="18" font-weight="bold" fill="#141413">五步設計出一顆音場處理器（再加一個可選迴路）</text>
+  <text x="24" y="58" font-size="12" fill="#6b6a64">本站依專利 SUMMARY 五步驟（I–V）與 head-tracking 附加步驟重繪</text>
+
+  <rect x="24" y="76" width="120" height="150" fill="#fff" stroke="#1b365d" stroke-width="2" rx="8"/>
+  <text x="84" y="104" font-size="14" font-weight="bold" fill="#1b365d" text-anchor="middle">I · 對齊級</text>
+  <text x="84" y="128" font-size="12" fill="#141413" text-anchor="middle">各喇叭 bandpass</text>
+  <text x="84" y="146" font-size="12" fill="#141413" text-anchor="middle">分組＋算延遲</text>
+  <text x="84" y="164" font-size="12" fill="#141413" text-anchor="middle">（IR 閾值 20%）</text>
+  <text x="84" y="182" font-size="12" fill="#141413" text-anchor="middle">＋音量匹配</text>
+  <text x="84" y="206" font-size="11" fill="#6b6a64" text-anchor="middle">先把硬體亂度壓平</text>
+
+  <rect x="160" y="76" width="120" height="150" fill="#fff" stroke="#1b365d" stroke-width="2" rx="8"/>
+  <text x="220" y="104" font-size="14" font-weight="bold" fill="#1b365d" text-anchor="middle">II · 量測</text>
+  <text x="220" y="128" font-size="12" fill="#141413" text-anchor="middle">對齊後再量一次</text>
+  <text x="220" y="146" font-size="12" fill="#141413" text-anchor="middle">耳道口控制點</text>
+  <text x="220" y="164" font-size="12" fill="#141413" text-anchor="middle">指數正弦掃頻</text>
+  <text x="220" y="206" font-size="11" fill="#6b6a64" text-anchor="middle">Q×N 轉移矩陣 B</text>
+
+  <rect x="296" y="76" width="128" height="150" fill="#fff8ec" stroke="#8a5a2b" stroke-width="3" rx="8"/>
+  <text x="360" y="104" font-size="14" font-weight="bold" fill="#8a5a2b" text-anchor="middle">III · 頻率開窗 ★</text>
+  <text x="360" y="128" font-size="12" fill="#141413" text-anchor="middle">複數分數倍頻程</text>
+  <text x="360" y="146" font-size="12" fill="#141413" text-anchor="middle">平滑（CFOS）</text>
+  <text x="360" y="164" font-size="12" fill="#141413" text-anchor="middle">低頻寬窗補償</text>
+  <text x="360" y="182" font-size="12" fill="#141413" text-anchor="middle">高頻窄窗放生</text>
+  <text x="360" y="206" font-size="11" fill="#6b6a64" text-anchor="middle">全案鑰匙，見圖 2</text>
+
+  <rect x="440" y="76" width="120" height="150" fill="#fff" stroke="#1b365d" stroke-width="2" rx="8"/>
+  <text x="500" y="104" font-size="14" font-weight="bold" fill="#1b365d" text-anchor="middle">IV · 音場級</text>
+  <text x="500" y="128" font-size="12" fill="#141413" text-anchor="middle">正則化偽逆解</text>
+  <text x="500" y="146" font-size="12" fill="#141413" text-anchor="middle">HRTF 空間目標</text>
+  <text x="500" y="164" font-size="12" fill="#141413" text-anchor="middle">分頻段＋LR 分頻</text>
+  <text x="500" y="182" font-size="12" fill="#141413" text-anchor="middle">雙耳響度正規化</text>
+  <text x="500" y="206" font-size="11" fill="#6b6a64" text-anchor="middle">N×P 濾波矩陣 S</text>
+
+  <rect x="576" y="76" width="120" height="150" fill="#1b365d" rx="8"/>
+  <text x="636" y="104" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">V · 級聯</text>
+  <text x="636" y="128" font-size="12" fill="#fff" text-anchor="middle">S × A 輸出</text>
+  <text x="636" y="146" font-size="12" fill="#fff" text-anchor="middle">雙聽眾獨立</text>
+  <text x="636" y="164" font-size="12" fill="#fff" text-anchor="middle">L / C / R 音場</text>
+  <text x="636" y="206" font-size="11" fill="#e8e6dc" text-anchor="middle">可跑 CPU/GPU/DSP</text>
+
+  <text x="84" y="152" font-size="20" fill="#1b365d" text-anchor="middle" transform="translate(60,0)">→</text>
+  <text x="220" y="152" font-size="20" fill="#1b365d" text-anchor="middle" transform="translate(60,0)">→</text>
+  <text x="360" y="152" font-size="20" fill="#8a5a2b" text-anchor="middle" transform="translate(64,0)">→</text>
+  <text x="500" y="152" font-size="20" fill="#1b365d" text-anchor="middle" transform="translate(60,0)">→</text>
+
+  <rect x="24" y="248" width="672" height="120" fill="#fff" stroke="#6b6a64" stroke-width="1.5" stroke-dasharray="6 4" rx="8"/>
+  <text x="44" y="278" font-size="14" font-weight="bold" fill="#141413">可選迴路 · 動態頭部追蹤（專利附加步驟）</text>
+  <text x="44" y="302" font-size="12" fill="#141413">對離散頭部位置預算一整排處理器 → 車內相機即時追蹤 → 在兩組以上設定檔之間線性內插，</text>
+  <text x="44" y="322" font-size="12" fill="#141413">無斷音、無開關雜音。能這樣玩的前提正是濾波器夠短（圖 2 的紅利）。</text>
+  <text x="44" y="346" font-size="12" fill="#6b6a64">反過來說：傳統長窗濾波器不是不想追，是追了會碎（切換成本太高）。</text>
+</svg>
