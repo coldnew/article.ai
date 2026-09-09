@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 340" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="760" height="340" rx="12" fill="#f8fafc"/>
+  <text x="130" y="30" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">標準 HBM：控制器在計算晶片側</text>
+  <text x="630" y="30" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">NVHBM：控制器搬進底座</text>
+
+  <!-- left: standard -->
+  <rect x="30" y="60" width="200" height="120" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="130" y="82" font-size="13" fill="#1e40af" text-anchor="middle">計算晶片 (GPU)</text>
+  <rect x="48" y="94" width="164" height="34" rx="6" fill="#2563eb"/>
+  <text x="130" y="116" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">記憶體控制器</text>
+  <rect x="48" y="134" width="164" height="30" rx="6" fill="#93c5fd"/>
+  <text x="130" y="154" font-size="12" fill="#1e3a8a" text-anchor="middle">PHY 介面</text>
+
+  <rect x="30" y="200" width="200" height="26" rx="4" fill="#cbd5e1"/>
+  <text x="130" y="218" font-size="12" fill="#475569" text-anchor="middle">中介層（橫向連接）</text>
+
+  <rect x="60" y="238" width="140" height="60" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <text x="130" y="258" font-size="12" fill="#92400e" text-anchor="middle">DRAM 層 ×N</text>
+  <rect x="60" y="264" width="140" height="22" rx="4" fill="#fde68a"/>
+  <text x="130" y="279" font-size="11" fill="#92400e" text-anchor="middle">底座（連接＋測試）</text>
+
+  <!-- arrow between -->
+  <line x1="250" y1="170" x2="330" y2="170" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="290" y="158" font-size="12" fill="#64748b" text-anchor="middle">控制器搬家</text>
+
+  <!-- right: NVHBM -->
+  <rect x="350" y="60" width="200" height="120" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="450" y="82" font-size="13" fill="#1e40af" text-anchor="middle">計算晶片 (GPU)</text>
+  <rect x="368" y="94" width="164" height="30" rx="6" fill="#e2e8f0"/>
+  <text x="450" y="113" font-size="12" fill="#475569" text-anchor="middle">面積釋出 → 做運算</text>
+  <rect x="368" y="130" width="164" height="30" rx="6" fill="#93c5fd"/>
+  <text x="450" y="150" font-size="12" fill="#1e3a8a" text-anchor="middle">PHY 介面（仍需保留）</text>
+
+  <rect x="350" y="200" width="200" height="26" rx="4" fill="#cbd5e1"/>
+  <text x="450" y="218" font-size="12" fill="#475569" text-anchor="middle">中介層（橫向連接）</text>
+
+  <rect x="380" y="238" width="140" height="60" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <text x="450" y="256" font-size="12" fill="#92400e" text-anchor="middle">DRAM 層 ×N</text>
+  <rect x="380" y="262" width="140" height="26" rx="4" fill="#16a34a"/>
+  <text x="450" y="279" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">底座＋NV 控制器</text>
+
+  <!-- right column notes -->
+  <rect x="580" y="60" width="160" height="238" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="660" y="84" font-size="13" font-weight="bold" fill="#0f172a" text-anchor="middle">NVIDIA 披露指標</text>
+  <text x="660" y="110" font-size="12" fill="#16a34a" text-anchor="middle">頻寬最高 ＋30%</text>
+  <text x="660" y="132" font-size="12" fill="#16a34a" text-anchor="middle">HBM 功耗最高 −15%</text>
+  <line x1="596" y1="146" x2="724" y2="146" stroke="#e2e8f0"/>
+  <text x="660" y="166" font-size="12" fill="#0f172a" text-anchor="middle">不變的是什麼</text>
+  <text x="660" y="186" font-size="11" fill="#475569" text-anchor="middle">DRAM 製造／堆疊／測試</text>
+  <text x="660" y="202" font-size="11" fill="#475569" text-anchor="middle">仍靠供應鏈完成</text>
+  <text x="660" y="218" font-size="11" fill="#475569" text-anchor="middle">NVIDIA 不自己造記憶體</text>
+  <line x1="596" y1="230" x2="724" y2="230" stroke="#e2e8f0"/>
+  <text x="660" y="250" font-size="11" fill="#b45309" text-anchor="middle">vs zHBM：那是把記憶體</text>
+  <text x="660" y="266" font-size="11" fill="#b45309" text-anchor="middle">疊到邏輯晶片上方，</text>
+  <text x="660" y="282" font-size="11" fill="#b45309" text-anchor="middle">另一條更遠的路線</text>
+</svg>
