@@ -1,0 +1,85 @@
+---
+title: "Uber 為什麼從 Postgres 搬到 MySQL：一次更新要付四次寫入的帳"
+description: "整理 Uber 工程部落格 2016 年經典長文（Evan Klitzke）：Postgres 的 ctid 直指磁碟位址設計，讓一次欄位更新變成全索引重寫加 WAL 翻倍，跨機房複寫頻寬爆炸、備庫無真 MVCC、升級要停機數小時；InnoDB 用主鍵間接層加邏輯複寫逐項拆招。本文重走花剌子米那行範例，並標出十年後的今天哪些抱怨已經過期。"
+publishedAt: 2026-09-09
+topic: "工程組織"
+sourceType: "article"
+sourceUrl: "https://www.uber.com/in/en/blog/postgres-to-mysql-migration/"
+authors: ["Evan Klitzke"]
+venue: "Uber 工程部落格"
+tags: ["Uber", "PostgreSQL", "MySQL", "資料庫", "Schemaless"]
+readTime: "10 分鐘"
+evidence: "中"
+featured: false
+sourceCount: 3
+accent: "blue"
+---
+
+## 先說結論
+
+《Uber 工程部落格》這篇文章指出，Uber 從單體 Python＋Postgres 走向微服務時，把大量 Postgres 換成了架在 MySQL 上的 Schemaless 分片層，理由不是「MySQL 比較強」，而是 Postgres 的儲存架構在 Uber 的規模下有五個還不起的帳：**寫入放大、複寫放大、一次 9.2 的 timeline 損毀驚魂、備庫沒有真 MVCC、跨版本升級等於停機**——而這五個全是同一個設計選擇的後果：索引直接指向磁碟位址（ctid）。**這是 2016 年的單一公司自述，實驗基準是 Postgres 9.2，證據等級給「中」；機制講解可驗、數字限於 Uber 自家、部分抱怨在十年後的今天已經過期，下文逐項標出。**
+
+## 背景：一句話
+
+【原文明說】Uber 早期是單體 Python 後端配 Postgres；長大後拆成微服務，原來放 Postgres 的資料大多搬上 Schemaless——自研的分片層，底層是 MySQL（InnoDB）。本文就是這次搬家的技術帳本，作者 Evan Klitzke 是 2012 年加入的核心架構老人。
+
+## Postgres 的五筆帳：全是 ctid 的利息
+
+【原文明說】Postgres 的行（tuple）不可變，每行有個不透明的 ctid——就是磁碟上的物理位址。主鍵索引和次級索引存的都是 ctid。更新一行＝追加一個新 tuple＋新 ctid，舊版等 autovacuum 回收。作者用一張數學家表（id、 first、last、birth_year，三個索引）走完整個例子：把花剌子米的出生年從 780 改成 770。
+
+![一次邏輯更新在兩種引擎下的物理寫入對照。](/article.ai/articles/uber-postgres-mysql-analysis/figure-01-write-amplification.svg)
+
+<small class="figure-caption">圖 1｜本站依原文 users 表示例重繪。Postgres 那一側「沒改的索引也要加一筆」是全文最貴的一句話。</small>
+
+**第一筆：寫入放大。** 上面那次更新只動了一個欄位，卻至少付出四次物理寫入——新 tuple、主鍵索引、姓名索引、出生年索引各一筆（後兩者根本沒被改到，只是要登記新 ctid），而且每一筆還要再進 WAL 一次。12 個索引的表，單欄更新就要污染 12 個索引。
+
+**第二筆：複寫放大。**【原文明說】WAL 是為 crash recovery 設計的，記的是磁碟位址級變更；串流複寫就是把 WAL 往備庫倒。所以四次寫入的每一筆都要走一遍網路。Uber 當時是西岸主機房加東岸災備，跨洋頻寬又貴又窄；尖峰時連 WAL 歸檔到物件儲存的速度都追不上 WAL 產生的速度。
+
+**第三筆：損毀會傳染。**【原文明說】一次例行升主遇到 Postgres 9.2 的 timeline 切換 bug：備庫誤用 WAL，舊版行沒被標成失效，`WHERE id = 4` 一次吐出兩條花剌子米。最LD的是各備庫壞的是不同的行，連主庫乾不乾淨都不敢確定；最後靠逐台 resync 解決。該 bug 只影響特定 9.2 版本且早已修掉，但作者的擔憂是結構性的：**物理複寫下，任何同類 bug 天生就有污染整條複寫鏈的潛力**（B-tree 重平衡會搬動整棵子樹，搬錯就整段作廢）。
+
+**第四筆：備庫沒有真 MVCC。**【原文明說】備庫是「假裝一直在 crash recovery」的狀態機，長查詢擋住 WAL 回放超過時限就直接被殺。開發者用 ORM 無意間開著交易去寄 email，備庫就落後數秒——在 Uber 這是日常，不是意外。
+
+**第五筆：升級等於停機。**【原文明說】物理複寫跨版本不通，pg_upgrade 流程是：停主庫 → 原地升級（大庫數小時）→ 重拍快照（再數小時）→ 全備庫抹掉重灌。Uber 從 9.1 升 9.2 痛過一次，到 9.3 推出時資料量已經大到升不起，legacy 库就此凍在 9.2（當時 GA 已經 9.5）。
+
+## MySQL 的四個答案：同一個間接層
+
+【原文明說】InnoDB 與 Postgres 的核心差別只有一個：**次級索引不存磁碟位址，存主鍵值**。查次級索引要走兩次（先找主鍵、再找行），單次查詢小輸；但更新時只動真正被改到的索引，行原地寫、舊版丟進 rollback 段，vacuum 直接掃那一段就好，不用全表掃。
+
+![物理複寫與邏輯複寫的對照。](/article.ai/articles/uber-postgres-mysql-analysis/figure-02-replication.svg)
+
+<small class="figure-caption">圖 2｜本站依原文複寫章節重繪。右側三個 ○／✕ 全是「複寫流裡裝的是位元組還是敘述」這一個選擇長出來的。</small>
+
+這個間接層往下長出三個紅利，外加兩個架構外的原因：
+
+1. **邏輯複寫**【原文明說】：binlog 裝的是「把 id=4 的 birth_year 從 780 改成 770」這種敘述，索引變化備庫自推。流量小一個量級、B-tree 重平衡損壞出不了複寫層、跨版本可複寫——升級變成一台台滾、近零停機。
+2. **備庫真 MVCC**【原文明說】：讀查詢不擋複寫流，第四筆帳直接銷掉。
+3. **Buffer pool**【原文明說】：InnoDB 在 userspace 自建 LRU，不像 Postgres 靠 kernel page cache（lseek＋read 兩次 syscall、context switch；768GB 記憶體的備庫只有約 25GB 是 Postgres 的 RSS）。代價是複雜，但 LRU 策略可自訂、讀路徑零 context switch。
+4. **連線模型**【原文明說】：MySQL thread-per-connection 輕鬆上萬連線；Postgres process-per-connection（System V IPC、fork 成本）幾百個就吃力，Uber 靠 pgbouncer 續命，還被「idle in transaction」的應用 bug 搞出過長時間停機。
+
+## 十年後的今天：哪些抱怨過期了
+
+【合理推斷，以下是本站的時效註記，不是原文】：
+
+- **過期最多的是第五筆**：Postgres 10（2017）把邏輯複寫收進主線，跨版本升級不再需要全停；pglogical 這類外掛也解決了 9.4＋ 的痛。凍在 9.2 的困境是 2016 年的真實，但不是今天的 Postgres。
+- **部分過期的是第三、四筆**：timeline bug 早修，hot standby 衝突處理（max_standby_delay 系列調參、logical decoding）比 9.2 時代好得多；但「物理複寫的損毀傳染性」是架構屬性，至今仍成立。
+- **基本沒過期的是第一、二筆**：MVCC 實現路線（Postgres 追加新版 vs InnoDB 原地寫加 undo）至今仍是兩邊的根本差異，寫入放大的物理帳今天重算還是成立——差別只在硬體與頻寬變便宜了，帳單沒以前痛。
+- 【未被支撐】原文完全沒談 MySQL 這側的代價（主從延遲下的讀寫一致、GTID 運維、Schemaless 自研分片層本身的成本）；單一公司自述只會列搬走的理由，不會列搬家的裝修費。
+
+## 風險與盲點
+
+- 【單一公司自述】全篇數字（768GB 備庫、25GB RSS、上萬連線、數小時升級）都是 Uber 自家規模下的體感，無獨立驗證；小團隊直抄結論會失望——這跟站上 Uber 軟體工廠文是同一個方法論缺口。
+- 【版本錨定】全篇基於 Postgres 9.2（2012），作者自己也承認；但標題黨式的引用（「Uber 證明 Postgres 不行」）拿 2016 年的 9.2 審判今天的 Postgres 17，是時空錯亂。
+- 【對照組缺席】沒給 MySQL 在同等流量下的故障史；Schemaless 層的複雜度被當成免費的，實際上自研分片層才是 Uber 付的最大一筆（只是付給了自家工程師）。
+- 【可直接推出】五筆帳裡四筆是同一個根因（ctid 直指位址）， filtering 掉重複計算後，真正的決策變數只有兩個：寫入／複寫放大量級，以及升級停機成本。讀者做選型時盯這兩個數字就夠了。
+
+## 我們的判讀
+
+《Why Uber Engineering Switched from Postgres to MySQL》十年後還值得讀，不是因為結論（今天的新創照樣用 Postgres 起手），而是因為它示範了**儲存選型的正確切面：不要比功能清單，要比「一次寫入的物理帳單」和「一次升級的停機帳單」**。ctid 直指位址在單機時代是簡潔，放到跨洋複寫加每週升級的節奏裡就是高利貸——Uber 2016 年的處方（主鍵間接層加邏輯複寫）今天看來平平無奇，但開處方的思路（從磁碟格式一路推到機房頻寬帳單）依然是教科書級的。
+
+跟站上 Uber 軟體工廠文並讀：那篇講 AI agent 的成本等式，這篇講資料庫的物理帳本——Uber 工程寫作十年不變的主題其實是同一個：**把隱形成本算成顯性數字，再動手**。
+
+## 來源
+
+- Uber 工程部落格原文（2016-07-26，Evan Klitzke）：https://www.uber.com/in/en/blog/postgres-to-mysql-migration/ ——五筆帳、四個答案、數學家表示例之出處
+- Schemaless 第一篇（原文內引，MySQL 之上的分片層）：https://www.uber.com/in/en/blog/schemaless-part-one/
+- 站上姊妹篇：〈Uber 軟體工廠〉——同一作者群十年後的成本等式，可互鏈

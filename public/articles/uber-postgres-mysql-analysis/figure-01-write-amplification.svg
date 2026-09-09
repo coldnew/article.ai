@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="380" viewBox="0 0 720 380" font-family="Noto Sans TC, PingFang TC, Microsoft JhengHei, sans-serif">
+  <rect x="0" y="0" width="720" height="380" fill="#faf9f5"/>
+  <text x="24" y="34" font-size="18" font-weight="bold" fill="#141413">同一次更新：改花剌子米的出生年（780 → 770）</text>
+  <text x="24" y="58" font-size="12" fill="#6b6a64">本站依原文 users 表示例重繪：一次邏輯寫入，各要付出多少物理寫入</text>
+
+  <rect x="24" y="76" width="328" height="264" fill="#fff" stroke="#c0392b" stroke-width="2" rx="8"/>
+  <text x="44" y="106" font-size="15" font-weight="bold" fill="#c0392b">Postgres：至少 4 處＋WAL 翻倍</text>
+  <rect x="44" y="120" width="288" height="34" fill="#c0392b" rx="4"/>
+  <text x="188" y="142" font-size="13" fill="#fff" text-anchor="middle">① 寫新 tuple（舊 tuple 留著）</text>
+  <rect x="44" y="162" width="288" height="34" fill="#c0392b" rx="4"/>
+  <text x="188" y="184" font-size="13" fill="#fff" text-anchor="middle">② 主鍵索引加一筆（沒改也被加）</text>
+  <rect x="44" y="204" width="288" height="34" fill="#c0392b" rx="4"/>
+  <text x="188" y="226" font-size="13" fill="#fff" text-anchor="middle">③ 姓名索引加一筆（沒改也被加）</text>
+  <rect x="44" y="246" width="288" height="34" fill="#c0392b" rx="4"/>
+  <text x="188" y="268" font-size="13" fill="#fff" text-anchor="middle">④ 出生年索引加一筆（唯一該改的）</text>
+  <text x="44" y="296" font-size="12" fill="#6b6a64">12 個索引的表：1 個欄位更新 → 12 處</text>
+  <text x="44" y="316" font-size="12" fill="#6b6a64">以上全進 WAL 複寫流，跨機房頻寬爆炸</text>
+
+  <rect x="368" y="76" width="328" height="264" fill="#fff" stroke="#2e7d32" stroke-width="2" rx="8"/>
+  <text x="388" y="106" font-size="15" font-weight="bold" fill="#2e7d32">InnoDB：只動該動的，原地寫</text>
+  <rect x="388" y="120" width="288" height="34" fill="#2e7d32" rx="4"/>
+  <text x="532" y="142" font-size="13" fill="#fff" text-anchor="middle">① 行原地更新（舊版進 rollback 段）</text>
+  <rect x="388" y="162" width="288" height="34" fill="#2e7d32" rx="4"/>
+  <text x="532" y="184" font-size="13" fill="#fff" text-anchor="middle">② 出生年索引原地更新</text>
+  <rect x="388" y="204" width="288" height="52" fill="#e8e6dc" rx="4"/>
+  <text x="532" y="226" font-size="13" fill="#141413" text-anchor="middle">主鍵、姓名索引：零觸碰</text>
+  <text x="532" y="244" font-size="13" fill="#141413" text-anchor="middle">（次級索引指主鍵，不指磁碟位址）</text>
+  <text x="388" y="282" font-size="12" fill="#6b6a64">複寫流是邏輯敘述，binlog 精簡一個量級</text>
+  <text x="388" y="302" font-size="12" fill="#6b6a64"> vacuum 直接掃 rollback 段，不用全表掃</text>
+</svg>
