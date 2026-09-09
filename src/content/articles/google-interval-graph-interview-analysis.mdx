@@ -1,0 +1,76 @@
+---
+title: "Google 面試不給題目只給圖：區間轉圖的暴力優先順序"
+description: "整理《山景城小路》這則 X 貼文：Google 面試官甩一張圖讓候選人自己悟題意——N 個區間是節點、重疊就連邊；暴力 O(N²) 建邊加 BFS 先寫對，瓶頸化約為 Range Query 後才請 Sweep Line 與線段樹上場。上來就秀優化反而拿負評。"
+publishedAt: 2026-09-09
+topic: "求職"
+sourceType: "article"
+sourceUrl: "https://x.com/Zen_with_AI/status/2095731709535007175"
+authors: ["山景城小路（@Zen_with_AI）"]
+venue: "X · 山景城小路"
+tags: ["面試", "Google", "演算法", "圖論", "線段樹"]
+readTime: "7 分鐘"
+evidence: "探索中"
+featured: false
+sourceCount: 2
+accent: "blue"
+---
+
+import XPostCard from '../../components/XPostCard.astro';
+
+## 先說結論
+
+《山景城小路》這篇文章指出，這道 Google 面試題考的不是資料結構，而是順序：陌生圖先抽象成問題，暴力解先寫對，瓶頸指名後才優化——跳步秀 Segment Tree 的人拿的是負面反饋。**題目本身是轉述見聞，無法驗證是否真為 Google 考題；但思路鏈（Interval → Overlap → Graph → Brute Force → Range Query）自洽且可操作，本文把建邊規則與複雜度逐項展開，並標出哪句是原文、哪句是推論。**
+
+## 當事人貼文嵌入
+
+以下貼文以本站靜態卡片還原（X 原生嵌入需載入外部 JS 且離線不可見，故改以靜態還原＋本地頭像呈現；文字、時間、數據皆逐字核對，簡轉繁；原文另附圖一張，依本站 IP 慣例不轉載）：
+
+<XPostCard author="山景城小路" handle="@Zen_with_AI" avatar="/article.ai/articles/google-interval-graph-interview/zen-avatar.jpg" timestamp="4:32 AM · Sep 4, 2026" views="34K" replies="2" reposts="13" likes="96" sourceUrl="https://x.com/Zen_with_AI/status/2095731709535007175">
+<p><strong>Google 最近一道面試題：面試官沒給傳統 LeetCode 題，直接甩了一張圖，讓候選人自己理解題意。看著是 Interval，最後要轉成 Graph。</strong></p>
+<p>題意：給定 N 個區間，每個區間是一個節點。兩個區間有重疊，就在對應節點之間連一條邊。例子：A = [1, 5]，B = [4, 8]，C = [7, 10]，D = [12, 15]；A↔B，B↔C，A 和 C 不相交，D 和誰都沒邊。</p>
+<p>最直接的做法：兩兩比較區間，滿足 max(L1,L2) ≤ min(R1,R2) 就建邊，再 BFS／DFS 遍歷。構圖 O(N²)，遍歷 O(N+E)。思路鏈：Interval → Overlap Detection → Graph → Brute Force → 找瓶頸 → Range Query → Segment／Interval Tree。</p>
+<p>但這題最值得記住的不是資料結構本身。很多人一上來就找優化方案，沒先把 Brute Force 寫出來，面試官反而給了負面反饋。理解題目 → 給出正確解 → 說清楚為什麼慢 → 找到瓶頸 → 一步步優化，這個順序不能跳。</p>
+</XPostCard>
+
+<small class="figure-caption">嵌入｜@Zen_with_AI 主貼文靜態還原（4:32 AM · Sep 4, 2026，約 3.4 萬瀏覽）。作者另發一則 Python 解法後續（connected component 最大 value 和），見來源；回覆區 @shuizhuyu 附和：Google 更重思路推導而非硬背題。</small>
+
+## 這篇文章真正解決的問題
+
+【原文明說】面試官不給題面只給圖，第一關是「把陌生輸入抽象成已知問題」。這題的抽象只要兩步：區間是節點、重疊是邊；之後全是標準操作（建邊＋走訪＋優化）。練的不是某個資料結構，是「看到圖先問它是什麼問題」的反射。
+
+## 流程拆解
+
+### 1. 把圖抽象成問題：重疊即連邊
+
+【原文明說】建邊規則：`max(L1, L2) ≤ min(R1, R2)` 即兩區間重疊。以貼文例子驗算：A=[1,5] 與 B=[4,8]，`max(1,4)=4 ≤ min(5,8)=5` 成立故連邊；B 與 C=[7,10]，`max(4,7)=7 ≤ min(8,10)=8` 成立；A 與 C，`max(1,7)=7 ≤ min(5,10)=5` 不成立；D=[12,15] 與誰都不重疊，故孤立。
+
+![四個區間在數線上的位置、重疊標記，以及連邊後的圖。](/article.ai/articles/google-interval-graph-interview/figure-01-intervals-graph.svg)
+
+<small class="figure-caption">圖 1｜本站依貼文例子自繪。注意 A 與 C 雖經由 B 連通，但兩者之間沒有直接邊——連通是走訪後的事，不等於連邊。</small>
+
+### 2. 先寫暴力解：O(N²) 建邊，O(N+E) 走訪
+
+【原文明說】最直接做法兩兩比較建邊，再 BFS／DFS 遍歷；N 一大 O(N²) 頂不住，真正的問題變成：給定一區間，如何快速找出所有與之重疊者——這時才輪到 Sweep Line、Interval Tree、Segment Tree 上場。
+
+【從原文可直接推出】瓶頸不在走訪而在建邊：走訪已是線性，建邊的平方項才是優化目標；把「找重疊鄰居」認成 Range Query，是整題唯一的關鍵轉折，資料結構只是該轉折的標準答案。
+
+### 3. Google 的順序：理解 → 正確 → 說慢 → 瓶頸 → 優化
+
+【原文明說】值得練的能力是四個反射：見陌生圖先抽象成問題；見 Interval 想 Graph；見 O(N²) 找瓶頸；見 Range Query 才想資料結構。順序是理解題目 → 給出正確解 → 說清楚為什麼慢 → 找到瓶頸 → 一步步優化，不能跳。
+
+![思路鏈與 Google 五步順序：資料結構是終點不是起點。](/article.ai/articles/google-interval-graph-interview/figure-02-thinking-chain.svg)
+
+<small class="figure-caption">圖 2｜本站依貼文思路鏈自繪。紅框是多數人摔跤處：跳過暴力直奔優化，拿的是負評不是加分。</small>
+
+## 風險與盲點
+
+- 【仍未被支撐的主張】「Google 最近面試題」是轉述見聞，無公司、職級、輪次資訊，無法驗證真偽；evidence 只能給探索中，當面經讀，不當考綱讀。
+- 【合理推斷】「沒寫暴力先優化＝負評」符合 Google 公開的評分邏輯（先求正確再求複雜度），但單一見聞不能推出所有面試官都如此執行；穩妥讀法是把它當預設策略，而非鐵律。
+- 【合理推斷】Sweep Line 在本題其實多半已夠用（端點排序掃一遍，排序主導複雜度），Interval Tree／Segment Tree 是把通用武器往上加；貼文並列三者是列選項，不是說三者都要寫出來。
+- 【未被支撐】作者後續貼文給出 Python 解法（傳遞重疊視為同一 component，求 component value 和最大），本站未逐行驗證該程式碼，引用僅供延伸閱讀。
+
+## 來源
+
+- 《山景城小路》 X 主貼文（2026-09-04）：https://x.com/Zen_with_AI/status/2095731709535007175 ——題意、例子、思路鏈、Google 順序之出處，約 3.4 萬瀏覽，原文附圖一張（不轉載）
+- 作者後續 Python 解法貼文（2026-09-04）：https://x.com/Zen_with_AI/status/2095732474643120414 ——connected component 最大 value 和實作，未驗證
+- 回覆 @shuizhuyu（2026-09-04）：附和思路推導重於硬背題
