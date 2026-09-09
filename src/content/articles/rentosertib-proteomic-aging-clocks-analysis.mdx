@@ -15,9 +15,22 @@ sourceCount: 6
 accent: "green"
 ---
 
+import XPostCard from '../../components/XPostCard.astro';
+
 ## 先說結論
 
 《Integration of proteomic aging clocks in a phase 2a clinical trial》這篇論文做了一件以前沒人規模化做過的事：**在一場以肺纖維化為適應症的二期試驗裡，系統性地附帶測量衰老**——42 位 IPF 患者的血清拿六個蛋白質衰老時鐘重算，六個鐘一致顯示用藥組生物年齡下降。但解讀前請先看盲點節：第一作者是藥廠創辦人兼 CEO，七位共同作者是員工，樣本 42 人且屬事後附加分析；evidence 給「中」，當概念驗證讀，不當療效證明讀。
+
+## 當事人貼文嵌入
+
+以下貼文以本站靜態卡片還原（X 原生嵌入需載入外部 JS 且離線不可見，故改以靜態還原＋本地頭像呈現；文字、時間、數據皆逐字核對，英文原文照錄，譯文見圖說；貼文另附兩張論文截圖，依本站 IP 慣例不轉載）：
+
+<XPostCard author="Alex Zhavoronkov, PhD" handle="@biogerontology" avatar="/article.ai/articles/rentosertib-proteomic-aging-clocks/biogerontology-avatar.jpg" timestamp="9:32 AM · Sep 7, 2026" views="1.2M" replies="110" reposts="420" likes="2.5K" sourceUrl="https://x.com/biogerontology/status/2096894403629416864">
+<p>My dear friends, I am happy to report the publication of the most important paper in my life to date (we have several great papers coming out but this is very special). Tomorrow, I will present this paper for the first time at the Nature AI Healthcare in Paris and will post a longer post on this story and its broader implications for how to conduct clinical trials.</p>
+<p>Please read it and comment on it. Many thanks to the great co-authors of the study and everyone who contributed. Many thanks to the many reviewers (friendly and unfriendly) for spending so much time and helping make it better. Link in the comments.</p>
+</XPostCard>
+
+<small class="figure-caption">嵌入｜@biogerontology 官宣貼文靜態還原（9:32 AM · Sep 7, 2026，約 120 萬瀏覽）。繁體譯文要點：作者稱此為「迄今人生最重要的論文」，將在巴黎 Nature AI Healthcare 首講，並預告長文談此研究對臨床試驗做法的 broader implications；另謝共同作者與「友善與不友善的」審稿人。注意這是第一作者本人的定調，不是獨立評價。</small>
 
 ## 這篇文章真正解決的問題
 
@@ -29,7 +42,7 @@ accent: "green"
 
 ### 1. 雙用途試驗設計：在原試驗上外掛衰老採血
 
-【原文明說】原試驗是 2023–2024 在中國 21 中心做的隨機雙盲安慰劑對照：128 人篩選、71 人入組（30mg QD／30mg BID／60mg QD／安慰劑各約 17–18 人，16 人中途退出），主要終點是 12 週前後肺活量（FVC）。外掛部分：以 Olink Explore 3072 平台在第 0／2／4／12 週做血清蛋白縱向採血，43 人同意、1 人缺終點數據，最終 42 人（平均 67.1 歲）进入時鐘分析——作者自陳這是難得的人體干預數據集。
+【原文明說】原試驗是 2023–2024 在中國 21 中心做的隨機雙盲安慰劑對照：128 人篩選、71 人入組（30mg QD／30mg BID／60mg QD／安慰劑各約 17–18 人，16 人中途退出），主要終點是 12 週前後肺活量（FVC）。外掛部分：以 Olink Explore 3072 平台在第 0／2／4／12 週做血清蛋白縱向採血，43 人同意、1 人缺終點數據，最終 42 人（平均 67.1 歲）進入時鐘分析——作者自陳這是難得的人體干預數據集。
 
 ![左為原二期試驗四臂設計，右為六鐘重算與旁證分析。](/article.ai/articles/rentosertib-proteomic-aging-clocks/figure-01-dual-purpose-design.svg)
 
@@ -56,12 +69,13 @@ accent: "green"
 - **利益衝突拉滿（原文明說）**：通訊作者 Zhavoronkov 是 Insilico Medicine 創辦人兼 CEO（公司已上市 3696.HK），七位共同作者是員工，公司正在開發 rentosertib 治 IPF。Nature Biotech 有同儕審查與公開審稿報告，但讀者應把「藥廠證明自家藥可能抗老」當預設立場打折。
 - **小樣本事後分析（原文明說＋推斷）**：最終 42 人、每臂約 9–11 人，54 組比較僅 21 組顯著且用 `Q < 0.10` 寬鬆閾值；衰老分析非預設終點，屬機會型挖掘，p-hacking 風險只能靠 permutation 檢定部分緩解。
 - **糾纏未解（作者自承）**：LTBP2 等纖維化蛋白主導鐘訊號，徹底分離需在健康人或無纖維化人群驗證，目前只有間接證據；FVC 只是疾病狀態的不完整代理，脫鉤論證有上限。
-- **數字解讀留白（合理推斷）**：動脈鐘降 7–16 年在生物學上難以置信，更可能是死亡鐘在重病隊列的校準外推失真，而非血管年輕十幾歲；第 4 週達峰轉高原，究竟是藥效適應、新穩態，還是 12 週視窗太短，論文未定論。
+- **數字解讀留白（合理推斷）**：動脈鐘降 7–16 年在生物學上難以置信，更可能是死亡鐘在重病隊列的校準外推失真，而非血管年輕十幾歲；官宣貼文回覆區已有讀者（Matt McLoughlin）單拎「動脈鐘 −16.57 年」驚嘆並追問用藥者是否自覺變年輕——正好示範了最大數字最先被斷章取義的傳播規律，引用時請連同本條盲點一起帶走。第 4 週達峰轉高原，究竟是藥效適應、新穩態，還是 12 週視窗太短，論文未定論。
 - **可重現性加分（原文明說）**：蛋白數據已存 China National Center for Bioinformation（OMIX008341），四個鐘的分析碼放 GitHub（Insilico-org/proteoclock），審稿報告公開——有興趣者可自行重算，這是本篇最硬的加分項。
 
 ## 來源
 
 - 論文原文（Nature Biotechnology，2026-09-07，open access）：https://www.nature.com/articles/s41587-026-03286-y ——全部設計、數字、圖表之出處
+- 第一作者官宣 X 貼文（2026-09-07，約 120 萬瀏覽，本文靜態卡片）：https://x.com/biogerontology/status/2096894403629416864 ——「人生最重要論文」定調、巴黎首講預告
 - 論文 PDF：https://www.nature.com/articles/s41587-026-03286-y.pdf
 - 原二期試驗註冊（ClinicalTrials.gov）：https://clinicaltrials.gov/study/NCT05975983
 - 分析程式碼（GitHub）：https://github.com/Insilico-org/proteoclock
