@@ -1,0 +1,81 @@
+---
+title: "Jane Street SWE 面經：跨交易所套利系統，真陷阱在兩條腿之間"
+description: "整理《山景城小路》這則 X 貼文：Jane Street 系統設計只考一題——跨交易所套利。核心鏈路 Market Data → Order Book → Arbitrage Engine → Execution Router；max(Bid) > min(Ask) 只是起點，真正的陷阱是 legging risk；100 萬 updates/sec 的 follow-up 要講到 sharding、O(1) 定長陣列、LMAX Disruptor 這種顆粒度。"
+publishedAt: 2026-09-10
+topic: "求職"
+sourceType: "article"
+sourceUrl: "https://x.com/Zen_with_AI/status/2097865726392697112"
+authors: ["山景城小路（@Zen_with_AI）"]
+venue: "X · 山景城小路"
+tags: ["面試", "Jane Street", "系統設計", "高頻交易", "套利"]
+readTime: "7 分鐘"
+evidence: "探索中"
+featured: false
+sourceCount: 1
+accent: "blue"
+---
+
+import XPostCard from '../../components/XPostCard.astro';
+
+## 先說結論
+
+《山景城小路》這篇文章指出，這道 Jane Street 系統設計題全程只有一道，卻層層追問：對象建模只是入場券，**真正的分水嶺有兩處——第一輪的 legging risk（兩條腿非原子提交），以及 follow-up 裡 100 萬 updates/sec 下能不能講出具體機制**（sharding、O(1) 陣列、Disruptor、TTL、狀態機）。**題目自述來自 reddit 轉述，無法驗證是否真為 Jane Street 考題；但判斷邏輯與併發手段都是業界標準做法，本文逐項展開，並標出哪句是原文、哪句是推論。**
+
+## 當事人貼文嵌入
+
+以下貼文以本站靜態卡片還原（X 原生嵌入需載入外部 JS 且離線不可見，故改以靜態還原＋本地頭像呈現；文字、時間、數據皆逐字核對，簡轉繁）：
+
+<XPostCard author="山景城小路" handle="@Zen_with_AI" avatar="/article.ai/articles/jane-street-arbitrage-interview/zen-avatar.jpg" timestamp="9:52 AM · Sep 10, 2026" views="2.2K" replies="1" reposts="8" likes="31" sourceUrl="https://x.com/Zen_with_AI/status/2097865726392697112">
+<p><strong>Jane Street SWE 面經</strong></p>
+<p>一輪系統設計：設計跨交易所套利系統。全程只有一道題，但追問層層深入——從對象建模一路問到 100 萬 updates/sec 下怎麼保證低延遲。面試官真正在意的是你有沒有意識到套利系統的核心風險在兩個 leg 之間的時間差，以及高頻場景下併發設計能不能講到具體機制。</p>
+<p>題目給了 Instrument、Exchange、Quote/OrderBook、Market Data Listener、Order Book Manager、Arbitrage Engine、Execution Router 這幾個對象，要求隨行情即時重新判斷套利機會。核心鏈路是 Market Data → Order Book → Arbitrage Engine → Execution Router，Listener 收到某個 Instrument 的行情後，只重新計算這一個 Instrument 的全交易所最高 Bid 和最低 Ask，max(Bid) &gt; min(Ask) 就是潛在套利。</p>
+<p>但這一步很多人會直接下單，漏掉的是 legging risk：兩條腿的 Order 不是原子提交，A 賣單和 B 買單之間有網路延遲，等第二條腿真正到交易所時價差很可能已經收窄甚至消失，這是這道題真正的陷阱，也是面試官反覆追問的方向。size 也不能只看 best quote，要取 min(bid_size, ask_size) 才是真實可執行的量，價差還得覆蓋手續費和滑點才有意義。</p>
+<p>→ 判斷邏輯裡加一個安全閾值（套利空間要大於某個 margin，覆蓋延遲和滑點），並想清楚 partial fill 之後怎麼處理另一條腿（hedge 還是 cancel）；對象設計部分別只用文字描述，準備一兩個介面簽名（比如 OrderBookManager.getBestBidAsk(InstrumentId) 返回 O(1)）。</p>
+<p>Follow-up 高併發優化：100 萬 updates/sec 下怎麼保證低延遲</p>
+<p>核心思路是把計算範圍從「全市場」縮小到「發生變化的 Instrument」，這個方向對，但「減少全域鎖競爭」「避免不必要的記憶體分配」這類回答太泛，面試官想聽具體機制。</p>
+<p>→ 按 instrument_id 做 sharding，一致性雜湊把同一 instrument 的所有更新路由到固定執行緒/core，天然無鎖且 cache locality 好；Best Bid/Ask 用按 exchange_id 索引的定長陣列存，更新 O(1)；如果是 JVM 系語言，提一下避免 GC pause（off-heap/primitive array），或者用 LMAX Disruptor 這種 ring buffer 做 ingestion 和計算解耦，這類具體名詞一出來分量完全不一樣；另外別漏了 stale quote 處理（給 Quote 加 TTL，交易所連接斷了不能還拿舊報價判斷套利）和防止重複下單的狀態機（pending/triggered/filled）。</p>
+<p>--題目來自 reddit，分析來自小路。</p>
+</XPostCard>
+
+## 第一輪：對象建模只是入場券
+
+【原文明說】題目給定的七個對象——Instrument、Exchange、Quote/OrderBook、Market Data Listener、Order Book Manager、Arbitrage Engine、Execution Router——構成一條單向鏈路：Market Data → Order Book → Arbitrage Engine → Execution Router。Listener 的關鍵優化已經寫在題目裡：收到某個 Instrument 的行情，只重算**這一個** Instrument 的全交易所最高 Bid 與最低 Ask，而不是掃全市場。
+
+【原文明說】套利觸發條件只有一行：`max(Bid) > min(Ask)`。但小路強調，這行只是起點，後面四個細節才是面試官要聽的：size 取 `min(bid_size, ask_size)`、價差覆蓋手續費與滑點、加安全閾值 margin、準備一兩個介面簽名（例如 `OrderBookManager.getBestBidAsk(InstrumentId)` 返回 O(1)）。
+
+![套利判斷鏈：四站＋真正的陷阱 legging risk。](/article.ai/articles/jane-street-arbitrage-interview/figure-01-arb-pipeline.svg)
+
+<small class="figure-caption">圖 1｜本站依貼文重繪：四站鏈路與只重算變化 Instrument 的範圍縮小；虛線框為 legging risk——腿一送出時價差還在，腿二抵達時價差可能已經消失。</small>
+
+## 真正的陷阱：legging risk
+
+【原文明說＋合理推斷】多數人看到 `max(Bid) > min(Ask)` 就下單，漏掉的是兩條腿的 Order **不是原子提交**：A 賣單與 B 買單之間隔著網路延遲，第二條腿抵達交易所時，價差很可能已經收窄甚至消失。這是整道題真正的陷阱，也是面試官反覆追問的方向——換句話說，**這題考的不是會不會發現價差，而是知不知道發現價差之後風險才開始**。
+
+【原文明說】對策有三件套：判斷邏輯加安全閾值 margin（套利空間必須大於某個值，覆蓋延遲和滑點）；partial fill 之後想清楚另一條腿怎麼辦（hedge 還是 cancel）；size 與費用如上節。
+
+## Follow-up：100 萬 updates/sec 要講到什麼顆粒度
+
+【原文明說】方向是對的——把計算範圍從「全市場」縮小到「發生變化的 Instrument」。但「減少全域鎖競爭」「避免不必要的記憶體分配」這種回答太泛，面試官想聽的是具體機制，小路直接開了名詞清單：
+
+1. **按 instrument_id 做 sharding**：一致性雜湊把同一 instrument 的所有更新路由到固定執行緒/core——天然無鎖，且 cache locality 好。
+2. **Best Bid/Ask 用定長陣列**：按 exchange_id 索引，更新 O(1)。
+3. **JVM 系避 GC pause**：off-heap / primitive array，或用 **LMAX Disruptor** 這種 ring buffer 把 ingestion 和計算解耦。
+4. **stale quote 處理**：Quote 加 TTL，交易所連接斷了不能拿舊報價繼續判斷。
+5. **防重複下單狀態機**：pending / triggered / filled。
+
+![100 萬 updates/sec：範圍縮小＋每個 shard 內的具體機制。](/article.ai/articles/jane-street-arbitrage-interview/figure-02-scale.svg)
+
+<small class="figure-caption">圖 2｜本站依貼文重繪：一致性雜湊分流到固定執行緒後，每個 shard 內的五個具體機制；底線是小路的判準——泛泛而談沒有分量。</small>
+
+【合理推斷】這五條其實是同一句話的五種說法：**延遲的敵人是共享可變狀態與不可預測的停頓**，sharding 消滅共享、定長陣列消滅分配、Disruptor 消滅鎖、TTL 消滅髒讀、狀態機消滅重送。能講出這一層，追問就結束了。
+
+## 風險與盲點
+
+- **題目出處無法驗證（原文明說）**：貼文自述「題目來自 reddit」，是哪一篇、有無改寫、是否真為 Jane Street 考題，全都無從核對；連 Jane Street 之名本身也只是轉述標籤。evidence 只能給「探索中」。
+- **數字量級存疑（合理推斷）**：100 萬 updates/sec 是單一 Instrument 還是全市場、是行情 ingestion 還是全鏈路吞吐，貼文沒說；當作追問場景讀可以，不要當成 Jane Street 真實流量讀。
+- **單一視角（合理推斷）**：全文是候選人視角的「面試官想聽什麼」，沒有面試官視角的評分標準；legging risk 與五條機制都是業界標準做法（合理推斷），正確但不獨家——同樣的答案用在任何做市商面試都成立。
+- **數據新鮮度**：貼文發布於 2026-09-10 上午，瀏覽 2.2K，是小路面經系列的最新一篇；與站上 Google 區間轉圖文、家庭 FAANG 文同作者，可互鏈。
+
+## 來源
+
+- 《山景城小路》 X 主貼文（2026-09-10）：https://x.com/Zen_with_AI/status/2097865726392697112 ——全部題目、追問、機制名詞之出處
