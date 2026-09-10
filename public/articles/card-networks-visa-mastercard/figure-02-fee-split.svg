@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="360" viewBox="0 0 760 360" font-family="Noto Sans TC, sans-serif">
+  <rect x="0" y="0" width="760" height="360" fill="#faf9f5"/>
+  <text x="380" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#141413">一筆 $100 刷卡：$2.50 手續費誰拿走？</text>
+  <!-- bar segments proportional: total width 600, $2.50 -> 600px -->
+  <g font-size="13">
+    <rect x="80" y="70" width="480" height="56" fill="#1b365d"/>
+    <text x="320" y="104" text-anchor="middle" fill="#fff" font-weight="bold">發卡行 interchange $2.00（80%）</text>
+    <rect x="560" y="70" width="84" height="56" fill="#8a5a2b"/>
+    <text x="602" y="96" text-anchor="middle" fill="#fff">處理方</text>
+    <text x="602" y="114" text-anchor="middle" fill="#fff">$0.35</text>
+    <rect x="644" y="70" width="36" height="56" fill="#6b6a64"/>
+    <text x="662" y="96" text-anchor="middle" fill="#fff" font-size="11">網路</text>
+    <text x="662" y="112" text-anchor="middle" fill="#fff" font-size="11">$0.15</text>
+  </g>
+  <text x="80" y="150" font-size="13" fill="#6b6a64">特店實收 $97.50（MDR 2.5%）。卡組織只拿 6%，卻訂出 80% 流向發卡行的規則——這就是權力所在。</text>
+  <line x1="80" y1="170" x2="680" y2="170" stroke="#e8e6dc"/>
+  <text x="80" y="196" font-size="14" font-weight="bold" fill="#141413">為什麼是這個分法？</text>
+  <text x="80" y="220" font-size="13" fill="#141413">發卡行拿最多，因為它扛信用風險＋零責任詐欺損失（掛失被盜刷算銀行的）。</text>
+  <text x="80" y="244" font-size="13" fill="#141413">豐厚 interchange → 發卡行砸回饋搶客戶 → 持卡人多刷 → 特店不得不收 → 雙邊市場正循環。</text>
+  <text x="80" y="268" font-size="13" fill="#141413">歐盟把 interchange 上限壓到 0.3%：回饋卡消失，但銀行轉帳等替代支付反而長出來。</text>
+  <line x1="80" y1="288" x2="680" y2="288" stroke="#e8e6dc"/>
+  <text x="80" y="314" font-size="13" fill="#6b6a64">HN 留言的另一面：價格已含刷卡成本，沒刷卡的人等於補貼刷卡回饋（HBS 稱數十億美元財富轉移）；</text>
+  <text x="80" y="336" font-size="13" fill="#6b6a64">但也有人反駁這是「大額消費的量販折扣」，不是劫貧濟富。</text>
+</svg>

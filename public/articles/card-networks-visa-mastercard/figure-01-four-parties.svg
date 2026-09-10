@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="340" viewBox="0 0 760 340" font-family="Noto Sans TC, sans-serif">
+  <rect x="0" y="0" width="760" height="340" fill="#faf9f5"/>
+  <text x="380" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#141413">四方模型：卡組織居中連接發卡端與收單端</text>
+  <!-- issuing side -->
+  <rect x="40" y="70" width="200" height="90" rx="8" fill="#fff" stroke="#1b365d" stroke-width="2"/>
+  <text x="140" y="100" text-anchor="middle" font-size="15" font-weight="bold" fill="#1b365d">發卡行 Issuer</text>
+  <text x="140" y="124" text-anchor="middle" font-size="13" fill="#6b6a64">Chase、Capital One…</text>
+  <text x="140" y="144" text-anchor="middle" font-size="13" fill="#6b6a64">承擔信用＋詐欺風險</text>
+  <rect x="40" y="180" width="200" height="70" rx="8" fill="#fff" stroke="#1b365d" stroke-width="1.5"/>
+  <text x="140" y="208" text-anchor="middle" font-size="15" font-weight="bold" fill="#141413">持卡人</text>
+  <text x="140" y="230" text-anchor="middle" font-size="13" fill="#6b6a64">刷卡、拿回饋</text>
+  <line x1="140" y1="160" x2="140" y2="180" stroke="#1b365d" stroke-width="1.5"/>
+  <!-- network center -->
+  <rect x="290" y="110" width="180" height="110" rx="8" fill="#1b365d"/>
+  <text x="380" y="148" text-anchor="middle" font-size="16" font-weight="bold" fill="#fff">卡組織</text>
+  <text x="380" y="172" text-anchor="middle" font-size="14" fill="#fff">Visa / Mastercard</text>
+  <text x="380" y="194" text-anchor="middle" font-size="12" fill="#c9c5b8">電信網＋資金網＋規則</text>
+  <!-- acquiring side -->
+  <rect x="520" y="70" width="200" height="90" rx="8" fill="#fff" stroke="#8a5a2b" stroke-width="2"/>
+  <text x="620" y="100" text-anchor="middle" font-size="15" font-weight="bold" fill="#8a5a2b">收單行 Acquirer</text>
+  <text x="620" y="124" text-anchor="middle" font-size="13" fill="#6b6a64">Stripe、Square、Adyen…</text>
+  <text x="620" y="144" text-anchor="middle" font-size="13" fill="#6b6a64">負責商戶開戶承銷</text>
+  <rect x="520" y="180" width="200" height="70" rx="8" fill="#fff" stroke="#8a5a2b" stroke-width="1.5"/>
+  <text x="620" y="208" text-anchor="middle" font-size="15" font-weight="bold" fill="#141413">特店 Merchant</text>
+  <text x="620" y="230" text-anchor="middle" font-size="13" fill="#6b6a64">付 MDR、被 chargeback</text>
+  <line x1="620" y1="160" x2="620" y2="180" stroke="#8a5a2b" stroke-width="1.5"/>
+  <!-- links -->
+  <line x1="240" y1="140" x2="290" y2="140" stroke="#141413" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="470" y1="140" x2="520" y2="140" stroke="#141413" stroke-width="2" marker-end="url(#a)"/>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#141413"/></marker></defs>
+  <text x="265" y="128" text-anchor="middle" font-size="12" fill="#6b6a64">授權</text>
+  <text x="495" y="128" text-anchor="middle" font-size="12" fill="#6b6a64">請款</text>
+  <text x="380" y="280" text-anchor="middle" font-size="13" fill="#6b6a64">卡組織做的四件事：跑電信網、軋資金、定費率誘因、定規則＋仲裁</text>
+  <text x="380" y="304" text-anchor="middle" font-size="13" fill="#6b6a64">不做的：發卡、當銀行、做 POS、商戶承銷、印卡、做刷卡機</text>
+</svg>
