@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" font-family="system-ui, sans-serif">
+  <rect width="720" height="360" fill="#faf9f5"/>
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#141413">torch.matmul 背後的四步發射鏈</text>
+  <g font-size="13" fill="#141413">
+    <rect x="30" y="55" width="145" height="80" rx="8" fill="#fff" stroke="#1b365d" stroke-width="2"/>
+    <text x="102" y="80" text-anchor="middle" font-weight="bold">1. PyTorch 分派</text>
+    <text x="102" y="100" text-anchor="middle" font-size="12" fill="#6b6a64">看到 GPU 陣列</text>
+    <text x="102" y="118" text-anchor="middle" font-size="12" fill="#6b6a64">選 GPU 版 matmul</text>
+    <rect x="200" y="55" width="145" height="80" rx="8" fill="#fff" stroke="#1b365d" stroke-width="2"/>
+    <text x="272" y="80" text-anchor="middle" font-weight="bold">2. 預編譯函式庫</text>
+    <text x="272" y="100" text-anchor="middle" font-size="12" fill="#6b6a64">cuBLAS／cuDNN</text>
+    <text x="272" y="118" text-anchor="middle" font-size="12" fill="#6b6a64">或 PyTorch 自寫 kernel</text>
+    <rect x="370" y="55" width="145" height="80" rx="8" fill="#fff" stroke="#1b365d" stroke-width="2"/>
+    <text x="442" y="80" text-anchor="middle" font-weight="bold">3. 通知驅動發射</text>
+    <text x="442" y="100" text-anchor="middle" font-size="12" fill="#6b6a64">程式碼＋資料指標</text>
+    <text x="442" y="118" text-anchor="middle" font-size="12" fill="#6b6a64">＋執行緒數量</text>
+    <rect x="540" y="55" width="150" height="80" rx="8" fill="#fff" stroke="#1b365d" stroke-width="2"/>
+    <text x="615" y="80" text-anchor="middle" font-weight="bold">4. CPU 排隊走人</text>
+    <text x="615" y="100" text-anchor="middle" font-size="12" fill="#6b6a64">發射進佇列</text>
+    <text x="615" y="118" text-anchor="middle" font-size="12" fill="#6b6a64">GPU 依序消化</text>
+  </g>
+  <g font-size="20" fill="#1b365d">
+    <text x="178" y="108">→</text>
+    <text x="348" y="108">→</text>
+    <text x="518" y="108">→</text>
+  </g>
+  <text x="360" y="168" text-anchor="middle" font-size="14" font-weight="bold" fill="#141413">profiler 看到的 GPU 時間軸：數百個小盒子，每個都是一個 kernel</text>
+  <rect x="30" y="185" width="660" height="64" rx="8" fill="#fff" stroke="#e8e6dc"/>
+  <g>
+    <rect x="50" y="205" width="46" height="24" rx="3" fill="#1b365d"/>
+    <rect x="100" y="205" width="30" height="24" rx="3" fill="#1b365d" opacity=".75"/>
+    <rect x="134" y="205" width="58" height="24" rx="3" fill="#1b365d" opacity=".9"/>
+    <rect x="196" y="205" width="24" height="24" rx="3" fill="#1b365d" opacity=".65"/>
+    <rect x="224" y="205" width="70" height="24" rx="3" fill="#8a5a2b"/>
+    <rect x="298" y="205" width="36" height="24" rx="3" fill="#1b365d" opacity=".8"/>
+    <rect x="338" y="205" width="52" height="24" rx="3" fill="#1b365d" opacity=".7"/>
+    <rect x="394" y="205" width="28" height="24" rx="3" fill="#1b365d" opacity=".9"/>
+    <rect x="426" y="205" width="62" height="24" rx="3" fill="#1b365d" opacity=".75"/>
+    <rect x="492" y="205" width="34" height="24" rx="3" fill="#8a5a2b" opacity=".85"/>
+    <rect x="530" y="205" width="48" height="24" rx="3" fill="#1b365d" opacity=".8"/>
+    <rect x="582" y="205" width="26" height="24" rx="3" fill="#1b365d" opacity=".65"/>
+    <rect x="612" y="205" width="56" height="24" rx="3" fill="#1b365d" opacity=".9"/>
+  </g>
+  <g font-size="13">
+    <rect x="30" y="268" width="660" height="64" rx="8" fill="#f0ede2" stroke="#e8e6dc"/>
+    <text x="360" y="292" text-anchor="middle" font-weight="bold" fill="#141413">每次發射成本約數微秒——跑一次模型＝ CPU 排數百次發射</text>
+    <text x="360" y="312" text-anchor="middle" font-size="12" fill="#6b6a64">小 kernel 發射開銷佔比越高，越值得 fuse 成一個大 kernel</text>
+  </g>
+</svg>

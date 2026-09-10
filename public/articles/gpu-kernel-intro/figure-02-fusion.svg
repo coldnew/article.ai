@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 380" font-family="system-ui, sans-serif">
+  <rect width="720" height="380" fill="#faf9f5"/>
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#141413">kernel fusion：把三次慢記憶體往返壓成一次</text>
+  <text x="360" y="50" text-anchor="middle" font-size="12" fill="#6b6a64">HBM：大而慢（數 TB／s）／ SRAM：小而快——推論瓶頸多半是等資料，不是等計算</text>
+  <text x="190" y="80" text-anchor="middle" font-size="14" font-weight="bold" fill="#141413">未融合：3 個 kernel</text>
+  <text x="530" y="80" text-anchor="middle" font-size="14" font-weight="bold" fill="#141413">融合後：1 個 kernel</text>
+  <g font-size="12" fill="#141413">
+    <rect x="60" y="95" width="260" height="40" rx="8" fill="#fff" stroke="#8a5a2b" stroke-width="2"/>
+    <text x="190" y="120" text-anchor="middle" font-weight="bold">HBM（慢速大記憶體）</text>
+    <rect x="400" y="95" width="260" height="40" rx="8" fill="#fff" stroke="#8a5a2b" stroke-width="2"/>
+    <text x="530" y="120" text-anchor="middle" font-weight="bold">HBM（慢速大記憶體）</text>
+    <rect x="110" y="160" width="160" height="34" rx="6" fill="#fff" stroke="#1b365d"/>
+    <text x="190" y="182" text-anchor="middle">kernel 1：乘法</text>
+    <rect x="110" y="202" width="160" height="34" rx="6" fill="#fff" stroke="#1b365d"/>
+    <text x="190" y="224" text-anchor="middle">kernel 2：加常數</text>
+    <rect x="110" y="244" width="160" height="34" rx="6" fill="#fff" stroke="#1b365d"/>
+    <text x="190" y="266" text-anchor="middle">kernel 3：啟動函數</text>
+    <rect x="440" y="160" width="180" height="118" rx="8" fill="#1b365d"/>
+    <text x="530" y="200" text-anchor="middle" fill="#fff" font-weight="bold">fused kernel</text>
+    <text x="530" y="220" text-anchor="middle" fill="#fff" font-size="12">讀一次 → 乘＋加＋啟動</text>
+    <text x="530" y="238" text-anchor="middle" fill="#fff" font-size="12">全程在 SRAM → 寫回一次</text>
+    <text x="530" y="256" text-anchor="middle" fill="#fff" font-size="12">FlashAttention 即此招</text>
+  </g>
+  <g stroke="#8a5a2b" stroke-width="1.5" fill="none">
+    <path d="M 150 135 L 150 160 M 150 194 L 150 202 M 150 236 L 150 244"/>
+    <path d="M 230 160 L 230 135 M 230 202 L 230 194 M 230 244 L 230 236"/>
+  </g>
+  <g stroke="#1b365d" stroke-width="2" fill="none">
+    <path d="M 500 135 L 500 160 M 560 278 L 560 300"/>
+  </g>
+  <g font-size="13">
+    <rect x="30" y="300" width="660" height="56" rx="8" fill="#f0ede2" stroke="#e8e6dc"/>
+    <text x="360" y="323" text-anchor="middle" font-weight="bold" fill="#141413">左：讀→算→寫 ×3 趟 ／ 右：讀→算算算→寫 ×1 趟</text>
+    <text x="360" y="343" text-anchor="middle" font-size="12" fill="#6b6a64">標準 attention 把完整矩陣寫回 HBM 再讀回；FlashAttention 分塊在 SRAM 內做完 softmax×V 才累加寫出</text>
+  </g>
+</svg>
