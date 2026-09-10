@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <text x="20" y="28" font-size="16" font-weight="700" fill="#333">散裝配置 vs 共享倉庫</text>
+  <text x="20" y="60" font-size="13" font-weight="700" fill="#999">以前：微信手動貼</text>
+  <rect x="20" y="72" width="320" height="52" rx="8" fill="#fdecea"/>
+  <text x="34" y="94" font-size="13" fill="#333">同事 A 調好一條規則 → 微信發過來</text>
+  <text x="34" y="112" font-size="13" fill="#333">手動粘進配置 → 兩週後他又改了，沒人知道</text>
+  <text x="20" y="150" font-size="13" font-weight="700" fill="#999">現在：push → review → pull</text>
+  <rect x="20" y="162" width="150" height="52" rx="8" fill="#e8f0fe"/>
+  <text x="34" y="184" font-size="13" fill="#333">想改就提交</text>
+  <text x="34" y="202" font-size="13" fill="#333">走分支＋合併請求</text>
+  <text x="182" y="188" font-size="18" fill="#999">→</text>
+  <rect x="210" y="162" width="150" height="52" rx="8" fill="#e8f0fe"/>
+  <text x="224" y="184" font-size="13" fill="#333">審核過了</text>
+  <text x="224" y="202" font-size="13" fill="#333">全團隊同步</text>
+  <text x="372" y="188" font-size="18" fill="#999">→</text>
+  <rect x="400" y="162" width="300" height="52" rx="8" fill="#e6f4ea"/>
+  <text x="414" y="184" font-size="13" fill="#333">每次開 AI 會話自動拉最新版</text>
+  <text x="414" y="202" font-size="13" fill="#333">SessionStart hook → teamai pull</text>
+  <text x="20" y="248" font-size="13" font-weight="700" fill="#999">寫一份，轉 11 家格式</text>
+  <rect x="20" y="260" width="680" height="52" rx="8" fill="#f1f3f4"/>
+  <text x="34" y="282" font-size="13" fill="#333">skills／rules／agents／hooks／MCP／env 寫一份，TeamAI 轉成各家格式</text>
+  <text x="34" y="300" font-size="12" fill="#666">Claude Code・Codex・Cursor・CodeBuddy・OpenCode・＋ DeepSeek／Hermes／Qoder 等共 11 家</text>
+</svg>

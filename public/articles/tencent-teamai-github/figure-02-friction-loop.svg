@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <text x="20" y="28" font-size="16" font-weight="700" fill="#333">摩擦分迴圈：踩坑 → 沉澱 → 回查</text>
+  <rect x="20" y="44" width="210" height="100" rx="8" fill="#fdecea"/>
+  <text x="34" y="68" font-size="13" font-weight="700" fill="#333">1．會話結束打摩擦分</text>
+  <text x="34" y="88" font-size="12" fill="#555">中途打斷過 AI</text>
+  <text x="34" y="106" font-size="12" fill="#555">拒絕過工具調用</text>
+  <text x="34" y="124" font-size="12" fill="#555">AI 反覆重試失敗</text>
+  <text x="242" y="94" font-size="18" fill="#999">→</text>
+  <rect x="270" y="44" width="210" height="100" rx="8" fill="#fef7e0"/>
+  <text x="284" y="68" font-size="13" font-weight="700" fill="#333">2．分夠高就提醒沉澱</text>
+  <text x="284" y="88" font-size="12" fill="#555">把踩的坑總結成文件</text>
+  <text x="284" y="106" font-size="12" fill="#555">/teamai-share-learnings</text>
+  <text x="284" y="124" font-size="12" fill="#555">推到團隊倉庫</text>
+  <text x="492" y="94" font-size="18" fill="#999">→</text>
+  <rect x="520" y="44" width="180" height="100" rx="8" fill="#e6f4ea"/>
+  <text x="534" y="68" font-size="13" font-weight="700" fill="#333">3．下次先查再動手</text>
+  <text x="534" y="88" font-size="12" fill="#555">問「端口衝突」前</text>
+  <text x="534" y="106" font-size="12" fill="#555">Agent 先查誰踩過</text>
+  <text x="534" y="124" font-size="12" fill="#555">＋ codebase 知識圖譜</text>
+  <text x="360" y="168" font-size="18" fill="#999">⤺ 回到下一次會話</text>
+  <rect x="20" y="190" width="680" height="100" rx="8" fill="#f1f3f4"/>
+  <text x="34" y="214" font-size="13" font-weight="700" fill="#555">兩個但書（README 原文）</text>
+  <text x="34" y="234" font-size="12" fill="#666">知識回溯預設關閉，要 teamai.yaml 顯式打開； Context／Improvement 兩層都還掛著 beta</text>
+  <text x="34" y="252" font-size="12" fill="#666">按角色分配：teamai roles 定義角色 → 命名空間，後端同學只同步後端那組 Skill</text>
+  <text x="34" y="270" font-size="12" fill="#666">一個人也能用：當多台機器之間的配置同步工具</text>
+</svg>

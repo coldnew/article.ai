@@ -1,0 +1,65 @@
+---
+title: "別再微信傳配置了：騰訊開源 TeamAI，把團隊 Skill 當代碼管"
+description: "騰訊開源的 teamai-cli（3,244 星）把團隊的 Skill、規則、Agent、Hook、MCP 丟進共享 git 倉庫：push→審核→pull，会話自動同步，寫一份轉 11 家格式。貼文每個功能點都回 README 核過，全對得上；但知識回溯預設關閉、兩層掛 beta，別當成開箱即用。"
+publishedAt: 2026-09-10
+topic: "開源"
+sourceType: "article"
+sourceUrl: "https://x.com/GitHub_Daily/status/2097897877838467201?s=20"
+authors: ["GitHubDaily（@GitHub_Daily）"]
+venue: "X"
+tags: ["GitHub", "TeamAI", "騰訊", "Skill", "MCP", "開源專案"]
+readTime: "8 分鐘"
+evidence: "探索中"
+featured: false
+sourceCount: 3
+accent: "purple"
+---
+import XPostCard from '../../components/XPostCard.astro';
+
+## 一句話結論
+
+@GitHub_Daily 介紹騰訊開源的 TeamAI（`Tencent/teamai-cli`，3,244 星、今天還有推送）：團隊的 Skill、規則、Agent、Hook、MCP 全放進一個共享 git 倉庫，用 push→審核→pull 取代微信手傳配置——貼文裡的每個功能點我都回 README 逐一核過，全對得上。
+
+## 這篇文章真正解決的問題
+
+團隊裡幾個人都用 Claude Code、Codex，每人一套 Skill 和規則。同事調好一條規則，微信發過來手動粘進配置，過兩週他又改了，誰也不知道。這是所有「AI 原生團隊」都會撞上的腐爛問題：配置是散裝的，沒有版本、沒有審核、沒有同步。TeamAI 的答案是把團隊配置當代碼管——同一個倉庫、同一個合併請求流程。
+
+<XPostCard author="GitHubDaily" handle="@GitHub_Daily" avatar="/article.ai/articles/tencent-teamai-github/githubdaily-avatar.jpg" timestamp="12:00 PM · Sep 10, 2026" views="1.2K" replies="4" reposts="1" likes="2" sourceUrl="https://x.com/GitHub_Daily/status/2097897877838467201?s=20">
+<p>团队里几个人都用 Claude Code、Codex，每人一套 Skill 和规则。同事调好一条好用的规则，微信发过来手动粘进配置，过两周他又改了，谁也不知道。腾讯开源的 TeamAI 把团队的 Skill、规则、Agent、Hook、MCP 配置放进一个共享 git 仓库，成员一条命令初始化，之后每次开 AI 会话自动拉最新版。想改就提交，走分支加合并请求，审核过了全团队同步。支持 Claude Code、Codex、Cursor、CodeBuddy、OpenCode 等 11 个 Agent，配置写一份，各家格式它来转。会话结束时它会给这次对话打个「摩擦分」，分够高就提醒把这次踩的坑总结成文档，分享到团队仓库。开了知识回溯后，问「端口冲突」这种问题时 Agent 先查团队里谁踩过，再动手。代码仓库也能解析成一张知识图谱给它查。管理员可以按角色分配，后端同学只同步后端那组 Skill。一个人用也行，当成自己多台机器之间同步配置的工具。</p>
+</XPostCard>
+
+<small class="figure-caption">嵌入 1｜@GitHub_Daily 原貼靜態還原（8.4 萬追蹤，個人藍勾）。GitHub 連結：http://github.com/Tencent/teamai-cli</small>
+
+## 流程拆解
+
+README 把 TeamAI 切成三層，這個分層比貼文講得更清楚：
+
+**第一層 Team Execution：讓每個 agent 照團隊的方式幹活。** `init`／`pull`／`push` 管 skills、rules、agents、hooks、MCP、env。成員一條命令初始化，之後每次開 AI 會話，SessionStart hook 自動 `teamai pull` 拉最新版。貼文說的「寫一份轉 11 家格式」對得上：相容矩陣剛好 11 行——Claude Code、Codex、Cursor、CodeBuddy、OpenCode，加上 DeepSeek Harness、Hermes、OpenClaw、Qoder、WorkBuddy、ZCode。
+
+![散裝配置 vs 共享倉庫：push→審核→pull，會話自動同步，寫一份轉 11 家。](/article.ai/articles/tencent-teamai-github/figure-01-git-flow.svg)
+
+<small class="figure-caption">圖 1｜本站自繪：微信手傳 vs git 流程對照，11 家相容名單來自 README 矩陣。</small>
+
+**第二層 Team Context（beta）：讓每個 agent 懂團隊。** 兩個東西：recall（團隊知識回溯）與 learnings、codebase graph、`teamwiki`。貼文說的「問端口衝突前先查誰踩過」就是 recall：`teamai pull` 會部署內建的 `teamai-recall` subagent，動手前先抽關鍵詞、查團隊知識、回結構化摘要，不相關的任務會跳過檢索。`teamai import` 則把源碼倉庫解析成結構化圖谱（組件、介面、配置、跨倉庫 import 邊），給 recall 做圖增強重排。
+
+**第三層 Team Improvement（beta）：讓每次執行都改善團隊。** 核心就是貼文說的「摩擦分」：會話結束時 Stop hook 打分，訊號很具體——你中途打斷或糾正過 AI、拒絕過工具調用、AI 反覆重試失敗工具。分夠高才提醒，用 `/teamai-share-learnings` 把踩坑總結成文件推回團隊倉庫。README 還補了一個貼文沒提的細節：順手但例行的長會話（很多工具調用、零摩擦）不會觸發，每個會話最多提醒一次。
+
+![摩擦分迴圈：踩坑→沉澱→回查，附兩個但書。](/article.ai/articles/tencent-teamai-github/figure-02-friction-loop.svg)
+
+<small class="figure-caption">圖 2｜本站自繪：摩擦分觸發沉澱、沉澱供給回查的迴圈；但書來自 README 原文。</small>
+
+另外兩個管理功能：`teamai roles` 定義角色→命名空間映射，後端只同步後端那組 Skill；`teamai source` 可以訂閱別隊的公開倉庫，pull 時自動同步。一個人用也成立：當多台機器的配置同步工具。
+
+## 風險與盲點
+
+- 【原文明說＋推斷】知識回溯**預設關閉**，要 `teamai.yaml` 顯式打開。貼文寫「開了知識回溯後」是誠實的，但讀者若沒注意到這個前提，會以為開箱即用。
+- 【原文明說】Context 與 Improvement 兩層都掛著 beta。只有 Execution（同步配置）是成熟功能，迴圈部分還在孵化。
+- 【合理推斷】倉庫 2026-04-27 才建，3,244 星在騰訊開源矩陣裡不算大（对比同門動輒上萬星的項目）。星數＋今日仍有推送，證明活著，但不證明團隊流程已被大規模驗證。
+- 【未被支撐】摩擦分的權重與閾值 README 沒公開，啟發式是否真能區分「值得沉澱的坑」vs「單純的爛會話」，目前只有機制描述、沒有數據。
+- 【來源性質】貼文帳號是 8.4 萬追蹤的搬運型帳號（轉述＋導流），不是騰訊官方。本文所有功能宣稱已用 README 原文交叉核對，貼文本身只當「發現管道」，不當證據。
+
+## 來源
+
+- @GitHub_Daily X 主貼文（2026-09-10）：https://x.com/GitHub_Daily/status/2097897877838467201 ——本文轉述對象，約 1,200 瀏覽
+- 倉庫（Tencent/teamai-cli，3,244 星、TypeScript，2026-04-27 建立）：https://github.com/Tencent/teamai-cli ——全部功能宣稱之核對底本
+- README 全文（17.8K 字，經 GitHub API 取得）：同上 ——三層架構、11 家矩陣、摩擦分機制、recall／graph／roles 之出處
