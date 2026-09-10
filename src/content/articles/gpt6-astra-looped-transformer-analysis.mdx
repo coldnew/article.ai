@@ -1,0 +1,105 @@
+---
+title: "GPT-6 Astra 與 Looped Transformer：短思考鏈是變強，不是變狡猾"
+description: "Sebastian Raschka 拆解 GPT-6 Astra 的 looped transformer 傳聞：Nanbeige、Universal Transformer、Ouro、Mixture-of-Recursions 到 SMELT 的技術系譜，The Information 爆料與 Pachocki 回應的來回，以及為什麼 reasoning 變短不等於藏 reasoning。"
+publishedAt: 2026-09-10
+topic: "人工智慧"
+sourceType: "article"
+sourceUrl: "https://magazine.sebastianraschka.com/p/gpt-6-astra-looped-transformers-and"
+authors: ["Sebastian Raschka"]
+venue: "Ahead of AI（Substack）"
+tags: ["GPT-6 Astra", "Looped Transformer", "Chain-of-Thought", "推論監控", "Computer Use", "人工智慧"]
+readTime: "11 分鐘"
+evidence: "中"
+featured: false
+sourceCount: 9
+accent: "orange"
+---
+
+## 一句話結論
+
+Raschka 把 Astra 的兩個傳聞拆開看：looped transformer 很可能真的在用，但它只是「同計算預算下好一點點」的工程選擇；真正該擔心的不是思考鏈變短——強的模型本來就用比較少草稿紙——而是有沒有「故意給假的」思考鏈，而目前沒有證據指向後者。
+
+## 這篇文章真正解決的問題
+
+GPT-6 Astra 發布前兩天，The Information 丟出一顆震撼彈：Astra 用了「recurrent depth（looped transformer）」，會把推理藏進 hidden state，讓 chain-of-thought 監控失效，安全研究者群起 alarm。Raschka 這篇（2026-09-09，Ahead of AI）一次回答三個問題：looped transformer 到底是什麼、Astra 到底有沒有用、用了是不是就等於藏 reasoning。
+
+## 流程拆解
+
+### 1. Astra 第一印象：圖形與 computer use 躍升最大
+
+【原文明說】Raschka 實測結論：Astra 是他用過最好的模型，各類全面超越 GPT-5.6，但「不成比例地」強在 3D 渲染與動畫。亮點數字：ARC-AGI-3 達 99.9%（GPT-5.6 Sol 只有 7.8%）。第三方 Artificial Analysis 的 Coding Agent Index v1.4 與 Intelligence Index（v4.2／v4.3）也確認 Astra 在前沿，但沒有甩開到誇張。
+
+【原文明說＋方法論提醒】第三方評測用共用 harness，蘋果對蘋果；但模型訓練時通常只針對自家 harness 優化，所以跨 harness 分數可能低估 Astra。附帶一個辛辣建議：新模型變聰明了，該刪（或歸檔）舊的 `AGENTS.md`／`SKILL.md`，過度 hand-holding 反而綁手綁腳——不用的留著增效，過時的該重寫。
+
+【原文明說】computer use 是 Astra 拉開差距的地方：Blender 建紐約市、虛擬看房、作者親測在 jspaint 用滑鼠重畫自畫像。訓練方式是 Mac 當環境：給任務→餵截圖→模型預測滑鼠鍵盤動作→harness 執行→回傳新截圖→成敗訊號做 RLVR。這跟 Yahoo 報導「OpenAI 買數萬台 Mac Mini／Mac Studio 做 RL」對得上。
+
+【未被支撐】Mac 採購是 Yahoo 轉述、黃仁勳稱 Astra 用約 10 萬顆 Grace Blackwell 訓練是 X 貼文說法，本文都未能獨立驗證；computer use 七步流程是作者綜合寫法，不是 OpenAI 官方文件。
+
+### 2. Looped transformer：同一組權重多跑幾遍
+
+核心一句話：**中間表示穿過同一疊 transformer block 很多次，而不是一次；權重不增加，計算量增加。**
+
+![Looped Transformer：同一組權重，多跑幾遍。以 Nanbeige4.2-3B 為例。](/article.ai/articles/gpt6-astra-looped-transformer/figure-01-looped-vs-vanilla.svg)
+
+<small class="figure-caption">圖 1｜本站自繪。左：44 個不同 block 存 44 套權重；右：Nanbeige4.2-3B 的 22 個 block 跑 2 遍，44 次應用、只存 22 套權重。省的是權重記憶體，不是計算也不是 KV cache。</small>
+
+【原文明說＋已驗證】範例是 7 月的開源模型 Nanbeige4.2-3B（arXiv:2607.22083，已驗證存在：3B 非 embedding 參數、28T token、從零訓練）：22 個 block 跑 2 遍，展開是 44 次應用，第 23 次應用重用 block 1 的權重。技術報告的三個取捨都值得記：從零訓練 looped 架構優於把預訓練模型 upcycle 改裝；2 遍是最佳甜蜜點（3 遍以上增益小、訓練變慢還不穩）；試過兩遍共用 KV cache，省一半但掉分，正式版保留各自獨立 cache。
+
+【已驗證】系譜往上是 2018 年 Universal Transformer（arXiv:1807.03819）：重複用「同一個」block，外加 adaptive halting——每個位置學一個 halting 機率，累積超過閾值就停，難的 token 多跑幾遍。往下是 2025 年 Mixture-of-Recursions（arXiv:2507.10524，已驗證，NeurIPS 2025）：把 halting 換成 MoE 式的 router，分 expert-choice（每步決定哪些 token 留下）與 token-choice（開頭一次分流 1／2／3 遍）兩種。實測教訓：最小規模普通 transformer 反而贏，規模拉大後 MoR 在小預算勝出——只看 135M 小模型會得出完全相反的結論。
+
+【原文明說＋已驗證】字節的 Ouro（arXiv:2510.25741，作者架構圖庫有收）：48 個 block 跑 4 遍＝192 次應用，學 exit gate，但釋出的 HF 實作其實把 4 遍算完才選，等於寫死。
+
+【可直接推出】RNN 的類比：RNN 是在「時間步」之間重用權重（hidden state 往下一個 token 帶），looped transformer 是在「架構深度」上重用（同一個 token 的表示多穿幾次）。想不通時記後半句就好：拿掉更多 `if` 的對應版——把模型變大，但權重共用。
+
+### 3. Astra 到底有沒有用？傳聞未證實，但很可能
+
+【原文明說＋多方驗證】The Information 的爆料文真實存在（Fortune、PCWorld、The Verge、TechCrunch 皆跟進：〈Secret Technique Behind OpenAI's Astra Model Sparks Security Concerns〉）。Raschka 認為 Astra 用 looped 的機率高，理由三個：爆料、技術確實有效、Pachocki 的回應。但他同時潑冷水：Astra 強的主因應該是訓練配方與資料，looped 只是加分，The Information 高估了它的貢獻。
+
+OpenAI 首席科學家 Jakub Pachocki 的澄清（逐字引用，三家以上外媒一致，browser 故障未能直接抓取原推文，故以引文形式呈現）：
+
+> I want to prevent a race into unmonitorability kicked off by confused reporting. The depth of the computation graph for our present frontier models, including Astra, is within a factor of two of GPT-4. …… I do think it is fragile and unfortunately trending in a negative direction, for reasons not contingent on architecture changes that I will write about soon.
+
+重點有二：「兩倍以內」是定心丸（也吻合 LessWrong 推測 Astra 約 3–4 個 loop）；但「脆弱且往壞的方向走」是他自己承認的，只是他說原因跟架構無關。
+
+### 4. 藏 reasoning？短≠假
+
+【原文明說】Raschka 的立場很硬：looped 不是藏 CoT 的主因。第一，OpenAI 從 o1 開始就對使用者藏大部分 reasoning trace，這不是新鮮事。第二，Astra 在固定精度下確實用更少 token，但 Luna／Sol 的例子證明這是老現象——Luna 用多 80% token 才拿到跟 Sol 一樣的分數，沒人因此說 Sol 不可解讀。更強的模型第一次就做對、少 backtrack，自然話少。作者的神比喻：準備充分的學生考試時本來就用比較少草稿紙。
+
+![同樣的「更多計算」，兩條路：外部思考 token vs 內部 loop。](/article.ai/articles/gpt6-astra-looped-transformer/figure-02-tokens-vs-loops.svg)
+
+<small class="figure-caption">圖 2｜本站自繪。外部 token 看得見、可監控；內部 loop 省 token 但少了可讀軌跡。Raschka 的紅線畫在「故意給假 trace」，不是「變短」。</small>
+
+【原文明說】真正的紅線只有一條：looped 模型是否「更常給假的」reasoning trace（reasoning 本來就不保證忠實，引用 arXiv:2305.04388）。目前沒有證據。system card 承認 monitorability 小幅退化，但那是「短而不豐富」，跟 Luna／Sol 的故事同一個形狀。
+
+### 5. 研究前沿：四篇論文各回答一個問題
+
+- **Latent reasoning（Geiping et al., arXiv:2502.05171）**：3.5B 模型、800B token，共享 4-block 夾在 2＋2 之間，每遍都重看初始表示；訓練時隨機抽 loop 數，推論時可指定 8／32／64，外加 KL-divergence 早停。HellaSwag 約 8 遍就平了，GSM8K／HumanEval 越多越好。標題叫 latent reasoning，但它照樣能吐文字 CoT——loop 只是每個 token 前的額外計算。
+- **Beyond Parameters（arXiv:2506.18233，2025-06）**：記憶 vs 推理分開量。Loop 不增加知識容量（那是參數的事），但改善多步數學——計算可以補推理，不補記憶。
+- **SMELT（arXiv:2609.01343，已驗證 2026-09-01 發布）**：最硬的一篇——同 compute、同參數、同 KV cache 下比較，looped 版省 6.8–18% 訓練計算（54B 非 embedding 規模外推）。方法是中間一半 block 跑兩遍，縮 hidden dim 補計算、加 expert 補參數。
+- **Full-bandwidth transformer（arXiv:2608.08888）**：跨 token 位置的 recurrence，前一 token 的最終 hidden state 閘控混入下一 token 輸入。1B base 模型在 MATH500 上 trace 變短且準確率不掉，但 instruction tuning 後效果消失——而且沒測「直接加 block」會不會有一樣效果，因果未定。
+
+## 風險與盲點
+
+- **Astra 內部全是傳聞**：loop 用法、loop 數、ARC-AGI-3 99.9% 都來自作者印象與匿名爆料，OpenAI 從未證實；evidence 只能給「中」。
+- **反方聲音本文偏弱**：LessWrong 的長文整理了 Greenblatt 的「可調 dial」擔憂（現在設很淺，以後轉一下就加深）、Buck Shlegeris「完全摧毀 CoT 監控」的警告、Kokotajlo「OpenAI 不推別人也會推」、Adler 的紅線說。Raschka 引用了 Pachocki 但沒正面處理 dial 論點，這是全文最大的防禦缺口。
+- **Full-bandwidth 的因果洞**：作者自己點名了——沒對照「加 block」基線，trace 變短可能跟 loop 無關。
+- **MoR 的規模條件**：小模型 loop 反而輸，結論只在「夠大」時成立；SMELT 的 6.8–18% 是外推估計，不是實測省下。
+- **利益揭露**：文末是作者新書《Build a Reasoning Model From Scratch》的廣告，讀他「reasoning 很重要」的立場時打個折。
+
+## 我們的判讀
+
+《GPT-6 Astra, Looped Transformers, and Hidden Reasoning》最值得帶走的是一個切分：**「思考變短」和「思考造假」是兩件事**。前者是能力曲線的正常形狀（Luna／Sol 早就演過），後者才是監控體系的生死線，而 looped transformer 目前只被證明跟前者有關。
+
+務實的結論有三個：第一，looped 是「省權重記憶體、 same compute 換好一點品質」的工程選項，不是典範轉移，Astra 的強更多是配方與資料；第二，Pachocki 的「兩倍以內」是可驗證的承諾（Greenblatt 的 dial 質疑則是它天然的對手，兩邊要一起追）；第三，computer use 才是 Astra 真正的新戰場——Mac 農場＋RLVR 的訓練迴圈，意味著下一波軍備競賽在 harness 層，而作者提醒開源 harness 可審計，這句話比整篇 looped 討論都更值得馬上行動。
+
+## 來源
+
+- Sebastian Raschka 全文（2026-09-09，178 則 Hacker News 討論等級的長文）：https://magazine.sebastianraschka.com/p/gpt-6-astra-looped-transformers-and ——全部機制、數字、引文之出處
+- The Information 爆料（Fortune 跟進版，2026-09-03）：https://fortune.com/2026/09/03/reports-openais-astra-model-uses-a-new-more-efficient-ai-architecture-alarms-ai-safety-experts-who-worry-the-method-makes-models-harder-to-control
+- Pachocki 澄清推文（2026-09-02，多家外媒逐字引用）：https://x.com/merettm/status/2095023204993490967
+- LessWrong 反方長文（含 Greenblatt／Buck／Kokotajlo 論點）：https://www.lesswrong.com/posts/PLisnSFir8y5AHkmP/how-concerned-should-we-be-about-openai-s-recurrent
+- Nanbeige4.2-3B（arXiv:2607.22083，2026-07-27，已驗證）：https://arxiv.org/abs/2607.22083
+- Mixture-of-Recursions（arXiv:2507.10524，NeurIPS 2025，已驗證）：https://arxiv.org/abs/2507.10524
+- SMELT（arXiv:2609.01343，2026-09-01，已驗證）：https://arxiv.org/abs/2609.01343
+- 作者架構圖庫 looped 章節（Ouro／Nanbeige 數字交叉核對用）：https://sebastianraschka.com/llm-architecture-gallery/looped-depth-sharing/
+- Full-bandwidth transformer（arXiv:2608.08888，未逐項驗證數字）：https://arxiv.org/abs/2608.08888

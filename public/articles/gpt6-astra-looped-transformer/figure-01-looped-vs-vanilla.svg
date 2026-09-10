@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 470" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#1b365d"/>
+    </marker>
+    <marker id="arrO" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#c26a1b"/>
+    </marker>
+  </defs>
+  <text x="400" y="28" text-anchor="middle" font-size="20" font-weight="700" fill="#141413">Looped Transformer：同一組權重，多跑幾遍</text>
+  <text x="400" y="50" text-anchor="middle" font-size="13" fill="#6b6a64">以 Nanbeige4.2-3B（22 個 block 跑 2 遍＝44 次應用）為例，本站自繪</text>
+
+  <!-- left: conventional -->
+  <text x="180" y="82" text-anchor="middle" font-size="15" font-weight="700" fill="#141413">傳統：44 個不同 block</text>
+  <g font-size="11" text-anchor="middle">
+    <rect x="110" y="95" width="140" height="30" rx="5" fill="#dbe4f0" stroke="#1b365d"/><text x="180" y="114" fill="#1b365d">block 1（權重 W1）</text>
+    <rect x="110" y="130" width="140" height="30" rx="5" fill="#dbe4f0" stroke="#1b365d"/><text x="180" y="149" fill="#1b365d">block 2（權重 W2）</text>
+    <text x="180" y="178" fill="#6b6a64" font-size="16">⋮</text>
+    <rect x="110" y="188" width="140" height="30" rx="5" fill="#dbe4f0" stroke="#1b365d"/><text x="180" y="207" fill="#1b365d">block 44（權重 W44）</text>
+  </g>
+  <text x="180" y="245" text-anchor="middle" font-size="13" fill="#141413">存 <tspan font-weight="700">44 套</tspan>權重</text>
+  <text x="180" y="264" text-anchor="middle" font-size="13" fill="#141413">算 44 次 block 應用</text>
+
+  <!-- right: looped -->
+  <text x="600" y="82" text-anchor="middle" font-size="15" font-weight="700" fill="#141413">Looped：22 個 block 跑 2 遍</text>
+  <g font-size="11" text-anchor="middle">
+    <rect x="530" y="95" width="140" height="30" rx="5" fill="#fdf0dd" stroke="#c26a1b"/><text x="600" y="114" fill="#8a5a2b">block 1（權重 W1）</text>
+    <rect x="530" y="130" width="140" height="30" rx="5" fill="#fdf0dd" stroke="#c26a1b"/><text x="600" y="149" fill="#8a5a2b">block 2（權重 W2）</text>
+    <text x="600" y="178" fill="#6b6a64" font-size="16">⋮</text>
+    <rect x="530" y="188" width="140" height="30" rx="5" fill="#fdf0dd" stroke="#c26a1b"/><text x="600" y="207" fill="#8a5a2b">block 22（權重 W22）</text>
+  </g>
+  <path d="M 680 203 C 720 203 720 110 678 110" fill="none" stroke="#c26a1b" stroke-width="2.5" marker-end="url(#arrO)"/>
+  <text x="726" y="160" font-size="12" fill="#c26a1b" font-weight="700">第 2 遍</text>
+  <text x="600" y="245" text-anchor="middle" font-size="13" fill="#141413">只存 <tspan font-weight="700">22 套</tspan>權重</text>
+  <text x="600" y="264" text-anchor="middle" font-size="13" fill="#141413">照樣算 44 次 block 應用</text>
+
+  <!-- tradeoff table -->
+  <line x1="60" y1="288" x2="740" y2="288" stroke="#e8e6dc"/>
+  <text x="400" y="312" text-anchor="middle" font-size="15" font-weight="700" fill="#141413">省到什麼、沒省到什麼</text>
+  <g font-size="13" fill="#141413">
+    <text x="90" y="340">✅ 權重記憶體：大約減半（embedding／輸出層不算在內）</text>
+    <text x="90" y="364">✅ 同計算預算下，大模型品質可能更好（MoR 論文：小模型反而輸）</text>
+    <text x="90" y="388">❌ 前向計算量：沒省（44 次應用就是 44 次的活）</text>
+    <text x="90" y="412">❌ KV cache：沒省（兩遍的中間狀態不同，各存各的；共用會掉分）</text>
+    <text x="90" y="436">❌ 反向傳播：梯度照樣穿過 44 次應用（只是要更新的不同參數變少）</text>
+  </g>
+</svg>
