@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="360" viewBox="0 0 760 360" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="760" height="360" fill="#ffffff"/>
+  <text x="24" y="30" font-size="16" font-weight="700" fill="#1b365d">經濟＝任務束：以護士的一天為例（O*NET 分類）</text>
+  <g font-size="13">
+    <rect x="24" y="48" width="344" height="120" rx="8" fill="#f5f4ed" stroke="#e8e6dc"/>
+    <text x="40" y="74" font-weight="700" fill="#6b6a64">不受影響</text>
+    <text x="40" y="98" fill="#141413">幫病人洗澡——只有人能做</text>
+    <text x="40" y="120" fill="#141413">陪病人談話、解釋診斷</text>
+    <text x="40" y="142" fill="#6b6a64" font-size="12">AI 到不了的任務</text>
+    <rect x="392" y="48" width="344" height="120" rx="8" fill="#eef3f8" stroke="#9db4d0"/>
+    <text x="408" y="74" font-weight="700" fill="#1b365d">被增強（augmented）</text>
+    <text x="408" y="98" fill="#141413">起草出院指示、遠端監測</text>
+    <text x="408" y="120" fill="#141413">排班照護計畫</text>
+    <text x="408" y="142" fill="#6b6a64" font-size="12">人做得更快更好</text>
+    <rect x="24" y="184" width="344" height="120" rx="8" fill="#f8efe6" stroke="#c98a4b"/>
+    <text x="40" y="210" font-weight="700" fill="#8a5a2b">被自動化（automated）</text>
+    <text x="40" y="234" fill="#141413">抄寫生命徵象、病房補貨下單</text>
+    <text x="40" y="258" fill="#6b6a64" font-size="12">任務整包交給 AI</text>
+    <rect x="392" y="184" width="344" height="120" rx="8" fill="#edf5ee" stroke="#5a8a5f"/>
+    <text x="408" y="210" font-weight="700" fill="#2e6b34">新任務（new）</text>
+    <text x="408" y="234" fill="#141413">檢查 AI 分診準不準</text>
+    <text x="408" y="258" fill="#141413">覆核 AI 建議的照護計畫</text>
+    <text x="408" y="280" fill="#6b6a64" font-size="12">監督機器的新工作</text>
+  </g>
+  <text x="24" y="332" font-size="12" fill="#6b6a64">同一套四分法套到所有職業：2030 年的結局，取決於增強 vs 自動化的比例、生產力增益與採用速度。</text>
+</svg>

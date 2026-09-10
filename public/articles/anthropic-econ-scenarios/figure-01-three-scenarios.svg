@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="380" viewBox="0 0 760 380" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="760" height="380" fill="#ffffff"/>
+  <text x="24" y="30" font-size="16" font-weight="700" fill="#1b365d">三種情景：2030 年 GDP 與勞動份額（2025 年價格）</text>
+  <!-- GDP bars, max 44.4 -->
+  <g font-size="13">
+    <text x="24" y="70" fill="#6b6a64">Modest（溫和）</text>
+    <rect x="190" y="52" width="124" height="24" fill="#9db4d0"/>
+    <text x="322" y="70" fill="#141413">+1.6% · $34.1T</text>
+    <text x="24" y="94" fill="#6b6a64">Substantial（顯著）</text>
+    <rect x="190" y="76" width="132" height="24" fill="#4a7396"/>
+    <text x="330" y="94" fill="#141413">+8.3% · $36.3T</text>
+    <text x="24" y="118" fill="#6b6a64">Extreme（極端）</text>
+    <rect x="190" y="100" width="380" height="24" fill="#1b365d"/>
+    <text x="578" y="118" fill="#141413">+32.4% · $44.4T</text>
+  </g>
+  <line x1="24" y1="140" x2="736" y2="140" stroke="#e8e6dc"/>
+  <text x="24" y="164" font-size="16" font-weight="700" fill="#1b365d">勞動份額（基線約 60%，剩餘歸資本）</text>
+  <g font-size="13">
+    <text x="24" y="196" fill="#6b6a64">Modest</text>
+    <rect x="190" y="180" width="356" height="22" fill="#c98a4b"/>
+    <rect x="546" y="180" width="30" height="22" fill="#d8d5c8"/>
+    <text x="584" y="197" fill="#141413">59.4%（資本 +0.6pp）</text>
+    <text x="24" y="224" fill="#6b6a64">Substantial</text>
+    <rect x="190" y="208" width="337" height="22" fill="#c98a4b"/>
+    <rect x="527" y="208" width="49" height="22" fill="#d8d5c8"/>
+    <text x="584" y="225" fill="#141413">56.1%（資本 +3.9pp）</text>
+    <text x="24" y="252" fill="#6b6a64">Extreme</text>
+    <rect x="190" y="236" width="271" height="22" fill="#a33b2e"/>
+    <rect x="461" y="236" width="115" height="22" fill="#d8d5c8"/>
+    <text x="584" y="253" fill="#141413">45.2%（資本 +14.8pp）</text>
+  </g>
+  <line x1="24" y1="276" x2="736" y2="276" stroke="#e8e6dc"/>
+  <text x="24" y="300" font-size="13" fill="#6b6a64">知識工作者工資：溫和（歷史正常）→ 顯著（基本持平）→ 極端（到 2030 下跌超 10%）</text>
+  <text x="24" y="322" font-size="13" fill="#6b6a64">失業：前兩者維持歷史區間；極端情景升破典型衰退水平</text>
+  <text x="24" y="352" font-size="11" fill="#9a9890">本站依 Anthropic Econ Scenarios 頁面 Finding 1／Finding 4 數據重繪</text>
+</svg>
