@@ -1,0 +1,87 @@
+---
+title: "為什麼 Android 做不好摺疊屏：一位自稱前 Google 員工的四點控訴"
+description: "整理《BinaryTree》這則 X 貼文：自稱待過 Google 摺疊屏 System API 組的作者，在 iPhone Duo 發表當天開砲——Android 摺疊屏做不好的四個結構性原因：對硬體無掌控權、Google 內部失序、國產廠畏首畏尾、蘋果生態位的死亡螺旋。本文逐點核對公開資料，並標出無法驗證的自述部分。"
+publishedAt: 2026-09-10
+topic: "技術"
+sourceType: "article"
+sourceUrl: "https://x.com/BtreeWw/status/2097981072944296153"
+authors: ["BinaryTree（@BtreeWw）"]
+venue: "X · BinaryTree"
+tags: ["摺疊屏", "Android", "iPhone Duo", "AOSP", "Oppo Find N2", "生態系"]
+readTime: "8 分鐘"
+evidence: "探索中"
+featured: false
+sourceCount: 5
+accent: "blue"
+---
+
+import XPostCard from '../../components/XPostCard.astro';
+
+## 先說結論
+
+《BinaryTree》這則貼文給出的答案不是技術不行，而是結構不行：Android 摺疊屏的病根是軟硬割裂＋組織失序＋廠商跟隨心態＋生態位劣勢，四層疊加成一個「開發者不适配→用戶不買→份額縮小→更不适配」的死亡螺旋。針對 iPhone Duo 發表當天的時機，這篇與其說是技術分析，不如說是一位 Android 老兵的出氣文——但出氣的每個點，都有公開資料可以對得上或打折。
+
+## 這篇文章真正解決的問題
+
+同一天（台灣時間 9/10 凌晨）蘋果剛發表首款摺疊機 iPhone Duo（256GB 74,900 元起，10/23 開賣），作者Austin要回答的是：為什麼三星、Oppo、Pixel 做了這麼多年摺疊屏，市場還是只有不到 2%（IDC 數據），而蘋果一進場就被預測年底拿下三成需求？他的答案是四個結構性原因，外加一個生態位詛咒。
+
+## 來源貼文
+
+<XPostCard author="BinaryTree" handle="@BtreeWw · SWE @Uber mobile ML/AI platform" avatar="/article.ai/articles/foldable-android-rant/btree-avatar.jpg" timestamp="5:30 PM · Sep 10, 2026" views="3.9K" replies="8" reposts="2" likes="33" sourceUrl="https://x.com/BtreeWw/status/2097981072944296153">
+<p>长文吐槽为什么Gooogle/Android做不好折叠屏。</p>
+<p>我也是多年的Android开发者了，曾经短暂的在谷歌工作过，好巧不巧所在的组就是负责折叠屏的System API，所以这一块我还是比较有发言权。看到苹果折叠屏完成度这么高，确实有点不吐不快。我总结了下大概有四个最大的问题：</p>
+<p>1. Google对硬件完全没有掌控权——三星早早魔改 AOSP 适配自家折叠屏，代码回不到主分支，系统更新比硬件慢一到两年，每家 OEM 各搞一套，开发者不可能逐家适配。</p>
+<p>2. 谷歌内部混乱——组间沟通比跨公司还难，Pixel 从 AOSP 分叉，加上裁员与 ChatGPT 冲击，折叠屏这种小众需求排不上优先级；iOS 的 LLM API 完成度早就超过 Android（structured output 至今仍在 Alpha）。</p>
+<p>3. 国产厂商不敢尝试——销量不好立马砍，苹果不做就不做；Oppo Find N2 的阔折叠形态探索过一次、刘作虎预言成功后，反而没人敢跟了，直到听说苹果要出阔折叠，各家才敢跟进。</p>
+<p>4. 苹果独特的生态位——苹果出灵动岛大家抢着适配；Android 折叠屏不适配，用户骂的是三星不行。每一个 Android 独特功能都必然经历这个死亡螺旋，唯一解法就是等苹果出同类功能。</p>
+<p>综上，我真心希望在我有生之年，Android也能不靠苹果来打破这个死亡螺旋。不过就目前来看，在我可见的未来，应该很难看到了。—— 发布自 iPhone</p>
+</XPostCard>
+
+<small class="figure-caption">嵌入 1｜BinaryTree 主貼文靜態還原（簡轉繁、段落濃縮，細節以原文為準）。作者自述現任 Uber mobile ML／AI platform、前 Tesla／Google，藍勾個人帳號，追蹤數約 935。任職經歷無法獨立驗證。</small>
+
+## 流程拆解
+
+### 第一點：對硬體沒有掌控權（原文明說＋公開資料吻合）
+
+【原文明說】三星在 Google 還沒想到之前就研究摺疊屏，自己魔改 AOSP 适配，多種因素導致回不了主分支；系統更新比硬體慢至少一到兩年；三星不願合作、國內廠商要速度，各家 OEM 各有一套，開發者只能保證「能看的程度」。
+
+【可直接推出＋外部佐證】這是整篇最硬的一點。Oppo Find N2（2022-12，233 克、5.54 吋外屏＋7.1 吋內屏）就是「闊折疊」形態的實例；Ars Technica 2023 年評測標題直接寫 "Beautiful hardware that Android just can't deal with"（硬體漂亮，Android 接不住）——第三方用幾乎一樣的句式印證了作者的論點：問題不在硬體，在系統接不住。
+
+### 第二點：Google 內部失序（原文明說＋部分可驗）
+
+【原文明說】組間溝通比跨公司還難；Pixel 從 AOSP 分叉；裁員＋ChatGPT 衝擊打亂优先级；iOS 的 LLM Session／ToolCall／Structured output API 年初就緒，Android 的 structured output 至今仍在 Alpha；甚至猜測做 API 的組跟 DeepMind 的合作不如蘋果跟 GDM 深。
+
+【仍未被支撐的主張】「Pixel 從 AOSP 分叉」是作者自述的內部視角，無公開文件可對；GDM 合作深度的猜測作者自己都說是「個人猜測」。iOS vs Android 的 LLM API 完成度對比屬於可驗證但本次未逐項驗證的技術主張，先記為待核對。
+
+### 第三點：國產廠不敢嘗試（原文明說＋半驗證）
+
+【原文明說】銷量不好就砍、蘋果不做就不做；Oppo Find N2 探索過闊折疊，劉作虎預言「蘋果做摺疊屏也會是這個尺寸」，預言成功後反而沒人跟，直到蘋果要出了各家才敢動。
+
+【查核結果】Find N2 的闊折疊形態與時間點（2022-12）為真；劉作虎發表會原話本次未找到逐字出處，記為未驗證。iPhone Duo 最終確實是書本式橫向展開（內 7.6 吋、外 5.4 吋），與「闊折疊」方向一致，算是給了這則預言一個事後註腳——但注意這是結果吻合，不是因果證明。
+
+### 第四點：生態位與死亡螺旋（合理推斷＋數據支撐）
+
+【合理推斷】這是全文的理論升華：蘋果出新功能（靈動島）壓力指向 App，開發者搶著适配；Android 出新功能壓力被 OEM 分攤，用戶罵的是三星，開發者沒有回報。IDC 數據（摺疊屏佔全球出貨不到 2%，蘋果進場當年可拿三成）給了這個螺旋一個量化錨點。
+
+![Android 獨特功能的死亡螺旋：開發者不适配→用戶不買→份額縮小→更不适配。](/article.ai/articles/foldable-android-rant/figure-01-death-spiral.svg)
+
+<small class="figure-caption">圖 1｜本站自繪：作者主張的死亡螺旋。破口只有一個——等蘋果出同類功能。</small>
+
+![蘋果與 Android 的軟硬掌控對比：前者一條線、後者斷成四截。](/article.ai/articles/foldable-android-rant/figure-02-control-stack.svg)
+
+<small class="figure-caption">圖 2｜本站自繪：四點主張的結構總覽。壓力指向決定了适配意願。</small>
+
+## 風險與盲點
+
+- **單一自述來源（未被支撐）**：作者的 Google 任職經歷、所在組別、內部 OKR 與分叉說法，全部無法獨立驗證；追蹤數不到千人的小帳號，even 藍勾也只證明是真人，不證明經歷為真。evidence 維持「探索中」。
+- **發文時機的情緒加成（合理推斷）**：貼文發於 iPhone Duo 發表當天傍晚，「完成度這麼高」是發表會當下的印象分，不是長期使用結論；文末「发布自 iPhone」既是自嘲也是立場聲明。
+- **死亡螺旋可能是倖存者敘事（合理推斷）**：作者只列了走向螺旋的例子，沒列 Android 獨特功能成功反例（如 120Hz 高刷、快充生態）；把「等蘋果」說成唯一解，忽略了三星 S Pen、手寫筆這類沒靠蘋果也活下來的功能。
+- **iOS 完成度主張待核對**：LLM API 對比是行內人才寫得出來的細節，但本次未逐項驗證兩邊文件狀態，不可直接引用。
+
+## 來源
+
+- BinaryTree X 主貼文（2026-09-10）：https://x.com/BtreeWw/status/2097981072944296153 ——四點主張、死亡螺旋之出處，約 3,900 瀏覽
+- udn 2026 蘋果發表會懶人包（2026-09-10）：iPhone Duo 規格、售價、10/23 開賣 ——發表時機與「完成度」印象之對照
+- Macworld iPhone Ultra 傳聞整理（更新至 2026-09-07）：書本式形態、7.7–7.8 吋內屏 ——發表前預測與最終實機之對照
+- AFP／IDC（2026-09-09）：摺疊屏佔比不到 2%、蘋果當年可拿三成 ——死亡螺旋的量化錨點
+- Ars Technica Oppo Find N2 評測（2023-06-02）："Beautiful hardware that Android just can't deal with" ——第一點的第三方印證
