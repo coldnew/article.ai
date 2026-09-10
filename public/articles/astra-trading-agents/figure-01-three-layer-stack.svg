@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="system-ui, sans-serif">
+  <rect width="720" height="340" fill="#faf9f5"/>
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#141413">三層堆疊：cockpit → 掃描 → 推理 → 通知</text>
+  <g font-size="13" fill="#141413">
+    <rect x="40" y="55" width="150" height="90" rx="8" fill="#fff" stroke="#1b365d" stroke-width="2"/>
+    <text x="115" y="80" text-anchor="middle" font-weight="bold">Grok Bot 駕駛艙</text>
+    <text x="115" y="100" text-anchor="middle" font-size="12" fill="#6b6a64">8 個具名 bot</text>
+    <text x="115" y="118" text-anchor="middle" font-size="12" fill="#6b6a64">自然語言下指令</text>
+    <rect x="230" y="55" width="150" height="90" rx="8" fill="#fff" stroke="#1b365d" stroke-width="2"/>
+    <text x="305" y="80" text-anchor="middle" font-weight="bold">Kimi K3 Swarm</text>
+    <text x="305" y="100" text-anchor="middle" font-size="12" fill="#6b6a64">300 子 agent 掃描</text>
+    <text x="305" y="118" text-anchor="middle" font-size="12" fill="#6b6a64">訂單簿／期權流／ filings</text>
+    <rect x="420" y="55" width="150" height="90" rx="8" fill="#fff" stroke="#1b365d" stroke-width="2"/>
+    <text x="495" y="80" text-anchor="middle" font-weight="bold">GPT-6 Astra</text>
+    <text x="495" y="100" text-anchor="middle" font-size="12" fill="#6b6a64">假設→回測→驗證</text>
+    <text x="495" y="118" text-anchor="middle" font-size="12" fill="#6b6a64">Sharpe &gt; 1.5 才放行</text>
+  </g>
+  <g font-size="20" fill="#1b365d">
+    <text x="200" y="108">→</text>
+    <text x="390" y="108">→</text>
+  </g>
+  <rect x="230" y="170" width="340" height="60" rx="8" fill="#fff" stroke="#8a5a2b" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="400" y="194" text-anchor="middle" font-size="13" font-weight="bold" fill="#141413">Telegram 通知層：品種＋策略＋信心分＋ Sharpe ＋回撤＋ Kelly 倉位</text>
+  <text x="400" y="214" text-anchor="middle" font-size="12" fill="#6b6a64">打到手機，當下 15 分鐘視窗就要動手</text>
+  <g font-size="13">
+    <rect x="40" y="255" width="640" height="60" rx="8" fill="#f0ede2" stroke="#e8e6dc"/>
+    <text x="360" y="279" text-anchor="middle" font-weight="bold" fill="#141413">費用宣稱 vs 長上下文現實</text>
+    <text x="360" y="299" text-anchor="middle" font-size="12" fill="#6b6a64">作者：每月約 $300–500 ／ 官方：輸入超 272K tokens 整單 2 倍價（$20／$75）—— 24/7 管線幾乎注定走長上下文檔</text>
+  </g>
+</svg>

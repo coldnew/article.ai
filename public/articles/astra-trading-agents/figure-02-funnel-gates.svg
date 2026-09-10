@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" font-family="system-ui, sans-serif">
+  <rect width="720" height="300" fill="#faf9f5"/>
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#141413">四類錯價 → 五道閘門：漏斗越往下越窄</text>
+  <g font-size="13" fill="#141413">
+    <rect x="40" y="55" width="300" height="34" rx="6" fill="#1b365d"/>
+    <text x="190" y="77" text-anchor="middle" fill="#fff">統計套利（O-U 均值回歸）</text>
+    <rect x="70" y="95" width="270" height="34" rx="6" fill="#1b365d" opacity="0.85"/>
+    <text x="205" y="117" text-anchor="middle" fill="#fff">波動率曲面（Heston）</text>
+    <rect x="100" y="135" width="240" height="34" rx="6" fill="#1b365d" opacity="0.7"/>
+    <text x="220" y="157" text-anchor="middle" fill="#fff">因子拆解（Fama-French 五因子）</text>
+    <rect x="130" y="175" width="210" height="34" rx="6" fill="#1b365d" opacity="0.55"/>
+    <text x="235" y="197" text-anchor="middle" fill="#fff">內線叢集（Form 4）</text>
+    <rect x="420" y="55" width="260" height="154" rx="8" fill="#fff" stroke="#8a5a2b" stroke-width="2"/>
+    <text x="550" y="80" text-anchor="middle" font-weight="bold">部署前五閘門</text>
+    <text x="550" y="102" text-anchor="middle" font-size="12" fill="#6b6a64">Sharpe &gt; 1.5 ／ 回撤 &lt; 15%</text>
+    <text x="550" y="122" text-anchor="middle" font-size="12" fill="#6b6a64">勝率 &gt; 55% ／ t &gt; 2.0</text>
+    <text x="550" y="142" text-anchor="middle" font-size="12" fill="#6b6a64">maker-checker：不自己改自己卷</text>
+    <text x="550" y="162" text-anchor="middle" font-size="12" fill="#6b6a64">風控 bot 硬 kill switch</text>
+    <text x="550" y="190" text-anchor="middle" font-size="12" fill="#8a5a2b">但：同批近期資料夜夜回測</text>
+    <text x="550" y="206" text-anchor="middle" font-size="12" fill="#8a5a2b">＝ 對上週雜訊 curve-fit</text>
+  </g>
+  <text x="360" y="250" text-anchor="middle" font-size="12" fill="#6b6a64">左：四類錯價各有正統論文出處（Engle-Granger 1987／Heston 1993／Cohen et al. 2012）</text>
+  <text x="360" y="270" text-anchor="middle" font-size="12" fill="#6b6a64">右：閘門数字是作者自訂；「叢集分數 &gt; 3.0 → 年化 5.3%」公式為作者自創，非論文原式</text>
+</svg>
