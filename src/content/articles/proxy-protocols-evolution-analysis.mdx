@@ -1,0 +1,76 @@
+---
+title: "科學上網協議五代演化：從 Shadowsocks 到 REALITY，偽裝的軍備競賽"
+description: "整理《黑小猪》這則 X 貼文：把翻牆代理協議排成五代——SS（2012）→ SSR／VMess → VLESS／Trojan → Hysteria2／TUIC → REALITY／AnyTLS。每一代的核心創新都回應上一代的檢測手段；本文逐代核對公開資料，並標出線性史觀簡化掉的並行與缺席者。"
+publishedAt: 2026-09-10
+topic: "技術"
+sourceType: "article"
+sourceUrl: "https://x.com/lingergnn41824/status/2097862329291649141"
+authors: ["黑小猪（@lingergnn41824）"]
+venue: "X · 黑小猪"
+tags: ["代理協議", "Shadowsocks", "VLESS", "REALITY", "QUIC", "網路審查"]
+readTime: "8 分鐘"
+evidence: "探索中"
+featured: false
+sourceCount: 4
+accent: "orange"
+---
+
+import XPostCard from '../../components/XPostCard.astro';
+
+## 先說結論
+
+《黑小猪》這則貼文把科學上網協議排成五代譜系，核心論點只有一句：**每一代的「核心創新」，都是上一代被檢測手段打中的位置**——從躲特徵，到躲指紋，到躲主動探測，最後連 TLS 本身都要借別人的來穿。
+
+【原文明說】五代劃分與每代創新點皆出自貼文；【可直接推出】這條線是「中國翻牆史」視角，不是全球代理協議全史。
+
+<XPostCard author="黑小猪" handle="@lingergnn41824" avatar="/article.ai/articles/proxy-protocols-evolution/ling-avatar.jpg" verified="blue" timestamp="9:38 AM · Sep 10, 2026" views="74.9K" replies="45" reposts="39" likes="388" sourceUrl="https://x.com/lingergnn41824/status/2097862329291649141">
+<p>科學上網協議演化路線：</p>
+<p>第一代：Shadowsocks (SS, 2012)<br/>核心創新：把代理流量偽裝成普通加密流量</p>
+<p>第二代：ShadowsocksR (SSR) → VMess (V2Ray)<br/>核心創新：增加混淆和防重放能力</p>
+<p>第三代：VLESS（VMess的輕量化版本） → Trojan<br/>核心創新：VLESS將加密職責交給外層TLS；Trojan偽裝成真實HTTPS網站</p>
+<p>第四代：Hysteria → Hysteria2、TUIC<br/>核心創新：基於QUIC協議，大幅提升速度，尤其在弱網/高延遲環境下表現突出</p>
+<p>第五代：REALITY（XTLS-Reality）、AnyTLS<br/>核心創新：借用真實網站的TLS指紋，或用隨機化手段消除"雙層TLS"特徵，進一步對抗主動探測</p>
+</XPostCard>
+
+<small class="figure-caption">嵌入 1｜主貼文靜態還原（簡轉繁；約 7.5 萬瀏覽）。作者為 AI infra 背景的個人藍勾帳號，非協議開發者。</small>
+
+## 這則貼文真正解決的問題
+
+新手面對滿屏的 SS、VLESS、Trojan、Hysteria、REALITY 名詞，最缺的不是某個協議的配置教學，而是一張**「為什麼需要這麼多種」**的地圖。這則貼文用一代一句話給出答案：檢測手段升級一次，偽裝就得跟著升級一次。
+
+## 逐代拆解
+
+![五代協議與每代核心創新。](/article.ai/articles/proxy-protocols-evolution/figure-01-five-generations.svg)
+
+<small class="figure-caption">圖 1｜本站按貼文＋公開資料重繪的五代譜系。年份僅第一代出自貼文，其餘見內文核對。</small>
+
+**第一代 · Shadowsocks（2012）**【原文明說年份】。把代理流量做成「無特徵的加密流」，對付的是當年基於端口與明文關鍵字的封鎖。這是整條譜系的起點，後面四代沒有一代回到明文。
+
+**第二代 · SSR → VMess**。當被動流量分析（包長、時序指紋）能認出 SS，答案是加混淆；當重放攻擊能探出服務，答案是加防重放。VMess 是 V2Ray 自研協議，與 SSR 並非同一條血緣（見盲點第 1 點）。
+
+**第三代 · VLESS → Trojan**。思路從「自己加密＋自己混淆」轉向「借 TLS 的殼」：VLESS 把加密交給外層 TLS，自己只做輕量身份認證；Trojan 更進一步——不請自來的連線直接當成真實 HTTPS 網站 serving，對付主動探測。
+
+**第四代 · Hysteria → Hysteria2、TUIC**【可直接推出＋官方文件驗證】。戰場從 TCP 搬到 QUIC：Hysteria 官方協議文件明寫基於標準 QUIC（RFC 9000）＋不可靠數據報擴展，未認證的探測者看到的只是一台標準 HTTP/3 網站。弱網加速是結果，抗審查偽裝才是入場券；TUIC 另主打 0-RTT，目標不完全相同。
+
+**第五代 · REALITY、AnyTLS**【官方文件驗證】。這一代打的是「雙層 TLS」指紋——XTLS 官方文件自己承認，非 XTLS 協議存在「明顯且已被針對的 TLS-in-TLS 特徵」。兩條解法：
+- REALITY（XTLS，約 2023 年，RealiTLScanner 倉庫建於 2023-03）：直接取代 TLS，用目標真站的握手外觀當迷彩，未認證連線就導去真站，等於拿別人的證書當盾牌；
+- AnyTLS（sing-box 維護）：走另一條路——標準 TLS 外殼＋可配置的填充方案（padding scheme），用包分裂與填充打亂流量形狀。
+
+![攻防對照：檢測手段升級一次，偽裝跟著升級一次。](/article.ai/articles/proxy-protocols-evolution/figure-02-cat-and-mouse.svg)
+
+<small class="figure-caption">圖 2｜本站整理的攻防主軸。第 5 項「TLS-in-TLS 已被針對」出自 XTLS 官方文件原話。</small>
+
+## 風險與盲點
+
+- 【合理推斷】「SSR → VMess」「VLESS → Trojan」的箭頭是線性史觀，實際多為並行專案：SSR 是 SS 的分支，VMess 是 V2Ray 自研，Trojan 與 VLESS 大致同期（約 2019–2020），不是接力賽。
+- 【合理推斷】「VLESS 是 VMess 輕量化版本」只講對一半：VLESS 的關鍵是配合 XTLS 分流、把加密職責外包，輕量只是表象，架構才是本體。
+- 【未被支撐】貼文沒給任何年份（除 2012）、無數據、無引用；REALITY 約 2023、AnyTLS 約 2024–2025 的時間錨是本站按公開倉庫建立時間補的，貼文沒說。
+- 【可直接推出】譜系有缺席者：NaiveProxy、ShadowTLS、WireGuard 系、ECH 都沒出現——這是翻牆實戰派的選型史，不是協議大全，讀時不要當成窮舉。
+- 【未被支撐】回覆區 45 則未納入本次分析；作者 909 追隨者的個人帳號，譜系權威性來自「同行按讚」（476 書籤），不是實測數據。
+
+## 來源
+
+- 《黑小猪》X 主貼文（2026-09-10，約 7.5 萬瀏覽）：https://x.com/lingergnn41824/status/2097862329291649141 ——五代劃分與每代創新點之出處
+- Hysteria 2 官方協議文件（QUIC＋HTTP/3 偽裝）：https://v2.hysteria.network/docs/developers/Protocol
+- XTLS REALITY 官方 README（取代 TLS、指向他人網站、TLS-in-TLS 警告）：https://github.com/XTLS/REALITY/blob/main/README.en.md
+- AnyTLS 協議文件（padding scheme、緩解 TLS-in-TLS）：https://github.com/anytls/anytls-go/blob/main/docs/protocol.md

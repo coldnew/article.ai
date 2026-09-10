@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <text x="20" y="30" font-size="18" font-weight="700" fill="#1b365d">攻防主軸：每一代都在回答上一代的檢測手段</text>
+  <g font-size="13">
+    <rect x="20" y="55" width="330" height="220" rx="8" fill="none" stroke="#8a5a2b" stroke-width="1.5"/>
+    <text x="36" y="82" font-weight="700" fill="#8a5a2b">檢測方（防火牆）</text>
+    <text x="36" y="110" fill="#141413">1. 端口＋明文特徵封鎖</text>
+    <text x="36" y="136" fill="#141413">2. 被動流量指紋（包長／時序）</text>
+    <text x="36" y="162" fill="#141413">3. 主動探測（發包看回應）</text>
+    <text x="36" y="188" fill="#141413">4. QUIC／UDP 限速＋特徵</text>
+    <text x="36" y="214" fill="#141413">5. TLS-in-TLS 雙層特徵識別</text>
+    <text x="36" y="250" fill="#6b6a64">（第 5 項為 XTLS 官方文件明說</text>
+    <text x="36" y="268" fill="#6b6a64">「已被針對」的特徵）</text>
+    <rect x="410" y="55" width="330" height="220" rx="8" fill="none" stroke="#1b365d" stroke-width="1.5"/>
+    <text x="426" y="82" font-weight="700" fill="#1b365d">偽裝方（協議）</text>
+    <text x="426" y="110" fill="#141413">1. SS：加密流量，無特徵</text>
+    <text x="426" y="136" fill="#141413">2. SSR／VMess：混淆＋防重放</text>
+    <text x="426" y="162" fill="#141413">3. Trojan：裝成真 HTTPS 站</text>
+    <text x="426" y="188" fill="#141413">4. Hysteria2：裝成 HTTP/3</text>
+    <text x="426" y="214" fill="#141413">5. REALITY：借真站證書指紋；</text>
+    <text x="426" y="236" fill="#141413">　 AnyTLS：填充打亂包型</text>
+    <text x="426" y="268" fill="#6b6a64">（方向：越來越像「正常流量」）</text>
+  </g>
+</svg>

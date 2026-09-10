@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <text x="20" y="30" font-size="18" font-weight="700" fill="#1b365d">科學上網協議五代演化（本站按貼文＋公開資料重繪）</text>
+  <line x1="60" y1="70" x2="60" y2="370" stroke="#8a5a2b" stroke-width="3"/>
+  <g font-size="14">
+    <circle cx="60" cy="95" r="8" fill="#1b365d"/>
+    <text x="85" y="90" font-weight="700" fill="#141413">第一代 · Shadowsocks（2012）</text>
+    <text x="85" y="112" fill="#6b6a64">把代理流量偽裝成普通加密流量</text>
+    <circle cx="60" cy="155" r="8" fill="#1b365d"/>
+    <text x="85" y="150" font-weight="700" fill="#141413">第二代 · SSR → VMess（V2Ray）</text>
+    <text x="85" y="172" fill="#6b6a64">增加混淆與防重放能力</text>
+    <circle cx="60" cy="215" r="8" fill="#1b365d"/>
+    <text x="85" y="210" font-weight="700" fill="#141413">第三代 · VLESS → Trojan</text>
+    <text x="85" y="232" fill="#6b6a64">加密交給外層 TLS；Trojan 偽裝成真實 HTTPS 網站</text>
+    <circle cx="60" cy="275" r="8" fill="#1b365d"/>
+    <text x="85" y="270" font-weight="700" fill="#141413">第四代 · Hysteria → Hysteria2、TUIC</text>
+    <text x="85" y="292" fill="#6b6a64">基於 QUIC，弱網／高延遲下表現突出</text>
+    <circle cx="60" cy="335" r="8" fill="#1b365d"/>
+    <text x="85" y="330" font-weight="700" fill="#141413">第五代 · REALITY、AnyTLS</text>
+    <text x="85" y="352" fill="#6b6a64">借真站 TLS 指紋／隨機化消除「雙層 TLS」特徵</text>
+  </g>
+</svg>
