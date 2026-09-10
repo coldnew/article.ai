@@ -1,0 +1,137 @@
+---
+title: "「賽博果蠅」狂歡全景：7 則貼文、三層結構，與三處被誇大的地方"
+description: "一次整理 7 則果蠅大腦貼文：Eon 上傳（3 月）→創世紀文（6 月）→desktop-fly（8 月）→雄性全圖譜引爆的 Minecraft、Bad Apple、Beat Saber 行為藝術週（9 月）。核對 MaleCNS v1.0（166,691 神經元）、Eon 91% 的出處與反駁、GPT-6 發布時間線，並標出發幣 rug 與停權號的歸屬錯誤。"
+publishedAt: 2026-09-10
+topic: "神經科學"
+sourceType: "article"
+sourceUrl: "https://x.com/neso/status/2030814258322362619"
+authors: ["Neso（@neso）", "Kevin（@linguinelabs）", "傅盛（@FuSheng_0306）", "Geek Lite（@QingQ77）", "Phoenix Yin（@Phoenixyin13）", "XIN YI（@xinyi7171）", "Cody（@bc1cody）"]
+venue: "X 貼文 · 賽博果蠅合集"
+tags: ["果蠅", "connectome", "FlyWire", "MaleCNS", "腦上傳", "神經模擬"]
+readTime: "10 分鐘"
+evidence: "探索中"
+featured: false
+sourceCount: 12
+accent: "green"
+---
+
+import XPostCard from '../../components/XPostCard.astro';
+
+## 先說結論
+
+《賽博果蠅》這波熱潮不是一件事，而是同一隻果蠅的三種用法，時間橫跨 3 月到 9 月：**① 科學硬核**（Eon 上傳自述、MaleCNS 雄性全圖譜、desktop-fly 開源）、**② 行為藝術**（Bad Apple 19.5M、Minecraft 接線、Beat Saber 16.7M，前篇已寫）、**③ 熱點變現**（發幣文、創世紀文、賽博永生提問）。本文把 7 則貼文按時間排好，逐項核對後發現：**硬核的部分基本屬實但都有作者自承的邊界，藝術的部分作者自己都說 kind of fake，變現的部分則有一則回覆寫著「又 rug 了」**。證據等級給「探索中」——科學進展是真的，傳播中的三處誇大要拆開看。
+
+![賽博果蠅時間線：3 月 Eon 上傳 → 6 月創世紀文 → 8 月 desktop-fly → 9 月雄性全圖譜引爆行為藝術週。](/article.ai/articles/cyber-fruit-fly-craze/figure-01-timeline.svg)
+
+<small class="figure-caption">圖 1｜本站自繪時間線。底層順序：2024-10 FlyWire 雌性全腦 → 2025-10 MaleCNS 預印本 → 2026-06-08 v1.0 資料釋出 → 2026-09-03 Cell 論文＋Google 官方部落格。</small>
+
+## 第一層：科學硬核（3 月 → 9 月，地基是真的）
+
+### Eon 上傳與 91%（3/8，自述數字，反駁也在案）
+
+整波狂歡的起點是 Neso（@neso）3 月 9 日的解讀文（約 5.0 萬瀏覽），轉述 Eon Systems 創辦人 Michael Andregg 前一天的宣布：拿 FlyWire 果蠅腦連接圖，接上簡單神經元模型（Shiu Nature 2024 的 LIF），去驅動 MuJoCo 物理仿真身體，形成神經激活到動作的閉環。「數位果蠅」能復現約 91% 的行為，但不會學習、沒有長期記憶，因為沒模擬突觸可塑性。Neso 的推論是重點：**復現行為的關鍵是網路連接結構，不需要全部生化細節；智能可能主要來自結構而非單個神經元複雜度；動物大腦演化就是數億年的架構搜索**——並順手把 LLM scaling 放緩一起解讀了。
+
+<XPostCard author="Neso" handle="@neso" avatar="/article.ai/articles/cyber-fruit-fly-craze/neso-avatar.jpg" timestamp="1:13 AM · Mar 9, 2026" views="50.1K" replies="17" reposts="37" likes="201" sourceUrl="https://x.com/neso/status/2030814258322362619">
+<p>Eon的这项果蝇上传实验正在火爆全网，他们的做法是果蝇的大脑神经连接图（connectome）接到一个简单的神经元模型和虚拟3D仿真的身体上，结果发现这个“数字果蝇”能复现约 91% 的行为。不过目前它还不会学习或形成长期记忆，因为没有模拟突触可塑性。</p>
+<p>这件事之所以让人们兴奋，是因为实验发现复现大部分生物行为的关键是神经网络的连接结构，而不需要全部的海量神经元生化细节数据。LLM的scaling现在显著放缓了，说明大语言模型瓶颈已现。EON这个实验带来的启发是：智能可能主要来自神经网络结构，而不是单个神经元的复杂度。</p>
+</XPostCard>
+
+<small class="figure-caption">卡片 1｜Neso 解讀文靜態還原（節錄）。繁體要點：connectome＋簡單模型＋MuJoCo 身體→約 91% 行為復現；無突觸可塑性故無學習；「結構重於神經元複雜度」、演化即架構搜索。原貼另轉引 Andregg 原文，依 IP 慣例只還原文字。</small>
+
+但 91% 是什麼意思，Eon 自己之外沒人說得清，【原文明說＋外部反駁】：
+
+- Eon 官網自述：91% behavior accuracy 只用了四樣東西——連接圖、突觸數決定的權重、興奮／抑制神經元圖譜、LIF；並自己承認兩個限制——身體沒被掃描所以接不上真正的運動神經元、LIF 沒有可塑性所以不能形成長期記憶。
+- The Verge（3/16）打假：除了兩支 X 影片，沒有方法、沒有論文、沒有獨立驗證；記者追問後 Andregg 給的部落格文章也不是科學論文；「91% behavior accuracy 到底是什麼意思，我想了很久還是不懂」。
+- LessWrong 技術拆解：走路不是腦模型編排的——connectome 只選行為，腿怎麼動是 NeuroMechFly 的控制器執行的；腦—身體映射有些是「手工隨意選的」；Eon 自己在部落格寫了「不應被解讀為結構 alone 足以恢復全部行為庫的證明」。
+- Andregg 的防守是改定義：上傳不是二元概念，他主張這算 partial upload。
+
+【仍未被支撐的主張】Neso 的「LLM scaling 放緩→架構搜索才是 AGI 路徑」是借題發揮的推論，Eon 實驗本身沒有測任何 LLM，兩件事只在修辭上相連。
+
+### MaleCNS 雄性全圖譜（9/3，Seven 貼文裡唯一的第一手科學進展）
+
+9 月這波行為藝術週的燃料，是 Google Research 9 月 3 日官方部落格：與 HHMI Janelia、劍橋、MRC LMB 合作，完成成年雄性果蠅全中樞神經系統連接組——大腦加雙視葉加腹神經索，**166,691 個神經元**，發在 Cell，資料走 Neuprint／CC-BY 公開。對照時間線：預印本 2025 年 10 月就上了 bioRxiv，v1.0 資料是 2026 年 6 月 8 日釋出的，9 月 3 日是期刊論文＋官方宣傳。這解釋了為什麼 9 月第一週突然所有人都在玩果蠅：**地圖剛「正式出版」，加上開源，任何人都能下載**。
+
+Cody（@bc1cody）9 月 4 日的前瞻寫得其實最準：「現在只是建立了神經元以及神經元之間的連接模型，但是每個連接的強度還不知道。」【從原文可直接推出】這正是 Eon 用「突觸數當權重」的由來——連接強度沒有量測值，只能拿突觸數量當代理變數，後面所有「結構就夠了」的爭論，根子都在這裡。
+
+## 第二層：行為藝術（9 月第一週，流量最大，作者自己先打假）
+
+### Bad Apple（9/6，19.5M，全場最大，但作者說 kind of fake）
+
+Kevin（@linguinelabs）9 月 6 日的「Bad Apple but it's playing on a fly's brain」是 7 則裡傳播最廣的一則（約 1,950 萬瀏覽），轉引的正是 Google 9 月 3 日的官方通稿。但關鍵在作者自己的跟帖：**「This is kind of fake because the fly brain isn't actually fully mapped out to fly behaviour/movement, but certain neurons e.g. DNg100 are mapped to specific motions and that is respected in this simulation」**——只有 DNg100 這類已被映射到特定動作的神經元是真的，其餘是演示。這是本系列最健康的傳播樣本：19.5M 的流量，附一則作者親手寫的免責聲明。
+
+<XPostCard author="Kevin" handle="@linguinelabs" avatar="/article.ai/articles/cyber-fruit-fly-craze/linguinelabs-avatar.jpg" timestamp="6:35 AM · Sep 6, 2026" views="19.5M" replies="534" reposts="9.5K" likes="89K" sourceUrl="https://x.com/linguinelabs/status/2096487329091441090">
+<p>Bad Apple but it's playing on a fly's brain</p>
+</XPostCard>
+
+<small class="figure-caption">卡片 2｜Kevin「果蠅腦播 Bad Apple」靜態還原。原貼附影片一支（依 IP 慣例不轉載）。重點在作者跟帖自承 kind of fake：只有 DNg100 等已映射神經元是真的，其餘為演示。</small>
+
+### Minecraft 接線與 GPT-6（9/4–9/8，時間線對得上，工程量是自述）
+
+evnsnclr 9 月 4 日自稱把 MaleCNS v1.0 全量 166,700 神經元跑進 Minecraft，用模擬神經活動驅動果蠅移動，「Built with the help of GPT-6 Astra」，V1 開發中。傅盛（@FuSheng_0306）9 月 8 日轉述成「研究生小哥用 GPT-6 兩天接進 Minecraft」（約 4,800 瀏覽），感嘆「科研是苦力活，AI 時代只有想不到沒有做不到」，結尾問「果蠅都能賽博永生了，人還會遠嗎」。
+
+<XPostCard author="傅盛" handle="@FuSheng_0306" avatar="/article.ai/articles/cyber-fruit-fly-craze/fusheng-avatar.jpg" timestamp="11:35 AM · Sep 8, 2026" views="4.8K" replies="38" reposts="1" likes="14" sourceUrl="https://x.com/FuSheng_0306/status/2097287648142635108">
+<p>果蝇实现赛博永生了？ Google、剑桥等团队花十多年绘出果蝇中枢神经图谱，一个研究生小哥用GPT-6两天把它接进 Minecraft，让游戏里的果蝇由真实神经系统驱动。一边感叹科研确实是苦力活，一边又觉得AI时代真的离谱：只有想不到没有做不到。 果蝇都能赛博永生了，人还会远吗？</p>
+</XPostCard>
+
+<small class="figure-caption">卡片 3｜傅盛轉述文靜態還原。原貼附影片一支（依 IP 慣例不轉載）。「兩天」「真實神經系統驅動」皆為轉述 evnsnclr 自述，V1 標示開發中。</small>
+
+這裡有一個本來想打假、核實後發現打不掉的細節：【原文明說＋外部核實】GPT-6 Astra 是 OpenAI 在 **2026 年 9 月 3 日**正式發布的（限量預覽，9 月 4 日公開；CNBC、Straits Times、Wikipedia 均有載）。evnsnclr 9 月 4 日說用 GPT-6 Astra 搭建，**時間完全吻合**——發布第二天就有人拿它接 connectome，這本身就是「LLM 寫膠水碼」的現身說法。但「兩天」「166,700 全量驅動」仍是單方自述，無 repo、無方法，只能先記著，不能當事實引用。
+
+### desktop-fly（8/21，最硬核的玩具，README 比貼文誠實）
+
+Geek Lite（@QingQ77）8 月 21 日介紹的 desktop-fly（約 2,400 瀏覽）：用 FlyWire 真實突觸數據跑脈衝仿真，把 3D 果蠅放 macOS 桌面，走路、理毛、睡覺、躲游標都由神經元迴路決定，並附 GitHub 連結。經核實，[repo 真的存在](https://github.com/DenisSergeevitch/desktop-fly)（803 stars），9 月 5 日的 1.1.0 版還接入了 MaleCNS v1.0 的 1,045 神經元運動迴路。但 README 的「What's modeled vs. measured」一節比貼文誠實得多：**LIF 動態、感覺調諧、肌肉力學都是配置好的模型，「不是全 CNS，也不是生物校準過的行走仿真」**。QingQ77 的「同一套真實神經元迴路決定」把「真實接線＋建模介面」說成了「全真實」，打七折讀。
+
+## 第三層：熱點變現（流量來了，鐮刀就來了）
+
+### 發幣文（9/5，579 瀏覽，一則回覆寫著 rug）
+
+XIN YI（@xinyi7171）9 月 5 日的貼文把套路寫在了明面上：前半是 Google 通稿摘要（可信度背書）＋「賽博、詭異、未來感」＋「Minecraft 全球最大沙盒、傳播快」（流量公式），後半直接跟 CA 合約地址（`0xca90…87bca`）和交易所交易工具推薦連結。回覆區第一則就是「又 rug 了」。【合理推斷】這是標準的熱點發幣：科學新聞提供敘事，迷因屬性提供傳播，幣提供變現——而 rug 回覆說明至少這一輪已經割過一次。讀果蠅熱點時，這則應該和科學進展分開存放。
+
+### 創世紀文（6/20，32K，帳號已停權＋歸屬錯誤）
+
+Phoenix Yin（@Phoenixyin13）6 月 20 日的長文（約 3.2 萬瀏覽）是傳播鏈裡渲染力最強的一節：「矽基生命創世紀」「神明的電路圖」「幾微瓦 vs 數萬張顯卡」。但逐項核對後有兩處要糾正，【從原文可直接推出＋外部核實】：
+
+1. **團隊歸屬錯誤**：文中說「哈佛醫學院與普林斯頓團隊在 Nature 投下震撼彈」，實際 MaleCNS 團隊是 Janelia＋劍橋＋MRC LMB＋Google（普林斯頓是 2024 年雌性全腦 FlyWire 的團隊，不是雄性全圖譜的團隊）；且 6 月 8 日是 v1.0 資料釋出，不是 Nature 論文（Cell 論文是 9 月 3 日）。日期對上了日子，機構和載體都寫錯了。
+2. **方法論吐槽當場就有**：@crblandet 在回覆區直接說「连接组并不能直接告诉你这些」——連接組給的是接線，不是「它在想什麼」和「如何調動每條腿的物理機制」。作者還在同串 @ Grok 請求背書「我真的沒有誇大其詞」，屬於自己找裁判。
+
+另外，該帳號在本系列發稿時已顯示停權。停權原因不明，不引申，但 3.2 萬瀏覽的歸屬錯誤已經傳出去了，值得記一筆。
+
+![同一隻果蠅三種用法：科學硬核、行為藝術、熱點變現。](/article.ai/articles/cyber-fruit-fly-craze/figure-02-three-layers.svg)
+
+<small class="figure-caption">圖 2｜本站自繪：三層結構與讀法。轉貼前先問是第幾層：① 看方法數據，② 看作者澄清，③ 看有沒有收錢。</small>
+
+## 我們的判讀
+
+《賽博果蠅狂歡》真正值得留下的不是任何一隻數位果蠅，而是一個傳播公式：**開源地圖（FlyWire／MaleCNS，CC-BY 誰都能下）× 物理引擎（MuJoCo／Minecraft，身體現成）× LLM 膠水碼（GPT-6 發布第二天就有人用它接線）**——三者相乘，一個十多年的苦力科研就變成了全民行為藝術週。這也是為什麼 Eon 在 3 月只能拿 91% 自述，而 9 月人人都能交作業：地圖越完整，驗證門檻的下限和上限同時下降。
+
+三處誇大，恰好各屬一層，讀的時候分開打折：科學層的 91%（定義不明、運動側手工映射）、藝術層的「真實神經驅動」（作者自承 kind of fake／overfit／V1 開發中）、變現層的永生敘事（發幣 rug、停權號的錯誤歸屬）。而 Cody 那句「連接強度還不知道」和 desktop-fly README 的建模邊界聲明，是全場最誠實的兩句話——**知道權重是拿突觸數代理的，才知道後面所有的數字都該打折**。
+
+與前篇的關係：本站已有〈果蠅大腦玩 Beat Saber〉（Tz 轉貼 lyra 源頭，三度澄清），那是 9 月行為藝術週的其中一集；本篇是全景時間線，兩篇互為上下集。後續可追：Eon 是否放出同行評審方法、MaleCNS 權重是否有生理校準版本、老鼠腦（Eon 下一個目標，7,000 萬神經元）有無進展。
+
+## 風險與盲點
+
+- 【仍未被支撐的主張】Eon 91% 的行為準確率：自述指標，Verge 記者「想了很久還是不懂」，無論文、無獨立驗證；引用時必須附帶「Eon 自述」四字。
+- 【原文明說】Partial upload 爭議未決：Andregg 主張上傳非二元，LessWrong 主張「部分上傳照片＝粗略素描」不算上傳。這是定義之爭，不是事實之爭，兩邊都要呈現。
+- 【合理推斷】連接組≠行為是全場最大的方法論天花板：crblandet 的吐槽、Cody 的強度未知、desktop-fly 的建模聲明，三個獨立來源指向同一個洞。在權重被生理校準之前，所有「復活」「永生」都是修辭。
+- 【未被支撐】evnsnclr「兩天接進 Minecraft」、傅盛「真實神經系統驅動」：單方自述，無 repo 無方法；GPT-6 發布時間屬實不代表工程量屬實。
+- 【原文明說】xinyi 發幣文的 CA＋交易所連結＋rug 回覆：熱點變現實錘，讀者若因科學敘事買入，風險自負。
+- 【原文明說】Phoenixyin 帳號已停權：原因不明，不引申；但其歸屬錯誤（哈佛／普林斯頓）已有 3.2 萬瀏覽傳播，糾正資訊在此。
+- 證據等級維持「探索中」：7 則中有 1 則第一手科學進展（MaleCNS，已用官方來源核實）、2 則開源可驗（Eon 官網自述、desktop-fly repo）、其餘為轉述與自述；未支撐處已在上文明確標註。
+
+## 來源
+
+- Neso 解讀 Eon 上傳（2026-03-09，約 5.0 萬瀏覽）：https://x.com/neso/status/2030814258322362619 ——91% 解讀、「結構重於神經元」推論之出處
+- Eon 官網「We've Uploaded a Fruit Fly」（2026-03-08）：https://eon.systems/updates/weve-uploaded-a-fruit-fly ——91%、四要素、兩項自承限制之出處
+- The Verge 打假（2026-03-16）：https://www.theverge.com/ai-artificial-intelligence/894587/fly-brain-computer-upload ——無方法論文驗證、91% 定義不明之出處
+- LessWrong 技術拆解：https://www.lesswrong.com/posts/ybwcxBRrsKavJB9Wz/no-we-haven-t-uploaded-a-fly-yet ——NeuroMechFly 執行、手工映射之出處
+- Phoenix Yin 創世紀文（2026-06-20，約 3.2 萬瀏覽，帳號已停權）：https://x.com/Phoenixyin13/status/2068216252787536211 ——時間線渲染、哈佛／普林斯頓歸屬錯誤之出處
+- Geek Lite 介紹 desktop-fly（2026-08-21，約 2,400 瀏覽）：https://x.com/QingQ77/status/2090669223303655796 ——repo 連結之出處
+- desktop-fly repo（含 README 建模邊界聲明）：https://github.com/DenisSergeevitch/desktop-fly
+- Google Research 雄性全圖譜官方部落格（2026-09-03）：https://research.google/blog/a-connectomics-milestone-mapping-the-complete-male-fruit-fly-brain ——166,691 神經元、Cell 論文之出處
+- MaleCNS 預印本（bioRxiv 2025-10-09）：https://www.biorxiv.org/content/10.1101/2025.10.09.680999v2 ——團隊組成、v1.0 數據之出處
+- XIN YI 發幣文（2026-09-05，579 瀏覽）：https://x.com/xinyi7171/status/2096169533266616493 ——CA＋交易所連結、rug 回覆之出處
+- Kevin「Bad Apple」（2026-09-06，約 1,950 萬瀏覽）：https://x.com/linguinelabs/status/2096487329091441090 ——kind of fake 自承之出處
+- 傅盛轉述（2026-09-08，約 4,800 瀏覽）：https://x.com/FuSheng_0306/status/2097287648142635108 ——「兩天接 Minecraft」、賽博永生提問之出處
+- Cody 盤點（2026-09-09）：https://x.com/bc1cody/status/2097626050444567018 ——行為藝術週盤點、「連接強度未知」之出處
+- GPT-6 Astra 發布（2026-09-03，CNBC）：https://www.cnbc.com/2026/09/03/open-ai-astra-gpt-6-cyber.html ——evnsnclr 時間吻合之旁證
+- 本站前篇〈果蠅大腦玩 Beat Saber〉：互為上下集（9 月行為藝術週其中一集）

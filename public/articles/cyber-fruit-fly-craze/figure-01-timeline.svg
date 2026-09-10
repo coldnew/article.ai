@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="760" height="300" rx="12" fill="#faf9f5"/>
+  <text x="24" y="34" font-size="17" font-weight="bold" fill="#141413">「賽博果蠅」時間線：3 月上傳 → 9 月行為藝術週</text>
+  <line x1="40" y1="150" x2="720" y2="150" stroke="#1b365d" stroke-width="2"/>
+  <g font-size="12" fill="#141413">
+    <circle cx="80" cy="150" r="7" fill="#1b365d"/>
+    <text x="80" y="120" text-anchor="middle" font-weight="bold">3/8 Eon 上傳</text>
+    <text x="80" y="180" text-anchor="middle" fill="#6b6a64">91% 自述</text>
+    <text x="80" y="197" text-anchor="middle" fill="#6b6a64">Verge 打假 3/16</text>
+    <circle cx="230" cy="150" r="7" fill="#8a5a2b"/>
+    <text x="230" y="120" text-anchor="middle" font-weight="bold">6/20 創世紀文</text>
+    <text x="230" y="180" text-anchor="middle" fill="#6b6a64">32K · 帳號已停權</text>
+    <text x="230" y="197" text-anchor="middle" fill="#6b6a64">歸屬錯誤待糾正</text>
+    <circle cx="380" cy="150" r="7" fill="#1b365d"/>
+    <text x="380" y="120" text-anchor="middle" font-weight="bold">8/21 desktop-fly</text>
+    <text x="380" y="180" text-anchor="middle" fill="#6b6a64">開源 · 803 stars</text>
+    <text x="380" y="197" text-anchor="middle" fill="#6b6a64">README 自承建模邊界</text>
+    <circle cx="540" cy="150" r="7" fill="#1b365d"/>
+    <text x="540" y="120" text-anchor="middle" font-weight="bold">9/3 雄性全圖譜</text>
+    <text x="540" y="180" text-anchor="middle" fill="#6b6a64">166,691 神經元 · Cell</text>
+    <text x="540" y="197" text-anchor="middle" fill="#6b6a64">引爆 9 月行為藝術週</text>
+    <circle cx="680" cy="150" r="7" fill="#b3352b"/>
+    <text x="680" y="120" text-anchor="middle" font-weight="bold">9/4–9 Minecraft</text>
+    <text x="680" y="180" text-anchor="middle" fill="#6b6a64">Bad Apple 19.5M</text>
+    <text x="680" y="197" text-anchor="middle" fill="#6b6a64">Beat Saber 16.7M</text>
+  </g>
+  <text x="24" y="262" font-size="12" fill="#6b6a64">底層順序：2024-10 FlyWire 雌性全腦 → 2025-10 MaleCNS 預印本 → 2026-06-08 v1.0 → 2026-09-03 Cell 論文。</text>
+  <text x="24" y="282" font-size="12" fill="#6b6a64">本站自繪；日期為貼文／發布日（美西時間頁面顯示）。</text>
+</svg>
