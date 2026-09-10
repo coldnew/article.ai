@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="640" height="360" fill="#faf9f5"/>
+  <text x="320" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#141413">記憶守門員：一隻不寫程式的 Bot 管 20 隻</text>
+  <rect x="230" y="52" width="180" height="76" rx="10" fill="#1b365d"/>
+  <text x="320" y="78" text-anchor="middle" font-size="14" font-weight="bold" fill="#faf9f5">記憶守門員 Bot</text>
+  <text x="320" y="98" text-anchor="middle" font-size="12" fill="#faf9f5">零行程式碼，只記得</text>
+  <text x="320" y="114" text-anchor="middle" font-size="12" fill="#faf9f5">另外 20 隻在幹嘛</text>
+  <g font-size="11" fill="#141413">
+    <rect x="30" y="170" width="100" height="44" rx="8" fill="#ffffff" stroke="#e8e6dc"/>
+    <text x="80" y="188" text-anchor="middle">PR 盯哨</text>
+    <text x="80" y="203" text-anchor="middle" fill="#6b6a64">CI 失敗即報</text>
+    <rect x="145" y="170" width="100" height="44" rx="8" fill="#ffffff" stroke="#e8e6dc"/>
+    <text x="195" y="188" text-anchor="middle">Slack oncall</text>
+    <text x="195" y="203" text-anchor="middle" fill="#6b6a64">bug 現場復現</text>
+    <rect x="260" y="170" width="100" height="44" rx="8" fill="#ffffff" stroke="#e8e6dc"/>
+    <text x="310" y="188" text-anchor="middle">重構工</text>
+    <text x="310" y="203" text-anchor="middle" fill="#6b6a64">長倉庫顯式規則</text>
+    <rect x="375" y="170" width="100" height="44" rx="8" fill="#ffffff" stroke="#e8e6dc"/>
+    <text x="425" y="188" text-anchor="middle">測試補寫</text>
+    <text x="425" y="203" text-anchor="middle" fill="#6b6a64">lint 不過即退</text>
+    <rect x="490" y="170" width="100" height="44" rx="8" fill="#ffffff" stroke="#e8e6dc"/>
+    <text x="540" y="188" text-anchor="middle">＋16 隻…</text>
+    <text x="540" y="203" text-anchor="middle" fill="#6b6a64">各管一攤</text>
+  </g>
+  <g stroke="#8a5a2b" stroke-width="1.5">
+    <line x1="320" y1="128" x2="80" y2="170"/>
+    <line x1="320" y1="128" x2="195" y2="170"/>
+    <line x1="320" y1="128" x2="310" y2="170"/>
+    <line x1="320" y1="128" x2="425" y2="170"/>
+    <line x1="320" y1="128" x2="540" y2="170"/>
+  </g>
+  <rect x="60" y="244" width="520" height="84" rx="10" fill="#ffffff" stroke="#1b365d" stroke-width="1.5"/>
+  <text x="320" y="270" text-anchor="middle" font-size="13" font-weight="bold" fill="#141413">守門員的三條記憶線</text>
+  <text x="320" y="292" text-anchor="middle" font-size="12" fill="#6b6a64">誰在做什麼（活別幹兩遍）・ 做到哪一步（斷點可接）・ 踩過什麼坑（週一改過的錯不再犯）</text>
+  <text x="320" y="312" text-anchor="middle" font-size="12" fill="#6b6a64">自述成效：約 30 小時/週 ＋ 頂掉約 $9k 招聘（單方說法，未驗證）</text>
+</svg>
