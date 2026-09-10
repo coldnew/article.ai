@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 260" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="720" height="260" rx="10" fill="#faf9f5"/>
+  <text x="24" y="34" font-size="17" font-weight="700" fill="#141413">作者自述的訓練三階（影片位置標星號）</text>
+
+  <g>
+    <rect x="24" y="56" width="210" height="130" rx="8" fill="#1b365d"/>
+    <text x="40" y="88" font-size="15" font-weight="700" fill="#ffffff">第 1 階：replay 蒸餾</text>
+    <text x="40" y="114" font-size="12" fill="#e8e6dc">teacher-forced 輸入灌進</text>
+    <text x="40" y="134" font-size="12" fill="#e8e6dc">connectome，動作由連接</text>
+    <text x="40" y="154" font-size="12" fill="#e8e6dc">體產生，非預錄回放</text>
+    <text x="40" y="174" font-size="12" font-weight="700" fill="#ffd970">★ 影片在此階早期</text>
+  </g>
+
+  <g>
+    <rect x="255" y="56" width="210" height="130" rx="8" fill="#ffffff" stroke="#8a5a2b" stroke-width="2"/>
+    <text x="271" y="88" font-size="15" font-weight="700" fill="#8a5a2b">第 2 階：RL 反應訓練</text>
+    <text x="271" y="114" font-size="12" fill="#141413">逐步撤掉外部訊號，</text>
+    <text x="271" y="134" font-size="12" fill="#141413">練視覺反應；miss 與</text>
+    <text x="271" y="154" font-size="12" fill="#141413">抖動來自這個階段</text>
+    <text x="271" y="174" font-size="12" fill="#8a5a2b">【作者自述】進行中</text>
+  </g>
+
+  <g>
+    <rect x="486" y="56" width="210" height="130" rx="8" fill="#ffffff" stroke="#6b6a64" stroke-width="2" stroke-dasharray="6 4"/>
+    <text x="502" y="88" font-size="15" font-weight="700" fill="#6b6a64">第 3 階：全反應遊玩</text>
+    <text x="502" y="114" font-size="12" fill="#6b6a64">零輸入資料、只靠</text>
+    <text x="502" y="134" font-size="12" fill="#6b6a64">connectome 即時反應</text>
+    <text x="502" y="154" font-size="12" fill="#6b6a64">打完整首</text>
+    <text x="502" y="174" font-size="12" fill="#6b6a64">【作者自述】目標，未到</text>
+  </g>
+
+  <text x="234" y="130" font-size="22" fill="#6b6a64">→</text>
+  <text x="465" y="130" font-size="22" fill="#6b6a64">→</text>
+
+  <text x="24" y="218" font-size="12" fill="#6b6a64">作者原話：直接丟進 RL 會又慢又脆，先蒸餾再 RL 是刻意的課程設計。</text>
+  <text x="24" y="240" font-size="12" fill="#6b6a64">本站自繪，依據作者三則澄清貼文整理。</text>
+</svg>

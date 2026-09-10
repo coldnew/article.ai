@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#6b6a64"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="720" height="300" rx="10" fill="#faf9f5"/>
+  <text x="24" y="34" font-size="17" font-weight="700" fill="#141413">從接線圖到「會玩」：三段之間都有落差</text>
+
+  <g>
+    <rect x="24" y="56" width="200" height="190" rx="8" fill="#ffffff" stroke="#1b365d" stroke-width="2"/>
+    <text x="40" y="88" font-size="15" font-weight="700" fill="#1b365d">① 接線圖</text>
+    <text x="40" y="114" font-size="13" fill="#141413">FlyWire 2024</text>
+    <text x="40" y="136" font-size="13" fill="#141413">139,255 神經元</text>
+    <text x="40" y="158" font-size="13" fill="#141413">5,000 萬＋突觸</text>
+    <text x="40" y="188" font-size="12" fill="#1b365d">【原文明說】這是真的</text>
+    <text x="40" y="208" font-size="12" fill="#6b6a64">但它只是地圖，</text>
+    <text x="40" y="226" font-size="12" fill="#6b6a64">不是會動的大腦</text>
+  </g>
+
+  <g>
+    <rect x="260" y="56" width="200" height="190" rx="8" fill="#ffffff" stroke="#8a5a2b" stroke-width="2"/>
+    <text x="276" y="88" font-size="15" font-weight="700" fill="#8a5a2b">② 功能模擬</text>
+    <text x="276" y="114" font-size="13" fill="#141413">Shiu et al. LIF 模型</text>
+    <text x="276" y="136" font-size="13" fill="#141413">簡化神經元＋</text>
+    <text x="276" y="158" font-size="13" fill="#141413">預測的神經傳導物質</text>
+    <text x="276" y="188" font-size="12" fill="#8a5a2b">【原文明說】只能算</text>
+    <text x="276" y="208" font-size="12" fill="#6b6a64">取食／理毛等感覺</text>
+    <text x="276" y="226" font-size="12" fill="#6b6a64">運動迴路，不是全腦</text>
+  </g>
+
+  <g>
+    <rect x="496" y="56" width="200" height="190" rx="8" fill="#ffffff" stroke="#b3261e" stroke-width="2" stroke-dasharray="6 4"/>
+    <text x="512" y="88" font-size="15" font-weight="700" fill="#b3261e">③ 玩 Beat Saber</text>
+    <text x="512" y="114" font-size="13" fill="#141413">單曲 overfit＋</text>
+    <text x="512" y="136" font-size="13" fill="#141413">teacher forcing 輸入＋</text>
+    <text x="512" y="158" font-size="13" fill="#141413">RL 訓練中</text>
+    <text x="512" y="188" font-size="12" fill="#b3261e">【作者自述】還不會</text>
+    <text x="512" y="208" font-size="12" fill="#6b6a64">「會玩」是目標，</text>
+    <text x="512" y="226" font-size="12" fill="#6b6a64">影片是訓練早期</text>
+  </g>
+
+  <line x1="224" y1="151" x2="254" y2="151" stroke="#6b6a64" stroke-width="2" marker-end="url(#arw)"/>
+  <line x1="460" y1="151" x2="490" y2="151" stroke="#6b6a64" stroke-width="2" marker-end="url(#arw)"/>
+  <text x="228" y="140" font-size="11" fill="#6b6a64">簡化</text>
+  <text x="464" y="140" font-size="11" fill="#6b6a64">嫁接</text>
+
+  <text x="24" y="278" font-size="12" fill="#6b6a64">本站自繪：每一段都是真功夫，但段與段之間不能直接畫等號；「100% 模擬」在第二段就斷了。</text>
+</svg>
