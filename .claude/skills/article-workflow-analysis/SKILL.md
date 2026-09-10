@@ -63,6 +63,7 @@ import XPostCard from '../../components/XPostCard.astro';
 
 - frontmatter 欄位：title、description、publishedAt、topic、sourceType、sourceUrl、authors、venue、tags、readTime、evidence、featured、sourceCount、accent（照抄既有文章的鍵名）。
 - 圖片放 `public/articles/<slug>/`，引用路徑寫 `/article.ai/articles/<slug>/...`；每張圖下方加 `<small class="figure-caption">`；技術圖優先自繪 SVG，不引用外部 CDN（斷鏈風險）。
+- 來源是專利時，專利圖是 USPTO 公開文件，應挑解說必需的關鍵圖（例如系統架構、核心流程）存入站內引用：圖說註明原圖 FIG 編號加出處連結，來源節加列 USPTO 全文 PDF；其餘圖仍以自繪 SVG 為主，不要整份圖紙全搬。
 - MDX 地雷：內文不可出現 `<` 緊接數字或中文標點（例如 `<3 m`），會被當成 JSX 解析失敗；用 backtick 包起來或改寫。
 - 證據等級：單一公司自述或單則貼文，evidence 只能給「中」或「探索中」，並在內文明確標註未支撐處。
 - 寫完跑 `npm run build`，確認新頁面生成且首頁 index 有收錄。

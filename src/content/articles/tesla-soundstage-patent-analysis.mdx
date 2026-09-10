@@ -39,13 +39,17 @@ import XPostCard from '../../components/XPostCard.astro';
 
 【專利明說的第二個難題】車用喇叭先天不對稱：高音和低音到耳朵的距離差很多，單聲道激發出來的脈衝響應在時間上就是糊的；糊的響應難等化，解出來的濾波器繼續糊，惡性循環。
 
+![專利 FIG.1A：車室內雙聽眾與 9 顆喇叭配置。](/article.ai/articles/tesla-soundstage-patent-analysis/patent-fig-1a.png)
+
+<small class="figure-caption">圖 1｜專利原圖 FIG.1A（Sheet 1 of 8），USPTO 公開文件，解說見內文。兩位聽眾（102A／102B）各有左右耳控制點（q1–q4），9 顆喇叭（110A–110I，n1–n9）散佈車室四周；虛線是兩人各自感知的左／中／右音像（L1／C1／R1、L2／C2／R2，70／71）。一張圖就把「不對稱、多聽眾」兩個難題畫完了——這正是傳統等化會糊掉的場景。出處：USPTO 公開案全文 PDF。</small>
+
 ## 解法：五步加一個可選迴路
 
 【專利 SUMMARY 明說，全文已核對】設計方法共五步，產出兩級級聯處理器：
 
 ![五步驟與頭部追蹤迴路。](/article.ai/articles/tesla-soundstage-patent-analysis/figure-01-five-steps.svg)
 
-<small class="figure-caption">圖 1｜本站依專利 SUMMARY 五步驟（I–V）與附加的 head-tracking 步驟重繪。III 是全案鑰匙。</small>
+<small class="figure-caption">圖 2｜本站依專利 SUMMARY 五步驟（I–V）與附加的 head-tracking 步驟重繪。III 是全案鑰匙。</small>
 
 1. **I・對齊級**：每顆喇叭一個線性相位帶通濾波器，按喇叭相對乘客的位置分組（最左／最右獨立成組，其餘按就近控制點分），算延遲加音量匹配。延遲用 IR 起點閾值法——【專利明說】絕對值首次超過峰值 20% 的時刻為起點，10／15／25／30% 都在保護範圍內，貼文寫的 20% 加 10／30% 變體與內文一致。
 2. **II・量測**：對齊濾波器掛上去之後再量一次，到耳道口控制點的響應。量法是【專利明說】指數正弦掃頻（引 Tylka 等人 2014 AES 論文與 US 9,959,883）。
@@ -53,13 +57,17 @@ import XPostCard from '../../components/XPostCard.astro';
 4. **IV・音場級**：開窗後的響應配 HRTF（或實測聲學響應）空間目標，用正則化最小平方偽逆解算；按喇叭可用頻段分組獨立求解，再用 Linkwitz-Riley 分頻濾波器縫回去；最後掛雙耳響度正規化——【專利明說】用 Pulkki、Karjalainen、Huopaniemi 的雙耳聽覺模型算開關音場處理前後的響度比，確保 podcasts 這類單聲道內容音量不跳變。貼文四個名字全對。
 5. **V・級聯**：對齊級乘上音場級輸出，可跑在 CPU、GPU、DSP、類比電路甚至雲端（【專利明說】，貼文有寫）。
 
+![專利 FIG.2：兩級級聯處理器的訊號流。](/article.ai/articles/tesla-soundstage-patent-analysis/patent-fig-2.png)
+
+<small class="figure-caption">圖 3｜專利原圖 FIG.2（Sheet 3 of 8，已轉正，USPTO 公開文件）。P 路輸入（u1–uP）先進音場級 S（14），再進對齊級 A（12），最後穿過車室聲學 B（10）到 Q 個耳端控制點（d1–dQ）。注意順序是設計時先算 A、运行时先過 S——兩級級聯就是這麼來的。出處：USPTO 公開案全文 PDF。</small>
+
 **可選迴路**：對離散頭部位置預算一整排處理器，車內光學相機追蹤頭部，即時線性內插切換，無斷音雜音。【專利明說】短濾波器是內插玩得動的前提——這句話把全案的因果鏈收攏了。
 
 ## 關鍵一招：為什麼「不修」反而是答案
 
 ![低頻寬窗補償與高頻窄窗放生的對照。](/article.ai/articles/tesla-soundstage-patent-analysis/figure-02-windowing.svg)
 
-<small class="figure-caption">圖 2｜本站依專利 Step III 與背景章節的長短窗兩難重繪。右側「修了更糟」是專利 BACKGROUND 的原意：高頻對頭部位移最敏感。</small>
+<small class="figure-caption">圖 4｜本站依專利 Step III 與背景章節的長短窗兩難重繪。右側「修了更糟」是專利 BACKGROUND 的原意：高頻對頭部位移最敏感。</small>
 
 【專利 BACKGROUND 明說的兩難】長窗什麼都修，但延遲、算力、頭動失效、動態損失四宗罪全來，還會把感知距離拉近（用 HRTF 這類無響目標時）；短窗保住距離感，但低頻頻譜控制不夠。CFOS 的解法是等效於「每個頻段各自用不同長度的窗」：低頻寬窗修駐波，高頻窄窗把晚期反射留在補償之外——**留下的反射不是垃圾，是大腦判斷距離的環境線索**，而且高頻波長短、頭一動就對不上，不修反而強壯。
 
@@ -88,5 +96,6 @@ import XPostCard from '../../components/XPostCard.astro';
 - @tslaming X 主貼文（2026-09-09）：https://x.com/tslaming/status/2097597965871550628 ——本文解讀對象，約 1,800 瀏覽
 - 專利 canonical 頁（待索引）：https://patents.google.com/patent/US20260261818A1/en
 - 專利全文核對底本（FreePatentsOnline）：http://www.freepatentsonline.com/y2026/0261818.html ——BACKGROUND、SUMMARY、DETAILED DESCRIPTION 之出處
+- 專利原圖出處（USPTO 全文 PDF，圖 1／圖 3 為 FIG.1A／FIG.2 原圖裁切）：https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/20260261818 ——USPTO 公開文件，本文僅引用解說所需的兩張流程圖
 - CFOS 方法論文（Tylka／Boren／Choueiri 2017）：專利內引，複數平滑保留對數頻率對稱之出處
 - 站上姊妹篇：〈Tesla 雙軸浮動卡扣〉——同一解讀者的 Tesla 專利系列，可互鏈
