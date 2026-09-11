@@ -1,0 +1,90 @@
+---
+title: "Shopify 從 React Native 搬回原生：LLM 改寫了跨平台的成本等式"
+description: "整理《Mustafa Ali（Shopify Head of Mobile）》這則 X 貼文與官方工程部落格：2020 年為省下雙平台成本 All-in React Native，2026 年因 coding agent 能拿 iOS 版當參考寫 Android 版，決定全部遷回 Swift／Kotlin——Shop 已 12 週重寫上架，Helix 檢查點迴圈＋無頭 CLI 架構是兩大配套，Skia／FlashList／Restyle 三套開源庫各有去處。"
+publishedAt: 2026-09-10
+topic: "技術"
+sourceType: "article"
+sourceUrl: "https://x.com/mustafa01ali/status/2098047492772249730"
+authors: ["Mustafa Ali（@mustafa01ali）"]
+venue: "X · Mustafa Ali"
+tags: ["Shopify", "React Native", "Swift", "Kotlin", "coding agent", "Helix", "跨平台"]
+readTime: "10 分鐘"
+evidence: "中"
+featured: false
+sourceCount: 4
+accent: "green"
+---
+
+import XPostCard from '../../components/XPostCard.astro';
+
+## 先說結論
+
+《Mustafa Ali》這則貼文宣布的是 Shopify 行動端六年來最大轉向：2020 年 All-in React Native 的理由（寫一次、跨棧、不用追 parity）在 2026 年被 coding agent 掏空了——Agent 能拿 iOS 實作當參考寫出 Android 版，還能靠共享 spec／測試／review 維持雙平台對齊，「寫兩次」不再等於「兩倍成本」。Shop App 已用 12 週從 PoC 重寫上架，300+ 頁面的 Shopify 主 App 年底跟進。這不是 RN 不行，是等式變了。
+
+## 這篇文章真正解決的問題
+
+所有跨平台框架的推銷話術都建立在同一個假設上：雙平台原生開發貴到不值得。而 Mustafa 要回答的是：當 Agent 能把「翻譯＋對齊」這份工吃掉大半之後，這個假設還成立嗎？Shopify 用自家四個 App 當白老鼠，答案是不成立——但前提是你得先解決兩個新問題：Agent 一次寫出的 code 是 slop（Helix 解），以及 Agent 測 App 的迴圈太慢（無頭 CLI 架構解）。
+
+## 來源貼文
+
+<XPostCard author="Mustafa Ali" handle="@mustafa01ali · Director of Engineering & Head of Mobile @Shopify" avatar="/article.ai/articles/shopify-back-to-native/mustafa-avatar.jpg" timestamp="9:54 PM · Sep 10, 2026" views="1.2M" replies="190" reposts="371" likes="4.2K" sourceUrl="https://x.com/mustafa01ali/status/2098047492772249730">
+<p>Shopify is moving all of our mobile apps from React Native back to Swift and Kotlin.</p>
+<p>Going all-in on React Native in 2020 was hugely successful for us. We saved a ton of time by building features once, enabled developers with no mobile background to contribute to our apps, and stopped constantly chasing feature parity.</p>
+<p>Since then, LLMs have gotten dramatically better. They can use an iOS implementation to build the Android version and vice versa, help developers work outside their usual stack, and keep both platforms aligned through shared specs, tests, and review.</p>
+<p>Native still means building and maintaining software on two platforms. That hasn't gone away. But LLMs can now do enough of the implementation, translation, testing, and review that it's no longer the deciding factor it was in 2020.</p>
+<p>That has made greenfield rebuilds realistic. Shop went from proof of concept to a fully rebuilt native app in the app stores in 12 weeks. Other apps are also underway.</p>
+<p>From the beginning, we wanted to contribute back to React Native and help make it better. We're grateful for how the community embraced React Native Skia, FlashList, and Restyle, and we're committed to transitioning them cleanly, with clear timelines and no surprises for the people who rely on them.</p>
+<p>React Native was the right choice for us in 2020. Native is the right choice for us now. The goal hasn't changed: build better apps and ship faster.</p>
+</XPostCard>
+
+<small class="figure-caption">嵌入 1｜來源貼文靜態還原（116.8 萬瀏覽）。繁體譯文要點：Shopify 把全部 App 從 RN 搬回 Swift／Kotlin；2020 年的決定當時是對的；LLM 能跨平台互譯實作、幫工程師跳出舒適棧、用共享 spec 對齊雙端；原生仍是兩份工，但不再是決定因素；Shop 12 週重寫上架；三套開源庫會乾淨交接。</small>
+
+## 逐段查核
+
+### 1. 2020 年的三個理由，當時是對的（原文明說）
+
+官方部落格列出當年轉 RN 的三個理由：不再做兩次同樣功能、讓工程師跨棧工作、把追 feature parity 的時間拿去出貨。六年下來 RN 確實交付了這些好處，代價（效能優化、框架更新、外部依賴）也被明寫為「可接受的 trade-off」。這段沒有美化過去，是可信的鋪陳。
+
+### 2. 反轉點：2025 年 1 月還說 RN 前景光明（原文明說＋可直接推出）
+
+Mustafa 自己 2025 年 1 月才寫過〈Five Years of React Native〉說要繼續投資，14 個月後 180 度轉向。部落格不避諱這段，直接說「當時基於已知是對的」。轉向的單一變因就是 coding 模型的進步曲線：Shopify 從 2021 年（ChatGPT 前一年）就開始用 LLM，2025 年底 Agent 已經強到讓人質疑「做兩次＝兩倍工」這個前提。時間線自洽，且是第一方自述，可信度高。
+
+### 3. 成本等式翻轉（原文明說）
+
+![2020 與 2026 的成本等式對照：共享實作的優勢被 Agent 吃掉，原生的平台優勢留下來。](/article.ai/articles/shopify-back-to-native/figure-01-cost-flip.svg)
+
+<small class="figure-caption">圖 1｜本站自繪：2020 年 RN 用「寫一次」勝出；2026 年 Agent 讓「寫兩次」不再是決定因素，原生靠貼近平台能力勝出。Shop 12 週重寫是等式成立的實證錨點。</small>
+
+關鍵句是「agents have reduced the advantages of sharing implementation, while the advantages of building for each platform remain」：共享實作的紅利被 Agent 壓縮，但原生的好處（貼近平台能力、第一方工具鏈、少掉框架層）一分沒少。一增一減之間，天平就翻了。這是整篇 Chapter 1 的邏輯核心，論證是完整的。
+
+### 4. 綠地勝過棕地：12 週的 Shop（原文明說）
+
+當年遷入 RN 用的是漸進式（brownfield），因為重寫要停新功能幾年。這次反過來選打掉重練（greenfield），理由有三：LLM 拿 RN 版當參考寫原生很順、乾淨重來不受舊約束、原型證明比以前快得多。Shop（購物類榜單常客）第一個遷完：PoC 到上架 12 週；300+ 頁面、含手錶 App 與 Siri Shortcuts 的 Shopify 主 App 年底上線。數字是第一方自述，無第三方驗證，但 12 週這種具體數字撒謊成本高，暫採信並標註。
+
+### 5. Helix：防 slop 的檢查點迴圈（原文明說）
+
+![Helix 四道門：測試、視覺對齊、雙對抗審查、人類點頭，全過才 commit。](/article.ai/articles/shopify-back-to-native/figure-02-helix-loop.svg)
+
+<small class="figure-caption">圖 2｜本站自繪：Helix 把重寫切成幾分鐘可審的 checkpoint，每片過四道門。回饋被記住，迴圈越跑越自主。原 GIF 不轉載。</small>
+
+最誠實的一段：直接承認 one-shot 重寫產出的是「huge amount of unmaintainable code」。Helix 的設計哲學是「不期待第一次就對」——把畫面切成小片，每片過測試、視覺比對、兩個對抗式 code reviewer、人類點頭四道門，review 回饋還會被記住讓迴圈越來越自主。這是目前看過的大廠 Agent 遷移方法論裡寫得最具體的一個。
+
+### 6. 無頭 CLI 架構：Agent 測 App 的毫秒級迴圈（原文明說）
+
+痛點抓得很準：Agent 改 code 只要幾秒，但靠 accessibility tree 或截圖驅動模擬器測一次要幾分鐘，「模型再強，測不快就沒用」。解法是商業邏輯與 UI 完全解耦、可在桌機無頭運行，Agent 經 CLI 以毫秒級檢查狀態、導航、執行動作；要碰模擬器時走 remote mode 下指令，不再解析 layout。這其實是把「agent-friendly architecture」變成硬性架構約束，值得所有做 Agent 寫 App 的團隊抄。
+
+### 7. 三套開源庫的去處（原文明說）
+
+- **React Native Skia**：贊助到 2026 年底，William Candillon 會 fork、換名繼續發版，原 repo 歸檔。
+- **FlashList**（週下載約 200 萬，RN 高效能列表的事實標準）：修會壞掉相容性的 critical issue，長期接管方洽談中。
+- **Restyle**（用戶少）：2026 年底後歸檔，歡迎 fork，願意協助交接。
+
+交代得乾淨，沒有斷崖式棄坑。這段是寫給生態系的，不是寫給股東的。
+
+## 風險與盲點
+
+- **Shopify 樣本特殊（合理推斷）**：四個大 App、數百工程師、2021 年就開始養 LLM 習慣——等式在 Shopify 成立，不代表十人團隊重寫划算。12 週背後是完整平台團隊＋Helix＋CLI 基建，不是單一工程師 vibe coding。
+- **12 週與年底時程無第三方驗證（未被支撐）**：Shop 已上架可查算半驗證，主 App「年底上線」是承諾不是事實。
+- **隱藏成本沒展開（未被支撐）**：雙平台原生的人力編制、CI／發版翻倍、長期維護兩份 code——部落格只談遷移速度，沒談遷移後的經常成本。Agent 寫得多，review 的人夠不夠是下一個瓶頸。
+- **RN 生態衝擊（可直接推出）**：FlashList 接管方還沒定，Skia 換名遷移期，這是 RN 社群未來一年的實質風險。Shopify 說「no surprises」，但 2025 年 1 月它也說過要繼續投資。
+- **作者即決策者（原文明說＋推斷）**：Mustafa 是 Head of Mobile，這篇既是技術分享也是組織敘事——為一次可能被解讀為「承認走錯路」的轉向定調。致謝 Meta／Software Mansion 寫得很長，部分功能是外交。

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="340" viewBox="0 0 760 340" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="760" height="340" fill="#faf9f5"/>
+  <text x="30" y="34" font-size="17" font-weight="bold" fill="#141413">成本等式翻轉：為什麼 2020 選 RN、2026 選原生</text>
+  <!-- 2020 column -->
+  <rect x="30" y="55" width="330" height="255" rx="10" fill="#fff" stroke="#e8e6dc"/>
+  <text x="50" y="85" font-size="15" font-weight="bold" fill="#1b365d">2020：寫兩次 ＝ 兩倍成本</text>
+  <rect x="50" y="100" width="290" height="34" rx="6" fill="#1b365d"/>
+  <text x="195" y="123" font-size="13" fill="#fff" text-anchor="middle">Swift / Kotlin 各寫一遍（貴）</text>
+  <rect x="50" y="142" width="290" height="34" rx="6" fill="#8a5a2b"/>
+  <text x="195" y="165" font-size="13" fill="#fff" text-anchor="middle">React Native 寫一遍（便宜）→ 勝出</text>
+  <text x="50" y="200" font-size="12.5" fill="#6b6a64">三個理由：不重複造輪、跨棧開發、</text>
+  <text x="50" y="220" font-size="12.5" fill="#6b6a64">不用追 feature parity</text>
+  <text x="50" y="248" font-size="12.5" fill="#6b6a64">代價可接受：效能優化、追框架更新、</text>
+  <text x="50" y="268" font-size="12.5" fill="#6b6a64">外部依賴維護</text>
+  <!-- 2026 column -->
+  <rect x="400" y="55" width="330" height="255" rx="10" fill="#fff" stroke="#e8e6dc"/>
+  <text x="420" y="85" font-size="15" font-weight="bold" fill="#1b365d">2026：寫兩次 ≠ 兩倍成本</text>
+  <rect x="420" y="100" width="290" height="34" rx="6" fill="#1b365d"/>
+  <text x="565" y="123" font-size="13" fill="#fff" text-anchor="middle">Agent 拿 iOS 版當參考寫 Android 版</text>
+  <rect x="420" y="142" width="290" height="34" rx="6" fill="#2e7d4f"/>
+  <text x="565" y="165" font-size="13" fill="#fff" text-anchor="middle">原生雙平台（不再是決定因素）→ 勝出</text>
+  <text x="420" y="200" font-size="12.5" fill="#6b6a64">共享 spec／測試／review 取代共享實作</text>
+  <text x="420" y="220" font-size="12.5" fill="#6b6a64">留下的好處：貼近平台能力、第一方工具鏈、</text>
+  <text x="420" y="240" font-size="12.5" fill="#6b6a64">少掉框架與依賴層</text>
+  <text x="420" y="268" font-size="12.5" fill="#6b6a64">實證：Shop 12 週 PoC → 上架原生重寫版</text>
+  <text x="380" y="185" font-size="22" fill="#8a5a2b">→</text>
+</svg>
