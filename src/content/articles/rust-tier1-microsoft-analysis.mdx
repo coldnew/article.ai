@@ -1,0 +1,72 @@
+---
+title: "Rust 在微軟成為 Tier-1 語言：MSVC 後端與十億行之爭"
+description: "微軟 DevDiv 首席工程師 Victor Ciura 在 Rust Foundation 客座宣布：Rust 與 C++、C#、TypeScript 同列內部 Tier-1 語言，rustc_codegen_utc（MSVC 後端）已 production-ready、100+ 倉庫採用。HN 608 分、348 則留言的最大共識是互操作時代，最大的爭吵是「2030 年十億行」到底是官方計畫還是個人願景。"
+publishedAt: 2026-09-10T20:00:00+08:00
+topic: "技術"
+sourceType: "article"
+sourceUrl: "https://rustfoundation.org/media/guest-post-rust-is-tier-1-language-at-microsoft/"
+authors: ["Victor Ciura（微軟 DevDiv／CoreAI 首席工程師）"]
+analyst: "Muse Spark"
+venue: "Rust Foundation Blog"
+tags: ["Rust", "微軟", "MSVC", "編譯器", "HN"]
+readTime: "11 分鐘"
+evidence: "中"
+featured: false
+sourceCount: 6
+accent: "blue"
+---
+
+## 一句話結論
+
+微軟正式把 Rust 列入內部 Tier-1 語言——跟 C++、C#、TypeScript 同級，保證從本地開發到上線都有一條鋪好的路；真正的技術新聞是 `rustc_codegen_utc`：一個把 rustc 接到 MSVC 後端的替代 codegen，2026 年初已 production-ready、100 多個內部倉庫在用。HN 討論串（608 分、348 留言，發文者 mmastrac）一邊肯定、一邊把「2030 年消滅十億行 C/C++」到底是官方計畫還是個人願景吵了一整串。
+
+## 這篇文章真正解決的問題
+
+Windows 跟 MSVC 綁了幾十年，所有安全流程、除錯、Hotpatch、效能分析都是繞著 C++ 建的。Rust 要進微軟，不能只靠「記憶體安全」這個口號——它必須能吃到同一套平台投資，否則每個 Windows 特性都要為 Rust 重做一次。這篇客座文回答的就是：微軟選擇不另起爐灶，而是把 rustc 接到自家後端，讓兩個語言共用同一個 codegen 平台。
+
+## 流程拆解
+
+### 1. Tier-1 到底是什麼意思（原文明說）
+
+不是 rustc 的 target tier 分級，而是微軟內部的工程狀態：安全工具鏈建置、開發者工具、品質流程、深度平台整合、SDL 合規，五件套齊全。原文列的 paved path 就是：本地開發 → 安全供應鏈自建 rustc/stdlib → 生產管線 → 品質與合規。HN 上 gshubert17、swiftcoder、phire 一致背書這個解讀，並補刀：效力只在內部，沒有公開的 Tier-2／Tier-3 名單，也不等於 VS 開箱支援 Rust（petilon 的質問串）。
+
+![Tier-1 的真正含義：內部鋪好的路，以及它不等於的三件事。](/article.ai/articles/rust-tier1-microsoft/figure-02-paved-path.svg)
+
+<small class="figure-caption">圖 1｜本站自繪。Tier-1 = 內部 paved path；下半是 HN 糾正串的共識，不在原文裡。</small>
+
+### 2. rustc_codegen_utc：為何要繞過 LLVM（原文明說）
+
+它是跟 `rustc_codegen_llvm`、`gcc`、`cranelift` 同一家族的替代後端，插進同一個 backend interface，把 rustc 的共用編譯器機制接到 MSVC 後端（UTC）。原文列的理由很務實：在 Windows 上，ABI 相容、二進位加固、Hotpatch、跨語言 inline、SPGO、crash-dump 分析這些能力都是 MSVC 技術棧多年積累的——接上去就直接繼承，不用為 Rust 平行重做一遍。pornel 在 HN 的一句話摘要「replaced LLVM with MSVC's backend」被 e4m2 引 Zulip 糾正：是新增一個選項，不是全面取代；且效能跟 LLVM 打平，這點讓不少人意外。
+
+![rustc 共用前端接四種後端，utc 直通 MSVC 後端與 Windows 平台能力。](/article.ai/articles/rust-tier1-microsoft/figure-01-codegen-utc.svg)
+
+<small class="figure-caption">圖 2｜本站自繪。架構據客座原文整理；「效能打平」出自 HN 引述的 Zulip 討論，非原文數字。</small>
+
+### 3. 上線數字（原文明說，未獨立驗證）
+
+DevDiv 專職團隊投入，2026 年初 production-ready，自 Rust 1.90 起自我託管（self-hosted），目前 100+ 微軟專案倉庫用它建置，每週還在增加。回饋通道指向 Rust 官方 Zulip 的專屬主題串。注意：100+ 沒有倉庫清單、1.90 自託管全串無人討論驗證，都只能先記為官方單方說法。
+
+### 4. HN 留言區六條主線（從原文可直接推出＋合理推斷）
+
+- **十億行之爭**：gregw2 貼出 Thenewstack「Galen Hunt 要在 2030 年消滅十億行 C/C++、一人一月一百萬行」，jodrellblank 當場糾正那只是某員工 LinkedIn 個人願景；mkehrt 補充是 MSR 研究計畫層級的支持、afdbcreid 說官方已澄清不是正式計畫。我另行查證：Hunt 是 Distinguished Engineer，2025 年 12 月發文、一週後澄清是研究計畫、Windows 並沒有在重寫——HN 的糾正方向是對的。
+- **70% 記憶體安全**：devy 引 Russinovich RustConf keynote，微軟 CVE 約七成是記憶體安全問題，這是整個 Tier-1 決策的動機底座，多家媒體一致，可信度高。
+- **LLM 寫 Rust**：JoshTriplett（其 Rust 專家身份在串內被認可）掛保證說 LLM 出奇擅長 Rust，編譯器是最好的 agent 迴圈；Tanjreeve、dgroshev 潑冷水說爛抽象在 Rust 更痛、LLM 不會挑抽象。
+- **重寫經濟學**：bluGill 自稱某次重寫花了近十億美元、不敢再跟管理層要一次；vlovich123 回說 AI 讓 Bun 級重寫便宜 5–10 倍還快 100 倍。kibwen 的折衷最務實：只把攻擊面最大的 1% 用 C ABI 隔出來換 Rust，跟 Firefox 的做法一樣。
+- **interop 才是重點**：bryanlarsen 說今年 RustConf 主題已從「重寫」轉向 C++/Python/JS 互操作；Google 的 Crubit、zngur、cbindgen 都被點名。burakemir（自述前 Google Rust 負責人）直接斷言：C++ 轉 Rust 通用全自動化是 wishful thinking。
+- **under-discussed**：embedded 整倉採用仍悲觀（ryukoposting）、VS 何時支援 Rust（petilon 串）、開源時間表只在 Zulip 鬆口（afdbcreid）、Weather App 吃 1GB 的政治學巨串、EEE 恐懼（js8：MSVC 後端是不是 Extend 前兆）。
+
+## 風險與盲點
+
+- **單一公司自述**：全文是微軟工程師寫在 Rust Foundation 上的客座文，100+ 倉庫、每週增加、生產就緒都沒有第三方驗證；evidence 只能給「中」。
+- **作者就是決策體系內的人**：Ciura 是 DevDiv Rust 工具團隊首席，寫的是自己團隊的成績單；且他本人沒出現在 HN 留言區（全串零命中），少了公開答辯。
+- **數字口徑不一**：核心 Rust 行數各家報導從 25,000 到 36,000 不等（kernel），DirectWrite 的 152,000–154,000 倒是多源一致；引用時認明出處。
+- **十億行不要當政策讀**：已有多方澄清是研究願景；把「Azure 新系統級程式碼寫 Rust」（Russinovich 的 mandate，有多源佐證）和「全公司 2030 消滅 C/C++」（Hunt 個人 north star）混為一談是這波報導最常見的錯誤。
+- **Tier-1 的邊界**：只保證微軟內部工程體驗，不承諾開源時程、不承諾 VS 支援、不承諾其他平台；macleginn 批評標題應該直接寫 codegen_utc，是公允的。
+
+## 來源
+
+- Victor Ciura 客座原文（2026-09-10）：https://rustfoundation.org/media/guest-post-rust-is-tier-1-language-at-microsoft/ ——Tier-1 定義、codegen_utc 架構、上線數字之出處
+- HN 討論串（608 分、348 留言）：https://news.ycombinator.com/item?id=49643546 ——六條論戰主線、自報身份者、技術糾正之出處
+- Thenewstack 十億行報導（Galen Hunt LinkedIn）：https://thenewstack.io/microsofts-bold-goal-replace-1b-lines-of-c-c-with-rust ——十億行說法源頭
+- 多方交叉查證（WindowsForum 整理、India Today 2025-12-23、BuildMVPFast 2026-05-29）：Hunt 已澄清研究計畫、Windows 未重寫、70% 記憶體安全統計
+- Zulip 專屬主題串（經 HN 轉述）：效能與 LLVM 打平、計畫開源但範圍未定

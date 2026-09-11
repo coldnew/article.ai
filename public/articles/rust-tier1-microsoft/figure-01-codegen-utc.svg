@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="800" height="420" fill="#faf9f5"/>
+  <text x="400" y="30" text-anchor="middle" font-size="17" font-weight="700" fill="#141413">rustc_codegen_utc：同一個 rustc，四種後端</text>
+  <rect x="270" y="48" width="260" height="52" rx="8" fill="#fff" stroke="#1b365d" stroke-width="2"/>
+  <text x="400" y="70" text-anchor="middle" font-size="14" font-weight="700" fill="#1b365d">rustc 共用前端</text>
+  <text x="400" y="90" text-anchor="middle" font-size="12" fill="#6b6a64">borrow check・MIR・優化（後端無關）</text>
+  <line x1="400" y1="100" x2="400" y2="118" stroke="#1b365d" stroke-width="2"/>
+  <line x1="130" y1="118" x2="670" y2="118" stroke="#1b365d" stroke-width="2"/>
+  <g font-size="12" text-anchor="middle">
+    <line x1="130" y1="118" x2="130" y2="134" stroke="#1b365d" stroke-width="2"/>
+    <rect x="55" y="134" width="150" height="56" rx="8" fill="#fff" stroke="#6b6a64" stroke-width="1.5"/>
+    <text x="130" y="157" font-weight="700" fill="#141413">codegen_llvm</text>
+    <text x="130" y="176" fill="#6b6a64">預設・跨平台</text>
+    <line x1="310" y1="118" x2="310" y2="134" stroke="#1b365d" stroke-width="2"/>
+    <rect x="235" y="134" width="150" height="56" rx="8" fill="#fff" stroke="#6b6a64" stroke-width="1.5"/>
+    <text x="310" y="157" font-weight="700" fill="#141413">codegen_gcc</text>
+    <text x="310" y="176" fill="#6b6a64">GCC 生態</text>
+    <line x1="490" y1="118" x2="490" y2="134" stroke="#1b365d" stroke-width="2"/>
+    <rect x="415" y="134" width="150" height="56" rx="8" fill="#fff" stroke="#6b6a64" stroke-width="1.5"/>
+    <text x="490" y="157" font-weight="700" fill="#141413">codegen_cranelift</text>
+    <text x="490" y="176" fill="#6b6a64">快速 debug 建置</text>
+    <line x1="670" y1="118" x2="670" y2="134" stroke="#8a5a2b" stroke-width="2.5"/>
+    <rect x="595" y="134" width="150" height="56" rx="8" fill="#fff7ec" stroke="#8a5a2b" stroke-width="2.5"/>
+    <text x="670" y="157" font-weight="700" fill="#8a5a2b">codegen_utc ★</text>
+    <text x="670" y="176" fill="#6b6a64">本篇主角・新</text>
+  </g>
+  <line x1="670" y1="190" x2="670" y2="214" stroke="#8a5a2b" stroke-width="2.5"/>
+  <polygon points="670,214 662,204 678,204" fill="#8a5a2b"/>
+  <rect x="520" y="214" width="300" height="60" rx="8" fill="#1b365d"/>
+  <text x="670" y="238" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">MSVC 後端（UTC）</text>
+  <text x="670" y="258" text-anchor="middle" font-size="12" fill="#d8d5c8">Windows 原生平台編譯器</text>
+  <line x1="670" y1="274" x2="670" y2="292" stroke="#1b365d" stroke-width="2"/>
+  <polygon points="670,292 662,282 678,282" fill="#1b365d"/>
+  <text x="400" y="312" text-anchor="middle" font-size="13" font-weight="700" fill="#141413">沿用數十年的 Windows 平台投資</text>
+  <g font-size="12" text-anchor="middle" fill="#141413">
+    <rect x="30" y="322" width="130" height="34" rx="17" fill="#fff" stroke="#1b365d"/>
+    <text x="95" y="344">ABI 相容</text>
+    <rect x="172" y="322" width="130" height="34" rx="17" fill="#fff" stroke="#1b365d"/>
+    <text x="237" y="344">Hotpatch</text>
+    <rect x="314" y="322" width="130" height="34" rx="17" fill="#fff" stroke="#1b365d"/>
+    <text x="379" y="344">SPGO</text>
+    <rect x="456" y="322" width="130" height="34" rx="17" fill="#fff" stroke="#1b365d"/>
+    <text x="521" y="344">二進位加固</text>
+    <rect x="598" y="322" width="172" height="34" rx="17" fill="#fff" stroke="#1b365d"/>
+    <text x="684" y="344">除錯・dump 分析</text>
+  </g>
+  <text x="400" y="382" text-anchor="middle" font-size="12" fill="#6b6a64">C++ 與 Rust 共用同一 codegen 平台：跨語言 inline、混合專案不再是二等公民</text>
+  <text x="400" y="402" text-anchor="middle" font-size="11" fill="#6b6a64">本站自繪示意圖，架構據 Victor Ciura 客座原文整理</text>
+</svg>
