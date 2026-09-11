@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="720" height="340" fill="#faf9f5"/>
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#141413">Causal-Encoder-Decoder：讀寫不對稱</text>
+  <g>
+    <rect x="40" y="70" width="280" height="200" rx="10" fill="#fff" stroke="#1b365d" stroke-width="2"/>
+    <text x="180" y="98" text-anchor="middle" font-size="15" font-weight="bold" fill="#1b365d">編碼器 ×20 層</text>
+    <text x="180" y="122" text-anchor="middle" font-size="13" fill="#6b6a64">讀上下文（prompt 側）</text>
+    <rect x="70" y="140" width="220" height="44" rx="6" fill="#1b365d"/>
+    <text x="180" y="168" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">約 8B 激活參數</text>
+    <text x="180" y="210" text-anchor="middle" font-size="12" fill="#6b6a64">末層輸出 → 投影為</text>
+    <text x="180" y="230" text-anchor="middle" font-size="12" fill="#6b6a64">解碼器全域 KV</text>
+    <text x="180" y="252" text-anchor="middle" font-size="12" fill="#6b6a64">長記憶不必每層重算</text>
+  </g>
+  <g>
+    <rect x="400" y="70" width="280" height="200" rx="10" fill="#fff" stroke="#8a5a2b" stroke-width="2"/>
+    <text x="540" y="98" text-anchor="middle" font-size="15" font-weight="bold" fill="#8a5a2b">解碼器 ×20 層</text>
+    <text x="540" y="122" text-anchor="middle" font-size="13" fill="#6b6a64">寫答案（生成側）</text>
+    <rect x="430" y="140" width="220" height="44" rx="6" fill="#8a5a2b"/>
+    <text x="540" y="168" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">約 16B 激活參數</text>
+    <text x="540" y="210" text-anchor="middle" font-size="12" fill="#6b6a64">讀寫全域 KV</text>
+    <text x="540" y="230" text-anchor="middle" font-size="12" fill="#6b6a64">專家被路由＋SWA 重放</text>
+    <text x="540" y="252" text-anchor="middle" font-size="12" fill="#6b6a64">錢花在生成側刀刃上</text>
+  </g>
+  <line x1="322" y1="170" x2="398" y2="170" stroke="#141413" stroke-width="2" marker-end="url(#arr)"/>
+  <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#141413"/></marker></defs>
+  <text x="360" y="155" text-anchor="middle" font-size="12" fill="#141413">KV 投影</text>
+  <text x="360" y="315" text-anchor="middle" font-size="13" fill="#6b6a64">552B MoE 總參數 · 上下文最長 1M tokens · 原生多模態</text>
+</svg>

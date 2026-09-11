@@ -1,0 +1,71 @@
+---
+title: "DeepSeek V4.1 Flash：CED 新結構＋890 位元組 KV，Thomas Wolf 115 秒動畫拆解"
+description: "整理《SuSu_酥酥》這則 X 貼文（轉述 Thomas Wolf 115 秒架構動畫）：DeepSeek V4.1 Flash（9/10 發布）552B MoE＋Causal-Encoder-Decoder，讀側 8B、寫側 16B 激活，單 token 上下文狀態約 890 位元組；結構宣稱已對官方驗證，成績單數字半數待核。"
+publishedAt: 2026-09-10T20:18:00+08:00
+topic: "人工智慧"
+sourceType: "article"
+sourceUrl: "https://x.com/NFT_Chen/status/2098023344478228944"
+authors: ["SuSu_酥酥（@NFT_Chen）"]
+venue: "X · SuSu_酥酥"
+tags: ["DeepSeek", "MoE", "KV cache", "CED", "Thomas Wolf", "開源模型"]
+readTime: "9 分鐘"
+evidence: "探索中"
+featured: false
+sourceCount: 5
+accent: "orange"
+---
+
+import XPostCard from '../../components/XPostCard.astro';
+
+## 先說結論
+
+《SuSu_酥酥》這則貼文轉述了 Hugging Face 聯合創始人 Thomas Wolf 的一支 115 秒動畫：把 DeepSeek V4.1 Flash（官方同日 9/10 發布）一次前向傳播逐層攤開。核心不是「更大的 MoE」，而是推理流水線重寫——552B 總參數、讀側只激活約 8B、寫側約 16B；20 層編碼器讀上下文、20 層解碼器寫答案，解碼器全域 KV 從編碼器末層投影，長記憶不必每層重算。結構面的宣稱已對官方（deepseek.com、HF 模型卡）逐項驗證，全對得上；但成績單裡四個 benchmark 數字只有 DeepSWE 74.2 有第三方佐證，其餘待官方技術報告，故 evidence 只給探索中。
+
+## 這篇文章真正解決的問題
+
+MoE 的行銷數字（幾千億參數）跟實際帳單之間隔著三層：激活參數、KV cache、記憶體層級。這則貼文的價值是把帳單結構攤開——錢不是花在總參數上，而是花在「讀多少、寫多少、記多少」。CED 架構的押注是：輸入理解可以便宜（8B），生成才值得花錢（16B），而最貴的 KV 記憶可以用投影共享壓到約 890 位元組／token。
+
+## 來源貼文
+
+<XPostCard author="SuSu_酥酥👅" handle="@NFT_Chen" avatar="/article.ai/articles/deepseek-v41-flash-ced/chen-avatar.jpg" timestamp="8:18 PM · Sep 10, 2026" views="27.5K" replies="18" reposts="53" likes="256" sourceUrl="https://x.com/NFT_Chen/status/2098023344478228944">
+<p>這是我見過把 DeepSeek V4.1 Flash 新結構拆得最清楚的解析！</p>
+<p>Hugging Face 聯合創始人 Thomas Wolf 用 115 秒動畫，把一次 V4.1 Flash 新結構的前向傳播逐層攤開。</p>
+<p>不是又一個「更大的 MoE」，是把推理流水線重寫了一遍：1）552B MoE，讀和寫不對稱：prompt 側約 8B 激活，生成側約 16B。2）新結構叫 Causal-Encoder-Decoder：20 層編碼器讀上下文，20 層解碼器寫答案；解碼器全域 KV 從編碼器末層投影。3）token 進來後：專家被路由、SWA 窗口被重放、全域 KV 被讀寫。4）單 token 上下文狀態約 890 位元組，相對 V1 縮小約 437 倍；HBM 約上一代 1/4，SSD 約 1/8。5）Terminal-Bench 3.0 拿 30.0；DeepSWE v1.1 74.2；CyberGym 88.1、Automation-Bench 54.8。</p>
+</XPostCard>
+
+<small class="figure-caption">嵌入 1｜SuSu_酥酥主貼文靜態還原（藍勾個人帳號；原文為簡體，已轉繁體，語意逐字保留）。115 秒動畫原推文為 Thomas Wolf（@Thom_Wolf，HF 聯合創始人兼 CSO）所發，影片長度 115 秒與轉述一致，連結見來源。</small>
+
+## 流程拆解
+
+1. **不對稱激活（原文明說＋已驗證）**：552B MoE，prompt 側約 8B、生成側約 16B。官方新聞稿與 HF 模型卡逐字一致：「just 8B active parameters for input, 16B for output」。這是全文最硬的一句，兩處第一方來源互為佐證。
+2. **CED 二十加二十（原文明說＋已驗證）**：20 層因果編碼器讀上下文，20 層解碼器寫答案；解碼器全域 KV 從編碼器末層投影而來。HF 模型卡寫明 40 層 Transformer 即 20 層編碼器在前，SCMP 引 DeepSeek 官方說法亦同。傳統 decoder-only 每層自帶 KV，這裡長記憶只算一次。
+3. **前向三步（原文明說）**：專家被路由（MoE 門控選子網路）、SWA 窗口被重放（滑動窗口注意力處理局部）、全域 KV 被讀寫（長程記憶讀寫）。這段是動畫的演示內容，屬於轉述，無第三方可核——但與 CED 結構自洽。
+4. **KV 帳單（原文明說＋半驗證）**：單 token 上下文狀態約 890 位元組、相對 V1 約 437 倍、HBM 約 1/4、SSD 約 1/8。「1/4」有方向性佐證（Fireworks 稱 KV 佔用約 V4-Flash 四分之一）；890 位元組與 437 倍目前只見於轉述鏈，待官方技術報告核對。
+
+![CED 架構：20 層編碼器讀，20 層解碼器寫，KV 只算一次。](/article.ai/articles/deepseek-v41-flash-ced/figure-01-ced-arch.svg)
+
+<small class="figure-caption">圖 1｜本站自繪。編碼器末層投影出全域 KV，解碼器直接讀寫——長記憶不必每層重算；激活不對稱（8B vs 16B）把錢押在生成側。</small>
+
+5. **成績單（原文明說＋部分驗證）**：DeepSWE v1.1 的 74.2 有第三方佐證（Gate 引官方數據，稱超越 Opus 與 GPT 對手）；Terminal-Bench 2.1 的 90.6（SCMP 引官方，勝 GPT-5.6 Sol 的 88.8、Kimi K3 的 88.3）可作側證。但貼文寫的 Terminal-Bench **3.0** 30.0（V4 Pro 約 11.8）、CyberGym 88.1、Automation-Bench 54.8 三組數字，目前無獨立來源——且 Gate 提醒 TB 3.0／4.0 仍落後 Opus-5.0，「追平 Opus 5 檔」只限 DeepSWE 特定配置，不可泛化。
+6. **發布即上架（可直接推出）**：9/10 發布當日即登 HF（開源權重、MIT 卡、48 shards）、Fireworks serverless 上架（$0.90／$0.45／$0.90 每百萬 tokens）、V4 Pro 宣布退役——DeepSeek 把「小成本大智能」直接做成定價，9/14 起 Pro 按 Flash 價格路由。
+
+![KV cache 才是帳單：890 位元組、HBM 四分之一、SSD 八分之一。](/article.ai/articles/deepseek-v41-flash-ced/figure-02-kv-bill.svg)
+
+<small class="figure-caption">圖 2｜本站自繪。數字出自轉述貼文（單一來源，待官方報告核對）；HBM 約 1/4 另有 Fireworks 方向性佐證。</small>
+
+## 風險與盲點
+
+- **轉述鏈（原文明說＋推斷）**：本站讀到的是交易員的中文轉述，不是 Wolf 動畫本身，更不是 DeepSeek 技術報告；結構面因官方第一方資料齊全得以驗證，數字面則有一半懸空——這正是 evidence 停在探索中的原因。
+- **Benchmark 挑选（從原文可直接推出）**：官方與轉述都只強調贏的項目（DeepSWE、TB 2.1）；Gate 引官方數據同時顯示 GPQA Diamond、人類終極考試、SimpleQA 落後最大對手，TB 3.0／4.0 輸 Opus-5.0——完整成績單是「agent 強、知識弱」，不是全面超越。
+- **低品質 SEO 雜訊（合理推斷）**：有一家追蹤網站稱 V4.1 Flash 六月即發布並登頂 HF 趨勢榜，與官方 9/10 發布日直接矛盾——此類 AI 生成內容農場的日期不可信，查核時已排除，讀者遇到同類「榜單文」亦請先對官方日期。
+- **45 兆 tokens 與 IPO（未被支撐）**：有媒體稱訓練用 45 兆多模態 tokens、籌備科創板 IPO——皆為單一媒體說法，無官方佐證，不列入正文数字。
+- **作者誘因（合理推斷）**：轉貼者為股票＋幣圈交易員，結尾「梁文峰跑通了」是情緒收束不是技術結論；Wolf 本人則是開源派代言人，115 秒動畫本來就是 HF 生態的宣傳品——兩層濾鏡都要打折。
+
+## 來源
+
+- SuSu_酥酥 X 主貼文（2026-09-10）：https://x.com/NFT_Chen/status/2098023344478228944 ——本文轉述對象，約 2.8 萬瀏覽
+- Thomas Wolf 115 秒動畫原推文：https://x.com/Thom_Wolf/status/2097982062808428751 ——影片長度 115 秒已核對，Wolf 身份（HF 聯合創始人兼 CSO）已核對
+- DeepSeek 官方發布頁：https://www.deepseek.com/en/news/deepseek-v4-1-flash ——552B、CED、8B／16B 之出處
+- HF 模型卡：https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash ——40 層（20＋20）、1M 上下文、開源權重
+- SCMP 報導（TB 2.1 90.6 側證）：https://www.scmp.com ——編碼、資安、agent 任務勝 V4 Pro
+- Gate 報導（DeepSWE 74.2 佐證＋落後項目提醒）：https://www.gate.com/news/detail/deepseek-releases-v41-flash-ai-model-with-552b-parameters-24165404
