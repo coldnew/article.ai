@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" font-family="Noto Sans TC, sans-serif">
+  <text x="320" y="28" text-anchor="middle" font-size="17" font-weight="bold" fill="#1b365d">死的資本 → 活的資本：只差一張紙？</text>
+  <g>
+    <rect x="30" y="60" width="170" height="150" rx="10" fill="#faf9f5" stroke="#e8e6dc"/>
+    <text x="115" y="88" text-anchor="middle" font-size="14" font-weight="bold" fill="#141413">窮人手上的資產</text>
+    <text x="115" y="115" text-anchor="middle" font-size="13" fill="#141413">房子、土地</text>
+    <text x="115" y="137" text-anchor="middle" font-size="13" fill="#141413">小生意攤位</text>
+    <text x="115" y="175" text-anchor="middle" font-size="13" fill="#c0392b">無正式產權文件</text>
+    <text x="115" y="197" text-anchor="middle" font-size="13" fill="#c0392b">= 死的資本</text>
+  </g>
+  <g>
+    <rect x="235" y="60" width="170" height="150" rx="10" fill="#1b365d"/>
+    <text x="320" y="88" text-anchor="middle" font-size="14" font-weight="bold" fill="#f5f4ed">正式產權制度</text>
+    <text x="320" y="118" text-anchor="middle" font-size="13" fill="#f5f4ed">登記、確權</text>
+    <text x="320" y="140" text-anchor="middle" font-size="13" fill="#f5f4ed">可抵押、可轉讓</text>
+    <text x="320" y="175" text-anchor="middle" font-size="13" font-weight="bold" fill="#f5f4ed">de Soto 估 9.3 兆美元</text>
+    <text x="320" y="197" text-anchor="middle" font-size="12" fill="#e8e6dc">（方法論爭議極大）</text>
+  </g>
+  <g>
+    <rect x="440" y="60" width="170" height="150" rx="10" fill="#faf9f5" stroke="#e8e6dc"/>
+    <text x="525" y="88" text-anchor="middle" font-size="14" font-weight="bold" fill="#141413">活的資本？</text>
+    <text x="525" y="115" text-anchor="middle" font-size="13" fill="#141413">抵押貸款、信用</text>
+    <text x="525" y="137" text-anchor="middle" font-size="13" fill="#141413">投資、企業擴張</text>
+    <text x="525" y="175" text-anchor="middle" font-size="13" fill="#6b6a64">批評：產權 ≠ 信貸</text>
+    <text x="525" y="197" text-anchor="middle" font-size="13" fill="#6b6a64">波哥大實證打折扣</text>
+  </g>
+  <text x="217" y="145" text-anchor="middle" font-size="22" fill="#1b365d">→</text>
+  <text x="422" y="145" text-anchor="middle" font-size="22" fill="#1b365d">→</text>
+  <text x="320" y="250" text-anchor="middle" font-size="13" fill="#6b6a64">本站自繪：de Soto《資本的秘密》主線＋學界批評並列。9.3 兆美元見 IMF《Finance &amp; Development》2001 年 3 月號作者自述。</text>
+  <text x="320" y="272" text-anchor="middle" font-size="13" fill="#6b6a64">批評見 Gilbert 2001（波哥大）、Granér 2007、Ahiakpor 2008。</text>
+  <text x="320" y="300" text-anchor="middle" font-size="13" fill="#6b6a64">蘋果典故最早見 2001 年明尼阿波利斯聯儲訪談，非 2004 世行演講首創。</text>
+</svg>
