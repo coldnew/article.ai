@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="720" height="340" rx="12" fill="#faf9f5"/>
+  <text x="24" y="34" font-size="17" font-weight="700" fill="#141413">從零手寫：PicoAgents 學習路徑（code_along → 框架）</text>
+  <g font-size="12.5" fill="#141413">
+    <rect x="24" y="56" width="150" height="52" rx="8" fill="#fff" stroke="#1b365d" stroke-width="2"/>
+    <text x="99" y="78" text-anchor="middle" font-weight="700">1. Agent Loop</text>
+    <text x="99" y="96" text-anchor="middle" fill="#6b6a64" font-size="11">core agent loop</text>
+    <rect x="196" y="56" width="150" height="52" rx="8" fill="#fff" stroke="#1b365d" stroke-width="2"/>
+    <text x="271" y="78" text-anchor="middle" font-weight="700">2. Tool Calling</text>
+    <text x="271" y="96" text-anchor="middle" fill="#6b6a64" font-size="11">函式呼叫</text>
+    <rect x="368" y="56" width="150" height="52" rx="8" fill="#fff" stroke="#1b365d" stroke-width="2"/>
+    <text x="443" y="78" text-anchor="middle" font-weight="700">3. Memory</text>
+    <text x="443" y="96" text-anchor="middle" fill="#6b6a64" font-size="11">記憶</text>
+    <rect x="540" y="56" width="150" height="52" rx="8" fill="#fff" stroke="#1b365d" stroke-width="2"/>
+    <text x="615" y="78" text-anchor="middle" font-weight="700">4. Streaming</text>
+    <text x="615" y="96" text-anchor="middle" fill="#6b6a64" font-size="11">串流</text>
+    <rect x="24" y="132" width="212" height="56" rx="8" fill="#eef3f9" stroke="#1b365d"/>
+    <text x="130" y="154" text-anchor="middle" font-weight="700">5. 協作範式</text>
+    <text x="130" y="172" text-anchor="middle" fill="#6b6a64" font-size="11">DAG / GroupChat / LLM 決策 / Magentic-One</text>
+    <rect x="258" y="132" width="212" height="56" rx="8" fill="#eef3f9" stroke="#1b365d"/>
+    <text x="364" y="154" text-anchor="middle" font-weight="700">6. 生產要素</text>
+    <text x="364" y="172" text-anchor="middle" fill="#6b6a64" font-size="11">Computer Use / LLM-as-Judge / Web UI</text>
+    <rect x="492" y="132" width="198" height="56" rx="8" fill="#eef3f9" stroke="#1b365d"/>
+    <text x="591" y="154" text-anchor="middle" font-weight="700">7. 跨框架對標</text>
+    <text x="591" y="172" text-anchor="middle" fill="#6b6a64" font-size="11">LangGraph / MAF / ADK</text>
+  </g>
+  <g stroke="#8a5a2b" stroke-width="2" fill="none">
+    <line x1="174" y1="82" x2="194" y2="82"/><polygon points="194,77 202,82 194,87" fill="#8a5a2b" stroke="none"/>
+    <line x1="346" y1="82" x2="366" y2="82"/><polygon points="366,77 374,82 366,87" fill="#8a5a2b" stroke="none"/>
+    <line x1="518" y1="82" x2="538" y2="82"/><polygon points="538,77 546,82 538,87" fill="#8a5a2b" stroke="none"/>
+    <line x1="99" y1="108" x2="99" y2="130"/><polygon points="94,130 99,138 104,130" fill="#8a5a2b" stroke="none"/>
+    <line x1="236" y1="160" x2="256" y2="160"/><polygon points="256,155 264,160 256,165" fill="#8a5a2b" stroke="none"/>
+    <line x1="470" y1="160" x2="490" y2="160"/><polygon points="490,155 498,160 490,165" fill="#8a5a2b" stroke="none"/>
+  </g>
+  <rect x="24" y="212" width="666" height="104" rx="8" fill="#fff" stroke="#e8e6dc"/>
+  <text x="40" y="240" font-size="13.5" font-weight="700" fill="#141413">為什麼不用黑盒框架入門</text>
+  <text x="40" y="262" font-size="12.5" fill="#6b6a64">框架把 Agent Loop、狀態、重試藏起來，出問題只能猜；手寫一遍 PicoAgents，每個抽象都有對應的程式碼。</text>
+  <text x="40" y="284" font-size="12.5" fill="#6b6a64">code_along/ 四步：core loop → tool calling → memory → streaming；PicoAgents 是同一套想法的完整版。</text>
+  <text x="40" y="306" font-size="12.5" fill="#6b6a64">學完再去看 LangGraph / MAF / ADK 對照，選型才有依據。</text>
+</svg>

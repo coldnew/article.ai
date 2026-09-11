@@ -1,0 +1,74 @@
+---
+title: "想吃透 Multi-Agent，先手寫一遍：Victor Dibia 的開源教學框架 PicoAgents"
+description: "微軟 Agent 基礎設施負責人 Victor Dibia 的開源書配套 repo（979 星、Apache-2.0）：教學型框架 PicoAgents 從零實現 Agent Loop 到 Magentic-One 編排，不依賴黑盒；第 9 章給 LangGraph、微軟 Agent Framework、Google ADK 的同模式對照。貼文宣稱逐一回 README 核過，全對得上。"
+publishedAt: 2026-09-10T15:51:00+08:00
+topic: "開源"
+sourceType: "article"
+sourceUrl: "https://x.com/realfxw/status/2097956088792396200?s=20"
+authors: ["TechVerser（@realfxw）"]
+venue: "X"
+tags: ["GitHub", "Multi-Agent", "PicoAgents", "LangGraph", "開源專案"]
+readTime: "8 分鐘"
+evidence: "探索中"
+featured: false
+sourceCount: 3
+accent: "purple"
+---
+import XPostCard from '../../components/XPostCard.astro';
+
+## 一句話結論
+
+@realfxw 推薦 Victor Dibia 的開源書配套 repo（`victordibia/designing-multiagent-systems`，979 星、241 fork、Apache-2.0）：內建教學型框架 PicoAgents，從 Agent Loop、Tool Calling 一路手寫到 DAG、GroupChat、Magentic-One 編排——貼文裡的每個功能點我都回 README（24,521 字）逐一核過，全對得上。
+
+## 這篇文章真正解決的問題
+
+學 Multi-Agent 的標準路徑是直接上 LangGraph 或 AutoGen：調幾個 API 就能跑，但 Agent Loop 藏在哪、狀態怎麼流、重試誰負責，全是黑盒。出問題只能猜，換框架等於重學。Dibia 的答案是反過來——先手寫一個完整但可讀的框架，把底層邏輯攤開，再去對照生產框架選型。
+
+<XPostCard author="TechVerser" handle="@realfxw" avatar="/article.ai/articles/picoagents-multiagent/avatar.jpg" timestamp="3:51 PM · Sep 10, 2026" views="16.0K" replies="2" reposts="79" likes="324" sourceUrl="https://x.com/realfxw/status/2097956088792396200?s=20">
+<p>想要真正吃透 Multi-Agent 架構，最好的方法是從零寫一遍。</p>
+<p>推薦 Victor Dibia 的開源項目 designing-multiagent-systems（書籍配套代碼庫）。項目內置了從零構建的教學型框架 PicoAgents，不依賴黑盒框架，把多智能體系統的底層邏輯拆解得極其透徹：</p>
+<p>基礎與進階：從 Agent Loop、Tool Calling 到 Memory、Streaming、Middleware 與人機協同（HITL）</p>
+<p>協作範式：覆蓋 DAG 工作流、GroupChat 輪詢、LLM 驅動決策及 Magentic-One 規劃模式</p>
+<p>生產要素：包含 Playwright 瀏覽器操作（Computer Use）、LLM-as-Judge 評測與 FastAPI+React 可視化 Web UI</p>
+<p>跨框架對標：提供對應模式在 LangGraph、Microsoft Agent Framework 與 Google ADK 中的實現對照</p>
+<p>傳送門：https://github.com/victordibia/designing-multiagent-systems</p>
+</XPostCard>
+
+<small class="figure-caption">嵌入 1｜轉貼卡片靜態還原（簡轉繁）。原貼 2026-09-10 15:51（UTC+8），約 1.6 萬瀏覽。傳送門與 hashtag 屬原文。</small>
+
+## 流程拆解
+
+**作者是誰（已驗證）**：Victor Dibia，微軟 Core AI 首席研究軟體工程師，AutoGen 核心開發者（推到 52K＋星）、Magentic-One 共同作者，現負責 Foundry Agent Service 的 Agent Optimizer。他的書《Designing Multi-Agent Systems》15 章、154 個可執行範例，2026 年 8 月剛修訂過——這不是路人整理，是一線 infra 負責人寫的教材。
+
+**學習路徑（原文明說）**：全書四部——基礎概念（何時需要多智能體、協調策略、UX 原則）→ 從零構建（第 4–9 章）→ 評測優化（LLM-as-Judge、第 10 章）→ 真實應用（YC 5000 家公司分析、SWE Agent）。最貼心的是 `code_along/` 目錄：四步迷你 Agent（core loop → tool calling → memory → streaming），PicoAgents 是同一套想法的完整版。
+
+![從零手寫：PicoAgents 學習路徑。](/article.ai/articles/picoagents-multiagent/figure-01-from-scratch.svg)
+
+<small class="figure-caption">圖 1｜本站依 README 章節表自繪：code_along 四步 → PicoAgents 七段。先手寫，再對照框架。</small>
+
+**貼文宣稱逐項核對（全部對得上）**：
+
+1. 基礎與進階（Agent Loop、Tool Calling、Memory、Streaming、Middleware、HITL）——第 4 章程式碼清單逐項命中，另有 `otel/` 可觀測與 `approval_example.py` 人工審批。
+2. 協作範式（DAG、GroupChat、LLM 驅動、Magentic-One）——第 6–7 章：`workflow/`、`round-robin.py`、`ai-driven.py`、`plan-based.py`， Magentic-One 正是作者自己共同發明的架構。
+3. 生產要素（Playwright Computer Use、LLM-as-Judge、FastAPI＋React UI）——第 5、10、8 章，UI 支援 `picoagents ui` 一鍵啟動，另有 `[computer-use]`、`[mcp]` 可選安裝。
+4. 跨框架對標（LangGraph、Microsoft Agent Framework、Google ADK）——第 9 章 `frameworks/` 目錄，作者是 MAF 合併案的實際操盤人之一，這欄不是業配，是本業。
+
+![定位對照：PicoAgents vs 三大生產框架。](/article.ai/articles/picoagents-multiagent/figure-02-framework-compare.svg)
+
+<small class="figure-caption">圖 2｜本站自繪：PicoAgents 是教學起點，三家是生產終點，repo 第 9 章是兩者之間的橋。</small>
+
+**上手三條路（原文明說）**：Colab 徽章免安裝、GitHub Codespaces（每月 60 小時免費層）、本地 `pip install -e ".[all]"`。只缺 API key（`OPENAI_API_KEY`），框架支援多家模型客戶端切換。
+
+## 風險與盲點
+
+- **教學框架不是生產框架（可直接推出）**：PicoAgents 為清晰犧牲了完整性——重試、分散式、權限隔離這些生產硬骨頭不在教學範圍。拿它上線等於拿教具蓋房子。
+- **979 星的量級（原文明說＋推斷）**：對比作者另一個作品 AutoGen（52K＋星），這個 repo 是小眾教材型專案，不是生態型專案。星數少不代表差，但代表 issue 回應、社群解法都要自己來。
+- **版本時效（原文明說）**：書號稱每季修訂、最後修訂 2026 年 8 月；repo 最後推送 2026-08-24。框架 API 變動快，對照章節採用前先看 commit 日期。
+- **轉貼帳號只當發現管道**：@realfxw（274 追隨者）是簡中 AI 轉貼帳號，貼文無一字評測，全是 README 轉述加形容詞。價值在指路，不在背書。
+- **單一作者視角（合理推斷）**：Magentic-One 模式在書中份量吃重，作者是共同發明人——架構選型建議帶著親生父親濾鏡，讀第 7 章時記得這層。
+
+## 來源
+
+- @realfxw X 主貼文（2026-09-10）：https://x.com/realfxw/status/2097956088792396200?s=20 ——本文轉貼卡片、四段功能介紹之出處
+- repo（README 全文核對底本）：https://github.com/victordibia/designing-multiagent-systems ——全部章節、程式碼路徑、安裝方式之出處
+- 作者身份（微軟 Core AI、AutoGen、Magentic-One）：https://victordibia.com/ ——個人官網，職稱與作品清單
