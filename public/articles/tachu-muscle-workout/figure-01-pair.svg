@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="Noto Sans TC, sans-serif">
+  <rect x="0" y="0" width="720" height="340" fill="#faf9f5"/>
+  <text x="360" y="34" text-anchor="middle" font-size="19" font-weight="bold" fill="#141413">兩則貼文：一則引用另一則</text>
+  <rect x="60" y="60" width="280" height="220" rx="10" fill="#fff" stroke="#1b365d" stroke-width="2"/>
+  <text x="200" y="92" text-anchor="middle" font-size="15" font-weight="bold" fill="#1b365d">8/14 腹部篇（被引用）</text>
+  <text x="200" y="118" text-anchor="middle" font-size="13" fill="#6b6a64">8286 萬瀏覽・18 秒影片</text>
+  <text x="200" y="148" text-anchor="middle" font-size="15" fill="#141413">お腹まわり爆速引き締め</text>
+  <text x="200" y="174" text-anchor="middle" font-size="15" fill="#141413">3 種動作 × 各 20 回 × 3 組</text>
+  <text x="200" y="200" text-anchor="middle" font-size="13" fill="#6b6a64">腹筋＋腸刺激＋お通じ</text>
+  <text x="200" y="226" text-anchor="middle" font-size="13" fill="#6b6a64">封面：四足熊爬姿勢</text>
+  <text x="200" y="252" text-anchor="middle" font-size="13" fill="#6b6a64">35.6 萬收藏</text>
+  <rect x="380" y="60" width="280" height="220" rx="10" fill="#fff" stroke="#8a5a2b" stroke-width="2"/>
+  <text x="520" y="92" text-anchor="middle" font-size="15" font-weight="bold" fill="#8a5a2b">9/4 全身篇（引用者）</text>
+  <text x="520" y="118" text-anchor="middle" font-size="13" fill="#6b6a64">359 萬瀏覽・19 秒影片</text>
+  <text x="520" y="148" text-anchor="middle" font-size="15" fill="#141413">現代人を救う筋トレ</text>
+  <text x="520" y="174" text-anchor="middle" font-size="15" fill="#141413">1 種動作 × 10 回 × 3 組</text>
+  <text x="520" y="200" text-anchor="middle" font-size="13" fill="#6b6a64">胸背伸展＋尻腹緊實</text>
+  <text x="520" y="226" text-anchor="middle" font-size="13" fill="#6b6a64">封面：深蹲＋上舉伸展</text>
+  <text x="520" y="252" text-anchor="middle" font-size="13" fill="#6b6a64">便通靠「引用元」那則</text>
+  <line x1="340" y1="170" x2="380" y2="170" stroke="#141413" stroke-width="2" marker-end="url(#ah)"/>
+  <defs><marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#141413" stroke-width="1.5"/></marker></defs>
+  <text x="360" y="155" text-anchor="middle" font-size="12" fill="#141413">引用</text>
+  <text x="360" y="318" text-anchor="middle" font-size="13" fill="#6b6a64">本站自繪：兩則的處方與引用關係對照</text>
+</svg>

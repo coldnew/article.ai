@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" font-family="Noto Sans TC, sans-serif">
+  <rect x="0" y="0" width="720" height="360" fill="#faf9f5"/>
+  <text x="360" y="34" text-anchor="middle" font-size="19" font-weight="bold" fill="#141413">四個宣稱 × 證據等級</text>
+  <rect x="40" y="60" width="640" height="62" rx="8" fill="#fff" stroke="#e8e6dc"/>
+  <circle cx="72" cy="91" r="12" fill="#2e7d32"/>
+  <text x="72" y="96" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">✓</text>
+  <text x="96" y="86" font-size="14" font-weight="bold" fill="#141413">久坐者胸背開展、核心啟動</text>
+  <text x="96" y="108" font-size="12" fill="#6b6a64">符合運動常識：活動開來本來就會鬆一點</text>
+  <rect x="40" y="130" width="640" height="62" rx="8" fill="#fff" stroke="#e8e6dc"/>
+  <circle cx="72" cy="161" r="12" fill="#8a5a2b"/>
+  <text x="72" y="166" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">〜</text>
+  <text x="96" y="156" font-size="14" font-weight="bold" fill="#141413">核心運動促進便通</text>
+  <text x="96" y="178" font-size="12" fill="#6b6a64">腹壓變化有幫助，但非特效；便秘請先看醫生</text>
+  <rect x="40" y="200" width="640" height="62" rx="8" fill="#fff" stroke="#e8e6dc"/>
+  <circle cx="72" cy="231" r="12" fill="#b3261e"/>
+  <text x="72" y="236" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">✗</text>
+  <text x="96" y="226" font-size="14" font-weight="bold" fill="#141413">練肚子＝腰圍變細（局部瘦身）</text>
+  <text x="96" y="248" font-size="12" fill="#6b6a64">學界共識：無法局部減脂；圍度變化多來自整體＋姿勢</text>
+  <rect x="40" y="270" width="640" height="62" rx="8" fill="#fff" stroke="#e8e6dc"/>
+  <circle cx="72" cy="301" r="12" fill="#b3261e"/>
+  <text x="72" y="306" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">✗</text>
+  <text x="96" y="296" font-size="14" font-weight="bold" fill="#141413">「超健康美ボディ」保證</text>
+  <text x="96" y="318" font-size="12" fill="#6b6a64">宣傳語，無對照、無追蹤，不可當療效承諾</text>
+</svg>
