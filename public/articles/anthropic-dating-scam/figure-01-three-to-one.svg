@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 340" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="800" height="340" fill="#faf9f5"/>
+  <text x="400" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#141413">3：1 的配對池：三個 AI 配一個真人</text>
+  <text x="400" y="58" text-anchor="middle" font-size="13" fill="#6b6a64">GTG-15001｜同一滑動列表，使用者無從分辨</text>
+  <rect x="60" y="90" width="200" height="180" rx="10" fill="#fff" stroke="#8a5a2b" stroke-width="2"/>
+  <text x="160" y="120" text-anchor="middle" font-size="15" font-weight="700" fill="#8a5a2b">AI 人格 ×3</text>
+  <text x="160" y="146" text-anchor="middle" font-size="13" fill="#141413">Claude 自主對話</text>
+  <text x="160" y="168" text-anchor="middle" font-size="13" fill="#141413">約 236 萬則訊息／兩週</text>
+  <text x="160" y="190" text-anchor="middle" font-size="13" fill="#141413">絕不承認是機器</text>
+  <text x="160" y="212" text-anchor="middle" font-size="13" fill="#141413">躲視訊、躲照片</text>
+  <text x="160" y="244" text-anchor="middle" font-size="12" fill="#6b6a64">佔 75%</text>
+  <rect x="300" y="90" width="200" height="180" rx="10" fill="#fff" stroke="#1b365d" stroke-width="2"/>
+  <text x="400" y="120" text-anchor="middle" font-size="15" font-weight="700" fill="#1b365d">真人零工 ×1</text>
+  <text x="400" y="146" text-anchor="middle" font-size="13" fill="#141413">視訊通話＋社群追蹤</text>
+  <text x="400" y="168" text-anchor="middle" font-size="13" fill="#141413">弱模型給三個回覆候選</text>
+  <text x="400" y="190" text-anchor="middle" font-size="13" fill="#141413">按則／按通話計酬</text>
+  <text x="400" y="212" text-anchor="middle" font-size="13" fill="#141413">負責建立「這是真的」</text>
+  <text x="400" y="244" text-anchor="middle" font-size="12" fill="#6b6a64">佔 25%</text>
+  <rect x="540" y="90" width="200" height="180" rx="10" fill="#fff" stroke="#6b6a64" stroke-width="2"/>
+  <text x="640" y="120" text-anchor="middle" font-size="15" font-weight="700" fill="#141413">受害者（美國）</text>
+  <text x="640" y="146" text-anchor="middle" font-size="13" fill="#141413">滑到的 75% 是 AI</text>
+  <text x="640" y="168" text-anchor="middle" font-size="13" fill="#141413">偶爾碰到活人→從不懷疑</text>
+  <text x="640" y="190" text-anchor="middle" font-size="13" fill="#141413">配對＋訊息扣配額</text>
+  <text x="640" y="212" text-anchor="middle" font-size="13" fill="#141413">用 App 內金幣補充</text>
+  <text x="640" y="244" text-anchor="middle" font-size="12" fill="#6b6a64">至少 25,000 人</text>
+  <text x="280" y="185" text-anchor="middle" font-size="22" fill="#8a5a2b">＋</text>
+  <text x="520" y="185" text-anchor="middle" font-size="22" fill="#6b6a64">→</text>
+  <text x="400" y="310" text-anchor="middle" font-size="13" fill="#6b6a64">本站自繪：數字引自 Anthropic 2026 年 9 月威脅情報報告 GTG-15001</text>
+</svg>

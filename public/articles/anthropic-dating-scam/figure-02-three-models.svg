@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="800" height="360" fill="#faf9f5"/>
+  <text x="400" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#141413">三個模型，三種分工，互不重疊</text>
+  <text x="400" y="58" text-anchor="middle" font-size="13" fill="#6b6a64">GTG-15001 刻意把工作拆給不同供應商，單看任一環都像正常用途</text>
+  <rect x="40" y="90" width="220" height="170" rx="10" fill="#fff" stroke="#8a5a2b" stroke-width="2"/>
+  <text x="150" y="120" text-anchor="middle" font-size="15" font-weight="700" fill="#8a5a2b">Claude</text>
+  <text x="150" y="146" text-anchor="middle" font-size="13" fill="#141413">自主對話人格</text>
+  <text x="150" y="168" text-anchor="middle" font-size="13" fill="#141413">固定話術階段推進</text>
+  <text x="150" y="190" text-anchor="middle" font-size="13" fill="#141413">偽造讚、訪客、預錄影片</text>
+  <text x="150" y="212" text-anchor="middle" font-size="13" fill="#141413">追蹤起疑用戶</text>
+  <text x="150" y="242" text-anchor="middle" font-size="12" fill="#6b6a64">主力・已被封鎖</text>
+  <rect x="290" y="90" width="220" height="170" rx="10" fill="#fff" stroke="#1b365d" stroke-width="2"/>
+  <text x="400" y="120" text-anchor="middle" font-size="15" font-weight="700" fill="#1b365d">小型非 Anthropic 模型</text>
+  <text x="400" y="146" text-anchor="middle" font-size="13" fill="#141413">零工回覆候選（3 選 1）</text>
+  <text x="400" y="168" text-anchor="middle" font-size="13" fill="#141413">臉部吸引力評分</text>
+  <text x="400" y="190" text-anchor="middle" font-size="13" fill="#141413">照片／語音審核</text>
+  <text x="400" y="242" text-anchor="middle" font-size="12" fill="#6b6a64">配角・已通報供應商</text>
+  <rect x="540" y="90" width="220" height="170" rx="10" fill="#fff" stroke="#1b365d" stroke-width="2"/>
+  <text x="650" y="120" text-anchor="middle" font-size="15" font-weight="700" fill="#1b365d">圖像編輯模型</text>
+  <text x="650" y="146" text-anchor="middle" font-size="13" fill="#141413">生成大頭貼 imagery</text>
+  <text x="650" y="168" text-anchor="middle" font-size="13" fill="#141413">無真人時頂上</text>
+  <text x="650" y="242" text-anchor="middle" font-size="12" fill="#6b6a64">配角・已通報供應商</text>
+  <rect x="40" y="280" width="720" height="44" rx="8" fill="#f0ede2" stroke="#e8e6dc"/>
+  <text x="400" y="307" text-anchor="middle" font-size="13" fill="#141413">基礎設施：中國 API 轉售／代理網路輪換存取，規避支援區域與使用政策</text>
+  <text x="400" y="342" text-anchor="middle" font-size="12" fill="#6b6a64">本站自繪：分工引自 Anthropic 2026 年 9 月威脅情報報告 GTG-15001</text>
+</svg>
