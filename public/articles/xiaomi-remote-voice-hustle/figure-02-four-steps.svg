@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="260" viewBox="0 0 800 260" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="800" height="260" rx="12" fill="#faf9f5"/>
+  <text x="400" y="34" text-anchor="middle" font-size="18" font-weight="bold" fill="#141413">二十元生意的四步：發現—動手—迭代—服務</text>
+  <rect x="25" y="60" width="165" height="130" rx="10" fill="#fff" stroke="#8a5a2b" stroke-width="2"/>
+  <text x="107" y="95" text-anchor="middle" font-size="15" font-weight="bold" fill="#141413">發現信息差</text>
+  <text x="107" y="122" text-anchor="middle" font-size="13" fill="#6b6a64">官方 59，渠道 39</text>
+  <text x="107" y="146" text-anchor="middle" font-size="13" fill="#6b6a64">20 元差價＋自寫軟體</text>
+  <text x="107" y="170" text-anchor="middle" font-size="13" fill="#6b6a64">小紅書上架 59</text>
+  <text x="205" y="130" font-size="26" fill="#8a5a2b">→</text>
+  <rect x="240" y="60" width="165" height="130" rx="10" fill="#fff" stroke="#8a5a2b" stroke-width="2"/>
+  <text x="322" y="95" text-anchor="middle" font-size="15" font-weight="bold" fill="#141413">立刻動手</text>
+  <text x="322" y="122" text-anchor="middle" font-size="13" fill="#6b6a64">開源 mac 版打底</text>
+  <text x="322" y="146" text-anchor="middle" font-size="13" fill="#6b6a64">補上 Windows 版</text>
+  <text x="322" y="170" text-anchor="middle" font-size="13" fill="#6b6a64">手機動手指就上架</text>
+  <text x="420" y="130" font-size="26" fill="#8a5a2b">→</text>
+  <rect x="455" y="60" width="165" height="130" rx="10" fill="#fff" stroke="#8a5a2b" stroke-width="2"/>
+  <text x="537" y="95" text-anchor="middle" font-size="15" font-weight="bold" fill="#141413">持續迭代</text>
+  <text x="537" y="122" text-anchor="middle" font-size="13" fill="#6b6a64">mac 更新到 v14</text>
+  <text x="537" y="146" text-anchor="middle" font-size="13" fill="#6b6a64">Windows 到 v19</text>
+  <text x="537" y="170" text-anchor="middle" font-size="13" fill="#6b6a64">聽用戶意見修體驗</text>
+  <text x="635" y="130" font-size="26" fill="#8a5a2b">→</text>
+  <rect x="660" y="60" width="115" height="130" rx="10" fill="#1b365d"/>
+  <text x="717" y="95" text-anchor="middle" font-size="15" font-weight="bold" fill="#fff">服務拉滿</text>
+  <text x="717" y="122" text-anchor="middle" font-size="13" fill="#e8e6dc">加聯繫方式</text>
+  <text x="717" y="146" text-anchor="middle" font-size="13" fill="#e8e6dc">手把手＋遠端</text>
+  <text x="717" y="170" text-anchor="middle" font-size="13" fill="#e8e6dc">用到能用為止</text>
+  <text x="400" y="225" text-anchor="middle" font-size="13" fill="#6b6a64">作者自評：賺不了錢，但問心無愧；重點是練功＋認識人</text>
+</svg>

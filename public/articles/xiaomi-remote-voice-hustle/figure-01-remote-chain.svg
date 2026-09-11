@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="280" viewBox="0 0 800 280" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="800" height="280" rx="12" fill="#faf9f5"/>
+  <text x="400" y="34" text-anchor="middle" font-size="18" font-weight="bold" fill="#141413">遙控器變語音輸入：三段鏈</text>
+  <rect x="30" y="70" width="200" height="150" rx="10" fill="#fff" stroke="#1b365d" stroke-width="2"/>
+  <text x="130" y="105" text-anchor="middle" font-size="15" font-weight="bold" fill="#1b365d">小米藍牙遙控器 2</text>
+  <text x="130" y="132" text-anchor="middle" font-size="13" fill="#6b6a64">Pro 99 / 普通版 59</text>
+  <text x="130" y="156" text-anchor="middle" font-size="13" fill="#6b6a64">自帶麥克風＋語音鍵</text>
+  <text x="130" y="180" text-anchor="middle" font-size="13" fill="#6b6a64">按壓預設送出 F5</text>
+  <text x="130" y="204" text-anchor="middle" font-size="13" fill="#6b6a64">藍牙直連電腦</text>
+  <text x="252" y="150" font-size="28" fill="#8a5a2b">→</text>
+  <rect x="290" y="70" width="200" height="150" rx="10" fill="#fff" stroke="#1b365d" stroke-width="2"/>
+  <text x="390" y="105" text-anchor="middle" font-size="15" font-weight="bold" fill="#1b365d">按鍵映射軟體</text>
+  <text x="390" y="132" text-anchor="middle" font-size="13" fill="#6b6a64">攔截 F5</text>
+  <text x="390" y="156" text-anchor="middle" font-size="13" fill="#6b6a64">轉發輸入法語音快捷鍵</text>
+  <text x="390" y="180" text-anchor="middle" font-size="13" fill="#6b6a64">mac 開源專案打底</text>
+  <text x="390" y="204" text-anchor="middle" font-size="13" fill="#6b6a64">自寫 Windows 版</text>
+  <text x="512" y="150" font-size="28" fill="#8a5a2b">→</text>
+  <rect x="550" y="70" width="220" height="150" rx="10" fill="#fff" stroke="#1b365d" stroke-width="2"/>
+  <text x="660" y="105" text-anchor="middle" font-size="15" font-weight="bold" fill="#1b365d">電腦語音輸入</text>
+  <text x="660" y="132" text-anchor="middle" font-size="13" fill="#6b6a64">按住說話、放開上字</text>
+  <text x="660" y="156" text-anchor="middle" font-size="13" fill="#6b6a64">滿手快捷鍵順手按</text>
+  <text x="660" y="180" text-anchor="middle" font-size="13" fill="#6b6a64">vibecoding 開口即輸入</text>
+  <text x="660" y="248" text-anchor="middle" font-size="12" fill="#6b6a64">99 對 250，優勢在我</text>
+</svg>
