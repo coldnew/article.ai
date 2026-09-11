@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="Noto Sans TC, sans-serif">
+  <rect x="0" y="0" width="720" height="340" fill="#faf9f5"/>
+  <text x="360" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#141413">同一句話，三種執行力度</text>
+  <polygon points="360,55 640,300 80,300" fill="none" stroke="#1b365d" stroke-width="2"/>
+  <line x1="238" y1="140" x2="482" y2="140" stroke="#1b365d" stroke-width="1" stroke-dasharray="5 4"/>
+  <line x1="159" y1="222" x2="561" y2="222" stroke="#1b365d" stroke-width="1" stroke-dasharray="5 4"/>
+  <text x="360" y="105" text-anchor="middle" font-size="16" font-weight="bold" fill="#1b365d">說明 · 留理由</text>
+  <text x="360" y="128" text-anchor="middle" font-size="13" fill="#6b6a64">優先 Server Component，必要再加 Client</text>
+  <text x="360" y="185" text-anchor="middle" font-size="16" font-weight="bold" fill="#1b365d">Skill · 固化重複流程</text>
+  <text x="360" y="208" text-anchor="middle" font-size="13" fill="#6b6a64">做完檢查三態；仍需 Agent 正確呼叫</text>
+  <text x="360" y="265" text-anchor="middle" font-size="16" font-weight="bold" fill="#8a2b2b">程式檢查 · 擋住不可接受事故</text>
+  <text x="360" y="288" text-anchor="middle" font-size="13" fill="#6b6a64">禁止 push main → 分支保護＋權限控制</text>
+</svg>

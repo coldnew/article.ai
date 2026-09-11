@@ -1,0 +1,88 @@
+---
+title: "CLAUDE.md 越寫越長，Agent 還是會忘：該把哪些規則變成程式？"
+description: "獨立開發者王开发的 X 長文：提示詞第三次寫「千萬不要再犯」就該停手——能寫進 Markdown 的話有三種執行力度，真正不可接受的事故要交給分支保護、權限與 CI。Anthropic 9 月 3 日的 ant apply（1.30.0）正好把這套做法官方化：Agent 配置進倉庫、可審批、可複現。"
+publishedAt: 2026-09-11T10:27:22+08:00
+topic: "AI 工程"
+sourceType: "article"
+sourceUrl: "https://x.com/i/article/2098234619498029056"
+authors: ["王开发（@choose_Whs，獨立開發者）"]
+analyst: "Muse Spark"
+venue: "X Article"
+tags: ["CLAUDE.md", "Agent", "Skill", "ant CLI", "Anthropic"]
+readTime: "8 分鐘"
+evidence: "探索中"
+featured: false
+sourceCount: 4
+accent: "blue"
+---
+
+import XPostCard from '../../components/XPostCard.astro';
+
+## 一句話結論
+
+【原文明說】CLAUDE.md 裡第三次出現「千萬不要再犯」，就該停下來想想了——繼續加粗提示詞很省事，但有些要求已經不該只靠模型記住；作者給的分流法是：要理由的留說明、要重複的做 Skill、絕對不能發生的交給分支保護、權限與 CI。
+
+## 這篇文章真正解決的問題
+
+Agent 配置有三種失靈：寫了沒用（Skill 沒被觸發）、用了沒攔（危險操作照樣執行）、換了就壞（模型升級後舊配置悄悄失效）。作者指出病根是我們把三種不同性質的要求——背景知識、重複流程、不可逾越的邊界——全塞進同一份 Markdown，期待同一份說明書包辦所有事。
+
+<XPostCard author="王开发" handle="@choose_Whs" avatar="/article.ai/articles/claudemd-rules-as-code/whs-avatar.jpg" timestamp="10:27 AM · Sep 11, 2026" views="45" replies="0" reposts="0" likes="0" sourceUrl="https://x.com/choose_Whs/status/2098236932358877679">
+<p>CLAUDE.md 越写越长，Agent 还是会忘：该把哪些规则变成代码？（X 長文，32 段，繁體轉寫見下文拆解）</p>
+</XPostCard>
+
+<small class="figure-caption">嵌入 1｜@choose_Whs 主貼文靜態還原。貼文本體只有一行長文連結（45 瀏覽、0 互動，剛發布）；長文標題與預覽原文簡體，此處轉繁體拆解。</small>
+
+## 流程拆解
+
+### 1. 寫清楚了，不等於管住了（原文明說）
+
+作者用三句話示範分流：
+
+- 「優先使用 Server Component，確有必要再增加 Client Component」要結合頁面判斷——適合留在說明裡。
+- 「頁面做完檢查移動端、空狀態和載入狀態」是重複執行的流程——可以整理成 Skill。
+- 「不能直接 push main」是絕對邊界——應該交給分支保護和權限控制。
+
+![同一句話，三種執行力度：說明留理由、Skill 固化流程、程式檢查擋事故。](/article.ai/articles/claudemd-rules-as-code/figure-01-three-layers.svg)
+
+<small class="figure-caption">圖 1｜本站自繪，對應長文第 2–5 段的三句話三分流。</small>
+
+【原文明說】關鍵提醒有兩句：Skill 仍然需要 Agent 正確呼叫；涉及不可接受的事故，還得在工具、權限或 CI 上檢查。機制例子是合併獨立工具呼叫：寫一句「盡量批次」只是提醒，有 Hook 才能偵測低效呼叫模式並回饋或攔截——但偵測條件要寫準，依賴前一步結果的呼叫本來就該循序執行，不能一刀切。而且「寫了 Hook 不等於自動獲得可靠性」，執行路徑上的檢查自己也需要測試。
+
+### 2. Agent 配置也開始進倉庫了（原文明說＋官方驗證）
+
+【官方驗證，全對】長文引用的 Anthropic 更新核過官方 release notes（2026 年 9 月 3 日，ant CLI 1.30.0）：`ant apply` 從倉庫檔案建立或更新 Agent、Environment、Skill、Memory Store 和 Deployment 五種資源；執行時先審批印出來的計劃，再把 `claude-lock.json` 提交到倉庫，後續本地或 CI 執行更新同一組資源、不斷新建。官方 `ant apply` 文件頁的互動流程（plan → y/n/details → State written）與作者描述逐字相符；GitHub 官方 repo（anthropics/anthropic-cli，633 星）亦有同一段 resources-as-code 說明。
+
+![ant apply：倉庫檔案 → 審批計劃 → claude-lock.json → 本地/CI 更新同一組資源。](/article.ai/articles/claudemd-rules-as-code/figure-02-ant-apply.svg)
+
+<small class="figure-caption">圖 2｜本站自繪，對應官方文件流程。末行是作者的適用範圍提醒。</small>
+
+【原文明說】作者看重的是「Agent 怎麼工作也應該能夠復現」：專案說明、工具權限、Skills、Hooks、記憶和恢復步驟，只留某人電腦裡，換台機器就得重拼；類比是 CI 管編譯、Formatter 管格式——Agent 反覆出現又能機械判斷的錯誤，也值得這樣處理。但他也劃了邊界：這裡說的是 Claude Managed Agents 的資源管理，「並不意味著本地 Claude Code、Codex 的所有配置都被這個命令接管」。
+
+### 3. 模型升級，工作方式也要重測（原文明說）
+
+模型換版本、工具升級、Skill 觸發與 Hook 執行方式都可能變；上個月能跑的配置，升級後不能憑印象判斷。作者建議保留固定場景迴歸：該做安全審查時 Skill 有沒有被呼叫、危險操作有沒有被攔下、部署前檢查有沒有留結果——測的是 Agent 的工作流程，不只是這次寫出來的產品碼。
+
+【原文明說】一條「必須執行」的規則最好留下可核驗的結果：要求跑測試就檢查測試結果、限制目錄就落實到權限、要求看真實頁面就保留瀏覽器驗證；單靠 Agent 最後說一句「都檢查了」，證據不夠。
+
+### 4. 複製 Skill 很容易，複製效果沒那麼容易（原文明說）
+
+把一套 Skill 用在 Claude、Codex 和 Gemini 上是合理的打算，但同一份 SKILL.md 在不同工具行為不保證一樣：可用工具、上下文、觸發方式和預設行為都有差別。作者的做法是任務和驗收標準一起保存——換模型可以調步驟，結果要求不能順手放寬。記憶也一樣：Memory Store 能聲明式保存，但內容是否可信要單獨管理（來源、適用專案、過期時間、錯誤經驗怎麼糾正）；能長期保存不代表值得永久相信。
+
+### 5. 別把寫程式變成配置收集（原文明說）
+
+過頭的反面：只改個 Landing Page，先研究幾天 Agent 架構攢一堆 Hook，產品一行沒動——「提示詞上癮可以換個名字繼續發生」。實用辦法是跟著實際錯誤長：先正常用，某個錯誤反覆出現、造成明確成本，再決定補說明、做 Skill 還是加權限和測試。第三次強調同一條要求時先問：它能不能由程式檢查？能的話看放哪一步；真正依賴業務背景和取捨的部分，再留給模型判斷。結尾金句：不相信能用幾年的終極 Prompt，更值得留下的是「那次錯誤為什麼發生、後來加了什麼檢查、現在還能不能攔住」。
+
+## 風險與盲點
+
+- 【單一作者方法論】作者是 819 追隨者的獨立開發者（web SaaS 全端，人設是「拆漂亮話」），全文是個人經驗談，沒有對照數據；證據等級只能給探索中。
+- 【發布即時】貼文 9/11 10:27（UTC+8）剛發，45 瀏覽、0 互動、0 回覆；尚無社群檢驗。
+- 【原圖未見】長文內 2 張圖＋封面只有尺寸（1672×941、1916×766），無 caption，內容無從核對；依慣例不轉載。
+- 【輕微導流】作者簡介掛了自家 holocardmaker 鐳射卡連結，文末亦請關注；屬獨立開發者常態導流，不影響技術主張。
+- 【合理推斷】作者 bio 追問「效率是誰的、省下的時間又歸誰」，與本文「規則變程式」的工程師視角是同一條線：省下的是機器的重試成本，不是打工人的下班時間——但這句他沒在正文明說，別當引文用。
+
+## 來源
+
+- @choose_Whs X 主貼文（2026-09-11）：https://x.com/choose_Whs/status/2098236932358877679 ——本文嵌入卡片
+- 王开发 X 長文《CLAUDE.md 越写越长，Agent 还是会忘》（2026-09-11）：https://x.com/i/article/2098234619498029056 ——全部論點之出處
+- Anthropic《Claude Platform release notes》9 月 3 日條目：https://platform.claude.com/docs/en/release-notes/overview ——ant CLI 1.30.0、ant apply 核對底本
+- Anthropic《Manage resources as code with ant apply》：https://platform.claude.com/docs/en/cli-sdks-libraries/cli/apply ——五種資源、審批流程、claude-lock.json 核對底本
