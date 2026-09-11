@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="720" height="360" fill="#faf9f5"/>
+  <text x="360" y="28" text-anchor="middle" font-size="17" font-weight="bold" fill="#141413">論文量測：在 428 台 router 裡抓現行犯</text>
+  <g font-size="13">
+    <rect x="30" y="50" width="330" height="120" rx="8" fill="#fff" stroke="#e8e6dc"/>
+    <text x="46" y="74" font-weight="bold" fill="#141413">付費 router × 28（淘寶・閒魚・Shopify 店）</text>
+    <rect x="46" y="86" width="180" height="16" rx="8" fill="#e8e6dc"/>
+    <rect x="46" y="86" width="7" height="16" rx="8" fill="#b3261e"/>
+    <text x="236" y="99" fill="#b3261e" font-weight="bold">1 台注入惡意碼</text>
+    <rect x="30" y="182" width="330" height="120" rx="8" fill="#fff" stroke="#e8e6dc"/>
+    <text x="46" y="206" font-weight="bold" fill="#141413">免費 router × 400（公開社群收集）</text>
+    <rect x="46" y="218" width="180" height="16" rx="8" fill="#e8e6dc"/>
+    <rect x="46" y="218" width="4" height="16" rx="8" fill="#b3261e"/>
+    <text x="236" y="231" fill="#b3261e" font-weight="bold">8 台注入惡意碼</text>
+    <text x="46" y="256" fill="#6b6a64" font-size="12">另有 2 台部署閃避觸發・17 台碰 AWS 誘餌憑證</text>
+    <text x="46" y="276" fill="#6b6a64" font-size="12">1 台直接轉走研究員私鑰裡的 ETH</text>
+  </g>
+  <g font-size="13">
+    <rect x="390" y="50" width="300" height="252" rx="8" fill="#fff8f0" stroke="#8a5a2b"/>
+    <text x="406" y="74" font-weight="bold" fill="#141413">投毒實驗：好人 router 也會淪陷</text>
+    <text x="406" y="100" fill="#141413">外洩 OpenAI key → 1 億 GPT-5.4 tokens</text>
+    <text x="406" y="122" fill="#141413">弱配置誘餌 → 20 億計費 tokens</text>
+    <text x="406" y="144" fill="#141413">99 組憑證・440 個 Codex session</text>
+    <text x="406" y="166" fill="#b3261e" font-weight="bold">401 個 session 已開自動批准</text>
+    <text x="406" y="188" fill="#b3261e" font-weight="bold">（YOLO 模式＝可直接注入）</text>
+    <text x="406" y="220" fill="#6b6a64" font-size="12">貼文說的「接管約 400 台主機」</text>
+    <text x="406" y="240" fill="#6b6a64" font-size="12">對應的就是這 401 個 session</text>
+    <text x="406" y="262" fill="#6b6a64" font-size="12">但注意：session ≠ 主機，貼文誇大了半級</text>
+  </g>
+  <text x="360" y="340" text-anchor="middle" font-size="11" fill="#6b6a64">數字出處：arXiv:2604.08407 摘要與 §5；「26 台」為 9 注入＋17 碰誘餌之合計（本站推算，見內文）</text>
+</svg>

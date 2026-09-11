@@ -1,0 +1,76 @@
+---
+title: "你的 Agent 流量正被中間人看光：LLM Router 惡意注入實測"
+description: "Fuzzland 共同創辦人 Chaofan Shou 的 CCS 2026 論文《Your Agent Is Mine》：28 台付費＋400 台免費 router 實測，1＋8 台主動注入惡意 tool call、17 台碰誘餌憑證、1 台轉走 ETH；投毒實驗更顯示 401 個 Codex session 開著自動批准等人接管。貼文裡「26 台」「50 萬美元」「400 台主機」逐一回論文核過，有對上也有誇大。"
+publishedAt: 2026-04-10T10:05:00+08:00
+topic: "技術"
+sourceType: "article"
+sourceUrl: "https://x.com/shoucccc/status/2042423713019412941?s=20"
+authors: ["Chaofan Shou（@shoucccc）"]
+venue: "X"
+tags: ["LLM", "資安", "供應鏈攻擊", "Agent", "論文"]
+readTime: "10 分鐘"
+evidence: "中"
+featured: false
+sourceCount: 5
+accent: "red"
+---
+import XPostCard from '../../components/XPostCard.astro';
+
+## 一句話結論
+
+Fuzzland 共同創辦人 Chaofan Shou（@shoucccc，UCSB 背景、Berkeley 博士輟學、ItyFuzz 作者，學界＋實戰雙重信用）4 月貼文丟出一顆震撼彈：第三方 LLM router 正在偷改 tool call、偷憑證，一台直接轉走客戶錢包——原貼 80 萬瀏覽。我把論文全文（arXiv:2604.08407，CCS 2026）抓下來逐數核對：核心結論站得住，但貼文裡三個最嚇人的數字，有兩個要打折。
+
+## 這篇文章真正解決的問題
+
+LLM Agent 離不開第三方 API router（OpenRouter、LiteLLM、私人轉售站）：統一格式、故障轉移、比價，本質是站在 client 和上游模型之間的應用層代理。關鍵在於——client 是「自願」把 router 設成 API endpoint 的，所以 router 合法終止你這端的 TLS、再另建一條連上游：每一個進出的 JSON 都是明文，没有任何密碼學完整性保證。這篇論文是第一個系統性量測這個攻擊面的研究：威脅不在模型，在傳輸。
+
+<XPostCard author="Chaofan Shou" handle="@shoucccc" avatar="/article.ai/articles/llm-router-attacks/avatar.jpg" timestamp="10:05 AM · Apr 10, 2026" views="801.2K" replies="164" reposts="710" likes="3,737" verified="blue" sourceUrl="https://x.com/shoucccc/status/2042423713019412941?s=20">
+<p>26 LLM routers are secretly injecting malicious tool calls and stealing creds. One drained our client $500k wallet.</p>
+<p>We also managed to poison routers to forward traffic to us. Within several hours, we can directly take over ~400 hosts.</p>
+<p>Check our paper: https://arxiv.org/abs/2604.08407</p>
+</XPostCard>
+
+<small class="figure-caption">嵌入 1｜原貼靜態還原（英文原文）。原貼 2026-04-10 10:05（UTC+8），約 80.1 萬瀏覽。作者為藍勾個人帳號。</small>
+
+## 流程拆解
+
+### 1. 四類攻擊：改、偷、躲
+
+論文把 router 的能力拆成兩大主動類＋兩種閃避變體（§4）：
+
+![四類中間人攻擊：AC-1 回應側注入、AC-2 被動竊密、AC-1.a 依賴定向、AC-1.b 條件投遞。](/article.ai/articles/llm-router-attacks/figure-01-attack-classes.svg)
+
+<small class="figure-caption">圖 1｜本站依論文 §4 威脅模型自繪。核心不對稱：語義竄改發生在推理完成之後，模型本身完全無感。</small>
+
+- **AC-1 回應側注入**：上游回傳 benign tool call，router 在轉交前換成惡意的。範例：把正常安裝網址換成駭客控制端點。2026 年 3 月 LiteLLM 依賴混淆事件（Datadog Security Labs）就是這個原語的大規模演示——毒發布版一經拉取，每個經過的 tool call 全暴露在改寫之下。
+- **AC-2 被動竊密**：什麼都不改，只看。API key、system prompt、憑證全部經過，連 LiteLLM 那種「只讀」位置都能收割。
+- **AC-1.a／AC-1.b 閃避變體**：等滿 50 次呼叫才發作、只對特定依賴下手——野外已發現 2 台部署了這類觸發器，不過論文也承認：多數時候連躲都不必躲，因為根本没人檢查。
+
+### 2. 野外量測：428 台裡抓現行犯
+
+方法很粗暴：淘寶、閒魚、Shopify 店買 28 台付費 OpenAI／Anthropic 相容 router，公開社群再撿 400 台免費的（多半是 sub2api、new-api 模板套出來的，new-api 25.4k 星、125 萬 Docker pull）：
+
+![28 台付費 router 抓到 1 台注入、400 台免費抓到 8 台，另有閃避、誘餌、ETH 失竊與投毒實驗數據。](/article.ai/articles/llm-router-attacks/figure-02-measurement.svg)
+
+<small class="figure-caption">圖 2｜本站依論文摘要與 §5 自繪。「26 台」為本站推算（見盲點第 1 點），非論文原話。</small>
+
+- **1 台付費＋8 台免費主動注入惡意碼**，2 台帶閃避觸發，17 台碰了研究員放的 AWS 誘餌憑證，1 台直接轉走研究員私鑰裡的 ETH。
+- **投毒實驗**（§5.3）：故意外洩一把 OpenAI key，看下游 session 長什麼樣——1 億 GPT-5.4 tokens、7 個以上 Codex session；弱配置誘餌更誇張：20 億計費 tokens、99 組憑證橫跨 440 個 Codex session，其中 **401 個已經開著自動批准（YOLO 模式）**，等於門沒鎖等人推。
+- **Mine 工具＋三道防線**（§6–7）：自研研究用代理完整實現四類攻擊，拿 OpenClaw、OpenCode、Codex、Claude Code 四個框架各打 1000 發驗證；防禦只有「高風險工具 fail-closed 政策閘」能穩定擋 AC-1（窄範圍），異常篩檢誤報 6.7%，append-only 透明日誌每千 session 成本 12MB——能存證，不能當場抓。
+
+## 風險與盲點
+
+- **「26 台」是拼裝數（本站推算）**：論文原話是 1＋8＝9 台注入、17 台碰誘餌憑證；9＋17＝26 剛好對上貼文數字。推算合理（都是惡意／可疑行為），但論文没這樣寫，引用時要說明是合計。
+- **「$500k 錢包」論文裡找不到金額**：全文只有「1 台轉走研究員私鑰的 ETH」，没寫數量級。客戶錢包被掏 50 萬美元是貼文單方說法，無論文佐證——考慮作者是 Fuzzland CTO（靠擋駭客吃飯、有動機把數字講大），先當未驗證。
+- **「接管約 400 台主機」誇大了半級**：對應的是 401 個開 YOLO 的 Codex session；session 是「可注入的執行上下文」，不是主機。能下指令≠拿到 shell，論文自己也只敢說 payload injection。
+- **作者群有微妙成員**：Ryan Jingyang Fang 掛的是 World Liberty Financial（川普家族的 DeFi 項目）信箱——不影響技術結論，但利益版圖值得知道。
+- **防禦面最誠實的一句**：政策閘只擋得住窄範圍高風險工具；日誌只能事後存證。換句話說，今天沒有「裝了就沒事」的解法，只有「別用來路不明的 router」。
+- **時效註記**：LiteLLM 事件是 2026 年 3 月，論文 4 月掛 arXiv、10 月 CCS 發表。router 模板（new-api／one-api）仍在被以百萬次拉取，攻擊面只會更大不會更小。
+
+## 來源
+
+- @shoucccc X 主貼文（2026-04-10）：https://x.com/shoucccc/status/2042423713019412941?s=20 ——26 台、$500k、400 主機三數字的出處
+- 論文 arXiv 摘要頁：https://arxiv.org/abs/2604.08407 ——標題、作者、日期核對
+- 論文 HTML 全文（核對底本）：https://arxiv.org/html/2604.08407v1 ——§2–§8 全部數字與 LiteLLM 事件之出處
+- 作者背景（Fuzzland／Solayer／ItyFuzz）：https://scf.so ——共同創辦人身份與學经历核對
+- The Block 專訪（Fuzzland 擋下 $1500 萬駭款）：https://www.theblock.co/post/310102/security-firm-fuzzland-finds-a-way-to-reverse-exploits ——作者實戰信用佐證
