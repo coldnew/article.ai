@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="system-ui, sans-serif">
+  <text x="320" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#141413">路由器日誌如何變成可販售的「資料集」</text>
+  <rect x="20" y="60" width="150" height="80" rx="8" fill="#faf9f5" stroke="#1b365d" stroke-width="1.5"/>
+  <text x="95" y="88" text-anchor="middle" font-size="13" font-weight="bold" fill="#141413">用戶流量</text>
+  <text x="95" y="108" text-anchor="middle" font-size="11" fill="#6b6a64">提示詞＋工具呼叫</text>
+  <text x="95" y="124" text-anchor="middle" font-size="11" fill="#6b6a64">SSH key／Token</text>
+  <rect x="200" y="60" width="150" height="80" rx="8" fill="#1b365d"/>
+  <text x="275" y="88" text-anchor="middle" font-size="13" font-weight="bold" fill="#faf9f5">中國 LLM 路由器</text>
+  <text x="275" y="108" text-anchor="middle" font-size="11" fill="#faf9f5">記錄全量請求日誌</text>
+  <text x="275" y="124" text-anchor="middle" font-size="11" fill="#faf9f5">含明文憑證</text>
+  <rect x="380" y="60" width="110" height="80" rx="8" fill="#8a5a2b"/>
+  <text x="435" y="88" text-anchor="middle" font-size="13" font-weight="bold" fill="#faf9f5">Fable 資料集</text>
+  <text x="435" y="108" text-anchor="middle" font-size="11" fill="#faf9f5">6TB 打包出售</text>
+  <text x="435" y="124" text-anchor="middle" font-size="11" fill="#faf9f5">賣方不明</text>
+  <rect x="520" y="60" width="100" height="80" rx="8" fill="#faf9f5" stroke="#a32828" stroke-width="1.5"/>
+  <text x="570" y="88" text-anchor="middle" font-size="13" font-weight="bold" fill="#141413">買方：壽超凡</text>
+  <text x="570" y="108" text-anchor="middle" font-size="11" fill="#6b6a64">安全研究</text>
+  <text x="570" y="124" text-anchor="middle" font-size="11" fill="#6b6a64">公開點名受害者</text>
+  <line x1="170" y1="100" x2="198" y2="100" stroke="#6b6a64" stroke-width="1.5" marker-end="url(#ar)"/>
+  <line x1="350" y1="100" x2="378" y2="100" stroke="#6b6a64" stroke-width="1.5" marker-end="url(#ar)"/>
+  <line x1="490" y1="100" x2="518" y2="100" stroke="#6b6a64" stroke-width="1.5" marker-end="url(#ar)"/>
+  <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#6b6a64" stroke-width="1.5"/></marker></defs>
+  <rect x="20" y="170" width="600" height="100" rx="8" fill="#faf9f5" stroke="#e8e6dc"/>
+  <text x="40" y="196" font-size="12" font-weight="bold" fill="#a32828">關鍵問題：這條鏈上誰在賣、誰准許賣？</text>
+  <text x="40" y="218" font-size="12" fill="#141413">路由器存全量日誌（含憑證）→ 有人打包成 6TB「資料集」→ 賣給安全研究員 → 研究員公開點名受害企業。</text>
+  <text x="40" y="240" font-size="12" fill="#141413">每一步都沒有受害企業的同意；「Fable」是賣方代號還是資料集產品名，貼文沒有說明。</text>
+</svg>

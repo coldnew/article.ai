@@ -1,0 +1,82 @@
+---
+title: "6TB 資料集、26 個受害者：中國 LLM 路由器的日誌正在被販售"
+description: "Chaofan Shou 9/11 新貼文：從一家中國頂級 LLM router 購得名為 Fable 的 6TB 資料集，內含 SSH key、VPN 設定、阿里雲 key、GitLab token，可接管 7 個中／CIS 政府實體與小米、華為、NIO、Minimax 等 19 家企業。附圖的 GitLab 內網域名佐證形式為真；但 Fable 身份、其餘三類憑證、是否已通報受害者，全部未驗證。本文是 4 月路由器論文文的續集。"
+publishedAt: 2026-09-11T06:00:00+08:00
+topic: "技術"
+sourceType: "article"
+sourceUrl: "https://x.com/shoucccc/status/2098169782541631871?s=20"
+authors: ["Chaofan Shou（@shoucccc）"]
+venue: "X"
+tags: ["LLM", "資安", "供應鏈攻擊", "資料外洩", "中國"]
+readTime: "9 分鐘"
+evidence: "探索中"
+featured: false
+sourceCount: 4
+accent: "red"
+---
+import XPostCard from '../../components/XPostCard.astro';
+
+## 一句話結論
+
+4 月那篇路由器論文的作者 Chaofan Shou（@shoucccc，Fuzzland 共同創辦人）9/11 凌晨丟出續集：他從一家中國頂級 LLM router 買到一個名為 Fable 的 6TB 資料集，裡面是真實用戶流量的憑證——SSH key、VPN 設定、阿里雲 key、GitLab token，點名可接管 7 個政府實體與小米、華為、NIO、Minimax 等 19 家企業。這是把 4 月論文的「router 看得到一切」從實驗室證明推進到真實受害者點名；但整則貼文零外部驗證，Fable 是誰、資料怎麼來的、受害者是否知情，全部是單一來源說法。
+
+## 這則貼文的主張
+
+貼文本體只有兩句英文＋一張表格式附圖，引用的是他自己 4 月的論文貼文（80 萬瀏覽那則）：
+
+<XPostCard author="Chaofan Shou" handle="@shoucccc" avatar="/article.ai/articles/router-fable-dataset/shoucccc-avatar.jpg" timestamp="6:00 AM · Sep 11, 2026" views="294.2K" replies="55" reposts="140" likes="2,015" verified="blue" sourceUrl="https://x.com/shoucccc/status/2098169782541631871?s=20">
+<p>I bought a Fable dataset from one of the top Chinese LLM routers yesterday.</p>
+<p>With just 6TB data, I can take over 7 Chinese/CIS gov entities &amp; 19 top Chinese firms like Xiaomi, Huawei, NIO, Minimax using SSH keys, VPN configs, Aliyun keys, GitLab tokens sent to the router.</p>
+</XPostCard>
+
+<small class="figure-caption">嵌入 1｜新貼靜態還原（英文原文）。2026-09-11 06:00（UTC+8），約 29.4 萬瀏覽，藍勾個人帳號。引用的是作者自己 4 月的論文貼文。</small>
+
+【原文明說】買到名為 Fable 的資料集，6TB，來自一家中國頂級 LLM router；可接管 7 個中國／CIS 政府實體＋19 家中國頂級企業，點名小米、華為、NIO、Minimax；憑證四類：SSH key、VPN 設定、阿里雲 key、GitLab token。
+
+【從附圖可直接推出】附圖是一張三欄表（Company／Institution｜Hosts｜Tokens），Tokens 欄已打碼但看得出 `glp-` 開頭——正是 GitLab 個人存取 token 的前綴格式。可見行：深信服（git.sangfor.com）、NIO（gitlab.nioint.com）、Bilibili（git.bilibili.co）、小米（git.n.xiaomi.com）、中科大（git.ustc.edu.cn）、浙江實驗室（gitlab.zhejianglab.com）。至少「GitLab 內網 token 外洩」這一類的形式是真的：企業把自架 GitLab 流量經 router 送去模型，token 明文躺在日誌裡。
+
+## 事件拆解
+
+### 1. 這是 4 月論文的續集，不是新題目
+
+本站前篇〈你的 Agent 流量正被中間人看光〉拆過他 4 月的 CCS 2026 論文《Your Agent Is Mine》：router 合法終止 client 的 TLS，所有進出 JSON 都是明文，實測 28＋400 台 router、1＋8 台主動注入、17 台碰誘餌憑證。新貼文的邏輯是同一條的延伸：4 月證明「router 看得到」，9 月證明「有人把看到的東西打包在賣」。前篇是量測研究，這篇是真實事件指控。
+
+![路由器日誌如何變成可販售的「資料集」。](/article.ai/articles/router-fable-dataset/figure-01-log-to-dataset.svg)
+
+<small class="figure-caption">圖 1｜本站自繪：用戶流量 → 路由器全量日誌 → Fable 資料集 → 買方。斷點在於賣方身份與授權全都不明。</small>
+
+### 2. 受害版圖：點名的、附圖的、沒說的
+
+![貼文宣稱的受害版圖。](/article.ai/articles/router-fable-dataset/figure-02-victim-map.svg)
+
+<small class="figure-caption">圖 2｜本站自繪：7＋19 的宣稱 vs 實際可見的資訊。點名四家＋附圖六行，其餘約 20 家完全未公開。</small>
+
+【原文明說】正文點名四家企業：小米、華為、NIO、Minimax。附圖另見深信服、Bilibili、中科大、浙江實驗室——後兩者分別是高校與政府背景研究機構，對應「政府實體」那半句。
+
+【仍未被支撐的主張】7 家政府實體只露 2 家影子、19 家企業只點 4 家；CIS 指的是獨立國協還是另有所指，貼文沒說；SSH key、VPN 設定、阿里雲 key 三類除了文字宣稱，沒有任何附圖或樣本。
+
+### 3. Fable 是誰：全網查無此人
+
+【仍未被支撐的主張】「Fable」到底是賣方代號、資料集產品名，還是某個日誌平台的功能，貼文零說明。我用英文與中文關鍵字各查一輪：英文結果全被 Anthropic 的 Claude Fable 模型洗掉，中文「Fable＋中轉＋資料集」沒有任何命中。最省力的解讀是：某家中國 router 把自己的流量日誌打包成資料產品出售（或經中間人轉售），Fable 是該資料集在交易時的名稱。但這只是推斷——賣方是誰、交易在哪發生、花了多少錢，全部未知。
+
+## 風險與盲點
+
+- **單一來源、零外部驗證**：6TB、四類憑證、7＋19 的數字，全部只出現在這則貼文。附圖只佐證了 GitLab token 這一類的形式，其餘都是作者說了算；evidence 只能給「探索中」。
+- **公開點名的責任問題**：小米、華為、NIO、Minimax 被具名指為受害者，但貼文沒說是否已通報這些企業、有無給修補時間。4 月論文用的是 AWS 金絲雀誘餌（打到自家蜜罐，主動防護）；這次是真實第三方憑證，倫理姿態完全不同——買贓物做研究，即使動機是揭露，手法本身踩在灰色地帶。
+- **「買資料集」的法律定性不明**：購買含有他人憑證的資料，無論動機，在多數司法管轄區都有問題。貼文把購買行為輕描淡寫成一句 "I bought"，沒有交代去識別化、銷毀或通報計畫。
+- **CIS 的歧義**：「Chinese／CIS gov entities」——CIS 若指獨立國協，意味受害者超出中國；若是筆誤或另有所指，7 家的組成完全不同。一個縮寫，兩種故事。
+- **附圖細節的疑點**：Bilibili 行的 host 寫 `git.bilibili.co`（.co 非 .com），是截圖裁切、混淆處理，還是真有這個域名，不得而知。魔鬼在這種小地方。
+- **作者信用是加分也是折扣**：同一作者，4 月論文經過 CCS 2026 同行審查，方法論（金絲雀誘餌）可查——這是他敢點名的底氣。但反過來說，從「量測研究」走到「公開點名＋購買贓物」，每一步都在消耗那份信用。
+
+## 我們的判讀
+
+把兩則貼文連起來看，壽超凡在講同一個故事的上下集：4 月證明 router「能」作惡，9 月指控有人已經在把「看到的東西」變現。技術上這完全自洽——前篇論文的威脅模型裡，router 本來就看得到明文；日誌留存＋打包出售只是把能力變成生意。
+
+但自洽不等於證實。這則貼文真正交付的只有三樣可驗證的東西：附圖的 GitLab 域名行（形式為真）、`glp-` 前綴（格式為真）、作者本人的研究信用（前科良好）。7＋19 的版圖、Fable 的身份、購買的合法性，全部還是黑箱。在受害企業或第三方出來證實之前，這篇只能當「可信研究員的嚴肅指控」讀，不當「已確認的外洩事件」讀。
+
+## 來源
+
+- @shoucccc 新貼文（2026-09-11）：https://x.com/shoucccc/status/2098169782541631871?s=20 ——Fable 資料集、6TB、7＋19、附圖之出處
+- @shoucccc 4 月論文貼文（被引用原文）：https://x.com/shoucccc/status/2042423713019412941?s=20
+- 本站前篇分析〈你的 Agent 流量正被中間人看光〉：路由器論文的完整查核
+- arXiv:2604.08407《Your Agent Is Mine》：https://arxiv.org/abs/2604.08407

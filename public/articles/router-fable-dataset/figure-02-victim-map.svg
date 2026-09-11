@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" font-family="system-ui, sans-serif">
+  <text x="320" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#141413">貼文宣稱的受害版圖（未經獨立驗證）</text>
+  <rect x="20" y="50" width="290" height="110" rx="8" fill="#faf9f5" stroke="#1b365d" stroke-width="1.5"/>
+  <text x="165" y="76" text-anchor="middle" font-size="14" font-weight="bold" fill="#1b365d">7 個中國／CIS 政府相關實體</text>
+  <text x="40" y="102" font-size="12" fill="#141413">附圖可見：中科大（USTC）、浙江實驗室</text>
+  <text x="40" y="122" font-size="12" fill="#141413">其餘 5 家未公開；CIS 所指不明</text>
+  <text x="40" y="142" font-size="11" fill="#6b6a64">CIS＝獨立國協？還是另有所指？未說明</text>
+  <rect x="330" y="50" width="290" height="110" rx="8" fill="#faf9f5" stroke="#1b365d" stroke-width="1.5"/>
+  <text x="475" y="76" text-anchor="middle" font-size="14" font-weight="bold" fill="#1b365d">19 家中國頂級企業</text>
+  <text x="350" y="102" font-size="12" fill="#141413">點名：小米、華為、NIO、Minimax</text>
+  <text x="350" y="122" font-size="12" fill="#141413">附圖可見：深信服、Bilibili</text>
+  <text x="350" y="142" font-size="11" fill="#6b6a64">其餘約 13 家未公開</text>
+  <text x="20" y="188" font-size="14" font-weight="bold" fill="#141413">外洩憑證四類（原文明說）</text>
+  <rect x="20" y="198" width="140" height="44" rx="6" fill="#a32828"/><text x="90" y="225" text-anchor="middle" font-size="12" fill="#fff">SSH keys</text>
+  <rect x="170" y="198" width="140" height="44" rx="6" fill="#a32828"/><text x="240" y="225" text-anchor="middle" font-size="12" fill="#fff">VPN configs</text>
+  <rect x="320" y="198" width="140" height="44" rx="6" fill="#a32828"/><text x="390" y="225" text-anchor="middle" font-size="12" fill="#fff">Aliyun keys</text>
+  <rect x="470" y="198" width="150" height="44" rx="6" fill="#a32828"/><text x="545" y="225" text-anchor="middle" font-size="12" fill="#fff">GitLab tokens</text>
+  <text x="20" y="266" font-size="12" fill="#141413">附圖佐證最後一類：GitLab 內網域名＋ glp- 開頭 token（已打碼），</text>
+  <text x="20" y="286" font-size="12" fill="#141413">至少證明「GitLab token 外洩」的形式是真的；其餘三類無附圖。</text>
+</svg>
