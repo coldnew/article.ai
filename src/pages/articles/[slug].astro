@@ -12,7 +12,7 @@ export async function getStaticPaths() {
 
 const { article } = Astro.props;
 const { Content, headings } = await render(article);
-const { title, description, topic, tags, publishedAt, updatedAt, evidence, sourceCount, readTime, sourceType, sourceUrl, sourceBackup, authors, venue } = article.data;
+const { title, description, topic, tags, publishedAt, updatedAt, evidence, sourceCount, readTime, sourceType, sourceUrl, sourceBackup, authors, analyst, venue } = article.data;
 const sourceTypeLabel = sourceType === 'patent' ? 'PATENT' : sourceType === 'article' ? 'ARTICLE' : 'PAPER';
 const tocHeadings = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 4);
 ---
@@ -59,6 +59,7 @@ const tocHeadings = headings.filter((heading) => heading.depth >= 2 && heading.d
           <span>{venue ?? (sourceType === 'patent' ? 'Patent record' : 'Research paper')}</span>
           {authors.length > 0 && <small>{authors.join(' · ')}</small>}
         </div>
+        <div><strong>撰文</strong><span>{analyst}</span></div>
         <div><strong>閱讀時間</strong><span>{readTime}</span></div>
         <div><strong>來源數</strong><span>{sourceCount}</span></div>
         <div class="source-links"><a href={sourceUrl} target="_blank" rel="noreferrer">開啟原始來源 ↗</a>{sourceBackup && <a href={sourceBackup}>下載備份 PDF ↓</a>}</div>

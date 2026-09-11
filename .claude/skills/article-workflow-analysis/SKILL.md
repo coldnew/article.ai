@@ -61,7 +61,8 @@ import XPostCard from '../../components/XPostCard.astro';
 
 分析完若要收進 article.ai，遵守以下慣例：
 
-- frontmatter 欄位：title、description、publishedAt、topic、sourceType、sourceUrl、authors、venue、tags、readTime、evidence、featured、sourceCount、accent（照抄既有文章的鍵名）。
+- frontmatter 欄位：title、description、publishedAt、topic、sourceType、sourceUrl、authors、analyst、venue、tags、readTime、evidence、featured、sourceCount、accent（照抄既有文章的鍵名）。
+- 署名規則：`authors` 只放原始來源的作者（貼文者、論文作者）；分析文的撰文者一律是模型本人，`analyst` 固定寫 `Muse Spark`（model ID：muse-spark-1.3-contributor-free），由文章頁模板渲染為「撰文」欄，不可省略、不可改寫成別人。
 - 圖片放 `public/articles/<slug>/`，引用路徑寫 `/article.ai/articles/<slug>/...`；每張圖下方加 `<small class="figure-caption">`；技術圖優先自繪 SVG，不引用外部 CDN（斷鏈風險）。
 - 來源是專利時，專利圖是 USPTO 公開文件，應挑解說必需的關鍵圖（例如系統架構、核心流程）存入站內引用：圖說註明原圖 FIG 編號加出處連結，來源節加列 USPTO 全文 PDF；其餘圖仍以自繪 SVG 為主，不要整份圖紙全搬。
 - MDX 地雷：內文不可出現 `<` 緊接數字或中文標點（例如 `<3 m`），會被當成 JSX 解析失敗；用 backtick 包起來或改寫。

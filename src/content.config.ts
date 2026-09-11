@@ -12,6 +12,7 @@ const articles = defineCollection({
     sourceUrl: z.string().url(),
     sourceBackup: z.string().optional(),
     authors: z.array(z.string()).default([]),
+    analyst: z.string().default('Muse Spark'),
     venue: z.string().optional(),
     tags: z.array(z.string()),
     readTime: z.string(),
