@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <defs>
+    <marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#1b365d"/></marker>
+  </defs>
+  <rect x="0" y="0" width="720" height="340" fill="#faf9f5"/>
+  <text x="24" y="30" font-size="16" font-weight="bold" fill="#141413">SMART 再生工作流：人只改文件，code 是編譯產物</text>
+
+  <!-- docs DAG -->
+  <g font-size="12" text-anchor="middle">
+    <rect x="24" y="60" width="130" height="52" rx="6" fill="#fff" stroke="#1b365d" stroke-width="1.5"/>
+    <text x="89" y="82" fill="#141413">硬體拓撲 doc</text>
+    <text x="89" y="99" fill="#6b6a64" font-size="11">MXU / HBM 規格</text>
+    <rect x="24" y="130" width="130" height="52" rx="6" fill="#fff" stroke="#1b365d" stroke-width="1.5"/>
+    <text x="89" y="152" fill="#141413">排程演算法 doc</text>
+    <text x="89" y="169" fill="#6b6a64" font-size="11">worked example 附表</text>
+    <rect x="24" y="200" width="130" height="52" rx="6" fill="#fff" stroke="#1b365d" stroke-width="1.5"/>
+    <text x="89" y="222" fill="#141413">成本模型 doc</text>
+    <text x="89" y="239" fill="#6b6a64" font-size="11">SymPy 符號式</text>
+  </g>
+  <text x="89" y="275" font-size="12" fill="#1b365d" text-anchor="middle">main 分支：約 50 篇 doc</text>
+  <text x="89" y="292" font-size="12" fill="#1b365d" text-anchor="middle">9000 行散文，幾乎零 code</text>
+
+  <!-- arrows to orchestrator -->
+  <line x1="154" y1="86" x2="240" y2="140" stroke="#1b365d" stroke-width="1.5" marker-end="url(#ah)"/>
+  <line x1="154" y1="156" x2="240" y2="156" stroke="#1b365d" stroke-width="1.5" marker-end="url(#ah)"/>
+  <line x1="154" y1="226" x2="240" y2="172" stroke="#1b365d" stroke-width="1.5" marker-end="url(#ah)"/>
+
+  <!-- orchestrator -->
+  <rect x="245" y="120" width="150" height="72" rx="6" fill="#1b365d"/>
+  <text x="320" y="148" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">orchestrator</text>
+  <text x="320" y="168" font-size="11" fill="#e8e6dc" text-anchor="middle">拓撲排序 DAG</text>
+
+  <!-- to subagents -->
+  <line x1="395" y1="140" x2="460" y2="100" stroke="#1b365d" stroke-width="1.5" marker-end="url(#ah)"/>
+  <line x1="395" y1="156" x2="460" y2="156" stroke="#1b365d" stroke-width="1.5" marker-end="url(#ah)"/>
+  <line x1="395" y1="172" x2="460" y2="212" stroke="#1b365d" stroke-width="1.5" marker-end="url(#ah)"/>
+
+  <!-- subagents -->
+  <g font-size="12" text-anchor="middle">
+    <rect x="465" y="74" width="150" height="52" rx="6" fill="#fff" stroke="#8a5a2b" stroke-width="1.5"/>
+    <text x="540" y="96" fill="#141413">coding sub-agent</text>
+    <text x="540" y="113" fill="#6b6a64" font-size="11">只看一篇 doc＋介面</text>
+    <rect x="465" y="130" width="150" height="52" rx="6" fill="#fff" stroke="#8a5a2b" stroke-width="1.5"/>
+    <text x="540" y="152" fill="#141413">coding sub-agent</text>
+    <text x="540" y="169" fill="#6b6a64" font-size="11">bounded context</text>
+    <rect x="465" y="186" width="150" height="52" rx="6" fill="#fff" stroke="#8a5a2b" stroke-width="1.5"/>
+    <text x="540" y="208" fill="#141413">coding sub-agent</text>
+    <text x="540" y="225" fill="#6b6a64" font-size="11">失敗→回報 doc 太模糊</text>
+  </g>
+
+  <!-- to code product -->
+  <line x1="615" y1="100" x2="662" y2="140" stroke="#1b365d" stroke-width="1.5" marker-end="url(#ah)"/>
+  <line x1="615" y1="156" x2="662" y2="156" stroke="#1b365d" stroke-width="1.5" marker-end="url(#ah)"/>
+  <line x1="615" y1="212" x2="662" y2="172" stroke="#1b365d" stroke-width="1.5" marker-end="url(#ah)"/>
+  <!-- human edit loop -->
+  <path d="M 89 262 C 89 310, 320 310, 320 200" fill="none" stroke="#8a5a2b" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#ah)"/>
+  <text x="200" y="308" font-size="12" fill="#8a5a2b">人只修自然語言，觸發整庫重生</text>
+
+  <g font-size="12" text-anchor="middle">
+    <rect x="180" y="262" width="360" height="30" rx="6" fill="#e8e6dc"/>
+    <text x="360" y="282" fill="#141413">產物：完整 Python 函式庫（build product，可丟棄重編）</text>
+  </g>
+</svg>

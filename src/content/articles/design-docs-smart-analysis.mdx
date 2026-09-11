@@ -1,0 +1,70 @@
+---
+title: "Design Docs Are All You Need：把設計文件當原始碼，code 當編譯產物"
+description: "整理《alphaXiv》這則 X 貼文與 arXiv:2609.05364 論文（DeepMind/MIT/Stanford/Google，9/4 發布）：SMART 效能建模庫主分支幾乎零程式碼——50 篇自然語言設計文件組成 DAG，coding sub-agent 每次照文件整庫重編，1.5–3 小時、約 $100，DeepSeek-V3 TPU 模型對到捨入精度。"
+publishedAt: 2026-09-10T10:46:00+08:00
+topic: "AI 工程"
+sourceType: "article"
+sourceUrl: "https://x.com/askalphaxiv/status/2097879232403685664"
+authors: ["alphaXiv（@askalphaxiv）"]
+venue: "X · alphaXiv"
+tags: ["design docs", "coding agent", "技術債", "SMART", "效能建模", "DeepMind"]
+readTime: "10 分鐘"
+evidence: "探索中"
+featured: false
+sourceCount: 3
+accent: "blue"
+---
+
+import XPostCard from '../../components/XPostCard.astro';
+
+## 先說結論
+
+《alphaXiv》這則貼文介紹的論文提出一個激進主張：自然語言設計文件才是原始碼，程式碼只是可以丟棄重編的 build product。SMART 這個 ML 效能建模庫的主分支幾乎沒有程式碼——只有約 50 篇設計文件排成的 DAG；spec 一改，coding sub-agent 就照文件把整個函式庫重編一次，1.5–3 小時、API 花費約 $100。重編出來的 DeepSeek-V3 TPU 服務模型，跟人工審過的參考實作對到捨入精度。這篇的對手不是某個框架，而是「增量修補」這個全行業預設動作。
+
+## 這篇文章真正解決的問題
+
+效能建模軟體是技術債的重災區：今天為某代加速器寫死的抽象，明天就被新模型、新互連推翻，只能一直 patch。論文要回答的是：當 AI coding agent 已經強到「整庫重寫比還債便宜」時，為什麼還要維護程式碼？答案是把 durable artifact 從 code 換成 doc——人類只寫散文、修散文，髒活（翻譯成一致、乾淨的實作）全部交給 agent。
+
+## 來源貼文
+
+<XPostCard author="alphaXiv" handle="@askalphaxiv" avatar="/article.ai/articles/design-docs-smart/alphaxiv-avatar.jpg" timestamp="10:46 AM · Sep 10, 2026" views="28.2K" replies="13" reposts="32" likes="248" sourceUrl="https://x.com/askalphaxiv/status/2097879232403685664">
+<p>“Design Docs Are All You Need”</p>
+<p>AI coding agents usually modify existing code, which easily accumulates technical debt and loses global context as codebases evolve.</p>
+<p>So this paper suggest to treat natural-language design docs as the source of truth and code as disposable. A DAG of self-contained docs is rebuilt from scratch by coding sub-agents after every spec change.</p>
+<p>Their SMART ML performance library regenerates in 1.5-3 hours for ~$100 and reproduces hand-audited reference models to round-off precision, suggesting design docs can become the durable artifact while code becomes a generated build product.</p>
+</XPostCard>
+
+<small class="figure-caption">嵌入 1｜alphaXiv 主貼文靜態還原（藍勾個人帳號，不確定是否為官方，徽章省略）。繁體譯文要點：「設計文件就是你需要的一切」——AI agent 改舊 code 會堆技術債、丟全域脈絡；解法是把自然語言設計文件當唯一真相、code 當可丟棄物，spec 一改就由 sub-agent 照 DAG 整庫重編；SMART 重編 1.5–3 小時約 $100，對到人工參考模型的捨入精度。</small>
+
+## 流程拆解
+
+1. **問題定性（原文明說）**：ML 效能建模是長壽命軟體的 hostile terrain——MoE、latent attention 等新架構跟加速器世代輪替一樣快，今天的抽象明天就失效，只能 perpetual refactoring。
+2. **關係反轉（原文明說）**：design doc 不再是寫完就爛掉的附屬品，而是 check into main 的 source of truth；Python 實作是從文件生成的 transient build product。
+3. **DAG 再生管線（原文明說）**：唯讀 agent 先掃全部文件抽依賴（例如硬體拓撲 doc 必須排在用它的排程 doc 之前）→ orchestrator 照拓撲序每個節點派一個專屬 sub-agent → 每個 agent 只拿自己那篇 doc＋上游介面（bounded context，避開 context-window myopia）→ 失敗時回報「哪篇 doc 太模糊」，精準定位含糊意圖。
+4. **Worked example 文體（原文明說）**：文件不能只寫目標跟抽象規則，要寫逐步執行範例——具體中間形狀、變數值、封閉形式成本式，當作 agent 的 in-context demonstration；這些「reconciliation anchor」自動變成生成碼的單元測試。
+5. **Op IR（原文明說）**：遞迴定義的最小算子 IR，維度用 SymPy 符號而非定數，一個模型掃整個設計空間；leaf 節點（如 TPU 的 `mxu_op`、訪存的 `load_tile_to_vmem`、集合通訊的 `allgather`）把演算法組合與晶片計價解耦；求值分快慢兩檔——fast 模式解析近似掃大空間，slow 模式做 modulo-scheduling 看精細排程。
+
+![SMART 再生工作流：人只改文件，code 是編譯產物。](/article.ai/articles/design-docs-smart/figure-01-dag-regen.svg)
+
+<small class="figure-caption">圖 1｜本站自繪。人類只改自然語言 doc；orchestrator 照 DAG 拓撲序派 sub-agent，每個只看一篇 doc＋上游介面；產出是可丟棄的完整函式庫。</small>
+
+6. **驗證錨點（原文明說＋已驗證）**：重編碼重現 DeepSeek-V3 在 TPU pod 切片上的服務效能模型，對到 hand-audited 參考的 round-off precision；整庫（約 50 篇 doc、9000 行散文）重編 1.5–3 小時、約 $100。論文確為 arXiv:2609.05364，9 月 4 日發布，標題作者與轉述一致（arXiv 列 9 位作者，alphaxiv 頁面顯示 9 名＋2 more，差 2 人，待 PDF 核對）。
+7. **回應綠皮書式質疑（合理推斷）**：這套只在「重編比 patch 便宜」時成立——SMART 敢這樣玩是因為效能建模的驗證錨點夠硬（數字對不上就是錯）；換到 UI 或業務邏輯，「正確」的定義本身就模糊，重編一百次也收斂不了。
+
+![增量修補 vs 整庫重生：技術債的兩種結帳方式。](/article.ai/articles/design-docs-smart/figure-02-debt-vs-regen.svg)
+
+<small class="figure-caption">圖 2｜本站自繪。傳統路徑債務只增不減（人類重寫整庫太貴）；SMART 路徑每次更新債務歸零，前提是文件寫到 agent 能一次編對。</small>
+
+## 風險與盲點
+
+- **二手轉述天花板（原文明說＋推斷）**：本站讀到的是 alphaxiv 頁面的解說文，不是論文 PDF 全文；數字（50 篇、9000 行、1.5–3 小時、$100、捨入精度）皆出自該頁，轉述鏈是否忠實待 PDF 核對，故 evidence 只給探索中。
+- **驗證錨點的適用邊界（合理推斷）**：捨入精度可驗是因為效能模型輸出的是數字；換到沒有 ground truth 的領域，reconciliation anchor 寫不出來，整套方法論就地基不穩——論文結尾列的 OS／編譯器／科學計算／雲管都還只是展望。
+- **$100 的口徑不明（未被支撐）**：沒說用哪家模型、多少 token、失敗重試算幾次；1.5–3 小時是 wall-clock 還是 agent-time 也沒交代，不可直接當預算引用。
+- **模糊意圖的成本轉嫁（可直接推出）**：修 code 不准、只能修 doc——等於把 debug 的迴圈拉長（改散文→等重編→再看錯哪），doc 寫手變成新的瓶頸職位；團隊省下的是 patch 工，付出去的是規格寫作工。
+- **作者陣容是加分也是折扣（原文明說）**：DeepMind＋MIT＋Stanford＋Google 的人，做出「人類寫散文、agent 寫 code」的分工結論，恰好符合大機構的人力結構；獨立小團隊沒有專職 doc 寫手，能否複製未知。
+
+## 來源
+
+- alphaXiv X 主貼文（2026-09-10）：https://x.com/askalphaxiv/status/2097879232403685664 ——本文轉述對象，約 2.8 萬瀏覽
+- alphaxiv 論文頁（含解說全文）：https://www.alphaxiv.org/abs/2609.05364 ——工作流、數字、IR 設計之出處
+- arXiv 摘要頁（已核對標題／作者／9-04 發布）：https://arxiv.org/abs/2609.05364
