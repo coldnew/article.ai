@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="760" height="380" rx="12" fill="#f8fafc"/>
+  <text x="380" y="30" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">光子 PNN 到底是什麼：不是取代 GPU，是固定功能的被動分類器</text>
+
+  <!-- left: electronic GPU -->
+  <rect x="20" y="50" width="220" height="280" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="130" y="74" font-size="14" font-weight="bold" fill="#0f172a" text-anchor="middle">電子 GPU（對照）</text>
+  <rect x="40" y="90" width="180" height="50" rx="6" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="130" y="110" font-size="12" fill="#1e40af" text-anchor="middle">可程式化通用運算</text>
+  <text x="130" y="128" font-size="11" fill="#475569" text-anchor="middle">訓練＋推理＋任意模型</text>
+  <rect x="40" y="150" width="180" height="50" rx="6" fill="#fee2e2" stroke="#dc2626" stroke-width="1"/>
+  <text x="130" y="170" font-size="12" fill="#991b1b" text-anchor="middle">電子搬運發熱</text>
+  <text x="130" y="188" font-size="11" fill="#475569" text-anchor="middle">需散熱＋大功耗</text>
+  <text x="130" y="220" font-size="11" fill="#475569" text-anchor="middle">尺寸：晶片級 cm</text>
+  <text x="130" y="238" font-size="11" fill="#475569" text-anchor="middle">功耗：數百瓦</text>
+  <text x="130" y="300" font-size="12" font-weight="bold" fill="#0f172a" text-anchor="middle">通用但耗電</text>
+
+  <!-- middle: photonic PNN -->
+  <rect x="270" y="50" width="220" height="280" rx="8" fill="#ffffff" stroke="#16a34a" stroke-width="2"/>
+  <text x="380" y="74" font-size="14" font-weight="bold" fill="#0f172a" text-anchor="middle">本次 PNN（論文實際）</text>
+  <rect x="290" y="90" width="180" height="50" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="380" y="110" font-size="12" fill="#166534" text-anchor="middle">SOI 被動散射區</text>
+  <text x="380" y="128" font-size="11" fill="#475569" text-anchor="middle">20×20 μm² / 30×20 μm²</text>
+  <rect x="290" y="150" width="180" height="50" rx="6" fill="#fef9c3" stroke="#ca8a04" stroke-width="1"/>
+  <text x="380" y="170" font-size="12" fill="#713f12" text-anchor="middle">單波長 1550 nm</text>
+  <text x="380" y="188" font-size="11" fill="#475569" text-anchor="middle">非多色 WDM（未來式）</text>
+  <text x="380" y="220" font-size="11" fill="#475569" text-anchor="middle">MNIST 89% / MedNIST 90%</text>
+  <text x="380" y="238" font-size="11" fill="#475569" text-anchor="middle">（實測；模擬 97.8% / 99.1%）</text>
+  <text x="380" y="300" font-size="12" font-weight="bold" fill="#166534" text-anchor="middle">超小但只會分類</text>
+
+  <!-- right: system still needs electricity -->
+  <rect x="520" y="50" width="220" height="280" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="630" y="74" font-size="14" font-weight="bold" fill="#0f172a" text-anchor="middle">系統仍要吃電</text>
+  <rect x="540" y="90" width="180" height="34" rx="6" fill="#e2e8f0"/>
+  <text x="630" y="111" font-size="12" fill="#334155" text-anchor="middle">CW 雷射光源</text>
+  <rect x="540" y="130" width="180" height="34" rx="6" fill="#e2e8f0"/>
+  <text x="630" y="151" font-size="12" fill="#334155" text-anchor="middle">熱光調變＋MZI＋PCB</text>
+  <rect x="540" y="170" width="180" height="34" rx="6" fill="#e2e8f0"/>
+  <text x="630" y="191" font-size="12" fill="#334155" text-anchor="middle">光檢測＋ADC＋MCU</text>
+  <rect x="540" y="214" width="180" height="60" rx="6" fill="#fee2e2" stroke="#dc2626" stroke-width="1"/>
+  <text x="630" y="236" font-size="11" fill="#991b1b" text-anchor="middle">「不用電／零熱」是誤讀</text>
+  <text x="630" y="253" font-size="11" fill="#991b1b" text-anchor="middle">熱調變本身就用熱</text>
+  <text x="630" y="300" font-size="12" font-weight="bold" fill="#0f172a" text-anchor="middle">光速傳輸 ≠ 整機零能耗</text>
+</svg>
