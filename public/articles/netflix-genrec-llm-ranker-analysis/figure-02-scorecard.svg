@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="760" height="380" rx="12" fill="#f8fafc"/>
+  <text x="380" y="30" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">成績單 vs 小字：贏了，但贏面與適用面都要打折讀</text>
+
+  <!-- wins -->
+  <rect x="20" y="50" width="350" height="240" rx="8" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="195" y="74" font-size="14" font-weight="bold" fill="#166534" text-anchor="middle">貼文說對的成績</text>
+  <rect x="40" y="90" width="310" height="36" rx="6" fill="#16a34a"/>
+  <text x="195" y="112" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">Phase-2 標註少約 40 倍，離線贏</text>
+  <text x="195" y="140" font-size="11" fill="#334155" text-anchor="middle">離線 MRR 相對提升約 ＋1.6%</text>
+  <text x="195" y="157" font-size="11" fill="#334155" text-anchor="middle">線上 A/B：約一成流量 × 約 4 週</text>
+  <text x="195" y="174" font-size="11" fill="#334155" text-anchor="middle">短長期指標皆統計顯著為正</text>
+  <text x="195" y="200" font-size="11" fill="#334155" text-anchor="middle">單次前向打全目錄：屬實</text>
+  <text x="195" y="217" font-size="11" fill="#334155" text-anchor="middle">（目錄感知評分頭＋prefill-only）</text>
+  <text x="195" y="243" font-size="11" fill="#334155" text-anchor="middle">脈絡工程取代特徵工程：論文 §6 原話</text>
+  <text x="195" y="272" font-size="11" fill="#64748b" text-anchor="middle">作者：Ying Li 等，Netflix 系為主</text>
+
+  <!-- caveats -->
+  <rect x="390" y="50" width="350" height="240" rx="8" fill="#ffffff" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="565" y="74" font-size="14" font-weight="bold" fill="#991b1b" text-anchor="middle">貼文沒說的小字</text>
+  <rect x="410" y="90" width="310" height="44" rx="6" fill="#fee2e2"/>
+  <text x="565" y="108" font-size="11" fill="#991b1b" text-anchor="middle">線上核心指標只 ＋0.006%：網飛尺度</text>
+  <text x="565" y="124" font-size="11" fill="#991b1b" text-anchor="middle">下顯著，不是碾壓</text>
+  <rect x="410" y="142" width="310" height="44" rx="6" fill="#fee2e2"/>
+  <text x="565" y="160" font-size="11" fill="#991b1b" text-anchor="middle">只測了批次運算版面；「至少在所測</text>
+  <text x="565" y="176" font-size="11" fill="#991b1b" text-anchor="middle">版面成立」，非全站替換</text>
+  <rect x="410" y="194" width="310" height="44" rx="6" fill="#fee2e2"/>
+  <text x="565" y="212" font-size="11" fill="#991b1b" text-anchor="middle">「丟掉一切」不實：論文自稱第一步、</text>
+  <text x="565" y="228" font-size="11" fill="#991b1b" text-anchor="middle">viable alternative，非已上線取代</text>
+  <text x="565" y="262" font-size="11" fill="#64748b" text-anchor="middle">單一公司論文，無外部複現；15 年算法</text>
+  <text x="565" y="278" font-size="11" fill="#64748b" text-anchor="middle">之說貼文原創，論文未如此表述</text>
+
+  <rect x="20" y="306" width="720" height="54" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="380" y="328" font-size="12" font-weight="bold" fill="#0f172a" text-anchor="middle">結論：範式轉移的方向證據是真的，末日敘事是貼文加的戲</text>
+  <text x="380" y="348" font-size="11" fill="#475569" text-anchor="middle">回覆 @haojm 問為何這麼晚：答案在成本——prefill-only＋蒸餾＋壓脈絡，缺一不可</text>
+</svg>

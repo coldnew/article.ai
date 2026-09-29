@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="760" height="360" rx="12" fill="#f8fafc"/>
+  <text x="380" y="30" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">第三節三條試算逐條驗：兩對一錯，錯的那條差 100 萬</text>
+
+  <!-- formula -->
+  <rect x="20" y="50" width="720" height="40" rx="8" fill="#0f172a" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="380" y="76" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">公式：100 萬 ×（1 ＋ 10% − R）^N − 100 萬（線性扣息的簡化算法，見下）</text>
+
+  <!-- case 1 ok -->
+  <rect x="20" y="102" width="720" height="62" rx="8" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="50" y="128" font-size="12" font-weight="bold" fill="#166534" text-anchor="middle">① 標普 R＝3% 20 年 → 作者寫 286 萬</text>
+  <text x="50" y="150" font-size="11" fill="#334155" text-anchor="middle">本站驗算：1.07^20 ≈ 3.870，淨收益約 287 萬 —— 對，誤差僅捨入</text>
+  <text x="690" y="140" font-size="22" font-weight="bold" fill="#16a34a" text-anchor="middle">✓</text>
+
+  <!-- case 2 wrong -->
+  <rect x="20" y="176" width="720" height="62" rx="8" fill="#ffffff" stroke="#dc2626" stroke-width="2"/>
+  <text x="50" y="202" font-size="12" font-weight="bold" fill="#991b1b" text-anchor="middle">② 標普 R＝3% 30 年 → 作者寫 561 萬</text>
+  <text x="50" y="224" font-size="11" fill="#334155" text-anchor="middle">本站驗算：1.07^30 ≈ 7.612，淨收益約 661 萬 —— 少算約 100 萬，應更正</text>
+  <text x="690" y="212" font-size="22" font-weight="bold" fill="#dc2626" text-anchor="middle">✗</text>
+
+  <!-- case 3 ok -->
+  <rect x="20" y="250" width="720" height="62" rx="8" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="50" y="276" font-size="12" font-weight="bold" fill="#166534" text-anchor="middle">③ 納指 R＝3% 30 年 → 作者寫 1226 萬</text>
+  <text x="50" y="298" font-size="11" fill="#334155" text-anchor="middle">本站驗算：1.09^30 ≈ 13.268，淨收益約 1227 萬 —— 對，誤差僅捨入</text>
+  <text x="690" y="288" font-size="22" font-weight="bold" fill="#16a34a" text-anchor="middle">✓</text>
+
+  <text x="380" y="336" font-size="11" fill="#475569" text-anchor="middle">另註：公式把利息作年化線性扣除，忽略按揭攤還結構，屬樂觀簡化；方向不變，數字皆為稅費前</text>
+</svg>

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="760" height="380" rx="12" fill="#f8fafc"/>
+  <text x="380" y="30" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">作者實戰 anatomy：2022 年 3.5% 取現重貸 100 萬＋美元買 VGT</text>
+
+  <!-- left: borrow -->
+  <rect x="20" y="50" width="220" height="240" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="130" y="74" font-size="13" font-weight="bold" fill="#1e40af" text-anchor="middle">借：自住房取現重貸</text>
+  <rect x="40" y="90" width="180" height="36" rx="6" fill="#2563eb"/>
+  <text x="130" y="105" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">年利率 3.5%</text>
+  <text x="130" y="121" font-size="11" fill="#ffffff" text-anchor="middle">上百萬美元淨值</text>
+  <text x="130" y="150" font-size="11" fill="#334155" text-anchor="middle">期限：30 年按揭</text>
+  <text x="130" y="167" font-size="11" fill="#334155" text-anchor="middle">4 年利息成本約 14%</text>
+  <rect x="40" y="184" width="180" height="62" rx="6" fill="#fef9c3" stroke="#ca8a04" stroke-width="1"/>
+  <text x="130" y="203" font-size="11" fill="#713f12" text-anchor="middle">時機紅利：2022 年初</text>
+  <text x="130" y="220" font-size="11" fill="#713f12" text-anchor="middle">鎖定歷史低利率，</text>
+  <text x="130" y="237" font-size="11" fill="#713f12" text-anchor="middle">該窗口今已關閉</text>
+  <text x="130" y="268" font-size="11" fill="#64748b" text-anchor="middle">抵押品：自住房</text>
+
+  <!-- middle: invest -->
+  <rect x="270" y="50" width="220" height="240" rx="8" fill="#ffffff" stroke="#16a34a" stroke-width="2"/>
+  <text x="380" y="74" font-size="13" font-weight="bold" fill="#166534" text-anchor="middle">投：VGT 科技指數基金</text>
+  <rect x="290" y="90" width="180" height="36" rx="6" fill="#16a34a"/>
+  <text x="380" y="105" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">4 年總收益約 190%</text>
+  <text x="380" y="121" font-size="11" fill="#ffffff" text-anchor="middle">扣息後淨收益 176%</text>
+  <text x="380" y="150" font-size="11" fill="#334155" text-anchor="middle">買點含 2022 年大跌段</text>
+  <text x="380" y="167" font-size="11" fill="#334155" text-anchor="middle">吃到 AI 行情整段 beta</text>
+  <rect x="290" y="184" width="180" height="62" rx="6" fill="#fef9c3" stroke="#ca8a04" stroke-width="1"/>
+  <text x="380" y="203" font-size="11" fill="#713f12" text-anchor="middle">VGT 是行業基金非大盤：</text>
+  <text x="380" y="220" font-size="11" fill="#713f12" text-anchor="middle">承擔的是行業風險，</text>
+  <text x="380" y="237" font-size="11" fill="#713f12" text-anchor="middle">大於純系統性風險</text>
+  <text x="380" y="268" font-size="11" fill="#64748b" text-anchor="middle">收益數字作者單方說法</text>
+
+  <!-- right: rules -->
+  <rect x="520" y="50" width="220" height="240" rx="8" fill="#0f172a" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="630" y="74" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">作者的三條借錢紀律</text>
+  <text x="630" y="102" font-size="11" fill="#e2e8f0" text-anchor="middle">標的：只買傳統指數基金</text>
+  <text x="630" y="119" font-size="11" fill="#e2e8f0" text-anchor="middle">禁個股、禁 3 倍槓桿 ETF</text>
+  <text x="630" y="144" font-size="11" fill="#e2e8f0" text-anchor="middle">利率：預期 10% vs 成本 ≤5%</text>
+  <text x="630" y="161" font-size="11" fill="#e2e8f0" text-anchor="middle">安全邊際約 5 個百分點</text>
+  <text x="630" y="186" font-size="11" fill="#e2e8f0" text-anchor="middle">期限：越長越好＋備用金</text>
+  <text x="630" y="203" font-size="11" fill="#e2e8f0" text-anchor="middle">禁券商融資（斷頭台）</text>
+  <text x="630" y="232" font-size="11" fill="#fbbf24" text-anchor="middle">紀律合理，但 2022 的天時</text>
+  <text x="630" y="249" font-size="11" fill="#fbbf24" text-anchor="middle">地利（低利率＋大跌＋AI 浪）</text>
+  <text x="630" y="266" font-size="11" fill="#fbbf24" text-anchor="middle">複製不了第二遍</text>
+
+  <text x="380" y="322" font-size="12" font-weight="bold" fill="#0f172a" text-anchor="middle">176% ＝ 紀律 × 天時 × 行業 beta，三者缺一即另一故事</text>
+  <text x="380" y="344" font-size="11" fill="#475569" text-anchor="middle">另：第三節 30 年試算有一處算術錯誤（561 萬應為約 661 萬），見圖 2</text>
+</svg>

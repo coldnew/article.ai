@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="760" height="360" rx="12" fill="#f8fafc"/>
+  <text x="380" y="30" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">關鍵不在垂不垂直，在疊的是什麼：三種「堆疊」對三種設備鏈</text>
+
+  <!-- this patent -->
+  <rect x="20" y="50" width="220" height="230" rx="8" fill="#ffffff" stroke="#16a34a" stroke-width="2"/>
+  <text x="130" y="74" font-size="13" font-weight="bold" fill="#166534" text-anchor="middle">本專利：薄膜堆疊</text>
+  <text x="130" y="98" font-size="11" fill="#334155" text-anchor="middle">同基板逐層沉積</text>
+  <text x="130" y="115" font-size="11" fill="#334155" text-anchor="middle">波導／絕緣／屏蔽膜</text>
+  <rect x="40" y="130" width="180" height="34" rx="6" fill="#16a34a"/>
+  <text x="130" y="152" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">沉積＋蝕刻＋微影＋量測</text>
+  <text x="130" y="182" font-size="11" fill="#334155" text-anchor="middle">近 BEOL 3D 整合</text>
+  <text x="130" y="199" font-size="11" fill="#334155" text-anchor="middle">NAND 式往上長</text>
+  <text x="130" y="232" font-size="11" font-weight="bold" fill="#166534" text-anchor="middle">現階段直接相關 ✓</text>
+  <text x="130" y="258" font-size="11" fill="#64748b" text-anchor="middle">KR102778201B1／</text>
+  <text x="130" y="273" font-size="11" fill="#64748b" text-anchor="middle">US12062826／2381298</text>
+
+  <!-- HBM -->
+  <rect x="270" y="50" width="220" height="230" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="380" y="74" font-size="13" font-weight="bold" fill="#0f172a" text-anchor="middle">HBM 式：晶粒堆疊</text>
+  <text x="380" y="98" font-size="11" fill="#334155" text-anchor="middle">分別做好的 dies 對貼</text>
+  <text x="380" y="115" font-size="11" fill="#334155" text-anchor="middle">TSV＋微凸塊／混合鍵合</text>
+  <rect x="290" y="130" width="180" height="34" rx="6" fill="#e2e8f0"/>
+  <text x="380" y="152" font-size="11" font-weight="bold" fill="#334155" text-anchor="middle">先進封裝＋鍵合設備</text>
+  <text x="380" y="182" font-size="11" fill="#334155" text-anchor="middle">如 $BESI 混合鍵合機</text>
+  <text x="380" y="199" font-size="11" fill="#334155" text-anchor="middle">本專利無此步驟</text>
+  <text x="380" y="232" font-size="11" font-weight="bold" fill="#991b1b" text-anchor="middle">此次無直接映射 ✗</text>
+  <text x="380" y="258" font-size="11" fill="#64748b" text-anchor="middle">市場誤讀的傳導鏈</text>
+  <text x="380" y="273" font-size="11" fill="#64748b" text-anchor="middle">正在此被切斷</text>
+
+  <!-- future -->
+  <rect x="520" y="50" width="220" height="230" rx="8" fill="#ffffff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="630" y="74" font-size="13" font-weight="bold" fill="#5b21b6" text-anchor="middle">未來：多晶粒量子整合</text>
+  <text x="630" y="98" font-size="11" fill="#334155" text-anchor="middle">qubit 晶粒＋低溫控制</text>
+  <text x="630" y="115" font-size="11" fill="#334155" text-anchor="middle">晶粒＋中介層互連</text>
+  <rect x="540" y="130" width="180" height="34" rx="6" fill="#7c3aed"/>
+  <text x="630" y="152" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">先進封裝成瓶頸（屆時）</text>
+  <text x="630" y="182" font-size="11" fill="#334155" text-anchor="middle">SAIT 低溫控制晶片</text>
+  <text x="630" y="199" font-size="11" fill="#334155" text-anchor="middle">研究線即此方向</text>
+  <text x="630" y="232" font-size="11" font-weight="bold" fill="#5b21b6" text-anchor="middle">現在是期權，不是訂單 ◐</text>
+  <text x="630" y="258" font-size="11" fill="#64748b" text-anchor="middle">業內：先行權利佈局</text>
+  <text x="630" y="273" font-size="11" fill="#64748b" text-anchor="middle">非成品量子電腦</text>
+
+  <text x="380" y="312" font-size="12" font-weight="bold" fill="#0f172a" text-anchor="middle">作者金句：重要的不是結構垂不垂直，而是被堆疊的是什麼</text>
+  <text x="380" y="334" font-size="11" fill="#475569" text-anchor="middle">投資啟示：薄膜設備鏈現在相關，鍵合設備鏈等下一代整合；兩條鏈的時鐘不同，别用同一倍數定價</text>
+</svg>
