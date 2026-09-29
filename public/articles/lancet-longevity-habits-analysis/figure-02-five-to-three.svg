@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="760" height="360" rx="12" fill="#f8fafc"/>
+  <text x="380" y="30" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">論文 5 習慣 → 作者 3 件事：壓縮了什麼，弄丟了什麼</text>
+
+  <!-- left: 5 -->
+  <rect x="20" y="50" width="200" height="240" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="120" y="74" font-size="13" font-weight="bold" fill="#1e40af" text-anchor="middle">論文的 5 個低風險習慣</text>
+  <text x="120" y="100" font-size="11" fill="#334155" text-anchor="middle">1．不吸煙（含非因病戒煙）</text>
+  <text x="120" y="122" font-size="11" fill="#334155" text-anchor="middle">2．不過量飲酒</text>
+  <text x="120" y="144" font-size="11" fill="#334155" text-anchor="middle">3．更健康飲食（蔬果豆魚）</text>
+  <text x="120" y="166" font-size="11" fill="#334155" text-anchor="middle">4．更健康體型（BMI＋腰圍）</text>
+  <text x="120" y="188" font-size="11" fill="#334155" text-anchor="middle">5．更活躍（達年齡中位數）</text>
+  <text x="120" y="222" font-size="11" fill="#64748b" text-anchor="middle">睡眠不在其中：</text>
+  <text x="120" y="239" font-size="11" fill="#64748b" text-anchor="middle">CKB 問卷當年沒收睡眠</text>
+  <text x="120" y="270" font-size="11" font-weight="bold" fill="#1e40af" text-anchor="middle">結局：死亡率＋預期餘命</text>
+
+  <line x1="228" y1="170" x2="262" y2="170" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="245" y="155" font-size="11" fill="#64748b" text-anchor="middle">壓縮</text>
+
+  <!-- right: 3 -->
+  <rect x="270" y="50" width="200" height="240" rx="8" fill="#ffffff" stroke="#16a34a" stroke-width="2"/>
+  <text x="370" y="74" font-size="13" font-weight="bold" fill="#166534" text-anchor="middle">作者的 3 件事</text>
+  <rect x="286" y="88" width="168" height="34" rx="6" fill="#16a34a"/>
+  <text x="370" y="110" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">睡穩（恢復）</text>
+  <rect x="286" y="128" width="168" height="34" rx="6" fill="#16a34a"/>
+  <text x="370" y="150" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">肌肉（不虛）</text>
+  <rect x="286" y="168" width="168" height="34" rx="6" fill="#16a34a"/>
+  <text x="370" y="190" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">夜晚管住嘴</text>
+  <text x="370" y="218" font-size="11" fill="#334155" text-anchor="middle">煙酒體型飲食全收進第 3 件</text>
+  <text x="370" y="236" font-size="11" fill="#334155" text-anchor="middle">運動拆成力量＋有氧歸第 2 件</text>
+  <text x="370" y="270" font-size="11" font-weight="bold" fill="#166534" text-anchor="middle">三條底線：止損先於翻盤</text>
+
+  <!-- far right: gaps -->
+  <rect x="490" y="50" width="250" height="240" rx="8" fill="#0f172a" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="615" y="74" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">壓縮弄丟的三樣東西</text>
+  <text x="615" y="102" font-size="11" fill="#fbbf24" text-anchor="middle">① 睡眠是作者私貨：重要，</text>
+  <text x="615" y="119" font-size="11" fill="#fbbf24" text-anchor="middle">但 8 年數字裡沒有它</text>
+  <text x="615" y="144" font-size="11" fill="#e2e8f0" text-anchor="middle">② 「晚睡能補」存疑：睡眠</text>
+  <text x="615" y="161" font-size="11" fill="#e2e8f0" text-anchor="middle">規律研究不支持補覺論</text>
+  <text x="615" y="186" font-size="11" fill="#e2e8f0" text-anchor="middle">③ 72 小時斷食、不吃晚飯：</text>
+  <text x="615" y="203" font-size="11" fill="#e2e8f0" text-anchor="middle">個人軼事，有風險無對照</text>
+  <text x="615" y="228" font-size="11" fill="#94a3b8" text-anchor="middle">酒精口徑也變嚴：論文容許</text>
+  <text x="615" y="245" font-size="11" fill="#94a3b8" text-anchor="middle">少量飲酒，作者主張越少越好</text>
+  <text x="615" y="270" font-size="11" fill="#94a3b8" text-anchor="middle">（後者與近年共識同向）</text>
+
+  <text x="380" y="322" font-size="12" font-weight="bold" fill="#0f172a" text-anchor="middle">壓縮本身是好手藝：5 個死亡率因子 → 3 個中年人可執行的日常開關</text>
+  <text x="380" y="342" font-size="11" fill="#475569" text-anchor="middle">但引用時須分開標：8 年歸論文，睡眠與斷食歸作者個人經驗</text>
+</svg>
