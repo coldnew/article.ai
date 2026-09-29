@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="760" height="360" rx="12" fill="#f8fafc"/>
+  <text x="380" y="30" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">郭宇論點的兩條路：賣時間的舊路 vs 賺複利的新路</text>
+
+  <!-- old path -->
+  <rect x="20" y="50" width="340" height="220" rx="8" fill="#ffffff" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="190" y="74" font-size="14" font-weight="bold" fill="#991b1b" text-anchor="middle">舊路：讀書 → 高級打工仔（賣時間）</text>
+  <rect x="40" y="90" width="300" height="32" rx="6" fill="#fee2e2"/>
+  <text x="190" y="111" font-size="12" fill="#991b1b" text-anchor="middle">讀書 → 考名校 → 知識高薪職</text>
+  <rect x="40" y="130" width="300" height="32" rx="6" fill="#fee2e2"/>
+  <text x="190" y="151" font-size="12" fill="#991b1b" text-anchor="middle">底層邏輯：不做體力勞動＝跨越階層</text>
+  <rect x="40" y="170" width="300" height="44" rx="6" fill="#ffffff" stroke="#dc2626" stroke-width="1"/>
+  <text x="190" y="188" font-size="11" fill="#334155" text-anchor="middle">熔斷點：可用智力 ≫ 自有智力</text>
+  <text x="190" y="205" font-size="11" fill="#334155" text-anchor="middle">十年寒窗只學皮毛 vs 模型預訓練全集</text>
+  <text x="190" y="240" font-size="12" font-weight="bold" fill="#991b1b" text-anchor="middle">報酬：單次勞務，當期結清</text>
+
+  <!-- new path -->
+  <rect x="400" y="50" width="340" height="220" rx="8" fill="#ffffff" stroke="#16a34a" stroke-width="2"/>
+  <text x="570" y="74" font-size="14" font-weight="bold" fill="#166534" text-anchor="middle">新路：敘事 → 智能複利（建資產）</text>
+  <rect x="420" y="90" width="300" height="32" rx="6" fill="#dcfce7"/>
+  <text x="570" y="111" font-size="12" fill="#166534" text-anchor="middle">知識＝敘事槓桿，而非薪資籌碼</text>
+  <rect x="420" y="130" width="300" height="32" rx="6" fill="#dcfce7"/>
+  <text x="570" y="151" font-size="12" fill="#166534" text-anchor="middle">人類優勢：決定敘事方向</text>
+  <rect x="420" y="170" width="300" height="44" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="1"/>
+  <text x="570" y="188" font-size="11" fill="#334155" text-anchor="middle">例：羅琳敘事體系長期收益 ≫ 小演員片酬</text>
+  <text x="570" y="205" font-size="11" fill="#334155" text-anchor="middle">品牌／爆款／AI 內容／個人 IP 皆同構</text>
+  <text x="570" y="240" font-size="12" font-weight="bold" fill="#166534" text-anchor="middle">報酬：一次創造，長期變現</text>
+
+  <!-- bottom -->
+  <rect x="20" y="286" width="720" height="54" rx="8" fill="#0f172a" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="380" y="308" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">關鍵一躍：從工業螺絲釘 → 主導敘事的創造者</text>
+  <text x="380" y="328" font-size="11" fill="#fbbf24" text-anchor="middle">但「敘事能力」如何練、多久變現、失敗率多高——分享原文沒有給，見風險節</text>
+</svg>
