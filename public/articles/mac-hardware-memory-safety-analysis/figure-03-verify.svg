@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+  <rect x="0" y="0" width="760" height="360" rx="12" fill="#0f172a"/>
+  <text x="30" y="34" font-size="15" font-weight="bold" fill="#ffffff" font-family="system-ui, sans-serif">讀者在自己機器上複驗：三條命令，各證一件事</text>
+
+  <!-- cmd 1 -->
+  <rect x="30" y="50" width="700" height="82" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="50" y="76" font-size="12" font-weight="bold" fill="#fbbf24" font-family="system-ui, sans-serif">① 系統二進位是否含新切片</text>
+  <text x="50" y="100" font-size="12" fill="#86efac">$ file /bin/ls</text>
+  <text x="50" y="120" font-size="11" fill="#94a3b8">找 [arm64e] 與 [arm64e.x1] 是否並列 → 證「出貨了」，不證「啟用了」</text>
+
+  <!-- cmd 2 -->
+  <rect x="30" y="144" width="700" height="82" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="50" y="170" font-size="12" font-weight="bold" fill="#fbbf24" font-family="system-ui, sans-serif">② 切片裡是否有 PAC／MTE 指令</text>
+  <text x="50" y="194" font-size="12" fill="#86efac">$ otool -tv /bin/ls | grep -E 'pacib|autib|stg|ldg' | head</text>
+  <text x="50" y="214" font-size="11" fill="#94a3b8">pacib／autib＝簽名認證，stg／ldg＝標籤存取 → 證「真在用」，不只改名</text>
+
+  <!-- cmd 3 -->
+  <rect x="30" y="238" width="700" height="82" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="50" y="264" font-size="12" font-weight="bold" fill="#fbbf24" font-family="system-ui, sans-serif">③ MTE 開機是否抓得到越界（Pixel／G1 測試機）</text>
+  <text x="50" y="288" font-size="12" fill="#86efac">$ ./out-of-bounds.memtag.elf; echo $?</text>
+  <text x="50" y="308" font-size="11" fill="#94a3b8">預期 segmentation fault，exit 139 → 與作者截圖右下角同一判據</text>
+
+  <text x="30" y="344" font-size="11" fill="#64748b" font-family="system-ui, sans-serif">三條都成立，作者主張才從「單方說法」升級為「可複現事實」；缺任何一條就退回探索中</text>
+</svg>

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 340" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="760" height="340" rx="12" fill="#f8fafc"/>
+  <text x="380" y="30" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">棧溢出如何劫持返回地址：buffer 往上寫，撞上往下長的棧幀</text>
+
+  <!-- normal frame -->
+  <rect x="20" y="50" width="220" height="240" rx="8" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="130" y="74" font-size="13" font-weight="bold" fill="#166534" text-anchor="middle">正常棧幀（高地址在上）</text>
+  <rect x="40" y="90" width="180" height="34" rx="6" fill="#e2e8f0"/>
+  <text x="130" y="111" font-size="11" fill="#334155" text-anchor="middle">返回地址（給調用者）</text>
+  <rect x="40" y="130" width="180" height="34" rx="6" fill="#e2e8f0"/>
+  <text x="130" y="151" font-size="11" fill="#334155" text-anchor="middle">上一幀指標</text>
+  <rect x="40" y="170" width="180" height="60" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1"/>
+  <text x="130" y="191" font-size="11" fill="#166534" text-anchor="middle">buffer（函數內局部）</text>
+  <text x="130" y="208" font-size="11" fill="#166534" text-anchor="middle">外部輸入由此寫入</text>
+  <text x="130" y="262" font-size="11" fill="#64748b" text-anchor="middle">棧 ↓ 從高地址往下長</text>
+  <text x="130" y="278" font-size="11" fill="#64748b" text-anchor="middle">寫入 ↑ 從低地址往上寫</text>
+
+  <!-- arrow -->
+  <text x="270" y="170" font-size="13" fill="#64748b" text-anchor="middle">未檢查長度 →</text>
+
+  <!-- smashed frame -->
+  <rect x="300" y="50" width="220" height="240" rx="8" fill="#ffffff" stroke="#dc2626" stroke-width="2"/>
+  <text x="410" y="74" font-size="13" font-weight="bold" fill="#991b1b" text-anchor="middle">溢出後：返回地址被蓋掉</text>
+  <rect x="320" y="90" width="180" height="34" rx="6" fill="#dc2626"/>
+  <text x="410" y="111" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">攻擊地址（精心構造）</text>
+  <rect x="320" y="130" width="180" height="34" rx="6" fill="#fecaca"/>
+  <text x="410" y="151" font-size="11" fill="#991b1b" text-anchor="middle">上一幀指標（已污染）</text>
+  <rect x="320" y="170" width="180" height="60" rx="6" fill="#fecaca" stroke="#dc2626" stroke-width="1"/>
+  <text x="410" y="191" font-size="11" fill="#991b1b" text-anchor="middle">buffer＋溢出部分</text>
+  <text x="410" y="208" font-size="11" fill="#991b1b" text-anchor="middle">一路向上淹沒幀頂</text>
+  <text x="410" y="262" font-size="11" font-weight="bold" fill="#991b1b" text-anchor="middle">函數返回時跳進攻擊代碼</text>
+
+  <!-- note -->
+  <rect x="540" y="50" width="200" height="240" rx="8" fill="#0f172a" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="640" y="74" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">作者的石鐘乳比喻</text>
+  <text x="640" y="100" font-size="11" fill="#e2e8f0" text-anchor="middle">棧幀如鐘乳石</text>
+  <text x="640" y="117" font-size="11" fill="#e2e8f0" text-anchor="middle">自高地址向下垂</text>
+  <text x="640" y="142" font-size="11" fill="#e2e8f0" text-anchor="middle">buffer 水位上漲</text>
+  <text x="640" y="159" font-size="11" fill="#e2e8f0" text-anchor="middle">淹到哪裡就改哪裡</text>
+  <text x="640" y="190" font-size="11" fill="#fbbf24" text-anchor="middle">防線一：PAC</text>
+  <text x="640" y="207" font-size="11" fill="#fbbf24" text-anchor="middle">給返回地址加簽</text>
+  <text x="640" y="232" font-size="11" fill="#fbbf24" text-anchor="middle">防線二：MTE</text>
+  <text x="640" y="249" font-size="11" fill="#fbbf24" text-anchor="middle">給內存加標籤對暗號</text>
+  <text x="640" y="274" font-size="11" fill="#94a3b8" text-anchor="middle">詳見圖 2</text>
+</svg>

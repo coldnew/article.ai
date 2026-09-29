@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="760" height="380" rx="12" fill="#f8fafc"/>
+  <text x="380" y="30" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">兩道硬體防線：PAC 簽指針，MTE 給內存對暗號</text>
+
+  <!-- PAC -->
+  <rect x="20" y="50" width="350" height="240" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="195" y="74" font-size="14" font-weight="bold" fill="#1e40af" text-anchor="middle">PAC：指針認證（arm64e）</text>
+  <rect x="40" y="90" width="310" height="40" rx="6" fill="#dbeafe"/>
+  <text x="195" y="107" font-size="11" fill="#1e40af" text-anchor="middle">存入：地址高位寫入驗證值（加簽）</text>
+  <text x="195" y="123" font-size="11" fill="#1e40af" text-anchor="middle">跳轉：先校驗簽名再跳（認證）</text>
+  <rect x="40" y="142" width="310" height="40" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="1"/>
+  <text x="195" y="159" font-size="11" fill="#334155" text-anchor="middle">返回地址被改 → 簽名對不上 → 擋下</text>
+  <text x="195" y="175" font-size="11" fill="#334155" text-anchor="middle">防住：傳統返回地址攻擊（ROP 變難）</text>
+  <rect x="40" y="192" width="310" height="62" rx="6" fill="#fef9c3" stroke="#ca8a04" stroke-width="1"/>
+  <text x="195" y="211" font-size="11" fill="#713f12" text-anchor="middle">不是萬能：只保「跳去哪」，</text>
+  <text x="195" y="228" font-size="11" fill="#713f12" text-anchor="middle">不管數據被改成什麼</text>
+  <text x="195" y="245" font-size="11" fill="#713f12" text-anchor="middle">（數據導向攻擊仍在射程內）</text>
+  <text x="195" y="272" font-size="11" fill="#64748b" text-anchor="middle">ARMv8.3 指針認證，蘋果自 A12 用於內核</text>
+
+  <!-- MTE -->
+  <rect x="390" y="50" width="350" height="240" rx="8" fill="#ffffff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="565" y="74" font-size="14" font-weight="bold" fill="#5b21b6" text-anchor="middle">MTE：內存標籤（arm64e.x1）</text>
+  <rect x="410" y="90" width="310" height="40" rx="6" fill="#ede9fe"/>
+  <text x="565" y="107" font-size="11" fill="#5b21b6" text-anchor="middle">malloc：指針高位＋內存塊寫入同組暗號</text>
+  <text x="565" y="123" font-size="11" fill="#5b21b6" text-anchor="middle">訪問：比對暗號，不合即觸發異常</text>
+  <rect x="410" y="142" width="310" height="40" rx="6" fill="#ffffff" stroke="#7c3aed" stroke-width="1"/>
+  <text x="565" y="159" font-size="11" fill="#334155" text-anchor="middle">越界／UAF／野指針 → 暗號對不上 → 擋下</text>
+  <text x="565" y="175" font-size="11" fill="#334155" text-anchor="middle">防住：一整類空間與時序型內存 bug</text>
+  <rect x="410" y="192" width="310" height="62" rx="6" fill="#fef9c3" stroke="#ca8a04" stroke-width="1"/>
+  <text x="565" y="211" font-size="11" fill="#713f12" text-anchor="middle">機率性防線：標籤僅 4 位，</text>
+  <text x="565" y="228" font-size="11" fill="#713f12" text-anchor="middle">猜中暗號率約十六分之一；</text>
+  <text x="565" y="245" font-size="11" fill="#713f12" text-anchor="middle">粒度 16 位元組，小越界可能漏網</text>
+  <text x="565" y="272" font-size="11" fill="#64748b" text-anchor="middle">ARMv8.5，Pixel 8 首個消費級落地</text>
+
+  <!-- bottom -->
+  <rect x="20" y="306" width="720" height="54" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="380" y="328" font-size="12" font-weight="bold" fill="#0f172a" text-anchor="middle">作者主張：M6 Mac mini × Tensor G4 Pixel 9 兩端開花，C 語言「指針滿天飛也不怕」</text>
+  <text x="380" y="348" font-size="11" fill="#b45309" text-anchor="middle">先別信滿：M6 與 arm64e.x1 命名皆為作者單方測量，本站未獨立驗證；且兩道防線都只是抬高門檻</text>
+</svg>
