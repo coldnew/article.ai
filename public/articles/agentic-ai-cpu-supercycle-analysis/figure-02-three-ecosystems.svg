@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="760" height="400" rx="12" fill="#f8fafc"/>
+  <text x="380" y="30" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">三生態 × 三雄：同一 Agent 需求走出三條採購路徑</text>
+
+  <!-- meta -->
+  <rect x="20" y="50" width="220" height="250" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="130" y="74" font-size="13" font-weight="bold" fill="#1e40af" text-anchor="middle">Meta：多線並行</text>
+  <text x="130" y="100" font-size="11" fill="#334155" text-anchor="middle">買處理器＋租雲算力</text>
+  <text x="130" y="117" font-size="11" fill="#334155" text-anchor="middle">＋參與 Arm AGI CPU 開發</text>
+  <rect x="40" y="132" width="180" height="30" rx="6" fill="#dbeafe"/>
+  <text x="130" y="152" font-size="11" fill="#1e40af" text-anchor="middle">EPYC 採購／Graviton 租用</text>
+  <text x="130" y="182" font-size="11" fill="#334155" text-anchor="middle">Muse 配置品牌型號未公開</text>
+  <text x="130" y="210" font-size="11" fill="#334155" text-anchor="middle">Arm AGI：Meta 為首席</text>
+  <text x="130" y="227" font-size="11" fill="#334155" text-anchor="middle">共同開發夥伴（官方）</text>
+  <text x="130" y="262" font-size="11" font-weight="bold" fill="#1e40af" text-anchor="middle">看：EPYC 增量＋AGI 交付</text>
+  <text x="130" y="284" font-size="11" fill="#64748b" text-anchor="middle">Graviton 按核心數公告</text>
+
+  <!-- google -->
+  <rect x="270" y="50" width="220" height="250" rx="8" fill="#ffffff" stroke="#ca8a04" stroke-width="1.5"/>
+  <text x="380" y="74" font-size="13" font-weight="bold" fill="#713f12" text-anchor="middle">Google：雲內分流</text>
+  <text x="380" y="100" font-size="11" fill="#334155" text-anchor="middle">Spark 沿 Gmail／Calendar</text>
+  <text x="380" y="117" font-size="11" fill="#334155" text-anchor="middle">／Docs 生態擴散，留雲端跑</text>
+  <rect x="290" y="132" width="180" height="30" rx="6" fill="#fef9c3" stroke="#ca8a04" stroke-width="1"/>
+  <text x="380" y="152" font-size="11" fill="#713f12" text-anchor="middle">Axion 已進 Spanner 等服務</text>
+  <text x="380" y="182" font-size="11" fill="#334155" text-anchor="middle">雲同時賣 Xeon／EPYC／Axion</text>
+  <text x="380" y="210" font-size="11" fill="#334155" text-anchor="middle">追：新增 workload 落哪層</text>
+  <text x="380" y="227" font-size="11" fill="#334155" text-anchor="middle">哪種 CPU（官方多架構）</text>
+  <text x="380" y="262" font-size="11" font-weight="bold" fill="#713f12" text-anchor="middle">看：Axion 滲透＋雲機型配比</text>
+  <text x="380" y="284" font-size="11" fill="#64748b" text-anchor="middle">Spark 專屬配置待公開</text>
+
+  <!-- apple -->
+  <rect x="520" y="50" width="220" height="250" rx="8" fill="#ffffff" stroke="#6b7280" stroke-width="1.5"/>
+  <text x="630" y="74" font-size="13" font-weight="bold" fill="#111827" text-anchor="middle">Apple：裝置＋雲分流</text>
+  <text x="630" y="100" font-size="11" fill="#334155" text-anchor="middle">Siri AI 裝置端起手，複雜上雲</text>
+  <text x="630" y="117" font-size="11" fill="#334155" text-anchor="middle">PCC＋外部服務分流</text>
+  <rect x="540" y="132" width="180" height="30" rx="6" fill="#e5e7eb"/>
+  <text x="630" y="152" font-size="11" fill="#111827" text-anchor="middle">PCC 上 Google Cloud：Intel 具名</text>
+  <text x="630" y="182" font-size="11" fill="#334155" text-anchor="middle">Intel 看具名擴容規模</text>
+  <text x="630" y="210" font-size="11" fill="#334155" text-anchor="middle">Arm 看自研晶片授權版稅</text>
+  <text x="630" y="227" font-size="11" fill="#334155" text-anchor="middle">AMD 看外部 EPYC 後端</text>
+  <text x="630" y="262" font-size="11" font-weight="bold" fill="#111827" text-anchor="middle">看：PCC 擴容＋換機＋版稅</text>
+  <text x="630" y="284" font-size="11" fill="#64748b" text-anchor="middle">工作量比例依實際分流</text>
+
+  <!-- bottom -->
+  <rect x="20" y="316" width="720" height="64" rx="8" fill="#0f172a" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="380" y="339" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">收斂：Intel 看具名與擴容，AMD 看 EPYC 部署，Arm 拆 IP／自有 CPU 兩本帳</text>
+  <text x="380" y="360" font-size="11" fill="#fbbf24" text-anchor="middle">同叫受益，落到收入利潤是兩筆帳；哪筆先放大、股價算進多少——作者留給下一篇拆 $ARM</text>
+</svg>

@@ -1,0 +1,78 @@
+---
+title: "Agent 會引爆 CPU 超級週期嗎？拆供應鏈雷達的採購路徑圖"
+description: "整理《Sirin｜供应链雷达》9 月 28 日 Substack 長文：以 Meta Muse 為錨，推演 Agent 工作量如何經 1.67 倍容量算例變成 Intel／AMD／Arm 三家的採購，並拆 Google、Apple 分流路徑與 x86／Arm 選型邏輯；本文複算情境數學、交叉核對 Muse、Axion、Arm AGI CPU、PCC 四處事實錨點，標出情境與訂單之間的距離。"
+publishedAt: 2026-09-29
+topic: "半導體"
+sourceType: "article"
+sourceUrl: "https://sirinsupplyradar.substack.com/p/agentic-ai-cpu"
+authors: ["Sirin｜供应链雷达", "LIWEI_TWCapital"]
+analyst: "Muse Spark"
+venue: "Substack · 供应链雷达"
+tags: ["CPU", "Intel", "AMD", "Arm", "Agent", "Meta", "供應鏈"]
+readTime: "12 分鐘"
+evidence: "中"
+featured: false
+sourceCount: 5
+accent: "blue"
+---
+
+## 一句話結論
+
+《Sirin｜供应链雷达》這篇長文不賣結論賣路徑圖：Agent 工作量經 Muse 實例、1.67 倍容量算例，一路推到 Intel 看處理器、AMD 看 EPYC、Arm 拆 IP 與自有 CPU 兩本帳；**四處事實錨點經本站交叉核對成立、情境數學複算通過，但增量分配與股價隱含預期皆未定，evidence 列「中」，下一篇拆 $ARM 前請先把本篇當地圖而非明牌。**
+
+## 來源與形式說明
+
+Substack 長文非 X 貼文，不適用 XPostCard 卡片；以下以引文＋連結代替靜態還原（簡轉繁，9 圖依 IP 慣例不轉載，關鍵圖意轉寫於下）：
+
+> **《Agentic AI 即将引爆下一轮 CPU 超级周期？你看懂怎么投资了吗？》**（Liwei × @SupplyRadar，2026 年 9 月 27 日刊、9 月 28 日推送）
+> 開場即標「不負責任預測」：Meta Muse 先紅→Google、Apple 跟進→OpenAI、Anthropic 加碼→**事情輪到 CPU**。八節結構：Muse 採購形成、等待與記憶體、Meta 多路線、收錢分層、選型邏輯、Google 分流、Apple 分流、三雄增量表，收束於追蹤清單與「下一篇拆 $ARM」。
+> 來源：https://sirinsupplyradar.substack.com/p/agentic-ai-cpu
+
+## 這篇文章真正解決的問題
+
+投資人問錯問題的坑：「利好誰」只有一半，另一半是「在哪一層收到錢、以什麼收費方式」。【原文明說】本文要建的正是一張收錢分層圖：同樣叫受益，Intel／AMD 收處理器採購，Arm 收 IP 授權或自有 CPU 出貨；Graviton 按核心數、雲實例按機型、PCC 按具名配置——不先分層，後面算的每一筆帳都會入錯科目。
+
+## 流程拆解
+
+### 1. 起點：Muse 給出第一個可觀測實例
+
+【原文明說】Meta 官方文件稱 Agent 跑在隔離 Linux 雲 VM，可開瀏覽器、跑程式、執行背景任務；以追蹤十家公司新聞為例，新增的是 CPU 執行時間與尖峰併發。
+
+【從原文可直接推出】本站交叉核對成立：Meta 2026-09-08 官宣 Muse Secure VM（每用戶獨立雲電腦，關 App 後續跑）；第三方 9 月 20 日實測 2 vCPU（AMD EPYC 9D25 切片）、7.7GB 記憶體、無 GPU——推理在代理後、瀏覽器在 VM 池，貴的都外包成服務，VM 只是協調器。這恰是「工作量變採購」的前提：單 VM 很薄，乘以每天、每人，才變成機房級數字。
+
+### 2. 算例：1.67 倍是怎麼來的（本站已複算）
+
+![工作量變採購鏈：Muse 實例 → 1.67 倍算例 → 向誰買。](/article.ai/articles/agentic-ai-cpu-supercycle-analysis/figure-01-workload-to-purchase.svg)
+
+<small class="figure-caption">圖 1｜本站依原文 §1–2 與圖 5 自繪。黑底為情境算例，1.67 經本站以 `3/(1.5*1.2)` 複算通過；原文自標假設，引用時須保留該定語。</small>
+
+【原文明說】任務量 ×3、單核效率 ＋50%、利用率 ＋20%（等待模型回應時 CPU 做別的事，AWS AgentCore 按實際消耗計費），所需容量約原來 1.67 倍；觸發擴容的是增長持續超過優化與閒置。【合理推斷】數學通過，經濟學成立一半：VM 共享與按用量計費壓平的是平均成本，尖峰併發的容量預留才是採購脉衝的形狀——算例給的是均值，機房按峰值下單，兩者差一個排隊論。
+
+### 3. 分層：x86／Arm 是架構，自研／外購是採購方式
+
+【原文明說】最易混淆處作者已點名：Graviton 是自研 CPU 但 Arm 架構；Meta 可同時買 EPYC、租 Graviton 算力、參與 Arm AGI CPU 開發；收費分雲服務、處理器、IP 授權三層。【從原文可直接推出】本站核對成立：Arm 2026-03-24 官宣 AGI CPU（Neoverse V3，Meta 首席共研夥伴，可訂購）；Google Axion（Neoverse V2，C4A）已進 Spanner／Bigtable／BigQuery，多架構 3 萬應用；Apple PCC 上 Google Cloud（Intel TDX＋NVIDIA GPU＋Titan，WWDC 2026）。三個引用的落地狀態皆有官方一手來源，不是傳聞。
+
+### 4. 分流：Google 留雲端，Apple 分裝置與雲
+
+![三生態三條路：Meta 並行、Google 留雲、Apple 分流。](/article.ai/articles/agentic-ai-cpu-supercycle-analysis/figure-02-three-ecosystems.svg)
+
+<small class="figure-caption">圖 2｜本站依原文 §3–8 自繪。實線是已公開關係，虛線是條件擴充——此為原文圖例紀律，轉繪時原樣保留。</small>
+
+【原文明說】Google 篇：Spark 沿 Gmail／Calendar／Docs 生態擴散、關機後雲端續跑，追新增 workload 落哪層哪種 CPU；Apple 篇：Siri AI 裝置端起手、複雜上 PCC，Intel 已拿具名位置看擴容，Arm 看自研晶片版稅，AMD 看外部 EPYC 後端；選型篇：短期看驗證完與交付（x86 易直接接上，Pix4D 並行遷移為證），中期看總成本。【合理推斷】框架乾淨且可證偽——每個「看」字後面都跟著可追蹤的交付物（機型配比、具名擴容、版稅），這是產業分析少見的誠實：把預測寫成待辦清單。
+
+## 風險與盲點
+
+- 【情境≠訂單】1.67 倍、128 項、五階段擴散圖皆自標假設；Muse 專屬 CPU 配置、分配比例、Spark 配置全數未公開——從算例到損益表之間隔著至少兩次選型會議，超級週期今仍是問句（標題的問號是全文最誠實的字）。
+- 【記憶體缺席】§2 標題點名等待、效率與記憶體，內文記憶體著墨甚少；Agent 上下文膨脹首先吃的是 HBM／DRAM 頻寬與容量，CPU 超級週期論述缺了記憶體這一半，讀者應並讀記憶體鏈。
+- 【作者立場】供應鏈研究帳號＋$ARM 系列預告，天然偏好「有增量」敘事；看空情境（Agent 滲透不及預期、效率優化吃掉增長、價格戰轉嫁）未建模，屬單側情境。
+- 【時效】Muse 官宣僅三週，第三方實測為單一樣本；Axion／AGI CPU／PCC 皆 2026 年內進展，交付爬坡以前的份額推演皆為前瞻，不宜當持倉依據。
+- 不確定性聲明：本文核對了 Meta 新聞室、Arm 新聞室、Google Cloud 官方頁與 InfoQ PCC 報導，但未窮盡原文 19 處引用；Gemini Spark、Siri AI 等產品名以作者引用為準，未獨立核對發布狀態。
+
+## 來源
+
+- 《Sirin｜供应链雷达 × LIWEI_TWCapital Agentic AI 即将引爆下一轮 CPU 超级周期？》（2026-09-28）：https://sirinsupplyradar.substack.com/p/agentic-ai-cpu ——本文解讀對象，9 圖（G01–G04 附件體系）與三雄增量表皆引自此，站內頭像為作者 Substack 頭像存檔
+- 《Introducing Muse》 Meta 新聞室（2026-09-08）：https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/ ——Secure VM、背景任務、關 App 續跑核對基準
+- 《Announcing Arm AGI CPU》 Arm 新聞室（2026-03-24）：https://newsroom.arm.com/blog/introducing-arm-agi-cpu ——Neoverse V3、Meta 首席共研、可訂購核對基準
+- 《Google Axion processors》 Google Cloud：https://cloud.google.com/products/axion ——C4A、Spanner／Bigtable 採用、多架構核對基準
+- 《Apple Extends Private Cloud Compute to Google Cloud》 InfoQ（2026-07-02）：https://www.infoq.com/news/2026/07/apple-pcc-google-cloud/ ——Intel TDX 具名、PCC 擴容非遷移核對基準
+- 本站複驗：`3/(1.5*1.2) ≈ 1.6667`，與原文 1.67 倍一致
