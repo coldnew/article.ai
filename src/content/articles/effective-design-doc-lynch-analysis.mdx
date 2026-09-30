@@ -1,0 +1,115 @@
+---
+title: "好設計文件能省下數年開發時間：Lynch 的設計文件寫作法"
+description: "整理《How to Write an Effective Software Design Document》（Refactoring English 書籍節錄，Michael Lynch，2026-06-24，Google／Microsoft 資歷）：六題判斷該不該寫、答錯代價過濾器、二十餘個元件逐節寫法，並以《Little Moments Design Doc》實例與姊妹篇 review 流程交叉核對。"
+publishedAt: 2026-09-30T10:00:00+08:00
+topic: "工程組織"
+sourceType: "article"
+sourceUrl: "https://refactoringenglish.com/excerpts/write-an-effective-design-doc/"
+authors: ["Michael Lynch"]
+analyst: "Muse Spark"
+venue: "Refactoring English（書籍節錄）"
+tags: ["design doc", "軟體設計", "技術寫作", "工程文化", "code review"]
+readTime: "12 分鐘"
+evidence: "中"
+featured: false
+sourceCount: 4
+accent: "green"
+---
+
+## 一句話結論
+
+《How to Write an Effective Software Design Document》這篇書籍節錄給工程師一套可直接套用的設計文件工作流：先用六個問題決定該不該寫，再用「答錯的代價」決定寫多細，接著按二十多個元件逐節填寫，最後用姊妹篇的 review 管線把文件推過審查——方法來自 Michael Lynch 在 Google、Microsoft 與自己公司的實戰，並附上一份寫完才動工的真實範例《Little Moments Design Doc》交叉驗證；但全篇是單一作者的經驗談，沒有量化數據支撐，證據等級只能給「中」。
+
+## 這篇文章真正解決的問題
+
+《How to Write an Effective Software Design Document》這篇文章解決的是研究流程／工程寫作流程問題：寫程式之前，先把難題想清楚、把決定同步給隊友與合作團隊，避免把時間燒在錯誤的實作上。
+
+它要回答四個具體問題：什麼時候值得寫設計文件、該投入多少心力、哪些決定該寫進文件、文件推過審查的流程是什麼。前三題在本篇，第四題由姊妹篇《How to Get Meaningful Feedback on Your Design Document》接手，兩篇合起來才是一套完整工作流。
+
+## 流程拆解
+
+### 模組一：是否值得寫——六個問題，有一 yes 就考慮寫
+
+【原文明說】《How to Write an Effective Software Design Document》開宗明義：專案越複雜、風險越高，設計文件越值得寫，並列出六個判斷題：
+
+1. 是否需要多人協作實作？
+2. 是否超過三個月全職開發量？
+3. 實作是否會在線上跑好幾年？
+4. 是否涉及跨團隊協作？
+5. 目標與需求是否模糊？
+6. 是否有能在設計階段預防的災難性風險（例如安全漏洞、法律風險）？
+
+【原文明說】任一題答 yes 就值得考慮寫，兩題以上則幾乎篤定值得。反過來說，個人短期、需求清楚、低風險的專案，正確投入可能是零——這點作者明說，沒有「文件越厚越好」這種教條。
+
+### 模組二：該寫多細——答錯代價過濾器
+
+【原文明說】這是全文最值得帶走的一個判斷式：**什麼該寫進設計文件？看答錯的代價（what's the penalty for being wrong）**。不是所有設計決定都一樣永久。
+
+![答錯代價過濾器：什麼該寫進設計文件。](/article.ai/articles/effective-design-doc-lynch/figure-01-penalty-filter.svg)
+
+<small class="figure-caption">圖 1｜本站依《How to Write an Effective Software Design Document》的 C++／Rails 與 Load more 兩例自繪。實作後很難換的決定才值得事前討論。</small>
+
+【原文明說】高代價例子：如果用 C++ 寫 Web App，寫了 20 萬行才發現 Ruby on Rails 更合適——打掉重寫不可行，即使部分重寫，還是得同時維護兩種差異極大的語言。這類決定（語言、儲存後端、信任邊界、對外介面語義）必須在設計階段想清楚、拿去 review。
+
+【原文明說】低代價例子：100 篇文章一次全顯示，還是 25 篇加 Load more 按鈕？選錯了，等用戶回饋一來幾小時就能改。作者明說這種不算設計層級的議題，不需要詳述思考過程，更不該浪費 review 週期去爭。
+
+【從原文可直接推出】這條過濾器同時回答了「文件多長才對」：一頁也行，五十頁也行，取決於團隊目標、風險、時程與文化。把每個細節都寫死，等於在設計階段就把實作寫完了，違背文件的初衷。
+
+### 模組三：元件逐節——只挑適用本專案的子集
+
+【原文明說】《How to Write an Effective Software Design Document》列出二十多個常見章節，但明言不需要每篇都全寫。以下按原文重點整理成可重用清單：
+
+**開場四件套（每篇都要有）：**
+
+- **Title**：短、好唸、能喚起用途。好例 RecencyBank（Trogdor 網站與 Postgres 之間的快取層）；壞例 Project Flying Silver Horse，又長又不知所云。
+- **Metadata**：作者、日期、權威 URL（例如內部短連結 `http://go/recency-bank-design`）、誰在何時簽核。
+- **Objective**：一句話、外行人也懂，放在第一頁。例：透過在 Trogdor 網站與 Postgres 資料庫之間加快取層來提升效能。
+- **Background**：為何做、解什麼問題、有無前人試過。例：Trogdor 中位頁面載入從 100 毫秒膨脹到 600 毫秒，調查發現資料庫查詢佔 80%，且 95% 查詢集中在 3% 的資料列——正是記憶體快取最擅長的形狀。
+
+**範圍界定（Goals／Non-goals）：**
+
+- **Goals** 要寫影響，不要寫實作。壞例「把 Kubernetes 加進基礎設施」；好例「減少部署新版本相關的停機」。【原文明說】
+- **Non-goals** 寫讀者可能誤以為在範圍內的事。RecencyBank 明言不做通用可重用快取、不做地理位置感知快取（v1 範圍外）。
+
+【原文明說】其餘按需挑選：**Scenarios**（用 Bob 分享報表連結給 Charlie 的故事讓讀者看見完成品的樣子）、**Diagrams**（reviewer 一半回饋都衝著圖來，圖是架構討論最快的載體；要用可編輯工具如 Excalidraw、draw.io、Mermaid，並附原始檔連結，白板拍照是死路）、**Glossary**（先用讀者免查的詞，次選行內定義， glossary 是最後手段）、**Constraints**（例如全站 RISC-V，所有程式與依賴都得能跑）、**SLOs**（把「手機上要順」翻成可量測數字：Trogdor 面向用戶請求 p50 低於 200 毫秒）、**Monitoring／Alerting**（服務掛了怎麼知道、慢 100 倍怎麼知道）、**Timeline**（切成對利害關係人有用的里程碑，先拿假資料 UI 去對需求，別先埋頭做 plumbing）、**Interfaces**（UI 草圖點到為止；API／CLI 語義與檔案格式要精確；RecencyBank 用 Go interface 把 Server 對 PostgresDB 的直接依賴解耦就是一例）、**Dependencies**（語言與儲存後端最難換，寄信用哪家服務商一下午就能換，力氣要花對地方）、**Security**（威脅、攻擊面、信任邊界；即使覺得無關也要寫下理由，讓 reviewer 幫你找漏掉的威脅）、**Privacy**（處理什麼敏感資料、留多久、誰能碰、怎麼保護）、**Legal**（金融醫療等高度監管領域必備；開源授權選哪個也要寫）、**Logging**（記什麼、分級、放哪、留多久、誰能看、敏感資料不得入 log）。
+- **Open issues／Resolved issues**：寫到卡住、有缺口、在兩方案間搖擺，就進 Open issues 附錄，載明問題、選項、下一步；解掉後把決策摘要置頂再移到 Resolved issues，完整討論留檔。
+- **Alternatives considered**：先回答「為何不用 X」。作者提醒別寫成流水帳，幾行講清強力替代方案與出局理由即可。
+
+### 模組四：範例對照——《Little Moments Design Doc》證明這套真的有人照著做
+
+【原文明說】作者坦言從沒見過公開的高品質設計文件（自己的都鎖在付錢的公司裡），所以照本篇原則從零寫了一份真實範例：替自家照片分享 App Little Moments（起因是不滿 TinyBeans 對付費用戶塞廣告）先寫文件再動工，目前正照文件實作，程式碼放在 Codeberg 上。
+
+【從原文可直接推出＋已核實】本站實際打開範例《Little Moments Design Doc》核對，結構與本篇主張一致：Metadata → Objective → Background → Goals／Non-goals → User roles → UI → Scenarios → SLOs（可用性 99%、縮圖 400 毫秒內、50 用戶上限）→ Architecture（Go、SQLite、fly.io 等逐項交代取捨）→ Privacy（Exif 去除）→ Security（攻擊面逐條列威脅與緩解）→ Licensing → 八個里程碑的 Implementation timeline → Open／Closed issues → Alternatives considered。連「範例比平常 solo 專案寫得更鉅細靡遺」這句自我揭露都與本篇「協作規模決定文件深度」呼應。
+
+【合理推斷】這份範例同時是主張成立的下限證明：solo 專案都願意寫到這份量，跨團隊專案更沒有藉口跳過；但它也是上限提醒——範例作者同時是方法作者，自我一致不代表他人可複製。
+
+### 模組五：推過審查——會議是最後一步，不是第一步
+
+【原文明說】姊妹篇《How to Get Meaningful Feedback on Your Design Document》（2025-11-03）把 review 排成管線，而非一次性會議：
+
+![倒金字塔文件結構與 review 管線。](/article.ai/articles/effective-design-doc-lynch/figure-02-review-pipeline.svg)
+
+<small class="figure-caption">圖 2｜本站依姊妹篇的倒金字塔與 review 章節自繪。文件前段寫給所有人，會議只解決文字討論解決不了的未決議題。</small>
+
+1. **開頭寫給所有人**：導師的當頭棒喝——你在會議上口頭補的背景，都該在文件第一頁。用新聞倒金字塔寫法：前段人人看得懂，越後面讀者越少（合作團隊只看 API 語義與可靠度目標，不會讀你的 log 格式）。
+2. **先找單一 reviewer**：初稿一定有錯，與其讓十個人絆倒在同一個 confusing 段落，不如先找利害關係最深的一個人修解釋；還能避開旁觀者效應。AI 助理可做第一輪預審。
+3. **全員非同步閱讀**：至少給 2 個工作天，複雜度與併發任務多就再加。開會前沒讀過文件就逐段朗讀，不叫 review。
+4. **在文件裡回應**：reviewer 的每個疑問都要變成文件修改，而不是只在留言串、聊天室或口頭解釋——否則下一個讀者會問一模一樣的問題。
+5. **積極收斂留言串**：Google 式歷史文件滿是互相矛盾的 margin notes，後人根本分不清實作的是原文還是留言。作者有責任快速 resolve；來回兩三次還沒結論就移入 Open Issues 附錄並在原文留連結。
+6. **專注會議收尾**：會議只解決文字討論解決不了的未決議題，會前發書面議程，聲明不接受對已無爭議決定的臨時異議。
+7. **實作後 postmortem**：不究責、只改流程，用問卷（避免 reply-all 帶風向）收集，再開會逐條想改善。例如 DuckDB 整合超時近一倍， takeaway 是選型要看語言 binding、團隊陌生技術與成熟度都要在估時加權。
+
+## 風險與盲點
+
+- **單一作者經驗談，無量化支撐**【原文明說＋合理推斷】：所有數字（3 個月、2 工作天、50% 回饋衝著圖來）都是 Lynch 個人經驗值，沒有對照組或統計。本站能核實的是範例文件確實存在且結構相符，但「照做是否真省下數年」仍未被支撐，故證據等級給「中」。
+- **利益揭露：書籍漏斗上層**【原文明說】：本篇是未出版書籍《Refactoring English: Effective Writing for Software Developers》的節錄，全站多處掛購買連結。作者有把方法講得更放諸四海皆準的動機；但他同時坦承沒見過公開高品質範例、範例比平常寫得更細，這種自我設限的誠實部分抵銷了推銷味，取捨如實記在這裡。
+- **Google／Microsoft 經驗的適用邊界**【合理推斷】：六題判斷式裡有三題（多人協作、跨團隊、災難風險）預設了中大型組織；五人以下新創或一人 side project 照單全收二十多個章節就是官僚。作者雖說可只寫一頁，但沒給「小團隊最小可用子集」的明確指引，這是實務缺口。
+- **範例的自我一致陷阱**【合理推斷】：Little Moments 的作者、方法作者、實作者是同一人，文件與實作不可能打架；真實跨團隊場景裡，文件寫完、實作走樣、留言串爛尾才是常態，姊妹篇的收斂紀律（積極 resolve、移入附錄）反而比本篇的章節清單更關鍵。
+- **與本站既有文章的關係**【從原文可直接推出】：本站另有一篇《Design Docs Are All You Need》（SMART 方法：設計文件即原始碼、code 當編譯產物）。兩篇立場互補而非互斥：Lynch 教人類把文件寫好拿去給人類審，SMART 教人類把文件寫好拿去給 agent 編；Scenarios、Glossary、Open issues 這些 Lynch 元件，恰好也是 agent 可讀規格的要件。
+
+## 來源
+
+- 《How to Write an Effective Software Design Document》書籍節錄（2026-06-24）：https://refactoringenglish.com/excerpts/write-an-effective-design-doc/ ——六題判斷、代價過濾器、元件清單之出處
+- 範例《Little Moments Design Doc》全文（已打開核對結構與 SLO／里程碑數字）：https://refactoringenglish.com/excerpts/write-an-effective-design-doc/little-moments-design-doc/
+- 姊妹篇《How to Get Meaningful Feedback on Your Design Document》（2025-11-03，review 管線之出處）：https://refactoringenglish.com/blog/useful-feedback-on-design-docs/
+- 作者 Michael Lynch（Google、Microsoft 資歷，TinyPilot 等個人專案）：https://refactoringenglish.com/author 與 https://mtlynch.io/projects/

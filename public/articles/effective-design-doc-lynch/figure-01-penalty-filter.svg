@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420" font-family="Noto Sans TC, PingFang TC, Microsoft JhengHei, sans-serif">
+  <rect width="760" height="420" fill="#ffffff"/>
+  <text x="30" y="38" font-size="20" font-weight="bold" fill="#1a1a1a">圖 1｜答錯代價過濾器：什麼該寫進設計文件</text>
+  <rect x="30" y="58" width="700" height="64" rx="10" fill="#f4f1e8" stroke="#d8d2bd"/>
+  <text x="380" y="86" font-size="17" font-weight="bold" fill="#1a1a1a" text-anchor="middle">過濾問題：如果這個決定做錯了，修正代價有多大？</text>
+  <text x="380" y="110" font-size="14" fill="#666666" text-anchor="middle">what&#8217;s the penalty for being wrong?</text>
+  <line x1="220" y1="122" x2="220" y2="150" stroke="#999999" stroke-width="2"/>
+  <line x1="540" y1="122" x2="540" y2="150" stroke="#999999" stroke-width="2"/>
+  <rect x="40" y="150" width="330" height="240" rx="10" fill="#fdecea" stroke="#d64545"/>
+  <text x="205" y="178" font-size="16" font-weight="bold" fill="#b3261e" text-anchor="middle">代價高 → 寫進文件、拿去 review</text>
+  <text x="60" y="208" font-size="14" fill="#333333">例：用 C++ 寫 Web App，20 萬行後</text>
+  <text x="60" y="230" font-size="14" fill="#333333">才發現 Ruby on Rails 更合適</text>
+  <text x="60" y="260" font-size="14" fill="#333333">後果：打掉重寫不可行，被迫同時</text>
+  <text x="60" y="282" font-size="14" fill="#333333">維護兩種差異極大的語言</text>
+  <text x="60" y="312" font-size="14" fill="#333333">同類：語言、儲存後端、信任邊界、</text>
+  <text x="60" y="334" font-size="14" fill="#333333">對外 API 語義、法規遵循</text>
+  <text x="60" y="366" font-size="14" font-weight="bold" fill="#b3261e">實作後很難換的，才值得事前吵</text>
+  <rect x="390" y="150" width="330" height="240" rx="10" fill="#e9f4ec" stroke="#3d9970"/>
+  <text x="555" y="178" font-size="16" font-weight="bold" fill="#1e7e4d" text-anchor="middle">代價低 → 別寫、別浪費 review</text>
+  <text x="410" y="208" font-size="14" fill="#333333">例：100 篇文章一次全顯示，還是</text>
+  <text x="410" y="230" font-size="14" fill="#333333">一次 25 篇加 Load more 按鈕？</text>
+  <text x="410" y="260" font-size="14" fill="#333333">後果：選錯了，用戶回饋一來，</text>
+  <text x="410" y="282" font-size="14" fill="#333333">幾小時就能改掉</text>
+  <text x="410" y="312" font-size="14" fill="#333333">同類：按鈕文案、分頁數量、</text>
+  <text x="410" y="334" font-size="14" fill="#333333">無關緊要的 UI 細節</text>
+  <text x="410" y="366" font-size="14" font-weight="bold" fill="#1e7e4d">寫進文件等於提前實作，違背初衷</text>
+</svg>

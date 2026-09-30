@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="470" viewBox="0 0 760 470" font-family="Noto Sans TC, PingFang TC, Microsoft JhengHei, sans-serif">
+  <rect width="760" height="470" fill="#ffffff"/>
+  <text x="30" y="38" font-size="20" font-weight="bold" fill="#1a1a1a">圖 2｜倒金字塔文件結構與 review 管線</text>
+  <polygon points="60,70 350,70 320,140 90,140" fill="#e8effd" stroke="#3b6fd4"/>
+  <text x="205" y="98" font-size="15" font-weight="bold" fill="#1a1a1a" text-anchor="middle">前段：所有人看得懂</text>
+  <text x="205" y="121" font-size="13" fill="#444444" text-anchor="middle">Objective・Background・Goals・Scenarios</text>
+  <polygon points="90,145 320,145 295,215 115,215" fill="#eef3fb" stroke="#3b6fd4"/>
+  <text x="205" y="173" font-size="15" font-weight="bold" fill="#1a1a1a" text-anchor="middle">中段：相關團隊看</text>
+  <text x="205" y="196" font-size="13" fill="#444444" text-anchor="middle">Interfaces・SLOs・Dependencies・Security</text>
+  <polygon points="115,220 295,220 275,290 135,290" fill="#f5f8fd" stroke="#3b6fd4"/>
+  <text x="205" y="248" font-size="15" font-weight="bold" fill="#1a1a1a" text-anchor="middle">後段：實作團隊看</text>
+  <text x="205" y="271" font-size="13" fill="#444444" text-anchor="middle">Logging・Monitoring・Timeline 細節</text>
+  <text x="60" y="318" font-size="13" fill="#666666">越往下讀者越少：合作團隊只看 API 語義與可靠度目標，不會讀 log 格式</text>
+  <line x1="60" y1="336" x2="700" y2="336" stroke="#cccccc" stroke-width="1"/>
+  <text x="60" y="362" font-size="15" font-weight="bold" fill="#1a1a1a">review 管線：先小後大，會議是最後一步</text>
+  <rect x="60" y="374" width="120" height="66" rx="8" fill="#f4f1e8" stroke="#b09c5a"/>
+  <text x="120" y="397" font-size="14" font-weight="bold" fill="#1a1a1a" text-anchor="middle">單一 reviewer</text>
+  <text x="120" y="419" font-size="12" fill="#555555" text-anchor="middle">先修解釋，別修設計</text>
+  <rect x="192" y="374" width="130" height="66" rx="8" fill="#f4f1e8" stroke="#b09c5a"/>
+  <text x="257" y="397" font-size="14" font-weight="bold" fill="#1a1a1a" text-anchor="middle">全員非同步讀</text>
+  <text x="257" y="419" font-size="12" fill="#555555" text-anchor="middle">至少留 2 個工作天</text>
+  <rect x="334" y="374" width="150" height="66" rx="8" fill="#f4f1e8" stroke="#b09c5a"/>
+  <text x="409" y="397" font-size="14" font-weight="bold" fill="#1a1a1a" text-anchor="middle">文件內回應＋收斂</text>
+  <text x="409" y="419" font-size="12" fill="#555555" text-anchor="middle">長討論移入 Open Issues</text>
+  <rect x="496" y="374" width="110" height="66" rx="8" fill="#e9f4ec" stroke="#3d9970"/>
+  <text x="551" y="397" font-size="14" font-weight="bold" fill="#1a1a1a" text-anchor="middle">專注會議</text>
+  <text x="551" y="419" font-size="12" fill="#555555" text-anchor="middle">只解未決議題</text>
+  <rect x="618" y="374" width="82" height="66" rx="8" fill="#eef1f4" stroke="#888888"/>
+  <text x="659" y="397" font-size="14" font-weight="bold" fill="#1a1a1a" text-anchor="middle">上線後</text>
+  <text x="659" y="419" font-size="12" fill="#555555" text-anchor="middle">postmortem</text>
+  <polygon points="180,401 192,395 192,407" fill="#b09c5a"/>
+  <polygon points="322,401 334,395 334,407" fill="#b09c5a"/>
+  <polygon points="484,401 496,395 496,407" fill="#3d9970"/>
+  <polygon points="606,401 618,395 618,407" fill="#888888"/>
+</svg>
