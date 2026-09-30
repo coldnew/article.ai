@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="360" viewBox="0 0 760 360" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="760" height="360" fill="#faf9f5"/>
+  <text x="30" y="34" font-size="17" font-weight="bold" fill="#141413">dots 運作架構：一個你，多個入口，一台雲端電腦</text>
+  <rect x="30" y="55" width="200" height="275" rx="10" fill="#fff" stroke="#e8e6dc"/>
+  <text x="50" y="85" font-size="14" font-weight="bold" fill="#1b365d">你在哪裡</text>
+  <rect x="50" y="98" width="160" height="30" rx="6" fill="#1b365d"/>
+  <text x="130" y="118" font-size="12.5" fill="#fff" text-anchor="middle">ChatGPT 網頁 / 行動 / 桌面</text>
+  <rect x="50" y="134" width="160" height="30" rx="6" fill="#1b365d"/>
+  <text x="130" y="154" font-size="12.5" fill="#fff" text-anchor="middle">簡訊 / Slack / Teams</text>
+  <rect x="50" y="170" width="160" height="30" rx="6" fill="#fff" stroke="#1b365d"/>
+  <text x="130" y="190" font-size="12.5" fill="#1b365d" text-anchor="middle">語音通話（理清事情）</text>
+  <text x="50" y="220" font-size="12" fill="#6b6a64">提問、探索想法、</text>
+  <text x="50" y="238" font-size="12" fill="#6b6a64">引導方向、核准決策</text>
+  <text x="50" y="266" font-size="12" fill="#6b6a64">Pro 可候補 iMessage / RCS</text>
+  <rect x="250" y="55" width="240" height="275" rx="10" fill="#2e2e38" stroke="#2e2e38"/>
+  <text x="270" y="85" font-size="14" font-weight="bold" fill="#ffd9a0">你的 dot（GPT-6 Astra）</text>
+  <rect x="270" y="98" width="200" height="30" rx="6" fill="#ffd9a0"/>
+  <text x="370" y="118" font-size="12.5" fill="#2e2e38" text-anchor="middle">專屬身分＋雲端電腦＋瀏覽器</text>
+  <rect x="270" y="134" width="200" height="30" rx="6" fill="#ffd9a0"/>
+  <text x="370" y="154" font-size="12.5" fill="#2e2e38" text-anchor="middle">寫 code、測試、持續追蹤進度</text>
+  <rect x="270" y="170" width="200" height="30" rx="6" fill="none" stroke="#ffd9a0"/>
+  <text x="370" y="190" font-size="12.5" fill="#ffd9a0" text-anchor="middle">從回饋學習偏好與標準</text>
+  <text x="270" y="220" font-size="12" fill="#d8d5c8">可接新任務、不用多對話管理</text>
+  <text x="270" y="238" font-size="12" fill="#d8d5c8">可授權用你的筆電協作</text>
+  <text x="270" y="266" font-size="12" fill="#ffd9a0">還沒開口，就先把成果交出</text>
+  <rect x="510" y="55" width="220" height="275" rx="10" fill="#fff" stroke="#e8e6dc"/>
+  <text x="530" y="85" font-size="14" font-weight="bold" fill="#1b365d">它能碰到什麼</text>
+  <rect x="530" y="98" width="180" height="30" rx="6" fill="#2e7d4f"/>
+  <text x="620" y="118" font-size="12.5" fill="#fff" text-anchor="middle">外掛生態系 4,000+ App</text>
+  <rect x="530" y="134" width="180" height="30" rx="6" fill="#2e7d4f"/>
+  <text x="620" y="154" font-size="12.5" fill="#fff" text-anchor="middle">已連接 App（唯讀主動研究）</text>
+  <rect x="530" y="170" width="180" height="30" rx="6" fill="#fff" stroke="#2e7d4f"/>
+  <text x="620" y="190" font-size="12.5" fill="#2e7d4f" text-anchor="middle">你的裝置（授權才連接）</text>
+  <text x="530" y="220" font-size="12" fill="#6b6a64">進度回報、提問、請決策</text>
+  <text x="530" y="238" font-size="12" fill="#6b6a64">會主動傳訊息給你</text>
+  <text x="245" y="190" font-size="20" fill="#8a5a2b">→</text>
+  <text x="500" y="190" font-size="20" fill="#8a5a2b">→</text>
+</svg>

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="340" viewBox="0 0 760 340" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="760" height="340" fill="#faf9f5"/>
+  <text x="30" y="34" font-size="17" font-weight="bold" fill="#141413">掌控三層：隔離、權限、審查</text>
+  <rect x="30" y="55" width="220" height="255" rx="10" fill="#fff" stroke="#e8e6dc"/>
+  <text x="50" y="85" font-size="14" font-weight="bold" fill="#1b365d">1. 內建隔離</text>
+  <rect x="50" y="98" width="180" height="30" rx="6" fill="#1b365d"/>
+  <text x="140" y="118" font-size="12.5" fill="#fff" text-anchor="middle">各自獨立雲端電腦</text>
+  <text x="50" y="148" font-size="12" fill="#6b6a64">你的電腦預設隔離，</text>
+  <text x="50" y="166" font-size="12" fill="#6b6a64">授權才連接</text>
+  <text x="50" y="194" font-size="12" fill="#6b6a64">密碼不暴露給模型</text>
+  <text x="50" y="222" font-size="12" fill="#6b6a64">背景主動研究只讀：</text>
+  <text x="50" y="240" font-size="12" fill="#6b6a64">不傳訊息、不改內容、</text>
+  <text x="50" y="258" font-size="12" fill="#6b6a64">不控瀏覽器與電腦</text>
+  <text x="50" y="286" font-size="12" fill="#b3402a">監控到疑慮可暫停 / 停止</text>
+  <rect x="270" y="55" width="220" height="255" rx="10" fill="#fff" stroke="#e8e6dc"/>
+  <text x="290" y="85" font-size="14" font-weight="bold" fill="#1b365d">2. 存取與權限</text>
+  <rect x="290" y="98" width="180" height="30" rx="6" fill="#8a5a2b"/>
+  <text x="380" y="118" font-size="12.5" fill="#fff" text-anchor="middle">你選它能碰哪些 App</text>
+  <text x="290" y="148" font-size="12" fill="#6b6a64">內建規則：何時自行動、</text>
+  <text x="290" y="166" font-size="12" fill="#6b6a64">何時先問你</text>
+  <text x="290" y="194" font-size="12" fill="#6b6a64">自訂規則：允許 / 需核准 /</text>
+  <text x="290" y="212" font-size="12" fill="#6b6a64">封鎖特定操作</text>
+  <text x="290" y="240" font-size="12" fill="#6b6a64">活動檢視追蹤含背景工作</text>
+  <text x="290" y="268" font-size="12" fill="#6b6a64">Business 級內容預設</text>
+  <text x="290" y="286" font-size="12" fill="#6b6a64">不用於訓練模型</text>
+  <rect x="510" y="55" width="220" height="255" rx="10" fill="#fff" stroke="#e8e6dc"/>
+  <text x="530" y="85" font-size="14" font-weight="bold" fill="#1b365d">3. 操作審查</text>
+  <rect x="530" y="98" width="180" height="30" rx="6" fill="#2e7d4f"/>
+  <text x="620" y="118" font-size="12.5" fill="#fff" text-anchor="middle">自動審查對照指示＋規則</text>
+  <text x="530" y="148" font-size="12" fill="#6b6a64">三種結論：繼續 / 需核准 /</text>
+  <text x="530" y="166" font-size="12" fill="#6b6a64">必須你親自做</text>
+  <text x="530" y="194" font-size="12" fill="#6b6a64">影響帳號或分享資訊的</text>
+  <text x="530" y="212" font-size="12" fill="#6b6a64">操作一定先審</text>
+  <text x="530" y="240" font-size="12" fill="#6b6a64">改密碼等敏感任務</text>
+  <text x="530" y="258" font-size="12" fill="#6b6a64">一律本人處理</text>
+  <text x="530" y="286" font-size="12" fill="#b3402a">重大影響工作請務必檢查</text>
+</svg>
