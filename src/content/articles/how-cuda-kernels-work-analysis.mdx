@@ -1,0 +1,140 @@
+---
+title: "CUDA Kernel 是怎麼運作的：一篇新手教學的拆解與查核"
+description: "整理 Outcome School 創辦人 Amit Shekhar《How do CUDA Kernels Work?》（2026-09-29）：向量加法 kernel、3907 個 block 的無條件進位算法、thread 索引公式與 warp/SM 機制，關鍵數字經執行驗算無勘誤；另附最後一個 block 連 divergence 都沒有的加碼驗算，以及課程漏斗上層的利益揭露。"
+publishedAt: 2026-09-30
+topic: "技術"
+sourceType: "article"
+sourceUrl: "https://outcomeschool.com/blog/how-do-cuda-kernels-work"
+authors: ["Amit Shekhar"]
+analyst: "Muse Spark"
+venue: "Outcome School 部落格"
+tags: ["CUDA", "GPU", "平行運算", "LLM 基礎設施"]
+readTime: "10 分鐘"
+evidence: "中"
+featured: false
+sourceCount: 1
+accent: "blue"
+---
+
+## 先說結論
+
+《How do CUDA Kernels Work?》這篇 Outcome School 創辦人 Amit Shekhar 在 2026 年 9 月 29 日發布的新手教學，炒作成分很少：它沒有販賣任何效能數字，老實承認了資料搬運成本、循序依賴與 warp divergence 三個 GPU 失靈條件；成立的部分是硬的——向量加法的完整 kernel 範例、3907 個 block 的無條件進位算法、thread 索引公式與 warp、SM 機制，全部符合標準 CUDA 程式模型，關鍵數字經執行驗算無勘誤。這篇的價值不在新知識，而在把「寫一次、跑一百萬次」的心智模型講到新手能動手；代價是它是一篇課程漏斗上層的免費內容，生產級要素（錯誤檢查、記憶體合併存取、occupancy）全部留白，只能當入門第一課，不能當調校指南。
+
+## 這篇文章真正解決的問題
+
+《How do CUDA Kernels Work?》這篇文章解決的是教學問題，不是技術問題：讓沒碰過 GPU 的開發者，能從 CPU 的對照出發，寫出第一個向量加法 kernel，並且理解每個 thread 怎麼找到屬於自己的那份工作。它預設讀者會 C 語言、懂函式與迴圈，但不懂平行運算【原文明說】。
+
+開頭它就先給出整篇的定義句【原文明說】：CUDA Kernel 是一個跑在 GPU 上的函式，由眾多 threads 同時執行。而全文真正想植入讀者腦中的只有一句話【從原文可直接推出】：**kernel 寫一次、寫給單一 thread 看，GPU 把它跑上百萬次，每個 thread 各做各的那一份。**
+
+## 流程拆解
+
+### 一、為什麼需要 GPU：廚房比喻
+
+《How do CUDA Kernels Work?》這篇文章用剝馬鈴薯開場【原文明說】：CPU 是一位手藝高超但一次只能剝一顆的主廚（4 到 16 核），GPU 是 5000 位手腳較慢但同時開工的幫手（數千個小核心）。一萬顆馬鈴薯，幫手大軍穩贏。而 AI 訓練與推論正是這種活：數百萬個彼此獨立的小乘加運算，就是「剝馬鈴薯」型工作，所以 GPU 上場救援。
+
+但它立刻補上轉折【原文明說】：GPU 不會自己決定要做什麼，得有人寫程式指揮那數千個核心——這就是 CUDA 登場的理由。
+
+### 二、CUDA 與 kernel 的定義
+
+《How do CUDA Kernels Work?》這篇文章把 CUDA 定義為 NVIDIA 打造的通用計算平台，讓人用看似平常的 C、C++、Python 程式碼跑在數千個 GPU 核心上【原文明說】。它還補了一段歷史：CUDA 出現之前，想拿 GPU 做繪圖以外的事，得把資料假裝成圖片騙過 GPU，非常痛苦；CUDA 讓人直接告訴 GPU「資料在這、工作在這、平行去做」。
+
+接著定義 kernel【原文明說】：kernel ＝ 函式＋跑在 GPU 上＋被數千 threads 同時執行。廚房版：不用寫 5000 份不同的指令，只寫一份「拿起一顆馬鈴薯、剝它」，5000 位幫手同時照做，差別只在每人拿的是不同的一顆。
+
+### 三、三層組織：Thread、Block、Grid
+
+數千個 threads 需要編制，否則就是一鍋粥。《How do CUDA Kernels Work?》這篇文章給出三層編制【原文明說】：
+
+- **Thread**：單一工人，跑一次 kernel。
+- **Block**：一組 threads，例如 256 個；同一 block 內的 threads 可以彼此溝通、共享一小塊記憶體。
+- **Grid**：一組 blocks，構成一次 kernel 啟動的全部。
+
+啟動 kernel 時要告訴 CUDA 兩件事：要幾個 blocks、每個 block 幾個 threads。文中註明單一 block 的 thread 上限通常是 1024，所以才需要很多 blocks；block 數量則說「沒有實際上限」，單次啟動可以跑到數百萬 threads【原文明說】。這句要打個注腳：實務上 grid 的 x 維上限是 2 的 31 次方減 1（約 21 億），對新手而言視為無上限是可接受的簡化【合理推斷】。
+
+![Grid、Block、Thread、Warp 四層組織與索引公式](/article.ai/articles/how-cuda-kernels-work-analysis/thread-hierarchy.svg)
+
+<small class="figure-caption">圖一：依《How do CUDA Kernels Work?》重繪的 thread 組織圖。Grid 含 3907 個 blocks；放大 Block 2 可見 256 個座位（16×16），2 號桌 10 號座位對應全域索引 522；每 32 個 threads 一排即一個 warp。</small>
+
+### 四、Host、Device 與六步流程
+
+寫程式碼之前，《How do CUDA Kernels Work?》這篇文章先立兩個名詞【原文明說】：**Host** 是 CPU 加 RAM，**Device** 是 GPU 加 VRAM，兩邊記憶體分離，誰也不能直接讀對方的。因此 CUDA 程式永遠是六步：準備資料（host）→ 在 device 配置記憶體 → 資料從 host 拷到 device → 啟動 kernel → 結果拷回 host → 釋放 device 記憶體。
+
+廚房版：主廚的馬鈴薯在儲藏室，幫手在另一間房，主廚得把馬鈴薯搬過去、等剝完再搬回來——搬運要花時間，這正是後面失靈條件的伏筆。
+
+### 五、第一個 kernel：數字查核
+
+重頭戲是向量加法：`c[i] = a[i] + b[i]`，一百萬個數。CPU 版是一個跑一百萬次的 `for` 迴圈；CUDA 版如下【原文明說】：
+
+```c
+__global__ void add(int n, float *a, float *b, float *c) {
+    int i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i < n) {
+        c[i] = a[i] + b[i];
+    }
+}
+```
+
+要點四個【原文明說】：`__global__` 宣告這是 kernel（由 host 呼叫、在 device 執行）；迴圈消失了，每個 thread 只處理一個 `i`；`if (i < n)` 是安全檢查，擋掉多 launch 的零頭 threads；啟動語法 `<<<blocks, threadsPerBlock>>>` 指定 block 數與每 block 的 thread 數，`d_` 前綴是 device 資料的命名慣例。
+
+block 數的算法是無條件進位：`(n + threadsPerBlock - 1) / threadsPerBlock`。一百萬配每 block 256 threads，得到 3907 個 blocks、共 1,000,192 個 threads，比需求多 192 個——這就是 `if (i < n)` 存在的理由。以下全部經本機執行驗算，無勘誤：
+
+| 文中宣稱 | 驗算式 | 結果 |
+|---|---|---|
+| 需要 3907 個 blocks | `(1000000 + 255) // 256` | 成立 |
+| 共 1,000,192 threads，多 192 個 | `3907 × 256` | 成立 |
+| Block 0 的 Thread 5 負責 `i = 5` | `0 × 256 + 5` | 成立 |
+| Block 1 的 Thread 0 負責 `i = 256` | `1 × 256 + 0` | 成立 |
+| Block 2 的 Thread 10 負責 `i = 522` | `2 × 256 + 10` | 成立 |
+
+完整的六步程式碼（含 `cudaMalloc` 配置、`cudaMemcpy` 指明 `cudaMemcpyHostToDevice` 或 `cudaMemcpyDeviceToHost` 方向、`cudaFree` 釋放）文中一次給齊【原文明說】，並註明 CUDA 程式存成 `.cu` 檔、用 NVIDIA 的 `nvcc` 編譯，host 與 device 程式碼由同一工具鏈處理。
+
+![Host 與 Device 之間的六步流程與 GPU 記憶體三層](/article.ai/articles/how-cuda-kernels-work-analysis/host-device-flow.svg)
+
+<small class="figure-caption">圖二：六步流程（配置、拷貝、啟動、拷回、釋放）加上 GPU 記憶體三層：Registers 每 thread 獨享最快，Shared Memory 每 block 共享，Global Memory 全 threads 可見但最慢。速度差距經執行驗算標為數量級概念，詳見風險節。</small>
+
+### 六、Thread 怎麼找到自己的工作
+
+全文最重要的一行【原文明說】：
+
+```c
+int i = blockIdx.x * blockDim.x + threadIdx.x;
+```
+
+CUDA 給每個 thread 內建定位變數：`threadIdx.x` 是 block 內的座號（0 到 255），`blockIdx.x` 是 grid 內的桌號（0 到 3906），`blockDim.x` 是每桌座位數（256）。全域索引＝桌號×每桌人數＋座號，保證每個 thread 拿到唯一且不重複的 `i`。廚房版：2 號桌 10 號座位的幫手，自己算出 522，去拿 522 號馬鈴薯，不必問任何人。
+
+文中也說明 `.x` 的含義【原文明說】：CUDA 的 thread 與 block 可以排成一維（線）、二維（紙面格子）、三維（立方）；簡單列表用一維，影像與矩陣用二維時就會用到 `.y`，道理相同。
+
+### 七、GPU 內部：SM 與 warp
+
+《How do CUDA Kernels Work?》這篇文章把 GPU 內部拆成兩層【原文明說】：GPU 由許多 **SM（Streaming Multiprocessor）** 組成，每個 SM 是含眾多小核心的大工作單元，現代 GPU 的 SM 數量可破百；kernel 啟動的 3907 個 blocks 不會一次全上，而是由 SM 分批認領、做完再領下一批。SM 內部再把 threads 每 32 個編成一束，叫 **warp**，同一 warp 的 32 個 threads 在同一時刻執行同一道指令——指令取一次、用在 32 個 threads 身上，這就是 CUDA 快的原因。
+
+代價是 **warp divergence**【原文明說】：同一 warp 內若有人走 `if` 的這條路、有人走那條路，warp 得把兩條路輪流跑一遍，速度就掉下來了。所以好的 kernel 盡量讓 threads 做一樣的事。文中說 `if (i < n)` 只在最後一個 block 造成 divergence，實務上不是問題——這句還可以再推進一步：最後一個 block 的有效 threads 是 64 個（1,000,000 − 3906×256，經執行驗算），64 恰好是 32 的倍數，也就是兩個滿編 warp 加六個全空 warp，**連一點 divergence 都沒有**。原文的說法保守但無害，實際情況比它說的還要乾淨。
+
+### 八、記憶體三層與 AI 的連結
+
+Device 記憶體內部還有三層【原文明說】：**Global Memory**（VRAM，24GB 或 80GB，全 threads 可讀寫，`d_a` 們住這裡，又大又慢）、**Shared Memory**（每 SM 一小塊極速記憶體，只給同 block 用，像每桌的白板）、**Registers**（每 thread 獨享最快，變數 `i` 就住這裡）。文中說 global 比 shared 慢「100 倍左右」——這是數量級說法，實際倍率取決於存取模式（有無 coalescing）與架構，當作心智模型可以，拿去估效能不行【合理推斷】。經典技巧是：把一塊資料從 global 搬進 shared，讓同 block 的 threads 反覆用，再寫回去；向量加法每數只用一次所以用不上，但矩陣乘法中同一數字被反覆使用，這招就很關鍵——文中點名自家的 Flash Attention 解讀文正是講這個技巧如何加速 LLM 的注意力層。
+
+連到 AI 的邏輯很直【原文明說】：LLM 就是巨量權重，推論就是輸入與權重反覆相乘相加，本質全是矩陣乘法——完美的剝馬鈴薯問題。寫 PyTorch 的 `torch.matmul(a, b)` 時自己沒寫半行 CUDA，但底層呼叫的是 NVIDIA cuBLAS 現成的高優化 kernel；NVIDIA 的 TensorRT-LLM 則把這些 kernel 做融合與調校，讓 LLM 跑到最快。所以 LLM 每吐一個字，背後都是數千個 CUDA kernels 在 GPU 上接力。
+
+### 九、失靈條件與 CPU、GPU 對照
+
+《How do CUDA Kernels Work?》這篇文章收尾很誠實，kernel 有效的三個前提與四個失靈條件【原文明說】：同一操作作用於大量資料、各份計算彼此獨立、工作量大到值得付搬運費；反之任務太小（搬 10 顆馬鈴薯不值得）、工作循序相依（第 2 步等第 1 步，只能一個 thread 做）、分支太多（divergence 把平行吃掉）、資料塞不進 VRAM（搬運變瓶頸），GPU 都幫不上忙。CPU、GPU 對照表重述如下：
+
+| CPU | GPU |
+|---|---|
+| 少數強核心（4 到 64） | 數千個小核心 |
+| 擅長一次做好一件事 | 擅長把同一件事同時做在大量資料上 |
+| 擅長邏輯、決策、跑作業系統 | 擅長大列表與表格的數學、繪圖、AI |
+| 資料本來就在 RAM，不必搬 | 資料必須拷過去再拷回來 |
+
+## 風險與盲點
+
+第一，簡化之處有三個，皆無傷大雅但值得注記。其一，「CUDA 可用 C、C++、Python 等語言撰寫」——Python 並非原生 CUDA 語言，而是經 CuPy、Numba 等封裝呼叫，新手照字面理解會以為有 `nvcc` 版的 Python【合理推斷】。其二，block 數「沒有實際上限」忽略了 grid 維度上限（x 維約 21 億），實務上同樣可忽略【合理推斷】。其三，SM 數量「可破百」成立（A100 108 個、H100 144 個），warp 固定 32 自 Fermi 架構至今未變，2026 年 9 月發布的這篇沒有時效風險【合理推斷】。
+
+第二，生產級要素整組留白，這是適用邊界：範例沒有錯誤檢查（`cudaGetLastError`）、沒談啟動的非同步語意與同步點（範例能跑是因為 `cudaMemcpy` 自帶同步效果）、沒提記憶體合併存取（coalescing）、occupancy、stream 與 unified memory。照抄這篇只能寫出「會動」的 kernel，寫不出「夠快」的 kernel——它是入門第一課，不是效能調校指南【仍未被支撐的主張：文中沒有、也不該被引申為生產建議】。
+
+第三，利益揭露：作者自介即表明是 Outcome School 創辦人，文中至少三處置入付費 AI 與機器學習課程 CTA，中段插入 YouTube 影片導流，文末再加電子報訂閱與 AI 面試題庫 GitHub 連結，是典型的課程漏斗上層免費內容。但教學內容均為標準 CUDA 程式模型知識，主張強度不受 funnel 位置影響——取捨是：拿它的免費心智模型可以，買課決定請另看課程本身的口碑【合理推斷】。
+
+## 來源
+
+- 《How do CUDA Kernels Work?》，Amit Shekhar，Outcome School 部落格，2026-09-29：`https://outcomeschool.com/blog/how-do-cuda-kernels-work`
+- 數字驗算：本機 `python3 -c` 執行驗算（3907 blocks、1,000,192 threads、多 192、索引範例 5／256／522、末 block 有效 64 threads 恰為兩滿編 warp、grid x 維上限約 21 億），全部無勘誤；另有一處加碼發現詳見第七節。

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+  <defs>
+    <marker id="arr2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#475569"/></marker>
+  </defs>
+  <rect width="1200" height="620" fill="#f8fafc"/>
+  <text x="40" y="44" font-size="24" font-weight="700" fill="#0f172a">Host → Device 六步流程與 GPU 記憶體三層</text>
+  <text x="40" y="70" font-size="14" fill="#64748b">依《How do CUDA Kernels Work?》重繪：兩邊記憶體分離，資料必須搬過去再搬回來</text>
+
+  <!-- Steps -->
+  <g font-size="13" font-weight="600" text-anchor="middle">
+    <rect x="40" y="95" width="160" height="120" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <text x="120" y="125" fill="#1e40af">Step 1</text><text x="120" y="148" font-size="12" font-weight="400" fill="#1e3a8a">準備資料</text><text x="120" y="168" font-size="12" font-weight="400" fill="#1e3a8a">a、b、c 在 host</text><text x="120" y="194" font-size="11" font-weight="700" fill="#1d4ed8">HOST（CPU）</text>
+    <rect x="216" y="95" width="160" height="120" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+    <text x="296" y="125" fill="#5b21b6">Step 2</text><text x="296" y="148" font-size="12" font-weight="400" fill="#4c1d95">cudaMalloc</text><text x="296" y="168" font-size="12" font-weight="400" fill="#4c1d95">在 device 佔位</text><text x="296" y="194" font-size="11" font-weight="700" fill="#6d28d9">DEVICE（GPU）</text>
+    <rect x="392" y="95" width="160" height="120" rx="10" fill="#ffedd5" stroke="#ea580c" stroke-width="2"/>
+    <text x="472" y="125" fill="#9a3412">Step 3</text><text x="472" y="148" font-size="12" font-weight="400" fill="#7c2d12">cudaMemcpy</text><text x="472" y="168" font-size="12" font-weight="400" fill="#7c2d12">Host → Device</text><text x="472" y="194" font-size="11" font-weight="700" fill="#c2410c">搬運（花時間）</text>
+    <rect x="568" y="95" width="160" height="120" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2.5"/>
+    <text x="648" y="125" fill="#166534">Step 4</text><text x="648" y="146" font-size="12" font-weight="400" fill="#14532d">add&lt;&lt;&lt;3907, 256&gt;&gt;&gt;</text><text x="648" y="168" font-size="12" font-weight="400" fill="#14532d">百萬 threads 平行加</text><text x="648" y="194" font-size="11" font-weight="700" fill="#15803d">KERNEL 啟動</text>
+    <rect x="744" y="95" width="160" height="120" rx="10" fill="#ffedd5" stroke="#ea580c" stroke-width="2"/>
+    <text x="824" y="125" fill="#9a3412">Step 5</text><text x="824" y="148" font-size="12" font-weight="400" fill="#7c2d12">cudaMemcpy</text><text x="824" y="168" font-size="12" font-weight="400" fill="#7c2d12">Device → Host</text><text x="824" y="194" font-size="11" font-weight="700" fill="#c2410c">搬運（花時間）</text>
+    <rect x="920" y="95" width="160" height="120" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="2"/>
+    <text x="1000" y="125" fill="#334155">Step 6</text><text x="1000" y="148" font-size="12" font-weight="400" fill="#475569">cudaFree</text><text x="1000" y="168" font-size="12" font-weight="400" fill="#475569">歸還 device 空間</text><text x="1000" y="194" font-size="11" font-weight="700" fill="#475569">收尾</text>
+  </g>
+  <g stroke="#475569" stroke-width="2">
+    <line x1="200" y1="155" x2="214" y2="155" marker-end="url(#arr2)"/>
+    <line x1="376" y1="155" x2="390" y2="155" marker-end="url(#arr2)"/>
+    <line x1="552" y1="155" x2="566" y2="155" marker-end="url(#arr2)"/>
+    <line x1="728" y1="155" x2="742" y2="155" marker-end="url(#arr2)"/>
+    <line x1="904" y1="155" x2="918" y2="155" marker-end="url(#arr2)"/>
+  </g>
+  <text x="40" y="248" font-size="13" fill="#475569">廚房版：主廚把馬鈴薯搬到幫手房間 → 剝完 → 搬回來。搬 10 顆不值得搬，這就是小任務不該上 GPU 的原因。</text>
+
+  <!-- Memory tiers -->
+  <text x="40" y="292" font-size="19" font-weight="700" fill="#0f172a">GPU 記憶體三層：越大越慢</text>
+  <rect x="40" y="308" width="700" height="86" rx="10" fill="#ffffff" stroke="#dc2626" stroke-width="2"/>
+  <text x="60" y="338" font-size="15" font-weight="700" fill="#b91c1c">Global Memory（VRAM，24GB / 80GB）</text>
+  <text x="60" y="362" font-size="13" fill="#475569">全 threads 可讀寫，d_a、d_b、d_c 住這裡；離核心最遠，又大又慢（約慢 100 倍·數量級概念）</text>
+  <rect x="60" y="368" width="660" height="12" rx="6" fill="#fecaca"/><rect x="60" y="368" width="660" height="12" rx="6" fill="#dc2626" opacity="0.85"/>
+  <text x="740" y="376" font-size="12" fill="#b91c1c">相對速度 ■慢</text>
+
+  <rect x="40" y="404" width="520" height="86" rx="10" fill="#ffffff" stroke="#d97706" stroke-width="2"/>
+  <text x="60" y="434" font-size="15" font-weight="700" fill="#92400e">Shared Memory（每 SM 一小塊）</text>
+  <text x="60" y="458" font-size="13" fill="#475569">只給同 block 用——每桌的白板，同桌幫手共用</text>
+  <rect x="60" y="464" width="480" height="12" rx="6" fill="#fde68a"/><rect x="60" y="464" width="300" height="12" rx="6" fill="#d97706" opacity="0.85"/>
+  <text x="580" y="476" font-size="12" fill="#92400e">■中</text>
+
+  <rect x="40" y="500" width="360" height="86" rx="10" fill="#ffffff" stroke="#16a34a" stroke-width="2"/>
+  <text x="60" y="530" font-size="15" font-weight="700" fill="#15803d">Registers（每 thread 獨享）</text>
+  <text x="60" y="554" font-size="13" fill="#475569">最快——每位幫手手上的筆記本（變數 i 住這裡）</text>
+  <rect x="60" y="560" width="320" height="12" rx="6" fill="#bbf7d0"/><rect x="60" y="560" width="120" height="12" rx="6" fill="#16a34a" opacity="0.9"/>
+  <text x="420" y="572" font-size="12" fill="#15803d">■快</text>
+
+  <rect x="780" y="308" width="380" height="278" rx="10" fill="#f0fdf4" stroke="#16a34a"/>
+  <text x="800" y="338" font-size="14" font-weight="700" fill="#15803d">經典技巧：搬一次、用多次</text>
+  <text x="800" y="364" font-size="13" fill="#334155">從 global 搬一塊進 shared，</text>
+  <text x="800" y="386" font-size="13" fill="#334155">同 block 反覆用 shared 算完，</text>
+  <text x="800" y="408" font-size="13" fill="#334155">再寫回 global。</text>
+  <text x="800" y="440" font-size="13" fill="#334155">向量加法每數只用一次 → 用不上；</text>
+  <text x="800" y="462" font-size="13" fill="#334155">矩陣乘法同數反覆用 → 差很大。</text>
+  <text x="800" y="494" font-size="13" fill="#334155">Flash Attention 加速 LLM 注意力層，</text>
+  <text x="800" y="516" font-size="13" fill="#334155">玩的正是這一招。</text>
+  <text x="800" y="556" font-size="12" fill="#64748b">呼應原文連結的 Flash Attention 解讀文。</text>
+
+  <text x="40" y="610" font-size="12" fill="#94a3b8">自繪圖。「慢 100 倍左右」為原文的數量級說法，實際倍率視存取模式與架構而定，詳見分析文風險節。</text>
+</svg>
