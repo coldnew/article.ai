@@ -1,0 +1,153 @@
+---
+title: "Pinterest 的 Ray 落地帳本：KubeRay 裝不上之後的全部髒活"
+description: "整理 Pinterest 工程部落格《Ray Infrastructure at Pinterest》（2024-06-17，六位作者）：聯邦 K8s 裝不上 KubeRay，只好先拿 client-side 頂、再自研 API Gateway 加雙 Controller；可觀測性靠 S3 日誌加自家 Goku 時序庫；安全上用 Envoy 擋 Dashboard、每叢集獨立 CA 做 mTLS；生產數字是每月 5000+ 訓練任務與 batch inference 從 1 小時壓到 15 分鐘——但口徑都是自家場景。"
+publishedAt: 2026-09-30
+topic: "工程組織"
+sourceType: "article"
+sourceUrl: "https://medium.com/pinterest-engineering/ray-infrastructure-at-pinterest-0248efe4fd52"
+authors: ["Chia-Wei Chen", "Raymond Lee", "Alex Wang", "Saurabh Vishwas Joshi", "Karthik Anantha Padmanabhan", "Se Won Jang"]
+analyst: "Muse Spark"
+venue: "Pinterest 工程部落格"
+tags: ["Pinterest", "Ray", "MLOps", "Kubernetes", "GPU", "分散式訓練"]
+readTime: "12 分鐘"
+evidence: "中"
+featured: false
+sourceCount: 3
+accent: "blue"
+---
+
+## 先說結論
+
+《Ray Infrastructure at Pinterest》這篇 2024 年 6 月的官方工程文，炒作成分在於把「自家場景成立」的數字寫得像是 Ray 本身的通用勝利——batch inference 的 4 倍加速只限自家 GPU 推論管線、每月 5000+ 訓練任務是遷移進行中的計數而非全站上線；成立的部分是硬的：它把 Ray 接進聯邦 K8s 大公司的全部髒活攤開來寫，從 client-side 啟動留下的殭屍叢集、自研 API Gateway 加雙 Controller、到每叢集獨立 CA 的 mTLS，是目前公開資料裡最完整的大廠 Ray 落地流程設計文件。想在自家公司推 Ray 的平台團隊，這篇的價值不在數字，在那張「什麼會出錯」的清單。
+
+## 這篇文章真正解決的問題
+
+要先分開兩層問題，因為《Ray Infrastructure at Pinterest》這篇文章本身是系列文的第二集。第一集（Part 1，last-mile data processing）解決的是業務問題：為什麼 Pinterest 需要投資 Ray——ML 訓練最後一哩的資料處理。第二集解決的是另一種問題：把 Ray 接進 Pinterest 這種 web-scale 公司，到底要過多少關。
+
+《Ray Infrastructure at Pinterest》這篇文章開宗明義就劃了這條線【原文明說】：能像 KubeRay 那樣把 Ray 叢集開起來，只是成熟 Ray 基礎設施的一小部分。真正的清單是：log 與 metrics 留存、網路隔離、硬體機型選型、安全、流量設定，外加一堆內部服務整合。換句話說，這篇是寫給「已經決定用 Ray、但卡在落地」的平台團隊看的，不是寫給在選框架的人看的。
+
+InfoQ 的二次報導《Pinterest Modernises Machine Learning Infrastructure with Ray》把同一件事講得更直白：Pinterest 選了一條從零自研中間層的路，而 DoorDash 的 Argil 則是拿 Ray 官方 Helm chart 加 Argo CD 混搭——兩家都把上線時間從數週壓到數天，但 Pinterest 的客製化程度明顯更深，代價也在後面會談到。
+
+## 流程拆解
+
+### 起點：半個人力，一年四站
+
+旅程從 2023 年開始，初始投入小到值得所有平台團隊參考【原文明說】：一位全職工程師，撥 50% 時間，Anyscale 以合作夥伴身分協助原型。四個季度各有一個主題：
+
+- **2023 Q1 原型**：在 Anyscale 協助下啟動，先讓工程師能玩起來。
+- **2023 Q2 Infra MVP**：logging、metrics、UI、CLI 等基本工具到位，之後持續迭代。
+- **2023 Q3 首個生產場景**：重點是接內部 workflow 系統，把服務穩定性拉起來。
+- **2023 Q4 生產就緒**：處理安全疑慮、網路穩定性，並評估搬到 Ray 優化的 K8s 環境。
+
+【合理推斷】這個節奏透露了 Pinterest 的策略：先用最小力氣證明「工程師願意用」，再補平台化的功課，安全與合規壓到最後——跟大多數大公司的順序一致，先求有人用，再求合規。
+
+### 七大挑戰：KubeRay 裝不上是第一張骨牌
+
+《Ray Infrastructure at Pinterest》這篇文章列了七個挑戰，每一個都值得拆開看：
+
+1. **K8s API 權限受限**【原文明說】：Pinterest 跑在 PinCompute（自家聯邦通用 K8s）上，裝不了 KubeRay operator 和它的 CRD。這是整篇的源頭——後面所有自研，都是從「不能用官方輪子」長出來的。
+2. **日誌與指標是 ephemeral 的**【原文明說】：Ray Dashboard 只有叢集活著時能看，但沒人想為了查 log 而養著一座吃 GPU 的閒置叢集。需求很明確：把 Ray workload 的生命週期留下來、能重播。
+3. **指標系統不是 Prometheus/Grafana**【原文明說】：Pinterest 自家時序庫 Goku（OpenTSDB 相容 API）加自家視覺化工具 Statsboard，Ray 的 Prometheus 指標得有人翻譯。
+4. **AAA 規範**【原文明說】：公司規定跑在 K8s 上的服務要用 Envoy 當 service mesh 做認證、授權、稽核。
+5. **多種開發體驗**【原文明說】：Jupyter 互動式、Dev server CLI 都要顧。
+6. **成本與浪費**【原文明說】：閒置 Ray 叢集很貴，需要 GC 政策與成本歸屬。
+7. **離線分析**【原文明說】：所有指標要能倒進 Hive/Parquet 做離線分析，含 GPU 使用率，用來追應用與 infra 的長期穩定度。
+
+【從原文可直接推出】這七條裡，第 1 條決定架構形狀，第 2、3、7 條決定可觀測性形狀，第 4 條決定安全形狀——整篇後續章節就是這張清單的逐題作答。
+
+### 第一代：client-side 啟動與殭屍叢集教訓
+
+受限於裝不上 KubeRay，Pinterest 選了最低阻力路徑【原文明說】：用自家 CRD（包在開源 Kubeflow PyTorchJob 外面的 wrapper），再把 Ray head 跟 worker 的啟動邏輯寫在 client 端，用執行緒池同時送出。示意如下（依《Ray Infrastructure at Pinterest》這篇文章的虛擬碼改寫）：
+
+```python
+def launch_ray_cluster(configs):
+    with ThreadPoolExecutor() as executor:
+        ray_head = executor.submit(launch_ray_head(configs)).result()
+        ray_workers = executor.submit(launch_ray_workers(configs)).result()
+    return check_up_and_running(ray_head, ray_workers)
+```
+
+《Ray Infrastructure at Pinterest》這篇文章對這一版的評價很誠實【原文明說】：client 端執行會被網路錯誤、憑證過期等原因打斷，結果就是 K8s 上留下沒人要的殭屍 Ray 叢集，持續燒錢。結論是：夠讓工程師玩 Ray，但離「能管 Ray 叢集的平台」還很遠。
+
+【合理推斷】這段是全文對讀者最有價值的段落之一，因為它記錄了一個「看起來能動、實際上不能營運」的半成品長什麼樣子——而這正是多數團隊自己踩坑時不會寫出來的部分。
+
+### 第二代：自研 API Gateway 加雙 Controller
+
+第二代把 provisioning 從 client 端搬到 server 端，長出一個使用者與 K8s 之間的中間層【原文明說】，四個元件：
+
+- **API Server**：請求驗證、認證授權，把 K8s 的複雜度藏起來，對之後的 TLS 實作尤其重要。
+- **MySQL**：存 Ray 叢集的狀態，把 API Server 跟 Controller 的資料流解耦；k8s 端 ephemeral 的狀態可以在這裡重播；還能順手倒檔到 Hive 做離線分析。
+- **Ray Cluster Controller**：不斷 poll K8s，管叢集的生命週期——開 head/worker、監狀態、清殭屍。
+- **Ray Job Controller**：管 Job 的生命週期，是送 RayJob 的主要入口；支援多個 Job 共用同一個叢集，免得每個 job 都等一次開叢集。
+
+![Pinterest Ray 基礎設施架構：自研 API Gateway、中間層元件與安全設計](/article.ai/articles/pinterest-ray-infrastructure-analysis/ray-infrastructure-architecture.svg)
+
+<small class="figure-caption">圖一：依《Ray Infrastructure at Pinterest》重繪的架構圖。核心思想是中間層抽象：使用者只打平台 REST API，K8s 細節、可觀測性、安全全部收斂在 Gateway 之內。</small>
+
+《Ray Infrastructure at Pinterest》這篇文章特別強調模組化【原文明說】：自己造 controller 時保留了未來無痛換成 KubeRay 的介面——啟動叢集的方法可以從自家 K8s primitive 抽換成 KubeRay。換句話說，作者群知道自己在造過渡期的輪子，而且是故意把輪胎做成標準尺寸的。
+
+【合理推斷】這個設計決策同時承認兩件事：短期內 PinCompute 的限制不會消失，長期又不想被自研 controller 綁死。MySQL 當外部狀態的做法，就是為了讓「換輪子」時狀態層不用重寫。
+
+### 可觀測性：叢集關掉之後還能查
+
+既然 Dashboard 只在叢集活著時有用，Pinterest 蓋了專屬 UI【原文明說】：metadata、事件、log 全進資料庫或 S3，查歷史不用養活叢集，直接省掉閒置 GPU 的錢。指標鍊是：Ray 的 Prometheus 指標 → 多跑一個 sidecar 轉成 Goku 吃得下的格式 → Statsboard 呈現（把 Grafana 圖翻譯過去），外加 DCGM GPU 指標與 dataloader 指標，幫 ML 工程師定位瓶頸。
+
+Infra 層的指標另有一套【原文明說】：端到端開叢集等待時間、Ray Job 滾動成功率，用來建監控、告警和 SLO/SLA。但注意：文章只說「這些對評估系統效能至關重要」，沒有公布任何一條實際數字——監控的形狀給了，分數沒給（見風險節）。
+
+### 開發、生產與測試介面
+
+三種入口，全部走 ML Platform 的 RESTful API【原文明說】：JupyterHub Pod 內連叢集、Dev server 上用 CLI、Spinner workflow（Airflow 的 PythonOperator 包一層，把 job configuration 譯成 RayJob request 送 MLP Server）。測試分兩層：platform library 擁有者寫 unittest（照 Ray 官方測試建議，用 pytest fixture 在同一個 suite 內盡量重用叢集）；面向完整 regression 的 integration test，定期跑、守關鍵應用的健康度。
+
+【從原文可直接推出】Jupyter 互動式入口不是點綴——後面 Ray Train 的 dev-velocity 論點（建模改完直接丟 dev training run）完全建在這條鏈路上。
+
+### 安全：Shadowray 之後，每叢集一個 CA
+
+《Ray Infrastructure at Pinterest》這篇文章花了整整一節談安全，起因是 Shadowray 攻擊與 CVE-2023-48022【原文明說】：Ray Dashboard API 缺乏認證授權，摸得到 API 就能遠端執行程式碼。Pinterest 的解法分兩路：
+
+- **HTTP**：Ray Dashboard 綁在 localhost，藏在 Envoy 後面走 Pinterest 標準 AAA——人走 OAuth，服務走 mTLS。
+- **gRPC**：開叢集時客製 Ray TLS，每個 Ray 叢集配一組獨立的 CA 私鑰加憑證，CA 與叢集 1:1 綁定。兩步驗證：先在 server 端做 AuthN/AuthZ、只讓該拿到憑證的 Pod 拿到該叢集 CA 簽的憑證；Pod 之間通訊時再檢查憑證是不是預期 CA 簽的。關鍵細節是簽發動作一律在 server 端（MLP Server）做，head 跟 worker Pod 碰不到 CA 私鑰。
+
+背景限制是聯邦 K8s：Pod 可能為硬體可用性被打散到不同 K8s 叢集，`NetworkPolicy` 管不住跨叢集流量，只好自幹【原文明說】。
+
+### 用量與三大場景：數字逐條核對
+
+用量從 2023 Q2 開始統計，Q4 隨著 last-mile 資料處理應用 GA 而激增【原文明說】；同時正在把原生 PyTorch 應用往 Ray 搬，但作者自陳還在早期。三個場景的宣稱，逐條對照如下：
+
+![旅程時間線與三大場景用量數字](/article.ai/articles/pinterest-ray-infrastructure-analysis/ray-journey-usage.svg)
+
+<small class="figure-caption">圖二：2023 四站旅程與三大場景數字。加速比與比例經執行驗算（60÷15＝4.0；96÷8＝12），無勘誤；但所有數字口徑均為 Pinterest 自家生產計數。</small>
+
+| 宣稱（《Ray Infrastructure at Pinterest》明說） | 口徑與驗算 | 定位 |
+|---|---|---|
+| Ray Train 每月 5000+ 訓練任務，異構 CPU/GPU 叢集 | 5000÷30≈167/天；多個推薦模型已遷移、其餘 onboarding 中 | 遷移中的計數，非全站上線 |
+| p4d.24xlarge 的 CPU:GPU 固定 12:1，dataloader 撐不滿 GPU | 96 vCPU÷8 GPU＝12，驗算吻合；解法是 dataloader 外擴到便宜純 CPU 機 | 成立的擴展性論點，但前提是自家 workload 吃 dataloader |
+| Batch inference 從 1 小時壓到 15 分鐘，4 倍 | 60÷15＝4.0，驗算無勘誤；基礎是自家舊 PySpark 實作，三段管線化（預處理、GPU 推論、寫檔）拆到異構節點 | 特定管線的邊際效率，非 Ray 通用加速比 |
+| Batch inference 每月 300+ 任務，3 個生產場景 | 300÷30≈10/天；附帶解鎖 GPU 模型的 feature ablation 工具 | 範圍明確，強度中等 |
+| Ray Serve 讓 hackathon 隊伍幾小時架起開源大模型 | 對照是「沒 Ray 要幾天甚至幾週」；免自幹 RPC、部署管線、服務發現、autoscaling | 軼事證據，非受控基準 |
+
+【仍未被支撐的主張】「把 ML 想法帶到生產從數週變成數天」出現在 InfoQ 報導的轉述裡，《Ray Infrastructure at Pinterest》這篇文章本身沒有給出這個數字的測量方法與樣本，視為轉述層級的主張。
+
+後續追蹤：《Ray Infrastructure at Pinterest》這篇文章末尾預告了 batch inference 深挖、Ray Tune 與特殊挑戰三個方向；而 2025 年 6 月 Pinterest 確實發了續集《Scaling Pinterest ML Infrastructure with Ray》（Ray Data 原生管線、宣稱 ML 迭代 10 倍），那組數字的核實留待另篇，不併入本文結論。
+
+## 風險與盲點
+
+**第一，單一公司自述，上限就是「中」。** 沒有外部複現、沒有對照組實驗（除了 batch inference 那組自家新舊實作對比），所有泛化句都應降級為觀察哨：例如 dataloader 外擴的前提是「dataloader 先成為瓶頸」，compute-bound 的 workload 不適用；4 倍加速的前提是「舊實作沒做管線化」，贏的是自家昨天的程式碼，不是別家的今天。
+
+**第二，總帳沒算。** 省掉的閒置 GPU 錢是後半段，前半段沒攤：API Server、MySQL、雙 Controller 的開發與維運人力，Goku/Statsboard 轉接的長期維護，以及 GC 政策與成本歸屬——《Ray Infrastructure at Pinterest》這篇文章只說「需要」，沒給任何一條實施後的數字。
+
+**第三，自研 controller 是有 authors 自知的技術債。** 作者群在 Lessons Learned 裡自己寫了：未來搬到 ML 專用 K8s 叢集時要接回 KubeRay【原文明說】。在那一天到來之前，KubeRay 上游修的 bug、自研 controller 都要自己背；模組化降低了切換成本，但沒消除持有成本。
+
+**第四，安全方案的營運成本沒談。** 每叢集獨立 CA 聽起來乾淨，但憑證簽發、輪換、撤銷的 on-call 劇本，以及 MLP Server 這個簽發單點的可用性設計，《Ray Infrastructure at Pinterest》這篇文章都沒展開——而這恰恰是自幹 PKI 最常出事的地方。
+
+**第五，SLO 數字缺席。** 監控了 rolling success rate 與開叢集等待時間，卻沒公布任何一條實際值，讀者無法判斷這套 infra 到底穩不穩。這是公司工程文常見的「給形狀、不給分數」。
+
+**第六，實現落差。** 聯邦 K8s 下 Pod 為硬體可用性跨叢集打散，跨區網路抖動對分散式訓練尾延遲的影響沒有量化；硬體機型選型（identifying optimal hardware instances）列在需求裡，但選型方法與結論沒出現在文章中。
+
+**利益揭露**：《Ray Infrastructure at Pinterest》這篇文章的致謝名單裡有 Anyscale 三位工程師——Anyscale 是 Ray 背後的商業公司，也是 Q1 原型的協助方，屬於「賣鏟子的人幫忙寫挖礦心得」的結構，讀數字時應打折；InfoQ 的報導屬二次轉述，DoorDash 對比段落的 10–20 倍等數字出自另一場演講，不可與 Pinterest 的數字混用。
+
+## 來源
+
+- 《Ray Infrastructure at Pinterest》，Pinterest 工程部落格，2024-06-17（十四分鐘長文，系列第二集；Ray Summit 2023 演講的完整版）：https://medium.com/pinterest-engineering/ray-infrastructure-at-pinterest-0248efe4fd52
+- 系列第一集《Last Mile Data Processing with Ray》（業務動機篇）與 Ray Summit 2023 演講 "Last Mile Data Processing for ML Training using Ray"（YouTube 有全文）
+- InfoQ 二次報導《Pinterest Modernises Machine Learning Infrastructure with Ray》（Matt Saunders，2024-08-19，含 DoorDash Argil 對比）：https://www.infoq.com/news/2024/08/pinterest-machine-learning-ray/
+- 續集追蹤（未納入核實）：《Scaling Pinterest ML Infrastructure with Ray》，2025-06-24

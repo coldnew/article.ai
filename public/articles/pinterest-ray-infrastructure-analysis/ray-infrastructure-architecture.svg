@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="660" viewBox="0 0 1200 660" font-family="system-ui, -apple-system, 'Noto Sans TC', 'PingFang TC', sans-serif">
+  <rect x="0" y="0" width="1200" height="660" fill="#f7f5f0"/>
+  <text x="600" y="36" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a1a">Pinterest Ray Infrastructure：自研 API Gateway 架構（自繪）</text>
+  <text x="600" y="60" text-anchor="middle" font-size="13" fill="#666">依據《Ray Infrastructure at Pinterest》重繪；重點是「中間層把 K8s 藏起來」</text>
+
+  <!-- Users -->
+  <g>
+    <rect x="30" y="100" width="200" height="120" rx="10" fill="#e8f0fe" stroke="#1a73e8" stroke-width="2"/>
+    <text x="130" y="126" text-anchor="middle" font-size="15" font-weight="700" fill="#1a73e8">使用者層</text>
+    <text x="130" y="150" text-anchor="middle" font-size="13" fill="#333">JupyterHub Pod</text>
+    <text x="130" y="172" text-anchor="middle" font-size="13" fill="#333">Dev Server CLI</text>
+    <text x="130" y="194" text-anchor="middle" font-size="13" fill="#333">Spinner / Airflow</text>
+  </g>
+
+  <!-- Gateway -->
+  <g>
+    <rect x="290" y="100" width="300" height="300" rx="10" fill="#fff" stroke="#e60023" stroke-width="2.5"/>
+    <text x="440" y="126" text-anchor="middle" font-size="15" font-weight="700" fill="#e60023">API Gateway（自研中間層）</text>
+    <rect x="308" y="140" width="264" height="64" rx="6" fill="#fce8e9"/>
+    <text x="440" y="162" text-anchor="middle" font-size="13" font-weight="700" fill="#333">API Server</text>
+    <text x="440" y="182" text-anchor="middle" font-size="12" fill="#555">請求驗證 · AuthN/AuthZ</text>
+    <rect x="308" y="214" width="264" height="64" rx="6" fill="#fce8e9"/>
+    <text x="440" y="236" text-anchor="middle" font-size="13" font-weight="700" fill="#333">MySQL 外部狀態</text>
+    <text x="440" y="256" text-anchor="middle" font-size="12" fill="#555">叢集事件留存 · 匯出 Hive</text>
+    <rect x="308" y="288" width="126" height="94" rx="6" fill="#fff4e0" stroke="#e8710a" stroke-width="1.5"/>
+    <text x="371" y="312" text-anchor="middle" font-size="12" font-weight="700" fill="#333">Cluster</text>
+    <text x="371" y="330" text-anchor="middle" font-size="12" font-weight="700" fill="#333">Controller</text>
+    <text x="371" y="350" text-anchor="middle" font-size="11" fill="#555">開叢集 · 監控</text>
+    <text x="371" y="366" text-anchor="middle" font-size="11" fill="#555">· 清理殭屍叢集</text>
+    <rect x="446" y="288" width="126" height="94" rx="6" fill="#fff4e0" stroke="#e8710a" stroke-width="1.5"/>
+    <text x="509" y="312" text-anchor="middle" font-size="12" font-weight="700" fill="#333">Job</text>
+    <text x="509" y="330" text-anchor="middle" font-size="12" font-weight="700" fill="#333">Controller</text>
+    <text x="509" y="350" text-anchor="middle" font-size="11" fill="#555">多 Job 共用</text>
+    <text x="509" y="366" text-anchor="middle" font-size="11" fill="#555">同一叢集</text>
+  </g>
+
+  <!-- K8s -->
+  <g>
+    <rect x="650" y="100" width="300" height="300" rx="10" fill="#eef7ee" stroke="#1e8e3e" stroke-width="2.5"/>
+    <text x="800" y="126" text-anchor="middle" font-size="15" font-weight="700" fill="#1e8e3e">PinCompute 聯邦 K8s</text>
+    <text x="800" y="148" text-anchor="middle" font-size="12" fill="#555">裝不上 KubeRay → 包 Kubeflow PyTorchJob 的自家 CRD</text>
+    <rect x="668" y="162" width="264" height="70" rx="6" fill="#d3e3fd"/>
+    <text x="800" y="186" text-anchor="middle" font-size="13" font-weight="700" fill="#333">Ray Head Pod</text>
+    <text x="800" y="208" text-anchor="middle" font-size="12" fill="#555">Dashboard 綁 localhost → Envoy</text>
+    <rect x="668" y="242" width="264" height="70" rx="6" fill="#d3e3fd"/>
+    <text x="800" y="266" text-anchor="middle" font-size="13" font-weight="700" fill="#333">Ray Worker Pods（可跨叢集打散）</text>
+    <text x="800" y="288" text-anchor="middle" font-size="12" fill="#555">gRPC 走每叢集獨立 CA 的 mTLS</text>
+    <rect x="668" y="322" width="264" height="60" rx="6" fill="#f1f3f4"/>
+    <text x="800" y="344" text-anchor="middle" font-size="12" font-weight="700" fill="#333">強制 sidecar：secret · 流量 · log 輪轉</text>
+    <text x="800" y="364" text-anchor="middle" font-size="11" fill="#555">由各團隊集中控管升級</text>
+  </g>
+
+  <!-- arrows -->
+  <g stroke="#555" stroke-width="2" fill="none" marker-end="url(#arr)">
+    <defs>
+      <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+        <path d="M0,0 L8,4 L0,8 Z" fill="#555"/>
+      </marker>
+    </defs>
+    <line x1="230" y1="160" x2="288" y2="160"/>
+    <line x1="590" y1="250" x2="648" y2="250"/>
+  </g>
+  <text x="259" y="150" text-anchor="middle" font-size="11" fill="#555">REST</text>
+
+  <!-- Observability -->
+  <g>
+    <rect x="30" y="440" width="560" height="180" rx="10" fill="#fff" stroke="#9334e6" stroke-width="2"/>
+    <text x="310" y="466" text-anchor="middle" font-size="15" font-weight="700" fill="#9334e6">可觀測性（叢集關掉還能查）</text>
+    <rect x="50" y="480" width="160" height="120" rx="6" fill="#f3e8fd"/>
+    <text x="130" y="504" text-anchor="middle" font-size="13" font-weight="700" fill="#333">自研 UI</text>
+    <text x="130" y="526" text-anchor="middle" font-size="12" fill="#555">即時＋歷史回放</text>
+    <text x="130" y="546" text-anchor="middle" font-size="12" fill="#555">免養閒置 GPU</text>
+    <rect x="222" y="480" width="160" height="120" rx="6" fill="#f3e8fd"/>
+    <text x="302" y="504" text-anchor="middle" font-size="13" font-weight="700" fill="#333">Log → AWS S3</text>
+    <text x="302" y="526" text-anchor="middle" font-size="12" fill="#555">API Server 讀回</text>
+    <text x="302" y="546" text-anchor="middle" font-size="12" fill="#555">UI 呈現</text>
+    <rect x="394" y="480" width="176" height="120" rx="6" fill="#f3e8fd"/>
+    <text x="482" y="504" text-anchor="middle" font-size="13" font-weight="700" fill="#333">Metrics → Goku</text>
+    <text x="482" y="526" text-anchor="middle" font-size="12" fill="#555">sidecar 轉 OpenTSDB 格式</text>
+    <text x="482" y="546" text-anchor="middle" font-size="12" fill="#555">Statsboard＋DCGM GPU 指標</text>
+  </g>
+
+  <!-- Security note -->
+  <g>
+    <rect x="620" y="440" width="550" height="180" rx="10" fill="#fef7e0" stroke="#b06000" stroke-width="2"/>
+    <text x="895" y="466" text-anchor="middle" font-size="15" font-weight="700" fill="#b06000">安全：回應 Shadowray（CVE-2023-48022）</text>
+    <text x="895" y="492" text-anchor="middle" font-size="13" fill="#333">HTTP：Dashboard 藏 Envoy 後，OAuth（人）/ mTLS（服務）</text>
+    <text x="895" y="516" text-anchor="middle" font-size="13" fill="#333">gRPC：每叢集一組獨立 CA，1:1 綁定</text>
+    <text x="895" y="540" text-anchor="middle" font-size="13" fill="#333">leaf 憑證一律由 MLP Server 端簽發</text>
+    <text x="895" y="564" text-anchor="middle" font-size="13" fill="#333">CA 私鑰不上 client（head/worker 拿不到）</text>
+    <text x="895" y="590" text-anchor="middle" font-size="12" fill="#777">聯邦叢集跨區 → NetworkPolicy 不可用，只好自幹</text>
+  </g>
+</svg>

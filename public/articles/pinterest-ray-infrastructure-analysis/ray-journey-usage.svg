@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" font-family="system-ui, -apple-system, 'Noto Sans TC', 'PingFang TC', sans-serif">
+  <rect x="0" y="0" width="1200" height="620" fill="#f7f5f0"/>
+  <text x="600" y="36" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a1a">旅程時間線 × 用量數字（自繪，數字經執行驗算）</text>
+  <text x="600" y="60" text-anchor="middle" font-size="13" fill="#666">起點：2023 年一位全職工程師投入 50% 時間，Anyscale 協助原型</text>
+
+  <!-- timeline -->
+  <line x1="80" y1="170" x2="1120" y2="170" stroke="#999" stroke-width="3"/>
+  <g font-size="13" fill="#333">
+    <g>
+      <circle cx="180" cy="170" r="12" fill="#1a73e8"/>
+      <text x="180" y="130" text-anchor="middle" font-weight="700">2023 Q1</text>
+      <text x="180" y="210" text-anchor="middle">原型啟動</text>
+      <text x="180" y="230" text-anchor="middle" fill="#666">Anyscale 協助</text>
+    </g>
+    <g>
+      <circle cx="440" cy="170" r="12" fill="#1a73e8"/>
+      <text x="440" y="130" text-anchor="middle" font-weight="700">2023 Q2</text>
+      <text x="440" y="210" text-anchor="middle">Infra MVP</text>
+      <text x="440" y="230" text-anchor="middle" fill="#666">logging·metrics·UI·CLI</text>
+    </g>
+    <g>
+      <circle cx="700" cy="170" r="12" fill="#e60023"/>
+      <text x="700" y="130" text-anchor="middle" font-weight="700">2023 Q3</text>
+      <text x="700" y="210" text-anchor="middle">首個生產場景</text>
+      <text x="700" y="230" text-anchor="middle" fill="#666">接 workflow 系統</text>
+    </g>
+    <g>
+      <circle cx="960" cy="170" r="12" fill="#1e8e3e"/>
+      <text x="960" y="130" text-anchor="middle" font-weight="700">2023 Q4</text>
+      <text x="960" y="210" text-anchor="middle">生產就緒＋用量激增</text>
+      <text x="960" y="230" text-anchor="middle" fill="#666">安全·網路·專用 K8s 評估</text>
+    </g>
+  </g>
+
+  <!-- usage cards -->
+  <g>
+    <rect x="60" y="270" width="340" height="300" rx="10" fill="#fff" stroke="#1a73e8" stroke-width="2"/>
+    <text x="230" y="302" text-anchor="middle" font-size="16" font-weight="700" fill="#1a73e8">Ray Train（推薦模型訓練）</text>
+    <text x="230" y="348" text-anchor="middle" font-size="44" font-weight="800" fill="#1a1a1a">5000+</text>
+    <text x="230" y="374" text-anchor="middle" font-size="14" fill="#555">training jobs / 月 ≈ 167 / 天</text>
+    <text x="230" y="404" text-anchor="middle" font-size="13" fill="#333">異構 CPU＋GPU 叢集；p4d.24xlarge</text>
+    <text x="230" y="426" text-anchor="middle" font-size="13" fill="#333">CPU:GPU = 12:1（96÷8，驗算吻合）</text>
+    <text x="230" y="448" text-anchor="middle" font-size="13" fill="#333">dataloader 外擴到便宜 CPU 機，餵飽 GPU</text>
+    <text x="230" y="478" text-anchor="middle" font-size="13" fill="#333">Jupyter 互動式投遞 dev training run</text>
+    <text x="230" y="508" text-anchor="middle" font-size="12" fill="#b06000">口徑：遷移中的計數，非全站上線</text>
+    <text x="230" y="532" text-anchor="middle" font-size="12" fill="#b06000">原生 PyTorch → Ray 仍在早期</text>
+  </g>
+  <g>
+    <rect x="430" y="270" width="340" height="300" rx="10" fill="#fff" stroke="#1e8e3e" stroke-width="2"/>
+    <text x="600" y="302" text-anchor="middle" font-size="16" font-weight="700" fill="#1e8e3e">Batch Inference（取代 PySpark）</text>
+    <text x="600" y="348" text-anchor="middle" font-size="44" font-weight="800" fill="#1a1a1a">4×</text>
+    <text x="600" y="374" text-anchor="middle" font-size="14" fill="#555">1 小時 → 15 分鐘（60÷15＝4，驗算無勘誤）</text>
+    <text x="600" y="404" text-anchor="middle" font-size="13" fill="#333">Ray Data map_batches 重寫；3 個生產場景</text>
+    <text x="600" y="426" text-anchor="middle" font-size="13" fill="#333">300+ jobs / 月 ≈ 10 / 天</text>
+    <text x="600" y="448" text-anchor="middle" font-size="13" fill="#333">預處理·GPU 推論·寫檔三段管線化</text>
+    <text x="600" y="478" text-anchor="middle" font-size="13" fill="#333">解鎖 GPU 模型 feature ablation 工具</text>
+    <text x="600" y="508" text-anchor="middle" font-size="12" fill="#b06000">範圍：自家 GPU 推論管線，非通用加速比</text>
+  </g>
+  <g>
+    <rect x="800" y="270" width="340" height="300" rx="10" fill="#fff" stroke="#9334e6" stroke-width="2"/>
+    <text x="970" y="302" text-anchor="middle" font-size="16" font-weight="700" fill="#9334e6">實驗性負載（Ray Serve）</text>
+    <text x="970" y="348" text-anchor="middle" font-size="40" font-weight="800" fill="#1a1a1a">數小時</text>
+    <text x="970" y="374" text-anchor="middle" font-size="14" fill="#555">架起開源大模型 vs 原本數天～數週</text>
+    <text x="970" y="404" text-anchor="middle" font-size="13" fill="#333">內建路由＋autoscaling，免自幹</text>
+    <text x="970" y="426" text-anchor="middle" font-size="13" fill="#333">RPC Server·部署管線·服務發現</text>
+    <text x="970" y="448" text-anchor="middle" font-size="13" fill="#333">實證：內部 hackathon 真實案例</text>
+    <text x="970" y="478" text-anchor="middle" font-size="13" fill="#333">快速搭評測用模型服務</text>
+    <text x="970" y="508" text-anchor="middle" font-size="12" fill="#b06000">性質：軼事證據，非受控基準</text>
+  </g>
+</svg>
