@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="560" viewBox="0 0 920 560" font-family="-apple-system, 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif">
+  <rect width="920" height="560" fill="#f8fafc"/>
+  <text x="30" y="36" font-size="20" font-weight="bold" fill="#0f172a">Semaglutide vs 等熱量少吃：九項老化功能軌跡對照</text>
+  <text x="30" y="58" font-size="13" fill="#64748b">依《Nature》2026;657:469–476 Fig. 5 縱向結果自繪；對照組隨時間全面衰退為背景</text>
+
+  <!-- header row -->
+  <rect x="30" y="72" width="860" height="34" fill="#0f172a" rx="6"/>
+  <text x="50" y="94" font-size="13" font-weight="bold" fill="#ffffff">功能量測（曠場／高架迷宮／Barnes 迷宮／轉棒／倒掛／跑步機／糖耐量）</text>
+  <text x="640" y="94" font-size="13" font-weight="bold" fill="#ffffff">Semaglutide vs 熱量限制</text>
+
+  <!-- rows: comparable (5) -->
+  <rect x="30" y="112" width="860" height="236" fill="#ffffff" stroke="#e2e8f0" rx="8"/>
+  <text x="50" y="136" font-size="13" font-weight="bold" fill="#0f172a">兩組相當：皆顯著優於對照、守住基線（熱量限制模仿成立處）</text>
+
+  <g font-size="12" fill="#0f172a">
+    <rect x="50" y="146" width="380" height="30" fill="#f0fdf4" stroke="#bbf7d0" rx="5"/>
+    <text x="62" y="165">曠場總活動量（Fig. 5a）</text>
+    <rect x="50" y="180" width="380" height="30" fill="#f0fdf4" stroke="#bbf7d0" rx="5"/>
+    <text x="62" y="199">高架迷宮總活動量（Fig. 5c）</text>
+    <rect x="50" y="214" width="380" height="30" fill="#f0fdf4" stroke="#bbf7d0" rx="5"/>
+    <text x="62" y="233">轉棒協調（Fig. 5f）＋倒掛肌力（Fig. 5g）</text>
+    <rect x="50" y="248" width="380" height="30" fill="#f0fdf4" stroke="#bbf7d0" rx="5"/>
+    <text x="62" y="267">跑步機耐力（Fig. 5h）</text>
+  </g>
+  <g font-size="12" font-weight="bold" fill="#16a34a">
+    <text x="640" y="165">≈ 打平</text>
+    <text x="640" y="199">≈ 打平</text>
+    <text x="640" y="233">≈ 打平（已校正體重）</text>
+    <text x="640" y="267">≈ 打平</text>
+  </g>
+  <text x="50" y="300" font-size="12" fill="#64748b">解讀：GLP-1R 促效確實重現熱量限制的大部分功能效益——「模仿者」稱號成立。</text>
+  <text x="50" y="322" font-size="12" fill="#64748b">但注意進食節律不同：少吃組暴食後長時間斷食，藥物組全天少量進食（食慾抑制），兩組生理狀態並不等同。</text>
+
+  <!-- rows: sema better (3+1) -->
+  <rect x="30" y="336" width="860" height="200" fill="#ffffff" stroke="#e2e8f0" rx="8"/>
+  <text x="50" y="360" font-size="13" font-weight="bold" fill="#0f172a">藥物組更優：不只守住基線、還往上改善（超越少吃處）</text>
+
+  <g font-size="12" fill="#0f172a">
+    <rect x="50" y="370" width="380" height="30" fill="#fef9c3" stroke="#fde047" rx="5"/>
+    <text x="62" y="389">曠場中央區探索時間（Fig. 5b）</text>
+    <rect x="50" y="404" width="380" height="30" fill="#fef9c3" stroke="#fde047" rx="5"/>
+    <text x="62" y="423">Barnes 迷宮空間記憶（Fig. 5e）</text>
+    <rect x="50" y="438" width="380" height="30" fill="#fef9c3" stroke="#fde047" rx="5"/>
+    <text x="62" y="457">糖耐量／血糖控制（Fig. 5i）</text>
+  </g>
+  <g font-size="12" font-weight="bold" fill="#b45309">
+    <text x="640" y="389">藥物組顯著更優</text>
+    <text x="640" y="423">藥物組顯著更優</text>
+    <text x="640" y="457">藥物組顯著更優</text>
+  </g>
+  <text x="50" y="490" font-size="12" fill="#64748b">論文結論措辭：「suggesting effects beyond reduced calorie intake alone」（僅止於 suggest，非因果定論）。</text>
+  <text x="50" y="512" font-size="12" fill="#64748b">分子層呼應：肝臟 RNA-seq（n＝5/組）藥物調控基因與熱量限制特徵高度重疊；NAD+ 上升、sirtuins 誘導、IGF1 下降、Oser1 誘導。</text>
+</svg>
