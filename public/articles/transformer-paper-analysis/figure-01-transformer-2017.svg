@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="600" viewBox="0 0 760 600" font-family="sans-serif">
+  <rect x="0" y="0" width="760" height="600" fill="#ffffff"/>
+  <text x="380" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#111111">Transformer 論文本體：Encoder–Decoder（依論文 Fig.1 與 §3 簡化自繪）</text>
+
+  <!-- Encoder column -->
+  <text x="180" y="60" text-anchor="middle" font-size="15" font-weight="bold" fill="#1d4ed8">Encoder（左）</text>
+  <rect x="60" y="72" width="240" height="34" rx="6" fill="#dbeafe" stroke="#1d4ed8"/>
+  <text x="180" y="94" text-anchor="middle" font-size="13" fill="#111111">輸入 Embeddings ＋ 位置編碼</text>
+
+  <rect x="60" y="116" width="240" height="220" rx="8" fill="#eff6ff" stroke="#1d4ed8" stroke-dasharray="6 4"/>
+  <text x="180" y="136" text-anchor="middle" font-size="12" fill="#1d4ed8">N × 6 層堆疊（d_model = 512）</text>
+  <rect x="80" y="146" width="200" height="34" rx="6" fill="#bfdbfe" stroke="#1d4ed8"/>
+  <text x="180" y="168" text-anchor="middle" font-size="13" fill="#111111">多頭自注意力（h = 8）</text>
+  <rect x="80" y="188" width="200" height="30" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="180" y="208" text-anchor="middle" font-size="13" fill="#111111">Add ＋ Norm</text>
+  <rect x="80" y="226" width="200" height="34" rx="6" fill="#bfdbfe" stroke="#1d4ed8"/>
+  <text x="180" y="248" text-anchor="middle" font-size="13" fill="#111111">前饋網路（d_ff = 2048）</text>
+  <rect x="80" y="268" width="200" height="30" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="180" y="288" text-anchor="middle" font-size="13" fill="#111111">Add ＋ Norm</text>
+  <text x="180" y="322" text-anchor="middle" font-size="12" fill="#1d4ed8">K、V 送往 Decoder 交叉注意力</text>
+
+  <!-- arrow encoder -> decoder -->
+  <line x1="300" y1="310" x2="440" y2="252" stroke="#1d4ed8" stroke-width="2"/>
+  <polygon points="440,252 428,250 432,262" fill="#1d4ed8"/>
+
+  <!-- Decoder column -->
+  <text x="570" y="60" text-anchor="middle" font-size="15" font-weight="bold" fill="#b45309">Decoder（右）</text>
+  <rect x="450" y="72" width="240" height="34" rx="6" fill="#fef3c7" stroke="#b45309"/>
+  <text x="570" y="94" text-anchor="middle" font-size="13" fill="#111111">輸出（右移一位）＋ 位置編碼</text>
+
+  <rect x="450" y="116" width="240" height="300" rx="8" fill="#fffbeb" stroke="#b45309" stroke-dasharray="6 4"/>
+  <text x="570" y="136" text-anchor="middle" font-size="12" fill="#b45309">N × 6 層堆疊</text>
+  <rect x="470" y="146" width="200" height="34" rx="6" fill="#fde68a" stroke="#b45309"/>
+  <text x="570" y="168" text-anchor="middle" font-size="13" fill="#111111">掩碼多頭自注意力</text>
+  <rect x="470" y="188" width="200" height="30" rx="6" fill="#ffffff" stroke="#fcd34d"/>
+  <text x="570" y="208" text-anchor="middle" font-size="13" fill="#111111">Add ＋ Norm</text>
+  <rect x="470" y="226" width="200" height="34" rx="6" fill="#fde68a" stroke="#b45309"/>
+  <text x="570" y="248" text-anchor="middle" font-size="13" fill="#111111">多頭交叉注意力</text>
+  <rect x="470" y="268" width="200" height="30" rx="6" fill="#ffffff" stroke="#fcd34d"/>
+  <text x="570" y="288" text-anchor="middle" font-size="13" fill="#111111">Add ＋ Norm</text>
+  <rect x="470" y="306" width="200" height="34" rx="6" fill="#fde68a" stroke="#b45309"/>
+  <text x="570" y="328" text-anchor="middle" font-size="13" fill="#111111">前饋網路</text>
+  <rect x="470" y="348" width="200" height="30" rx="6" fill="#ffffff" stroke="#fcd34d"/>
+  <text x="570" y="368" text-anchor="middle" font-size="13" fill="#111111">Add ＋ Norm</text>
+  <text x="570" y="404" text-anchor="middle" font-size="12" fill="#b45309">↓</text>
+  <rect x="450" y="412" width="240" height="34" rx="6" fill="#fef3c7" stroke="#b45309"/>
+  <text x="570" y="434" text-anchor="middle" font-size="13" fill="#111111">Linear ＋ Softmax（輸出機率）</text>
+
+  <!-- training cost note -->
+  <rect x="60" y="356" width="240" height="90" rx="8" fill="#f3f4f6" stroke="#9ca3af"/>
+  <text x="180" y="378" text-anchor="middle" font-size="12" font-weight="bold" fill="#111111">訓練成本（論文 §5）</text>
+  <text x="180" y="398" text-anchor="middle" font-size="12" fill="#111111">base 版：約 12 小時</text>
+  <text x="180" y="418" text-anchor="middle" font-size="12" fill="#111111">big 版：8 GPU × 3.5 天</text>
+
+  <!-- task boundary bar -->
+  <rect x="40" y="470" width="680" height="100" rx="8" fill="#fef2f2" stroke="#dc2626"/>
+  <text x="380" y="494" text-anchor="middle" font-size="14" font-weight="bold" fill="#dc2626">2017 年任務邊界（底線：超出此範圍皆為後人接棒）</text>
+  <text x="380" y="518" text-anchor="middle" font-size="13" fill="#111111">WMT 2014 英德翻譯 28.4 BLEU ｜ WMT 2014 英法翻譯 41.8 BLEU ｜ 英語成分句法分析</text>
+  <text x="380" y="542" text-anchor="middle" font-size="13" fill="#111111">沒做聊天、沒做寫碼、沒做畫圖 —— 預訓練、RLHF、DiT 全是後來的事</text>
+</svg>

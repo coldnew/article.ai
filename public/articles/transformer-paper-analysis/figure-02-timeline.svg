@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="600" viewBox="0 0 760 600" font-family="sans-serif">
+  <rect x="0" y="0" width="760" height="600" fill="#ffffff"/>
+  <text x="380" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#111111">九年時間線：從注意力前史到約 18.9 萬引用</text>
+
+  <line x1="120" y1="60" x2="120" y2="560" stroke="#9ca3af" stroke-width="3"/>
+
+  <g font-size="13" fill="#111111">
+    <circle cx="120" cy="85" r="7" fill="#9ca3af"/>
+    <text x="145" y="81" font-weight="bold">2014｜注意力前史</text>
+    <text x="145" y="101">Bahdanau 注意力機制；RNN／CNN＋attention 是當時基線</text>
+
+    <circle cx="120" cy="135" r="7" fill="#1d4ed8"/>
+    <text x="145" y="131" font-weight="bold">2017-06｜arXiv v1（1706.03762）</text>
+    <text x="145" y="151">英德 28.4 ／ 英法 41.8 BLEU；8 GPU 訓 3.5 天；八位作者</text>
+
+    <circle cx="120" cy="185" r="7" fill="#1d4ed8"/>
+    <text x="145" y="181" font-weight="bold">2017-12｜NeurIPS 2017 發表（NIPS 30）</text>
+    <text x="145" y="201">會議版英法為 41.0；海報場被研究者擠爆（NEC 授獎詞）</text>
+
+    <circle cx="120" cy="235" r="7" fill="#059669"/>
+    <text x="145" y="231" font-weight="bold">2018｜BERT（encoder 路線）</text>
+    <text x="145" y="251">Google 把 Transformer 編碼器做成預訓練模型</text>
+
+    <circle cx="120" cy="285" r="7" fill="#059669"/>
+    <text x="145" y="281" font-weight="bold">2020｜GPT-3（decoder 路線）</text>
+    <text x="145" y="301">175B 參數；「Generative Pre-trained Transformer」出圈</text>
+
+    <circle cx="120" cy="335" r="7" fill="#059669"/>
+    <text x="145" y="331" font-weight="bold">2022｜ChatGPT 引爆</text>
+    <text x="145" y="351">Transformer 從論文變成社會事件；八作者陸續離開 Google</text>
+
+    <circle cx="120" cy="385" r="7" fill="#059669"/>
+    <text x="145" y="381" font-weight="bold">2023｜DiT 接進擴散模型</text>
+    <text x="145" y="401">Diffusion Transformer（ICCV 2023）；圖像視頻句的硬背書</text>
+
+    <circle cx="120" cy="435" r="7" fill="#b45309"/>
+    <text x="145" y="431" font-weight="bold">2024-08｜引用破 13.6 萬＋ NEC C&amp;C 賞</text>
+    <text x="145" y="451">授獎詞：「改變了 AI 歷史」；GTC 作者群喊話要更好的架構</text>
+
+    <circle cx="120" cy="485" r="9" fill="#dc2626"/>
+    <text x="145" y="481" font-weight="bold">2026-10｜Semantic Scholar 約 18.9 萬引用（快照）</text>
+    <text x="145" y="501">兩次載入 188,722／189,346；動態計數，轉引請註明時間</text>
+  </g>
+
+  <rect x="40" y="520" width="680" height="56" rx="8" fill="#eff6ff" stroke="#1d4ed8"/>
+  <text x="380" y="543" text-anchor="middle" font-size="13" fill="#111111">讀法：上半是論文自己的功勞，下半是整個領域的接力 —— 「起點之一」的「之一」是關鍵</text>
+  <text x="380" y="562" text-anchor="middle" font-size="12" fill="#6b7280">另有 717 篇預印本標題化用 "All You Need"（arXiv:2512.19700，2025-12）</text>
+</svg>
