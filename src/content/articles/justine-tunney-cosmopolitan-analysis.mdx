@@ -1,0 +1,107 @@
+---
+title: "「一人寫出六系統通用 C 函式庫」？Justine Tunney＋Cosmopolitan＋llamafile 主張逐條核對"
+description: "核對《@bigaiguy》9 月 29 日 19.4 萬瀏覽 X 貼文：Justine Tunney（jart）1984 年生、2011 年註冊 @occupywallst、2012 進 Google 做 TensorBoard、2018 離職，Mozilla MIECO 資助 Cosmo 3.0（2023-10-31）、llamafile（2023-11-29）六系統單檔跑 LLM、Apache 2.0、GPU＋dlopen，幾乎全數有 primary source 支撐；要降級的是「整個本地 AI 運動跑在它上面」（llama.cpp 是 Georgi Gerganov 的、llamafile 是打包層）、「blink」實名 blinkenlights，以及 BBS 發布史等無獨立來源處。"
+publishedAt: 2026-10-01
+topic: "技術"
+sourceType: "article"
+sourceUrl: "https://x.com/bigaiguy/status/2104870694001770977?s=20"
+authors: ["Spencer Baggins（@bigaiguy）"]
+analyst: "Muse Spark"
+venue: "X · Spencer Baggins"
+tags: ["Justine Tunney", "Cosmopolitan Libc", "llamafile", "APE", "Mozilla", "llama.cpp", "單檔執行檔", "本地 LLM", "技術主張核實"]
+readTime: "10 分鐘"
+evidence: "中"
+featured: false
+sourceCount: 8
+accent: "amber"
+---
+
+import XPostCard from '../../components/XPostCard.astro';
+
+## 一句話結論
+
+《@bigaiguy》這則 19.4 萬瀏覽的人物特寫炒作成分集中在最後一段、成立部分佔全文九成：Justine Tunney 的生平（1984 年生、1998 年 14 歲發表軟體、2011 年 7 月註冊 @occupywallst、2012 進 Google、2018 離職）與技術主張（APE 可攜執行檔、六系統單一 binary、MIECO 資助 Cosmo 3.0、2023 年 11 月 29 日 Mozilla 發布 llamafile、Apache 2.0、GPU 與 dlopen 支援、whisperfile）幾乎每一項都能在 justine.lol、Mozilla Hacks、Wikipedia、AI Engineer 人物誌找到 primary source；真正要降級的是三處——「整個本地 AI 運動跑在它上面」把打包層寫成了地基（推理引擎 llama.cpp 是 Georgi Gerganov 的，Mozilla 官方 README 自列 Based on llama.cpp，留言區 @MonkeeSage 已當場糾正）、暱稱與專案名兩處小錯（1999 年的外號是 Google 不是 jart；模擬器實名 blinkenlights 不叫 blink），以及 BBS 發布史、Google SRE 經歷這類無獨立來源的細節。另有一則值得記錄的後設插曲：有人質疑這串病毒式貼文本身就是 AI 寫的。
+
+## 當事人貼文嵌入
+
+以下以本站靜態卡片還原（不用 X widgets.js，離線可見；此處依長文慣例節錄開頭、生平轉折與技術主張段，全文要點在流程拆解中重述；時間、瀏覽、回覆、轉發、喜歡數按頁面順序核對，書籤數 X 本來不顯示、按慣例省略；作者無可確認的認證徽章，按慣例不標；原貼附圖已存檔掛於卡片，解讀見下一節）：
+
+<XPostCard author="Spencer Baggins" handle="@bigaiguy" avatar="/article.ai/articles/justine-tunney-cosmopolitan-analysis/bigaiguy-avatar.jpg" timestamp="9:47 AM · Sep 29, 2026" views="194.5K" replies="83" reposts="659" likes="3.5K" sourceUrl="https://x.com/bigaiguy/status/2104870694001770977?s=20" mediaUrl="/article.ai/articles/justine-tunney-cosmopolitan-analysis/post-photo.webp" mediaAlt="貼文附圖：左側人物肖像照，右側 Justine Tunney Wikipedia 條目截圖">
+<p>A teenager in the United States started publishing software at 14 in 1998, built the entire online infrastructure for the Occupy Wall Street movement in 2011, joined Google as a software engineer, quit in 2018, and then spent five years writing a C library that does something the entire industry said was impossible.</p>
+<p>Then she combined it with llama.cpp and shipped the easiest way on the planet to run a large language model on any computer. Her name is Justine Tunney.</p>
+<p>[…中段依慣例節錄：1984 年生、jart 帳號、2011 年 7 月註冊 @occupywallst 與 occupywallst.org、Google 任職 TensorBoard 與 SRE、2018 離開 Google Brain、Cosmopolitan 一檔跑六系統、Actually Portable Executable、Mozilla MIECO 資助 Cosmo 3.0（2023-10-31）、一個月後發布 llamafile、Mozilla 創新部門 2023-11-29 上線、24,600 stars、Apache 2.0、GPU 與 dlopen 支援、whisperfile、sectorlisp／blink／bestline／redbean…]</p>
+<p>A teenager who shipped software in 1998 grew up to write the C library that the entire local AI movement now runs on top of. She did most of it alone, and most people scrolling AI Twitter cannot name her.</p>
+</XPostCard>
+
+<small class="figure-caption">嵌入｜@bigaiguy 主貼文靜態還原（9:47 AM · Sep 29, 2026，194.5K 瀏覽）。繁體譯文要點：一位美國少女 1998 年 14 歲開始發表軟體、2011 年建起佔領華爾街的線上基礎設施、進 Google 當軟體工程師、2018 年離職、花五年寫出業界說不可能的 C 函式庫，再結合 llama.cpp 交出地球上最簡單的本地 LLM 執行方式；她叫 Justine Tunney。作者自介為 AI／科技愛好者（Dawgpreneurship），非底層系統圈內人。留言區兩則關鍵回覆本文一併納入核對：@russ61 質疑整串是否 AI 所寫；@MonkeeSage 指正 llama.cpp 作者是 Georgi Gerganov、llamafile 只是打包層、多數本地 AI 用戶並不用它。</small>
+
+## 原圖解讀：貼文附圖本身就是證據包
+
+原貼附圖是一張左右拼接的合成圖（已存檔於站內，見上方卡片），左半是人物肖像照（黑白風格、戴眼鏡短髮女子），右半是 Justine Tunney 的 Wikipedia 條目截圖。右半截圖的文字可逐行核對，含金量很高：
+
+- 條目首句【原文明說】：「Justine Alexandra Roberts Tunney (born 1984) is an American software developer and a former activist for Occupy Wall Street」——出生年 1984 與貼文一致，`1984 + 14 = 1998`（已用 `python3 -c` 驗算，自洽）。
+- 「Tunney started publishing software in 1998」後面掛著 `[citation needed]`——連 Wikipedia 都承認這句缺來源，貼文把它寫成開場定調，屬於把弱來源當強事實用，閱讀時要打折。
+- 截圖明寫 1999 年 14 歲時用的暱稱是「Google」（還牽涉一樁 Google 沒打贏的 UDRP 網域官司），而不是貼文說的 jart；jart 是她沿用至今的 GitHub 帳號（本人官網自列 github.com/jart），兩者可能是不同時期的外號，但貼文把 jart 說成「當年就用」的 handle，屬於【仍未被支撐的主張】。
+- 截圖另載：2011 年 7 月註冊 @occupywallst 與 occupywallst.org（「the main online hub for the Occupy movement」）、2012 年進 Google、2014 年 We the People 連署請願事件、2016 年 Operation Rosehub（揪出 2,600 個受弱點函式庫影響的專案）、Redbean 2 被 The Register 稱為「a bunch of almost unbelievably clever tech tricks」——以上皆與貼文骨幹吻合。
+- 值得注意的剪裁：截圖裡的 2014 年請願事件（要求公務員全部優退、請 Eric Schmidt 當美國 CEO）是 Tunney 最具爭議的公職紀錄，貼文隻字未提。人物特寫略去爭議不影響技術主張的真偽，但讀者該知道這是一篇選擇性剪裁過的英雄敘事。
+
+## 這則貼文真正解決的問題
+
+- 《@bigaiguy》解決的是敘事問題：把分散在 justine.lol、Mozilla 官方公告、Wikipedia 的冷門系統程式史，壓成一則適合 AI Twitter 傳播的「無名英雄」故事，訴求是知名度（most people cannot name her），不是技術教學。
+- 被引用的 primary source 們解決的是另一組技術問題：justine.lol 的〈Cosmopolitan Third Edition〉解決「一次編譯、六系統原生執行」；Mozilla Hacks 的〈Introducing llamafile〉解決「LLM 權重＋推理引擎＋runtime 合體成單檔」；Wikipedia 條目解決人物生平查考。
+- 兩者落差正在於此：貼文把「打包與分發問題的解決者」 upsell 成「整個本地 AI 運動的地基」，而 Mozilla 官方文件的自我定位老實得多——llamafile README 自列 Based on llama.cpp 與 Based on whisper.cpp，推理引擎的功勞歸原作者。
+
+## 流程拆解：宣稱對照表
+
+核對基準：justine.lol（本人官網首頁＋〈Cosmopolitan Third Edition〉2023-10-31）、Mozilla Hacks〈Introducing llamafile〉（Stephen Hood，2023-11-29，註明與 MIECO 的 Justine Tunney 合著）、Mozilla Builders 專案頁與 Mozilla.ai 文件、Wikipedia「Justine Tunney」條目、AI Engineer 人物誌（Mozilla 2024 關聯）。日期與星數的加減法一律用 `python3 -c` 驗算，結果寫在表後。
+
+| # | 《@bigaiguy》聲稱 | 查核結果 |
+|---|---|---|
+| 1 | 1984 年生、1998 年 14 歲發表軟體 | 【原文明說】成立一半：1984 見 Wikipedia 條目；1998 那句在條目裡掛著 citation needed，屬弱來源。`1984+14=1998` 自洽，但自洽≠有來源。 |
+| 2 | 當年靠 BBS 與聊天網路發布、讀系統文獻、愛上 C | 【仍未被支撐的主張】：找不到獨立來源；且「BBS 仍是 1998 年軟體分發主流」本身就有時代錯位之嫌（1998 年已有主流網際網路下載站），只能算氣氛描寫。 |
+| 3 | 外號 jart 沿用至今 | 【從原文可直接推出】成立：github.com/jart 為本人官網自列帳號；但「14 歲就用 jart」無來源，當時文獻寫的外號是 Google（見原圖解讀）。 |
+| 4 | 2011 年 7 月註冊 @occupywallst 與網域，成為運動數位骨幹 | 大致成立但要降級：註冊時間與「main online hub」見 Wikipedia；「the entire online infrastructure」「處理捐款與協調」超出可核實範圍，應讀成「在所能查證的註冊與樞紐地位上成立」。 |
+| 5 | 進 Google 做 TensorBoard 與 SRE，待多年，2018 離開 Google Brain | 部分成立：TensorBoard（AI Engineer 人物誌明載她任 technical lead，另有 Nomulus、Bazel、TensorFlow、Operation Rosehub 佐證）與 2018 離職成立；「Google infrastructure 的 site reliability」無獨立來源；「Google Brain」一詞只見她 about.me 自介的舊稱，AI Engineer 寫的是 TensorFlow／TensorBoard 團隊。 |
+| 6 | Cosmopolitan：編譯一次，六系統原生執行，無 VM／直譯器／重編譯 | 【原文明說】成立：本人〈Cosmopolitan Third Edition〉明載 apelink 把 PE＋ELF＋Mach-O＋PKZIP 織進 shell script，3.0 支援 AMD64 六系統（Linux、macOS、Windows、FreeBSD、OpenBSD 7.3、NetBSD）外加 ARM64。「違反 OS 載入假設」的驚嘆修辭基本屬實，這正是 APE polyglot 的技術含金量（見圖一）。 |
+| 7 | 業界說不可能／數學上不可能 | 修辭：fat binary 概念早有先例（如 Apple 的 Universal Binary），APE 的新意是「跨作業系統的可執行檔 polyglot」，不是從零發明可攜性。厲害是真厲害，「不可能」是寫法。 |
+| 8 | 花五年、大多獨力完成 | 【合理推斷】大致成立：2018 離職到 2023 年 llamafile 約五年；但 repo 公開建於 2020-06-15（GitHub API，至今 21,341 stars、ISC 授權），且 3.0 明謝 MIECO 資助、Google 開源 peer bonus 與 Discord 社群貢獻，「mostly alone」宜讀成核心設計一人主導、而非零協助。 |
+| 9 | MIECO 資助 Cosmo 3.0，2023-10-31 發布 | 【原文明說】成立：本人原文親說「Mozilla sponsored our work as part of their MIECO program」，日期吻合。 |
+| 10 | 一個月後發布 llamafile；Mozilla 創新部門 2023-11-29 官方專案 | 【原文明說】成立：Mozilla Hacks 同日刊出〈Introducing llamafile〉，`2023-11-29 − 2023-10-31 = 29 天`（已驗算），「一個月後」精確。repo 建於 2023-09，屬先開發後發布，正常。 |
+| 11 | 免 Python、免 CUDA 設定、雙擊即跑 | 基本成立但有 caveat：Mozilla 文件自承 Windows 需手動加 `.exe`、超過 4GB 的執行檔跑不上 Windows；且 llamafile 會主動用 GPU（Vertices 頁明載 Uses your fancy GPU），「No CUDA setup」真正意思是免手動裝工具鏈，不是跑在純 CPU 上。 |
+| 12 | 24,600 stars | 時點位小幅過時但方向保守：現行爬數為 25,122（＋2.1%）至 25.9K（＋5.3%），貼文數字偏低而非灌水，無炒作問題。 |
+| 13 | Apache 2.0 | 成立，但要補一句：指的是 llamafile 專案；Cosmopolitan 本體是 ISC 授權；對 llama.cpp／whisper.cpp 的修改沿用 MIT 以便上游合併。授權切得很乾淨，Mozilla Hacks 交代過。 |
+| 14 | 補上 GPU 支援與 dlopen | 【原文明說】成立：Mozilla Hacks 原文明載「adding GPU and dlopen() support to Cosmopolitan」，兩件都是真的。 |
+| 15 | whisperfile：單檔版 Whisper | 成立：Mozilla.ai 文件明載 whisperfile 基於 whisper.cpp、同款 Cosmopolitan 打包，做逐字稿與翻譯。 |
+| 16 | sectorlisp／blink／bestline／redbean | 成立三項半：sectorlisp（boot sector 裡的 Lisp，repo 1,525 stars）、bestline、redbean（The Register 2022 年報導六系統單檔伺服器）皆見本人官網；「blink」實名是 blinkenlights（emulates userspace 的 x86-64 視覺化模擬器），貼文寫錯名字。 |
+| 17 | 寫出「整個本地 AI 運動跑在上面的 C 函式庫」 | 炒作句，降級：推理引擎是 Georgi Gerganov 的 llama.cpp（留言區 @MonkeeSage 當場指正；Mozilla README 自列 Based on llama.cpp），Ollama 等並行方案也沒用 Cosmopolitan；llamafile 的功勞是分發層，不是推理層。 |
+
+驗算備忘（`python3 -c` 執行結果）：`1984+14=1998` 自洽；Cosmo 3.0 到 llamafile 發布間隔 29 天；星數漂移 24,600→25,122 為 ＋2.1%、→25.9K 為 ＋5.3%；jart/cosmopolitan 自 2020-06-15 公開至今約 6.3 年。三處皆無勘誤，星數屬正常時點位差。
+
+![APE 可攜執行檔結構：同一份位元組同時是 Windows PE、Linux ELF、macOS Mach-O 與 shell script](/article.ai/articles/justine-tunney-cosmopolitan-analysis/ape-polyglot.svg)
+
+<small class="figure-caption">圖一｜自繪：APE（Actually Portable Executable）polyglot 結構。同一份位元組靠檔頭魔術重疊，同時滿足 PE／ELF／Mach-O／ZIP 解析器與 Bourne shell 語法；Cosmo 3.0 的 apelink 再把 AMD64＋ARM64 胖二進位織入。依據為 justine.lol〈Cosmopolitan Third Edition〉對 apelink 的描述。</small>
+
+![Justine Tunney 1998–2026 時間線：發表軟體、佔領華爾街、Google、Cosmopolitan、llamafile](/article.ai/articles/justine-tunney-cosmopolitan-analysis/timeline.svg)
+
+<small class="figure-caption">圖二｜自繪：事件時間線。1984 出生、1998 發表軟體（弱來源，Wikipedia 掛 citation needed）、2011-07 @occupywallst、2012 進 Google、2014 請願事件（貼文略去）、2016 Rosehub、2018 離職、2020-06 Cosmopolitan repo 公開、2023-10-31 Cosmo 3.0、2023-11-29 llamafile。星號表貼文未提及。</small>
+
+## 風險與盲點
+
+- **單一敘事者風險**：作者自介是 AI／科技愛好者（Dawgpreneurship），非底層系統圈內人；全文無一處連向 primary source，讀者只能選擇相信他的轉述。好在每條硬主張都追得到出處（本文已代勞），屬於「轉述品質意外地好」的病毒串。
+- **Wikipedia 可編輯性**：生平段高度依賴 Wikipedia，而 1998 發表軟體一句連 Wikipedia 自己都標 citation needed；中學時期的 BBS 細節建議視為故事包裝。
+- **選擇性剪裁**：2014 年 We the People 請願（公務員優退、請 Eric Schmidt 當美國 CEO）是人物最具爭議的一頁，貼文略去不提。知道這段，不影響 APE 與 llamafile 的技術評價，但能避免把「無名英雄」讀成「完人」。
+- **資助方敘事折扣**：MIECO 資助＋Mozilla 官方公告屬於資助方自述；「easiest way on the planet」「10x faster prompt eval」（Phoronix 轉述 llamafile 0.7 AVX-512）這類最高級，宜讀成「在所測 CPU／場景成立」。
+- **技術適用邊界**：llamafile 不是萬靈丹——Windows 有 4GB 上限與手動加 `.exe` 步驟；macOS 跑 APE 需 loader；追求極致吞吐仍是原生 CUDA 版 llama.cpp 的場子；repo 已從 mozilla-ai 更名搬遷至 Mozilla-Ocho，舊連結會轉址，收藏時認準新位置。
+- **後設插曲**：@russ61 在留言區問「這串該不該標 AI 所寫」。無論真假，它點出病毒式人物特寫的正確讀法：感動可以，把每條主張當待核清單、用 primary source 逐條打勾——正是本文的做法。
+- **利益揭露**：作者無課程、售書或返佣連結；資助鏈（Mozilla MIECO、GitHub Sponsors、Patreon、Google peer bonus）皆為公開資訊，無隱藏金流。但 Pure Claire 的一面是：這篇特寫本質是免費的注意力捐贈，受益者是 Mozilla Builders 的敘事，讀者知道就好。
+
+## 來源
+
+- 《@bigaiguy》主貼文（2026-09-29，194.5K 瀏覽）與附圖內 Wikipedia 截圖：https://x.com/bigaiguy/status/2104870694001770977
+- Justine Tunney 個人官網（專案列表：llamafile／APE／cosmopolitan／redbean／blinkenlights／bestline／sectorlisp…）：https://justine.lol/
+- Justine Tunney〈Cosmopolitan Third Edition〉（2023-10-31，MIECO 資助、apelink、六系統＋雙架構）：https://justine.lol/cosmo3/
+- Stephen Hood〈Introducing llamafile〉，Mozilla Hacks（2023-11-29，MIECO 合著、GPU＋dlopen、Apache 2.0）：https://hacks.mozilla.org/2023/11/introducing-llamafile
+- llamafile 官方文件（whisperfile、Windows 4GB 上限、Based on llama.cpp／whisper.cpp）：https://docs.mozilla.ai/llamafile
+- Mozilla Builders 專案頁（貢獻者 Justine Tunney、25.9K stars）：https://builders.mozilla.org/project/llamafile
+- Wikipedia「Justine Tunney」條目（1984、1998〔citation needed〕、2011-07 occupywallst、2012 Google、Cosmo 3.0、llamafile）：https://en.wikipedia.org/wiki/Justine_Tunney
+- AI Engineer 人物誌（TensorBoard tech lead、Rosehub、2018 離職、tinyBLAS）：https://ai.engineer/speakers/justine-tunney
