@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 430" font-family="sans-serif">
+  <title>替代索引兩步查詢與上下兩層架構</title>
+  <defs>
+    <marker id="b2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L9,3 L0,6 Z" fill="#555"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="880" height="430" rx="12" fill="#fafafa"/>
+  <text x="30" y="34" font-size="20" font-weight="bold" fill="#222">替代索引失同步 ＋ 兩層架構</text>
+
+  <!-- Left: alternate index -->
+  <text x="30" y="66" font-size="15" font-weight="bold" fill="#2f6fb2">左：替代鍵查詢退化為兩步，且可能過期</text>
+  <g>
+    <rect x="30" y="80" width="200" height="90" rx="8" fill="#f3e8fd" stroke="#7a3fb5" stroke-width="2"/>
+    <text x="46" y="106" font-size="13" font-weight="bold" fill="#7a3fb5">替代索引範圍</text>
+    <text x="46" y="128" font-size="12" fill="#444">信用卡號 → 實體鍵</text>
+    <text x="46" y="148" font-size="12" fill="#444">（不同交易範圍）</text>
+    <rect x="30" y="190" width="200" height="90" rx="8" fill="#e8f1fb" stroke="#2f6fb2" stroke-width="2"/>
+    <text x="46" y="216" font-size="13" font-weight="bold" fill="#2f6fb2">實體本體範圍</text>
+    <text x="46" y="238" font-size="12" fill="#444">實體鍵 → 客戶資料</text>
+    <text x="46" y="258" font-size="12" fill="#444">（原子更新只到這裡）</text>
+    <line x1="130" y1="170" x2="130" y2="188" stroke="#555" stroke-width="2" marker-end="url(#b2)"/>
+    <text x="142" y="184" font-size="12" fill="#222">第 1 步：查鍵</text>
+    <line x1="230" y1="235" x2="330" y2="235" stroke="#555" stroke-width="2" marker-end="url(#b2)"/>
+    <text x="238" y="227" font-size="12" fill="#222">第 2 步：取實體</text>
+    <rect x="332" y="200" width="130" height="70" rx="8" fill="#ffffff" stroke="#999"/>
+    <text x="344" y="226" font-size="12" fill="#222">讀到的值</text>
+    <text x="344" y="246" font-size="12" font-weight="bold" fill="#c0392b">可能已過期</text>
+  </g>
+  <text x="30" y="300" font-size="12" fill="#666">不能原子同更實體＋替代索引；索引改由應用以非同步訊息手動維護。</text>
+
+  <!-- Right: two layers -->
+  <text x="500" y="66" font-size="15" font-weight="bold" fill="#2e7d46">右：應用的上下兩層</text>
+  <g>
+    <rect x="500" y="80" width="350" height="110" rx="8" fill="#e9f6ec" stroke="#2e7d46" stroke-width="2"/>
+    <text x="516" y="106" font-size="13" font-weight="bold" fill="#2e7d46">上層：規模無感知業務邏輯</text>
+    <text x="516" y="128" font-size="12" fill="#444">只認實體鍵，不問機器位置</text>
+    <text x="516" y="148" font-size="12" fill="#444">寫冪等 handler，接受亂序重送</text>
+    <text x="516" y="168" font-size="12" fill="#444">把替代索引當可能過期來讀</text>
+    <rect x="500" y="200" width="350" height="100" rx="8" fill="#fff3df" stroke="#b3541e" stroke-width="2"/>
+    <text x="516" y="226" font-size="13" font-weight="bold" fill="#b3541e">下層：規模感知映射層</text>
+    <text x="516" y="248" font-size="12" fill="#444">實體鍵 → 機器位置追蹤</text>
+    <text x="516" y="268" font-size="12" fill="#444">重分區搬實體、訊息跟著追</text>
+    <text x="516" y="288" font-size="12" fill="#444">至少一次投遞、交易式入隊</text>
+    <line x1="675" y1="190" x2="675" y2="198" stroke="#555" stroke-width="2" marker-end="url(#b2)"/>
+    <text x="688" y="198" font-size="11" fill="#555">提供抽象</text>
+  </g>
+
+  <g>
+    <rect x="30" y="322" width="820" height="80" rx="8" fill="#ffffff" stroke="#999"/>
+    <text x="46" y="348" font-size="13" fill="#222">作者預言：幾年內會出現管理這類應用的新中介軟體／平台（類比 1970 年代 TP-monitor）。</text>
+    <text x="46" y="370" font-size="12" fill="#666">回看：應驗在容器編排與 Serverless 等部署層，而非實體編程框架——預言的方向對、落點偏了，詳見本文風險節。</text>
+    <text x="46" y="390" font-size="12" fill="#666">依 2007 年 CIDR 版第 1–2 節繪製；2016 年 Queue 版另有 Figure 4 示意主／替代索引分屬不同範圍。</text>
+  </g>
+</svg>
