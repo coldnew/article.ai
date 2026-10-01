@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="540" viewBox="0 0 860 540" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="860" height="540" fill="#eff6ff" rx="12"/>
+  <text x="430" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#1e3a8a">job-search repo 索引地圖：4 串 17＋ 篇</text>
+  <text x="430" y="60" text-anchor="middle" font-size="13" fill="#3730a3">星號（＊）為缺號，藏於各串未展開的 Show more；圓圈數字為已知瀏覽量</text>
+
+  <!-- index post -->
+  <rect x="280" y="80" width="300" height="86" fill="#1e3a8a" rx="10"/>
+  <text x="430" y="106" text-anchor="middle" font-weight="700" fill="#ffffff" font-size="15">索引主貼 1/3（置頂）</text>
+  <text x="430" y="128" text-anchor="middle" font-size="12" fill="#bfdbfe">2026-10-01 ・ 20K 瀏覽 ・ 書籤 690</text>
+  <text x="430" y="146" text-anchor="middle" font-size="12" fill="#bfdbfe">Grok 協助彙整 ・ 持續更新</text>
+
+  <line x1="350" y1="166" x2="350" y2="200" stroke="#1e3a8a" stroke-width="2"/>
+  <line x1="510" y1="166" x2="510" y2="200" stroke="#1e3a8a" stroke-width="2"/>
+  <line x1="180" y1="166" x2="180" y2="200" stroke="#1e3a8a" stroke-width="2"/>
+  <line x1="680" y1="166" x2="680" y2="200" stroke="#1e3a8a" stroke-width="2"/>
+
+  <g font-size="12">
+    <!-- col 1: main list 3 -->
+    <rect x="60" y="200" width="240" height="150" fill="#ffffff" stroke="#1e3a8a" stroke-width="1.5" rx="8"/>
+    <text x="180" y="224" text-anchor="middle" font-weight="700" fill="#1e3a8a" font-size="14">1/3 求職基本功</text>
+    <text x="76" y="246" fill="#1c1917">・意向求職 ＞ 數字遊戲</text>
+    <text x="76" y="264" fill="#1c1917">・別只投：讓適配顯而易見</text>
+    <text x="76" y="282" font-weight="700" fill="#1c1917">・履歷篩選實況 ★</text>
+    <text x="76" y="300" fill="#3730a3">2026-01-10 ・ 60.8K 瀏覽</text>
+    <text x="76" y="318" fill="#3730a3">全場最高＝主貼 3.04 倍</text>
+    <text x="76" y="336" fill="#78716c">＋ Topmate 自介（10 年資歷）</text>
+
+    <!-- col 2: opportunities -->
+    <rect x="310" y="200" width="240" height="150" fill="#ffffff" stroke="#3730a3" stroke-width="1.5" rx="8"/>
+    <text x="430" y="224" text-anchor="middle" font-weight="700" fill="#3730a3" font-size="14">2/3 找機會</text>
+    <text x="326" y="246" fill="#1c1917">1 被低估的免費建議</text>
+    <text x="326" y="264" fill="#1c1917">2 Boolean＋快訊＋招募信</text>
+    <text x="326" y="282" fill="#1c1917">3 瞄準 inbound 機會</text>
+    <text x="326" y="300" fill="#1c1917">4 讀 JD，別亂投 onsite</text>
+    <text x="326" y="318" fill="#78716c">＊5–7 藏於 Show more</text>
+    <text x="326" y="336" fill="#78716c">hiring drive 回歸觀察</text>
+
+    <!-- col 3 row1: interviews -->
+    <rect x="560" y="200" width="240" height="150" fill="#ffffff" stroke="#6d28d9" stroke-width="1.5" rx="8"/>
+    <text x="680" y="224" text-anchor="middle" font-weight="700" fill="#6d28d9" font-size="14">3/3 面試</text>
+    <text x="576" y="246" fill="#1c1917">8 早期面談比想像重要</text>
+    <text x="576" y="264" fill="#1c1917">9 常見後端面試題</text>
+    <text x="576" y="282" fill="#1c1917">10 DoorDash 後端指南</text>
+    <text x="576" y="300" fill="#78716c">＊11–15 藏於 Show more</text>
+    <text x="576" y="318" fill="#b45309">⚠ 限該公司場景</text>
+    <text x="576" y="336" fill="#78716c">2026-01-05 後端舊版指南</text>
+  </g>
+
+  <!-- AI thread full width -->
+  <line x1="430" y1="350" x2="430" y2="376" stroke="#1e3a8a" stroke-width="2"/>
+  <rect x="60" y="376" width="740" height="120" fill="#fffbeb" stroke="#b45309" stroke-width="1.5" rx="8"/>
+  <text x="430" y="400" text-anchor="middle" font-weight="700" fill="#92400e" font-size="14">4/4 AI 與求職（最新・爭議最多）</text>
+  <text x="76" y="422" font-size="12" fill="#1c1917">16 職涯 AI SEO／GEO：LinkedIn Recruiter 高級版＋prompt 篩選 → 公開檔案要可被 AI 發現（方向成立）</text>
+  <text x="76" y="440" font-size="12" fill="#1c1917">Hiring Assistant 早期採用者：少看 81% 履歷、InMail 接受率 ＋66%（廠商系口徑，打折引用）</text>
+  <text x="76" y="458" font-size="12" fill="#1c1917">17 別全自動 AI 海投（觸發平台風控）＋ @prerak_011 反駁：別為 10 秒優化，寫段真話也可能是解</text>
+  <text x="76" y="478" font-size="12" fill="#78716c">2026-09-30 ・ 8,512 瀏覽 ・ @mkanapaka 追問 GEO 含義 ・ @aryancodes_tech 呼應 distribution 即護城河</text>
+
+  <text x="60" y="520" font-size="12" fill="#78716c">策展本質：索引串不提供新證據，價值在組裝＋置頂＋續更；evidence 上限「中」（單一招募者＋官方自述視角）。</text>
+</svg>

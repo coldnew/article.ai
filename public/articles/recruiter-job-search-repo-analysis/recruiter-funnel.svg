@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="560" viewBox="0 0 860 560" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="860" height="560" fill="#eff6ff" rx="12"/>
+  <text x="430" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#1e3a8a">招募漏斗：Akash 10 條的落點</text>
+  <text x="430" y="60" text-anchor="middle" font-size="13" fill="#3730a3">從招募桌另一側重畫求職流程 — 括號內為履歷 10 條對應編號</text>
+
+  <!-- funnel stages -->
+  <g font-size="14">
+    <!-- stage 1 -->
+    <polygon points="60,90 340,90 310,170 90,170" fill="#1e3a8a"/>
+    <text x="200" y="120" text-anchor="middle" font-weight="700" fill="#ffffff">ATS 機器先擋（第 8 條）</text>
+    <text x="200" y="142" text-anchor="middle" font-size="12" fill="#bfdbfe">關鍵字・格式・可讀性</text>
+    <text x="200" y="158" text-anchor="middle" font-size="12" fill="#bfdbfe">缺一檔即到不了人類</text>
+
+    <!-- stage 2 -->
+    <polygon points="90,180 310,180 285,260 115,260" fill="#3730a3"/>
+    <text x="200" y="210" text-anchor="middle" font-weight="700" fill="#ffffff">6–10 秒掃描（第 1 條）</text>
+    <text x="200" y="232" text-anchor="middle" font-size="12" fill="#ddd6fe">只看：適配・級別・清晰度</text>
+    <text x="200" y="248" text-anchor="middle" font-size="12" fill="#ddd6fe">不顯眼 → 下一份</text>
+
+    <!-- stage 3 -->
+    <polygon points="115,270 285,270 265,350 135,350" fill="#6d28d9"/>
+    <text x="200" y="300" text-anchor="middle" font-weight="700" fill="#ffffff">權重分配（2・3・4 條）</text>
+    <text x="200" y="322" text-anchor="middle" font-size="12" fill="#ede9fe">近 1–2 份工作最重</text>
+    <text x="200" y="338" text-anchor="middle" font-size="12" fill="#ede9fe">影響力 ＞ 工具名</text>
+
+    <!-- stage 4 -->
+    <polygon points="135,360 265,360 250,440 150,440" fill="#9333ea"/>
+    <text x="200" y="390" text-anchor="middle" font-weight="700" fill="#ffffff">級別推斷（4・5・6 條）</text>
+    <text x="200" y="412" text-anchor="middle" font-size="12" fill="#f5d0fe">scope・決策・規模・帶人</text>
+    <text x="200" y="428" text-anchor="middle" font-size="12" fill="#f5d0fe">品牌只換第一眼</text>
+  </g>
+
+  <!-- side notes right -->
+  <g font-size="13">
+    <rect x="380" y="90" width="420" height="118" fill="#ffffff" stroke="#1e3a8a" stroke-width="1.5" rx="8"/>
+    <text x="396" y="114" font-weight="700" fill="#1e3a8a">過關術：說故事（第 7 條）</text>
+    <text x="396" y="134" fill="#1c1917">壞 bullet：像 JD 職責描述、無結果、無脈絡</text>
+    <text x="396" y="152" fill="#1c1917">好 bullet：回答「解決什麼問題、為何重要」</text>
+    <text x="396" y="170" fill="#1c1917">例：降延遲 35%、日扛千萬請求（第 3 條）</text>
+    <text x="396" y="188" fill="#1c1917">格式越簡單越好（第 8 條）</text>
+
+    <rect x="380" y="220" width="420" height="118" fill="#ffffff" stroke="#3730a3" stroke-width="1.5" rx="8"/>
+    <text x="396" y="244" font-weight="700" fill="#3730a3">內推的真相（第 9 條）</text>
+    <text x="396" y="264" fill="#1c1917">好內推：有脈絡＋強背書 → 跳過海量</text>
+    <text x="396" y="282" fill="#1c1917">壞內推：「幫忙內推我朋友」→ 無效</text>
+    <text x="396" y="300" fill="#1c1917">內推跳過的是量，不是標準</text>
+    <text x="396" y="318" fill="#1c1917">作者自介另提供轉介（referrals when I can）</text>
+
+    <rect x="380" y="350" width="420" height="140" fill="#fffbeb" stroke="#b45309" stroke-width="1.5" rx="8"/>
+    <text x="396" y="374" font-weight="700" fill="#92400e">被拒≠你不行（第 10 條）</text>
+    <text x="396" y="394" fill="#1c1917">HM 要特定領域／預算變／職缺凍結／</text>
+    <text x="396" y="412" fill="#1c1917">已有內定人選 — 好履歷天天被拒</text>
+    <text x="396" y="430" font-weight="700" fill="#92400e">作者自承：篩選無統一標準</text>
+    <text x="396" y="448" fill="#1c1917">Early Batch：千人投先審到湊滿即停，</text>
+    <text x="396" y="466" fill="#1c1917">依公司／急迫度／工具而異</text>
+  </g>
+
+  <text x="60" y="484" font-size="13" font-weight="700" fill="#1e3a8a">下一關（面試串 8–10）：</text>
+  <text x="60" y="504" font-size="12" fill="#1c1917">早期招募面談比想像重要 → 常見後端題 → DoorDash 後端面試指南（限該公司場景，泛化降級）</text>
+  <text x="60" y="524" font-size="12" fill="#78716c">依據：《@akkiex007》2026-01-10 履歷 10 條（60.8K 瀏覽）＋ 4 種篩選法補充回覆；6–10 秒無出處，引用請補「據作者轉述」。</text>
+</svg>
