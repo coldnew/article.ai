@@ -8,11 +8,11 @@ sourceUrl: "https://x.com/tuakdotsol/status/2105105417760391258?s=20"
 authors: ["marianne（@tuakdotsol）"]
 analyst: "Muse Spark"
 venue: "X · marianne"
-tags: ["Gale-Shapley", "FirstDate", "新加坡", "GovTech", "穩定婚姻", "諾貝爾經濟學獎", "技術主張核實"]
-readTime: "9 分鐘"
+tags: ["Gale-Shapley", "FirstDate", "新加坡", "GovTech", "穩定婚姻", "諾貝爾經濟學獎", "Alvin Roth", "市場設計", "技術主張核實"]
+readTime: "12 分鐘"
 evidence: "中"
 featured: false
-sourceCount: 7
+sourceCount: 12
 accent: "green"
 ---
 
@@ -84,6 +84,53 @@ import XPostCard from '../../components/XPostCard.astro';
 
 背景脈絡補充（【從原文可直接推出】）：FirstDate 不是橫空出世。GovTech 2026 年 4 月就為「Firstdate」概念做過 CrowdTask 問卷（10 分鐘問卷、免費首餐、Singpass 防 catfish），當時官方口徑還是「非常早期的探索、什麼都沒定」；BBC 報導把試點放在總理 8 月催生配套與歷史新低生育率下解讀，而早在 1984 年新加坡就設過 Social Development Unit 當紅娘。這是國家當紅娘的第四十年，不是第一天。
 
+## 深挖：演算法本體的五件事（應要求加寫）
+
+主文是核貼文；這一節是應要求往下鑽——把 Gale–Shapley 從「諾貝爾名詞」還原成可操作的機制。以下每條都標注來源等級，數字全部執行驗算過。
+
+### 1. 1962 年論文的主角是招生，不是結婚
+
+【原文明說】據 RAND 預印本 P-2240 與 Wikipedia 對該論文的整理：Gale 與 Shapley 處理的是 college admissions——多所學院各有招生名額（quota），學生與學院雙方排序；「穩定婚姻」只是人數相等、一對一的特例。原論文開宗明義就涵蓋名額制與不完整名單：名單之外的人，等同「寧可落單也不配」。
+
+【從原文可直接推出】FirstDate 面對的「男女不等、有人落單、有人只想排前幾名」根本是 1962 年處理過的一般情形，不是例外。把 GS 講成一對一相親演算法，是拿特例當本體；真實部署反而離論文的一般形式更近。
+
+### 2. 複雜度：平方級，但相對輸入是線性
+
+【從原文可直接推出】據 Wikipedia 引述 Kleinberg–Tardos《Algorithm Design》的實作分析：每人最多出價 n 次，總出價量級為 n 的平方；但輸入本身就是兩份 n×n 偏好矩陣，所以相對輸入規模它是線性時間——讀完名單的同時大致就配完了。
+
+玩具驗算佐證：下文 n=4 的隨機實例只用了 6 次出價（上限 16）。換算到 FirstDate：池子就算上萬人，平方級仍是小菜；配對真正的瓶頸永遠是問卷填答率與池子規模，不是演算法。
+
+### 3. 誰能靠說謊獲利：提議方老實、接收方可動手腳、兩全其美不存在
+
+這是整套理論對 FirstDate 最有殺傷力的部分，分三層：
+
+- 提議方說真話是優勢策略。【從原文可直接推出】據 Wikipedia 整理 Dubins–Freedman 1981 年結果：提議方謊報偏好不可能變好，且是團體防操縱——組團謊報也無法讓全員變好（Huang 2006 年補了一個小洞：可能部分人變好、其餘人不變差）。
+- 接收方可以截斷操縱，但有代價。【從原文可直接推出】據同條目整理：接收方只報前幾名、假裝後段不可接受，有機會往上爬；但成功需要對別人偏好的完全資訊，報錯反而更慘；而且 DA 是無悔（regret-free）機制——事後看完整配對，也找不出保證更好的策略（Fernandez 2020 年工作論文）。
+- Roth 1982 年不可能定理：兩全其美不存在。【原文明說】據 INFORMS 刊載紀錄，Roth 在《Mathematics of Operations Research》1982 年第 7 卷證明：不存在「永遠產出穩定配對、且人人都想說真話」的機制。穩定和防操縱不可兼得，只能選一邊站。
+
+對照 FirstDate 的縫隙：問卷給的是相容分數，不是嚴格排序，操縱空間從「謊報排序」變成「迎合問卷、美化自己」——這是理論與實務最大的縫。而定理還附贈一句忠告：只要你是提議方，老實就是最優解。前提是你知道自己是哪一邊——又繞回官方沒公開的提議方問題。
+
+### 4. 穩定配對不只一個：格的兩端註定對立
+
+【從原文可直接推出】據 Wikipedia 引述 Knuth 1976 年的整理（源自 Conway 的觀察）：同一份偏好可以有多個穩定配對，它們構成一個格（lattice）；提議方版 DA 永遠打中同一端——頂端（全體提議方最佳、接收方最差），反向版打中底端。
+
+程式驗算重現定理：以 1962 為隨機種子生成 n=4 偏好，暴力枚舉全部 24 種配對，恰好 2 個穩定；DA 輸出同時是「提議方在全部穩定配對中的最佳」與「接收方在全部穩定配對中的最差」，出價 6 次（上限 16）。所以「提議者拿最好、接收者拿最差」不是 FirstDate 的政策選擇——是選了 DA 就附贈的結構，見圖三。
+
+附贈一個 Roth 1986 年鄉村醫院定理（Econometrica 第 54 卷）：招不滿名額的醫院，在所有穩定配對裡缺額完全相同——換哪種穩定機制都救不了偏鄉。【合理推斷】翻成 FirstDate 的話：配不到的人，問題在池子（人數、排序分布）不在演算法；把配對率低怪到 GS 頭上，或指望換演算法起死回生，都違反這條定理。
+
+![穩定配對的格與誰能說謊獲利](/article.ai/articles/firstdate-gale-shapley-analysis/gs-strategy-lattice.svg)
+
+<small class="figure-caption">圖三｜自繪：左為穩定配對格（頂＝提議方最佳、底＝接收方最佳，DA 永遠打中提議方那一端）；右為策略不對稱（提議方說真話是優勢策略、接收方可截斷操縱但需完全資訊、Roth 1982 證明兩邊都防的穩定機制不存在）。定理出處見本節內文標注。</small>
+
+### 5. 實務改版地圖：三個真部署、一個平行彩蛋、一個隱喻爭議
+
+- 住院醫師分發：實務比理論早十年。【原文明說】據 Wikipedia 引述 Roth 2003 年 JAMA 回顧：NRMP 的 Boston Pool 演算法 1952 年已在用，Roth 1984 年才指出它本質就是延遲接受。現行 Roth–Peranson 版是申請人提議，並處理 couples 難題——有伴侶聯合求職時，穩定配對可能根本不存在，這是原版理論保不了的地帶。
+- 學校選擇：波士頓機制（立即接受，先到先得）對比 DA（延遲接受）；前者可操縱，後者防操縱，多數學區轉向 DA 家族。選機制就是選價值。
+- 換腎配對：Roth–Sönmez–Ünver 的頂層交易循環（top trading cycles），不是 GS 原版——呼應主文對照表第 8 項的降級。
+- 法國 Parcoursup：2018 年起上百萬考生跑真人版 DA，多輪出價、暑假收斂；Floréen 等 2009 年證明早停版仍高度可用——輪數不夠也能交差，這對「每輪只配一人」的 FirstDate 是現成的理論安慰。
+- 平行化彩蛋：Manne 等 2016 年、Liu 等 2025 年把 GS 搬上 GPU——每輪未配對者可並行出價，用同步原語裁決撞上同一接收者的競爭。這跟本站前篇 CUDA 文章意外接軌：配對演算法本身也能吃顯示卡。
+- 婚姻隱喻爭議：Wagner 2009 年批評求婚隱喻性別刻板且不符合真實行為。【合理推斷】FirstDate 把這個隱喻字面部署成國家交友 App，恰好成了該批評最字面的註腳——當「男方求婚、女方保留」從比喻變成公務員相親的實際流程，隱喻的政治性就不再只是論文修辭問題。
+
 ## 風險與盲點
 
 第一，實現落差：穩定婚姻定理要求「人數相等、嚴格完整排序」，真實交友池兩邊人數不會相等，問卷相容分數也不是嚴格排序——官方沒說如何斷尾、如何處理同分、落單者怎麼辦。演算法保證的是數學性質，不是脫單率；試點只收公務員，池子同質性越高，偏好排序越容易扎堆，穩定配對的「穩定」可能只是「大家都差不多」的另一種寫法。
@@ -105,3 +152,8 @@ import XPostCard from '../../components/XPostCard.astro';
 - 諾貝爾獎官網 2012 年新聞稿（Roth＋Shapley，stable allocations and market design，具名 Gale–Shapley 演算法與三大改版應用）
 - Gale & Shapley 1962 年論文（RAND 預印本 P-2240，刊於《American Mathematical Monthly》1962 年 1 月號）
 - 《The Economic Times》2026-09-29 報導（試點資格 21–35 歲公務員、首餐敘述）
+- Wikipedia「Gale–Shapley algorithm」條目（三次文獻，僅作線索：O(n²) 實作分析引 Kleinberg–Tardos，策略性引 Dubins–Freedman 1981、Huang 2006、Fernandez 2020，格結構引 Knuth 1976，NRMP 史引 Roth 2003 JAMA，法國 Parcoursup 與早停引 Mathieu 2018、Floréen 等 2009，平行化引 Manne 等 2016、Liu 等 2025，隱喻批評引 Wagner 2009）
+- Roth 1982 年《The Economics of Matching: Stability and Incentives》（Mathematics of Operations Research 第 7 卷：不可能定理；另有 HBS  faculty 刊載紀錄）
+- Roth 1986 年《On the Allocation of Residents to Rural Hospitals》（Econometrica 第 54 卷：鄉村醫院定理——招不滿的醫院在所有穩定配對裡 shortfall 相同，換邊也救不了偏鄉）
+- Roth 2003 年《The origins, history, and design of the resident match》（JAMA 第 289 卷：Boston Pool 1952 年先行、Roth 1984 年指認為 DA）
+- Knuth 1976 年《Mariages stables》（蒙特婁大學出版社：穩定配對格結構整理）

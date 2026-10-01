@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="480" viewBox="0 0 1000 480" font-family="sans-serif">
+  <rect x="0" y="0" width="1000" height="480" rx="12" fill="#fafaf9"/>
+  <text x="500" y="36" text-anchor="middle" font-size="22" font-weight="bold" fill="#1c1917">穩定配對的格，與誰能說謊獲利</text>
+
+  <!-- left: lattice -->
+  <text x="250" y="72" text-anchor="middle" font-size="16" font-weight="bold" fill="#1c1917">同一份偏好，多個穩定配對構成格</text>
+  <rect x="30" y="86" width="440" height="330" rx="8" fill="#ffffff" stroke="#e7e5e4"/>
+  <circle cx="250" cy="130" r="26" fill="#15803d"/>
+  <text x="250" y="126" text-anchor="middle" font-size="11" font-weight="bold" fill="#ffffff">頂端</text>
+  <text x="250" y="140" text-anchor="middle" font-size="10" fill="#ffffff">提議方最佳</text>
+  <circle cx="150" cy="220" r="22" fill="#dbeafe"/>
+  <text x="150" y="225" text-anchor="middle" font-size="11" fill="#1e40af">中間配對</text>
+  <circle cx="350" cy="220" r="22" fill="#dbeafe"/>
+  <text x="350" y="225" text-anchor="middle" font-size="11" fill="#1e40af">中間配對</text>
+  <circle cx="250" cy="320" r="26" fill="#b45309"/>
+  <text x="250" y="316" text-anchor="middle" font-size="11" font-weight="bold" fill="#ffffff">底端</text>
+  <text x="250" y="330" text-anchor="middle" font-size="10" fill="#ffffff">接收方最佳</text>
+  <line x1="232" y1="150" x2="168" y2="202" stroke="#a8a29e" stroke-width="2"/>
+  <line x1="268" y1="150" x2="332" y2="202" stroke="#a8a29e" stroke-width="2"/>
+  <line x1="168" y1="238" x2="232" y2="298" stroke="#a8a29e" stroke-width="2"/>
+  <line x1="332" y1="238" x2="268" y2="298" stroke="#a8a29e" stroke-width="2"/>
+  <text x="250" y="372" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">提議方版 DA 永遠打中頂端，反向版打中底端</text>
+  <text x="250" y="392" text-anchor="middle" font-size="11" fill="#78716c">（Conway 格結構，見 Knuth 1976 整理）</text>
+
+  <!-- right: strategy table -->
+  <text x="735" y="72" text-anchor="middle" font-size="16" font-weight="bold" fill="#1c1917">誰能靠謊報偏好獲利？</text>
+  <rect x="500" y="86" width="470" height="100" rx="8" fill="#f0fdf4" stroke="#15803d" stroke-width="1.5"/>
+  <text x="520" y="114" font-size="14" font-weight="bold" fill="#166534">提議方：老實是最優解 ✔</text>
+  <text x="520" y="138" font-size="12" fill="#44403c">說真話是優勢策略，且團體謊報也難全員獲利</text>
+  <text x="520" y="158" font-size="12" fill="#78716c">（Dubins–Freedman 1981；Huang 2006 補小洞）</text>
+  <rect x="500" y="194" width="470" height="100" rx="8" fill="#fffbeb" stroke="#ca8a04" stroke-width="1.5"/>
+  <text x="520" y="222" font-size="14" font-weight="bold" fill="#92400e">接收方：可動手腳，但有代價 ⚠</text>
+  <text x="520" y="246" font-size="12" fill="#44403c">截斷排序（假裝後段不可接受）可獲利，但需完全資訊</text>
+  <text x="520" y="266" font-size="12" fill="#78716c">報錯反傷；事後看也找不出保證更好的策略（無悔）</text>
+  <rect x="500" y="302" width="470" height="114" rx="8" fill="#1c1917"/>
+  <text x="520" y="330" font-size="14" font-weight="bold" fill="#fbbf24">不可能三角：Roth 1982 ✘</text>
+  <text x="520" y="354" font-size="12" fill="#e7e5e4">不存在「永遠穩定＋雙方都想說真話」的機制</text>
+  <text x="520" y="374" font-size="12" fill="#a8a29e">穩定和防操縱不可兼得，只能二選一站邊</text>
+  <text x="520" y="394" font-size="12" fill="#a8a29e">FirstDate 選了穩定，就要回答：誰是提議方？</text>
+</svg>
