@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="640" viewBox="0 0 1000 640" font-family="sans-serif">
+  <rect x="0" y="0" width="1000" height="640" rx="12" fill="#fafaf9"/>
+  <text x="500" y="36" text-anchor="middle" font-size="22" font-weight="bold" fill="#1c1917">Gale–Shapley 延遲接受：3 對 3 玩具驗算</text>
+  <text x="500" y="62" text-anchor="middle" font-size="13" fill="#57534e">提議方 A、B、C ｜ 接收方 X、Y、Z ｜ 偏好皆為嚴格排序（綠＝出價被保留，紅虛線＝被拒絕）</text>
+  <text x="500" y="82" text-anchor="middle" font-size="12" fill="#78716c">A：X&gt;Y&gt;Z　B：Y&gt;X&gt;Z　C：X&gt;Y&gt;Z　｜　X：B&gt;A&gt;C　Y：A&gt;B&gt;C　Z：A&gt;B&gt;C</text>
+
+  <defs>
+    <marker id="g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#15803d"/></marker>
+    <marker id="r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#dc2626"/></marker>
+  </defs>
+
+  <!-- Round 1 -->
+  <text x="24" y="130" font-size="15" font-weight="bold" fill="#1c1917">第 1 輪</text>
+  <rect x="16" y="140" width="968" height="118" rx="8" fill="#ffffff" stroke="#e7e5e4"/>
+  <circle cx="110" cy="168" r="20" fill="#dbeafe"/><text x="110" y="174" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">A</text>
+  <circle cx="110" cy="212" r="20" fill="#dbeafe"/><text x="110" y="218" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">B</text>
+  <circle cx="110" cy="248" r="20" fill="#dbeafe" stroke="#dc2626" stroke-width="2"/><text x="110" y="254" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">C</text>
+  <circle cx="890" cy="168" r="20" fill="#fef3c7"/><text x="890" y="174" text-anchor="middle" font-size="16" font-weight="bold" fill="#92400e">X</text>
+  <circle cx="890" cy="212" r="20" fill="#fef3c7"/><text x="890" y="218" text-anchor="middle" font-size="16" font-weight="bold" fill="#92400e">Y</text>
+  <circle cx="890" cy="248" r="20" fill="#f5f5f4"/><text x="890" y="254" text-anchor="middle" font-size="16" font-weight="bold" fill="#a8a29e">Z</text>
+  <line x1="135" y1="168" x2="855" y2="168" stroke="#15803d" stroke-width="2.5" marker-end="url(#g)"/>
+  <text x="495" y="160" text-anchor="middle" font-size="12" fill="#15803d">A→X 保留</text>
+  <line x1="135" y1="212" x2="855" y2="212" stroke="#15803d" stroke-width="2.5" marker-end="url(#g)"/>
+  <text x="495" y="204" text-anchor="middle" font-size="12" fill="#15803d">B→Y 保留</text>
+  <line x1="135" y1="244" x2="855" y2="240" stroke="#dc2626" stroke-width="2.5" stroke-dasharray="7,5" marker-end="url(#r)"/>
+  <text x="495" y="250" text-anchor="middle" font-size="12" fill="#dc2626">C→X 被拒（X 留 A：B&gt;A&gt;C 中 A 勝 C）</text>
+
+  <!-- Round 2 -->
+  <text x="24" y="288" font-size="15" font-weight="bold" fill="#1c1917">第 2 輪</text>
+  <rect x="16" y="298" width="968" height="118" rx="8" fill="#ffffff" stroke="#e7e5e4"/>
+  <circle cx="110" cy="330" r="20" fill="#dcfce7"/><text x="110" y="336" text-anchor="middle" font-size="14" font-weight="bold" fill="#166534">A·X</text>
+  <circle cx="110" cy="372" r="20" fill="#dcfce7"/><text x="110" y="378" text-anchor="middle" font-size="14" font-weight="bold" fill="#166534">B·Y</text>
+  <circle cx="110" cy="408" r="20" fill="#dbeafe" stroke="#dc2626" stroke-width="2"/><text x="110" y="414" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">C</text>
+  <circle cx="890" cy="330" r="20" fill="#fef3c7"/><text x="890" y="336" text-anchor="middle" font-size="14" font-weight="bold" fill="#92400e">X🔒</text>
+  <circle cx="890" cy="372" r="20" fill="#fef3c7"/><text x="890" y="378" text-anchor="middle" font-size="16" font-weight="bold" fill="#92400e">Y</text>
+  <circle cx="890" cy="408" r="20" fill="#f5f5f4"/><text x="890" y="414" text-anchor="middle" font-size="16" font-weight="bold" fill="#a8a29e">Z</text>
+  <line x1="135" y1="404" x2="855" y2="376" stroke="#dc2626" stroke-width="2.5" stroke-dasharray="7,5" marker-end="url(#r)"/>
+  <text x="495" y="382" text-anchor="middle" font-size="12" fill="#dc2626">C→Y 被拒（Y 留 B：A&gt;B&gt;C 中 B 勝 C）</text>
+  <text x="495" y="404" text-anchor="middle" font-size="12" fill="#78716c">X、Y 手上各保留最佳報價（延遲接受：先收著、不鎖定）</text>
+
+  <!-- Round 3 -->
+  <text x="24" y="446" font-size="15" font-weight="bold" fill="#1c1917">第 3 輪 → 鎖定</text>
+  <rect x="16" y="456" width="968" height="76" rx="8" fill="#f0fdf4" stroke="#15803d" stroke-width="1.5"/>
+  <circle cx="110" cy="494" r="20" fill="#dbeafe"/><text x="110" y="500" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">C</text>
+  <circle cx="890" cy="494" r="20" fill="#fef3c7"/><text x="890" y="500" text-anchor="middle" font-size="16" font-weight="bold" fill="#92400e">Z</text>
+  <line x1="135" y1="494" x2="855" y2="494" stroke="#15803d" stroke-width="2.5" marker-end="url(#g)"/>
+  <text x="495" y="486" text-anchor="middle" font-size="13" font-weight="bold" fill="#15803d">C→Z 保留，全員配對，鎖定 A–X · B–Y · C–Z</text>
+
+  <rect x="16" y="544" width="968" height="80" rx="8" fill="#1c1917"/>
+  <text x="500" y="570" text-anchor="middle" font-size="14" font-weight="bold" fill="#fbbf24">執行驗算（python3 -c）：阻擋對（blocking pair）＝ 0，配對穩定 ✔</text>
+  <text x="500" y="594" text-anchor="middle" font-size="12" fill="#d6d3d1">玩具僅演示標準 GS 機制；FirstDate 真實問卷如何轉成嚴格排序、誰是提議方，官方未公開</text>
+</svg>

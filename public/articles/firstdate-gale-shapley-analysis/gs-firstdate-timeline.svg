@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="430" viewBox="0 0 1000 430" font-family="sans-serif">
+  <rect x="0" y="0" width="1000" height="430" rx="12" fill="#fafaf9"/>
+  <text x="500" y="36" text-anchor="middle" font-size="22" font-weight="bold" fill="#1c1917">從 1962 年論文到 2026 年 FirstDate：半世紀時間線</text>
+  <line x1="60" y1="220" x2="940" y2="220" stroke="#a8a29e" stroke-width="3"/>
+
+  <!-- 1961 -->
+  <circle cx="120" cy="220" r="12" fill="#15803d"/>
+  <text x="120" y="180" text-anchor="middle" font-size="15" font-weight="bold" fill="#1c1917">1961.3</text>
+  <text x="120" y="262" text-anchor="middle" font-size="13" fill="#44403c">RAND 預印本 P-2240</text>
+  <text x="120" y="282" text-anchor="middle" font-size="12" fill="#78716c">Gale＋Shapley 先行本</text>
+
+  <!-- 1962 -->
+  <circle cx="300" cy="220" r="12" fill="#15803d"/>
+  <text x="300" y="180" text-anchor="middle" font-size="15" font-weight="bold" fill="#1c1917">1962.1</text>
+  <text x="300" y="130" text-anchor="middle" font-size="13" fill="#44403c">《College Admissions and</text>
+  <text x="300" y="148" text-anchor="middle" font-size="13" fill="#44403c">the Stability of Marriage》</text>
+  <text x="300" y="262" text-anchor="middle" font-size="12" fill="#78716c">刊於數學月刊，提議者最佳性定理</text>
+
+  <!-- 2012 -->
+  <circle cx="500" cy="220" r="12" fill="#15803d"/>
+  <text x="500" y="180" text-anchor="middle" font-size="15" font-weight="bold" fill="#1c1917">2012</text>
+  <text x="500" y="130" text-anchor="middle" font-size="13" fill="#44403c">諾貝爾經濟學獎</text>
+  <text x="500" y="148" text-anchor="middle" font-size="13" fill="#44403c">Roth＋Shapley（理論＋市場設計）</text>
+  <text x="500" y="262" text-anchor="middle" font-size="12" fill="#78716c">Gale 2008 年過世，未能並列</text>
+  <text x="500" y="282" text-anchor="middle" font-size="12" fill="#78716c">理論到獲獎隔 50 年</text>
+
+  <!-- NRMP / kidney -->
+  <circle cx="690" cy="220" r="12" fill="#ca8a04"/>
+  <text x="690" y="180" text-anchor="middle" font-size="15" font-weight="bold" fill="#1c1917">1998 → 至今</text>
+  <text x="690" y="130" text-anchor="middle" font-size="13" fill="#44403c">住院醫師分發＋換腎配對</text>
+  <text x="690" y="148" text-anchor="middle" font-size="13" fill="#44403c">GS 家族「改版」，非 1962 原版</text>
+  <text x="690" y="262" text-anchor="middle" font-size="12" fill="#78716c">Roth–Peranson、循環／鏈式配對</text>
+  <text x="690" y="282" text-anchor="middle" font-size="12" fill="#92400e">貼文壓縮最用力的一句 ⚠</text>
+
+  <!-- 2026 -->
+  <circle cx="880" cy="220" r="12" fill="#15803d"/>
+  <text x="880" y="180" text-anchor="middle" font-size="15" font-weight="bold" fill="#1c1917">2026.9</text>
+  <text x="880" y="130" text-anchor="middle" font-size="13" fill="#44403c">FirstDate 試點上線</text>
+  <text x="880" y="148" text-anchor="middle" font-size="13" fill="#44403c">GovTech、公務員 21–35 歲</text>
+  <text x="880" y="262" text-anchor="middle" font-size="12" fill="#78716c">官方 FAQ 親口承認套用 GS</text>
+  <text x="880" y="282" text-anchor="middle" font-size="12" fill="#78716c">4 月問卷前導 → 10/5 截止報名</text>
+
+  <rect x="60" y="330" width="880" height="72" rx="8" fill="#ffffff" stroke="#e7e5e4"/>
+  <text x="500" y="356" text-anchor="middle" font-size="13" fill="#44403c">圖例：<tspan fill="#15803d">● 已核實</tspan>　<tspan fill="#ca8a04">● 表述壓縮（家族改版≠原版）</tspan></text>
+  <text x="500" y="380" text-anchor="middle" font-size="12" fill="#78716c">另註：新加坡國家當紅娘非首例——1984 年 Social Development Unit 即已成立，FirstDate 是第四十年，不是第一天</text>
+</svg>
