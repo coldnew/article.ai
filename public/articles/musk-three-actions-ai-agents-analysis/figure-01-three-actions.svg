@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="430" viewBox="0 0 800 430" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+<rect x="0" y="0" width="800" height="430" rx="16" fill="var(--card, #f8f7f4)"/>
+<text x="40" y="44" font-size="20" font-weight="700" fill="var(--foreground, #1a1a1a)">Musk 三選一：人類經理版 vs AI Agent 版</text>
+<text x="40" y="68" font-size="13" fill="var(--muted-foreground, #666)">本站依《Fortune / Teslarati 引述之 2021-10-04 郵件》自繪；右側為套用到 agent 的改寫建議</text>
+<rect x="40" y="90" width="220" height="70" rx="12" fill="var(--chart-1, #4f46e5)"/>
+<text x="150" y="117" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">收到明確指令</text>
+<text x="150" y="138" font-size="12" fill="#e0e0ff" text-anchor="middle">explicit directions</text>
+<line x1="150" y1="160" x2="150" y2="185" stroke="#999" stroke-width="2"/>
+<line x1="60" y1="185" x2="740" y2="185" stroke="#999" stroke-width="2"/>
+<g>
+<line x1="150" y1="185" x2="150" y2="205" stroke="#999" stroke-width="2"/>
+<rect x="50" y="205" width="200" height="110" rx="12" fill="#fff" stroke="#4f46e5" stroke-width="2"/>
+<text x="150" y="230" font-size="14" font-weight="700" text-anchor="middle" fill="#1a1a1a">1. 反駁</text>
+<text x="150" y="250" font-size="12" text-anchor="middle" fill="#444">解釋為何指令是錯的</text>
+<text x="150" y="268" font-size="12" text-anchor="middle" fill="#444">Sometimes I&#39;m wrong!</text>
+<text x="150" y="292" font-size="11" text-anchor="middle" fill="#4f46e5">agent: 允許 challenge</text>
+</g>
+<g>
+<line x1="400" y1="185" x2="400" y2="205" stroke="#999" stroke-width="2"/>
+<rect x="300" y="205" width="200" height="110" rx="12" fill="#fff" stroke="#4f46e5" stroke-width="2"/>
+<text x="400" y="230" font-size="14" font-weight="700" text-anchor="middle" fill="#1a1a1a">2. 澄清</text>
+<text x="400" y="250" font-size="12" text-anchor="middle" fill="#444">指令模糊就追問</text>
+<text x="400" y="268" font-size="12" text-anchor="middle" fill="#444">request clarification</text>
+<text x="400" y="292" font-size="11" text-anchor="middle" fill="#4f46e5">agent: 追問而非腦補</text>
+</g>
+<g>
+<line x1="650" y1="185" x2="650" y2="205" stroke="#999" stroke-width="2"/>
+<rect x="550" y="205" width="200" height="110" rx="12" fill="#fff" stroke="#4f46e5" stroke-width="2"/>
+<text x="650" y="230" font-size="14" font-weight="700" text-anchor="middle" fill="#1a1a1a">3. 執行</text>
+<text x="650" y="250" font-size="12" text-anchor="middle" fill="#444">execute the directions</text>
+<text x="650" y="268" font-size="12" text-anchor="middle" fill="#444">不打折、不繞路</text>
+<text x="650" y="292" font-size="11" text-anchor="middle" fill="#4f46e5">agent: 做完回報證據</text>
+</g>
+<rect x="40" y="335" width="720" height="60" rx="12" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+<text x="400" y="358" font-size="14" font-weight="700" text-anchor="middle" fill="#991b1b">三者皆無 → 要求辭職 / 終止會話（人類版的棍子，不能直譯給 agent）</text>
+<text x="400" y="378" font-size="12" text-anchor="middle" fill="#991b1b">none of the above → asked to resign immediately｜agent 版應改為：升級給人類 + 留痕</text>
+</svg>

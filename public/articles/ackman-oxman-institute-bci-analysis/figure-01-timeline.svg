@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="300" viewBox="0 0 760 300" font-family="-apple-system, 'Noto Sans TC', 'PingFang TC', sans-serif">
+  <rect x="0" y="0" width="760" height="300" rx="12" fill="#fafaf9"/>
+  <text x="24" y="30" font-size="15" font-weight="700" fill="#1c1917">事件時間線：從病房到 2.5 億美元（綠色＝已驗證，琥珀色＝查無出處）</text>
+
+  <line x1="60" y1="150" x2="700" y2="150" stroke="#d6d3d1" stroke-width="2"/>
+
+  <!-- node 1 -->
+  <circle cx="110" cy="150" r="10" fill="#16a34a"/>
+  <text x="110" y="154" font-size="11" text-anchor="middle" fill="#fff">✓</text>
+  <text x="110" y="120" font-size="13" font-weight="700" text-anchor="middle" fill="#1c1917">2 月 6 日</text>
+  <text x="110" y="185" font-size="12" text-anchor="middle" fill="#57534e">Lucy 腦出血</text>
+  <text x="110" y="202" font-size="12" text-anchor="middle" fill="#57534e">19 小時後手術保命</text>
+  <text x="110" y="219" font-size="12" text-anchor="middle" fill="#57534e">Mount Sinai 昏迷數週</text>
+
+  <!-- node 2 unverified -->
+  <circle cx="290" cy="150" r="10" fill="#d97706"/>
+  <text x="290" y="155" font-size="12" text-anchor="middle" fill="#fff">？</text>
+  <text x="290" y="120" font-size="13" font-weight="700" text-anchor="middle" fill="#1c1917">年中某時</text>
+  <text x="290" y="185" font-size="12" text-anchor="middle" fill="#57534e">諮詢 Musk</text>
+  <text x="290" y="202" font-size="12" text-anchor="middle" fill="#57534e">「大概五年」仿生視覺</text>
+  <text x="290" y="219" font-size="11" text-anchor="middle" fill="#d97706">公開來源查無此對話</text>
+
+  <!-- node 3 -->
+  <circle cx="470" cy="150" r="10" fill="#16a34a"/>
+  <text x="470" y="154" font-size="11" text-anchor="middle" fill="#fff">✓</text>
+  <text x="470" y="120" font-size="13" font-weight="700" text-anchor="middle" fill="#1c1917">8 月 19 日</text>
+  <text x="470" y="185" font-size="12" text-anchor="middle" fill="#57534e">Ackman 發文＋AOI 成立</text>
+  <text x="470" y="202" font-size="12" text-anchor="middle" fill="#57534e">1000 萬股≈ 4 億美元</text>
+  <text x="470" y="219" font-size="12" text-anchor="middle" fill="#57534e">SEC 登記 bona fide gift</text>
+
+  <!-- node 4 -->
+  <circle cx="650" cy="150" r="10" fill="#16a34a"/>
+  <text x="650" y="154" font-size="11" text-anchor="middle" fill="#fff">✓</text>
+  <text x="650" y="120" font-size="13" font-weight="700" text-anchor="middle" fill="#1c1917">9 月 24 日</text>
+  <text x="650" y="185" font-size="12" text-anchor="middle" fill="#57534e">Precision D 輪 2.5 億</text>
+  <text x="650" y="202" font-size="12" text-anchor="middle" fill="#57534e">三方共同領投（含 AOI）</text>
+  <text x="650" y="219" font-size="12" text-anchor="middle" fill="#57534e">累計募資 4.3 億美元</text>
+
+  <text x="24" y="268" font-size="11.5" fill="#78716c">底本：Ackman 本人 X 貼文（2026-08-19）、SEC filing、Precision 官方新聞稿（GlobeNewswire 2026-09-24）、Fortune／Telegraph／Observer 交叉報導。</text>
+  <text x="24" y="286" font-size="11.5" fill="#78716c">註：另有一家未具名的 life-sciences fund 並列共同領投；Pershing Square＋AOI 合計出資約 4250 萬美元（AlphaMaven 引述）。</text>
+</svg>

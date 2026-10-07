@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="600" viewBox="0 0 980 600" font-family="Noto Sans TC, Hiragino Sans, sans-serif">
+<rect width="980" height="600" fill="#f8fafc" rx="16"/>
+<text x="490" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#0f172a">Uber MCP Gateway：控制平面 vs 資料平面（本站自繪）</text>
+<text x="490" y="66" text-anchor="middle" font-size="13" fill="#64748b">整理自 Uber Engineering 原文 Figure 1–5；單一公司自述，數字（800 servers／5000 tools）未經第三方驗證</text>
+<!-- Control plane -->
+<g>
+<rect x="30" y="90" width="450" height="440" rx="14" fill="#eff6ff" stroke="#2563eb" stroke-width="2" stroke-dasharray="8 5"/>
+<text x="255" y="118" text-anchor="middle" font-size="17" font-weight="700" fill="#1d4ed8">控制平面：MCP Registry</text>
+<g font-size="14">
+<rect x="55" y="135" width="400" height="86" rx="10" fill="#ffffff" stroke="#93c5fd" stroke-width="1.5"/>
+<text x="75" y="162" font-weight="700" fill="#1e3a8a">AutoCrawler（Cadence workflow，定時掃描）</text>
+<text x="75" y="186" fill="#334155">訂閱 IDL registry ＋ 服務訊號，發現新 API / schema 變更</text>
+<text x="75" y="208" fill="#334155">原生 MCP server 靠 heartbeat 訊號自動發現</text>
+<rect x="55" y="232" width="400" height="86" rx="10" fill="#ffffff" stroke="#93c5fd" stroke-width="1.5"/>
+<text x="75" y="259" font-weight="700" fill="#1e3a8a">IDL → 工具生成（LLM 寫描述）</text>
+<text x="75" y="283" fill="#334155">解析 Protobuf / Thrift → 轉 JSON-RPC 2.0 schema</text>
+<text x="75" y="305" fill="#334155">寫入 Registry，一律預設 disabled（發現≠曝光）</text>
+<rect x="55" y="329" width="400" height="86" rx="10" fill="#ffffff" stroke="#93c5fd" stroke-width="1.5"/>
+<text x="75" y="356" font-weight="700" fill="#1e3a8a">3P 整合（Jira、Google 等）</text>
+<text x="75" y="380" fill="#334155">Gateway 轉交 user token → 3P 服務換外部 token</text>
+<text x="75" y="402" fill="#334155">照樣吃授權、限流、去識別化同一套管線</text>
+<rect x="55" y="426" width="400" height="80" rx="10" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"/>
+<text x="75" y="453" font-weight="700" fill="#713f12">業主審核啟用（config diff＋可回滾）</text>
+<text x="75" y="477" fill="#334155">描述異動即 diff，server owner 批准才上線</text>
+</g>
+</g>
+<!-- Data plane -->
+<g>
+<rect x="505" y="90" width="445" height="440" rx="14" fill="#f0fdf4" stroke="#16a34a" stroke-width="2" stroke-dasharray="8 5"/>
+<text x="727" y="118" text-anchor="middle" font-size="17" font-weight="700" fill="#15803d">資料平面：Proxy Gateway</text>
+<g font-size="14">
+<rect x="530" y="135" width="395" height="70" rx="10" fill="#ffffff" stroke="#86efac" stroke-width="1.5"/>
+<text x="550" y="162" font-weight="700" fill="#14532d">虛擬 MCP server：每個服務一個端點</text>
+<text x="550" y="186" fill="#334155" font-family="monospace" font-size="13">/（service-name）/mcp</text>
+<rect x="530" y="216" width="395" height="112" rx="10" fill="#ffffff" stroke="#86efac" stroke-width="1.5"/>
+<text x="550" y="243" font-weight="700" fill="#14532d">server handler：協定翻譯＋執行</text>
+<text x="550" y="267" fill="#334155">MCP JSON → Protobuf / Thrift bytes → 經 Muttley</text>
+<text x="550" y="291" fill="#334155">sidecar 打到下游；回程轉回 MCP JSON</text>
+<text x="550" y="313" fill="#334155">原生 MCP server 則透明代理轉發</text>
+<rect x="530" y="339" width="395" height="80" rx="10" fill="#ffffff" stroke="#86efac" stroke-width="1.5"/>
+<text x="550" y="366" font-weight="700" fill="#14532d">安全內建：授權＋PII 去識別化</text>
+<text x="550" y="390" fill="#334155">Uber 內部存取控管，server 層政策＋tool 層覆寫</text>
+<rect x="530" y="430" width="395" height="76" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+<text x="550" y="457" font-weight="700" fill="#4c1d95">規模化三招：Omni MCP＋投影＋Code Mode</text>
+<text x="550" y="481" fill="#334155">漸進發現四工具；GraphQL 式回傳裁剪；aifx CLI</text>
+</g>
+</g>
+<!-- arrow between -->
+<g font-size="13" fill="#475569">
+<text x="490" y="300" text-anchor="middle" font-weight="700">config</text>
+<text x="490" y="318" text-anchor="middle">即時同步</text>
+<text x="490" y="336" text-anchor="middle">免重啟</text>
+</g>
+<text x="490" y="562" text-anchor="middle" font-size="12" fill="#94a3b8">左：建目錄、長工具、管開關；右：跑請求、翻協定、擋風險。核心主張：既有 API 就是最快的 agent 工具來源</text>
+</svg>

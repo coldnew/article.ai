@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="420" viewBox="0 0 860 420" font-family="-apple-system, 'Noto Sans TC', 'PingFang TC', sans-serif">
+  <rect x="0" y="0" width="860" height="420" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
+  <text x="430" y="30" text-anchor="middle" font-size="17" font-weight="700" fill="#111827">RocketAgent 三階段工作流與回溯迴圈（本站依論文 Fig.2 自繪）</text>
+
+  <!-- Stage 1 -->
+  <g>
+    <rect x="30" y="60" width="230" height="200" rx="10" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="145" y="86" text-anchor="middle" font-size="14" font-weight="700" fill="#1d4ed8">一、概念設計</text>
+    <text x="145" y="110" text-anchor="middle" font-size="12" fill="#374151">需求 → 知識圖譜選方法</text>
+    <text x="145" y="130" text-anchor="middle" font-size="12" fill="#374151">500 N・海平面・LOX/RP-1</text>
+    <text x="145" y="150" text-anchor="middle" font-size="12" fill="#374151">Pc = 1.0 MPa・15° 錐形噴管</text>
+    <text x="145" y="176" text-anchor="middle" font-size="12" fill="#374151">人類批准概念與約束</text>
+    <rect x="70" y="192" width="150" height="30" rx="15" fill="#1d4ed8"/>
+    <text x="145" y="212" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">人類批准關卡</text>
+  </g>
+
+  <!-- Stage 2 -->
+  <g>
+    <rect x="315" y="60" width="230" height="200" rx="10" fill="#fefce8" stroke="#ca8a04" stroke-width="1.5"/>
+    <text x="430" y="86" text-anchor="middle" font-size="14" font-weight="700" fill="#854d0e">二、具體化設計</text>
+    <text x="430" y="110" text-anchor="middle" font-size="12" fill="#374151">性能定點（RocketCEA）</text>
+    <text x="430" y="130" text-anchor="middle" font-size="12" fill="#374151">冷卻通道 GA 搜尋</text>
+    <text x="430" y="150" text-anchor="middle" font-size="12" fill="#374151">噴注器 GPR＋NSGA-II 篩選</text>
+    <rect x="345" y="168" width="170" height="34" rx="6" fill="#fef3c7" stroke="#b45309" stroke-dasharray="5 3"/>
+    <text x="430" y="182" text-anchor="middle" font-size="12" font-weight="700" fill="#92400e">74 候選全滅（r 最大 Isp）</text>
+    <text x="430" y="197" text-anchor="middle" font-size="11" fill="#92400e">70 候選中 8 個可行（r=1.09）</text>
+    <rect x="375" y="212" width="110" height="30" rx="15" fill="#b45309"/>
+    <text x="430" y="232" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">子系統閘門</text>
+  </g>
+
+  <!-- Stage 3 -->
+  <g>
+    <rect x="600" y="60" width="230" height="200" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="1.5"/>
+    <text x="715" y="86" text-anchor="middle" font-size="14" font-weight="700" fill="#065f46">三、驗證與精煉</text>
+    <text x="715" y="110" text-anchor="middle" font-size="12" fill="#374151">VOF 噴霧・燃燒場 Fluent</text>
+    <text x="715" y="130" text-anchor="middle" font-size="12" fill="#374151">頂板熱—結構 Abaqus</text>
+    <text x="715" y="150" text-anchor="middle" font-size="12" fill="#374151">四元布局勝出（CV 1.92%）</text>
+    <text x="715" y="176" text-anchor="middle" font-size="12" fill="#374151">人類批准最終選型</text>
+    <rect x="650" y="192" width="130" height="30" rx="15" fill="#047857"/>
+    <text x="715" y="212" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">最終交付構型</text>
+  </g>
+
+  <!-- Forward arrows -->
+  <line x1="260" y1="150" x2="312" y2="150" stroke="#6b7280" stroke-width="2" marker-end="url(#ah)"/>
+  <line x1="545" y1="150" x2="597" y2="150" stroke="#6b7280" stroke-width="2" marker-end="url(#ah)"/>
+  <defs>
+    <marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#6b7280"/>
+    </marker>
+    <marker id="ah2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#dc2626"/>
+    </marker>
+  </defs>
+
+  <!-- Feedback loop -->
+  <path d="M 400 260 L 400 320 L 145 320 L 145 263" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="7 4" marker-end="url(#ah2)"/>
+  <rect x="290" y="296" width="300" height="30" rx="15" fill="#fef2f2" stroke="#dc2626"/>
+  <text x="440" y="316" text-anchor="middle" font-size="12" font-weight="700" fill="#b91c1c">回溯：冷卻不可行 → 降混合比（需人類授權）</text>
+
+  <!-- Bottom notes -->
+  <text x="430" y="360" text-anchor="middle" font-size="12" fill="#374151">Pc = 1.0 MPa 全程固定（只動混合比）；Isp = 180.20 s；總流量 0.282944 kg/s（本站已驗算）</text>
+  <text x="430" y="382" text-anchor="middle" font-size="12" fill="#6b7280">全部止於模擬：無製造、無冷流試驗、無點火（論文 §5.4 自承）</text>
+</svg>

@@ -1,0 +1,89 @@
+---
+title: "fab24hr：把晶圓廠夜班做成瀏覽器遊戲，技術轉述逐條核對"
+description: "分析獨立網站 fab24hr.com《半導體晶圓廠打工人的一天》：免安裝 3D 模擬、四班制玩法、43 個行話白話解釋，逐條覆核 He 背壓專利、SEMI E10、管制圖規則、8D，並附站內實機截圖。"
+publishedAt: 2026-10-07
+topic: "半導體"
+sourceType: "article"
+sourceUrl: "https://fab24hr.com/?lang=zh-Hant"
+authors: ["Marcel（fab24hr 作者）"]
+analyst: "Muse Spark"
+venue: "獨立網站 · 瀏覽器遊戲"
+tags: ["半導體", "晶圓廠", "科普遊戲", "Three.js", "製程工程師"]
+readTime: "8 分鐘"
+evidence: "中"
+featured: false
+sourceCount: 8
+accent: "teal"
+---
+
+## 先說結論
+
+《fab24hr｜半導體晶圓廠打工人的一天》是一個獨立作者做的免費瀏覽器 3D 小遊戲：你是顧蝕刻機的製程工程師，從凌晨 02:47 的 on-call 電話開始上四個班。**本站把遊戲《關於》頁的玩法宣稱全部點開驗過、把 15 筆資料來源抽查到專利與標準原文：免安裝免登入、四班制、手冊級的行話白話解釋皆與實測相符，He 背壓的專利機制、SEMI E10 六狀態、管制圖連八點規則、8D 八步驟轉述正確；唯一的保留是故事人物與數字作者已自承虛構、作者是半導體業 PM 而非一線工程師自述，外推到真實晶圓廠規範要節制。單一獨立作者加科普簡化，證據等級給「中」。**
+
+## 這個網站真正解決的問題
+
+網站解決的是敘事問題：沒進過晶圓廠的人，對「製程工程師」只有模糊想像（高薪、爆肝、無塵衣），作者把一天切成四個幾分鐘的班，用 on-call、晨會被問幾點會好、便當吃一半被叫走這種可玩的壓力，讓圈外人體會 fab 為什麼 24 小時不能停。遊戲本身解決的則是科普問題：MO、Hold、Q-time、OCAP 這些行話，圈內人天天掛嘴邊、圈外人無從查起，43 個詞各一句白話加 15 筆公開來源，把黑話變成可查證的教材。
+
+## 流程拆解
+
+### 第一步：這是什麼——不是 PCB 快板廠
+
+先排除一個常見誤會：fab24hr 不是 PCB 打樣服務，「fab」是晶圓廠（fabrication plant）的口語說法，「24hr」指廠二十四小時不停。網站是純靜態遊戲頁加三篇說明頁（《關於》、工程師的一天、行話表），技術上是自託管的 Three.js r128 做體素風 3D 場景（本站讀取頁面 script 清單確認），免安裝、手機直式也能玩。
+
+### 第二步：玩法——打開時間決定你從哪一班開始
+
+你是到職第八個月的製程工程師，顧一台叫 ETCH-03 的蝕刻機。凌晨 02:47 手機響：機台當機、一批急件卡在裡面。之後按你打開頁面的時間進入對應班別（本站以 python3 驗算四班各 6 小時、合計 24 小時，02:47 確實落在深夜班區間）：
+
+![四班制時間軸：本站依《關於》頁表格自繪](/article.ai/articles/fab24hr-game-analysis/figure-01-four-shifts.svg)
+
+<small class="figure-caption">圖：本站依 fab24hr《關於》頁「一天有四個班」表格自繪；本站實測下午打開直接從午班開始，與設計相符。</small>
+
+操作門檻刻意壓低：系統告訴你下一步，頭上有「！」的人或機台就是目標，或按「帶我去」自動走過去；走動用方向鍵、WASD 或點地板，對話走近按 E。每班結束發一張結算卡，可分享到 Facebook、LINE（電腦上複製連結），或直式圖卡發 Instagram 限動；進度存在瀏覽器裡，離開再回來接著玩。
+
+### 第三步：原圖解讀——站內實機截圖
+
+以下兩張為本站實際開啟遊戲所截（非作者宣傳圖），第一張是主頁，第二張是點下「進廠」後：因為當時是下午，遊戲直接從午班切入，恰好驗證了時間分班機制。
+
+![fab24hr 主頁：班表、角色卡與進廠按鈕，後方為體素風廠區](/article.ai/articles/fab24hr-game-analysis/home-screenshot.png)
+
+<small class="figure-caption">主頁實截：頂部狀態列「08:30 晨會 MOVE 82% 紅燈」、名字輸入框、四名角色卡（阿凱設備 EE、雅婷整合 PIE、小芸製造 MFG、陳課長主管）、紅色「進廠」鈕；後方 3D 場景可見 MEETING 會議室、生產看板、PHOTO 黃光區，角色頭頂掛職稱牌（你｜製程 PE）。頁尾有 Buy Me a Coffee 與虛構聲明。</small>
+
+![點下進廠後：下午時段直接進入午班 13:40 趕時間](/article.ai/articles/fab24hr-game-analysis/ingame-screenshot.png)
+
+<small class="figure-caption">遊戲內實截：午班開場卡「13:40 趕時間」——早上機台修好了，只剩卡過的那片晶圓要你到機台前手動補做，「這種操作沒有系統幫你擋，而且每個人都在催」。頂部有出站倒數與 ETCH-03 生產中狀態，右上為小地圖。本站此前未在此瀏覽器玩過，進度空白卻直接進午班，佐證起始班別由開啟時間決定。</small>
+
+### 第四步：宣稱對照表——玩法與技術轉述逐條驗收
+
+| 《fab24hr》聲稱 | 站外實際與本站覆核 | 判定 |
+|---|---|---|
+| 免安裝、免登入、免費、無廣告 | 主頁與 FAQ 原文明說；頁面 script 僅自託管 Three.js 加 Cloudflare beacon，FAQ 承諾只記匿名遊玩進度、不記名、不用 cookie、無廣告追蹤 | 【原文明說】成立，beacon 存在但與其匿名聲明相容 |
+| 什麼時候打開就從那個時刻的班開始 | 《關於》頁四班時段表（00–06、06–12、12–18、18–23）；本站下午實測直接進午班 13:40（上圖第二張） | 【原文明說＋本站實測】成立 |
+| 機台、批號、數字、流程與人物皆虛構，不代表任何公司實際規範 | 頁尾與 FAQ 原文明說，每頁重複出現 | 【原文明說】成立，自我揭露完整 |
+| He 背壓：晶圓與載台有間隙即外漏跳 fault | US6899109B1（Lam Research）原文機制逐字相容：He 是晶圓背側傳熱介質，間隙造成流量異常即觸發 He backside fault 停機；專利現況為已屆期 | 【原文明說】成立 |
+| 腔體清潔後前幾片不穩，需 season | US6374832B2 標題即 waferless seasoning 專利（first wafer effect）；本站僅核到標題與摘要層級，未逐字讀全文 | 【從原文可直接推出】成立，保留全文未核 |
+| 管制圖連續 8 點在中心線同側判異常 | Western Electric 規則第四條即 8 點同側；MetricGate 對照頁寫法一致 | 【原文明說】成立 |
+| 8D 八步驟：組隊、描述問題、圍堵、根因、矯正、驗證、防再發、結案 | EESemi 的 8D 流程頁為標準八步，順序一致 | 【原文明說】成立 |
+| SEMI E10 六種機台狀態 | INFICON 引述 SEMI E10：生產、待機、工程、排定停機、非排定停機、非排程時間，六項齊全 | 【原文明說】成立 |
+| Q-time 超時須重工或報廢 | 清華碩論《考量等候時間限制之爐管派工法則》定義 Q-time；本站僅核到書目層級，未讀全文 | 【仍未被支撐的主張】書目相容，全文待核 |
+| 作者是半導體業 PM | Buy Me a Coffee 作者頁自述「在半導體業學習打滾的 PM（Software PM）」，另寫 LLM 與求職主題文章，贊助者 6 人 | 【原文明說】成立，屬自述身份 |
+
+## 風險與盲點
+
+第一，虛構與真實的邊界全靠作者自律。遊戲開頭的 ETCH-03、02:47、MOVE 82% 都是劇情數字，作者每頁都掛虛構聲明，這點值得肯定；但玩家仍可能把「手動補做一片晶圓」「圍堵、水平展開」等劇情流程當成某家廠的真實 SOP，行話頁雖有來源，劇情本身沒有——教學時要把兩頁分開用。
+
+第二，技術轉述的查證深度不均。本站把 He 背壓追到專利原文，但 season、Q-time、MO 的 PTT／Disp 討論只核到書目層級；15 筆來源裡有兩篇碩論、一篇巴哈心得、一篇 Lab News 軟文，屬於「整理自公開資料」的合理範圍，不是製程聖經。
+
+第三，單一作者的維護風險。網站無登入、進度綁瀏覽器（換裝置即遺失）；Three.js 鎖在 r128 舊版，未來瀏覽器改版可能破圖；目前無付費牆，只有贊助連結，長期維護依賴作者熱情——玩得到的時候盡量玩，並善用結算卡分享留存。
+
+第四，利益揭露：頁面有 Buy Me a Coffee 贊助連結（作者 Marcel），屬小額贊助制而非付費內容，對技術主張的影響極低；作者寫過 AI 與求職主題文章，站外身份是 PM 而非一線製程工程師，建議把本站定位為「PM 整理的科普遊戲」而非「工程師現身說法」。
+
+## 來源
+
+- fab24hr 主頁（遊戲本體）：https://fab24hr.com/?lang=zh-Hant
+- fab24hr《關於》（玩法、四班表、FAQ、15 筆資料來源）：https://fab24hr.com/about/
+- 作者贊助頁（身份自述）：https://buymeacoffee.com/mclty
+- US6899109B1（He backside faults，Lam Research）：https://patents.google.com/patent/US6899109
+- INFICON（SEMI E10 六狀態）：https://www.inficon.com/en/news/what-do-we-mean-when-we-refer-to-tool-availability
+- MetricGate（Western Electric vs Nelson 規則）：https://metricgate.com/blogs/western-electric-vs-nelson-rules-spc/
+- EESemi（8D 流程）：https://www.eesemi.com/8D.htm
+- 陽明交大半導體製程簡介講義：https://jupiter.math.nycu.edu.tw/~weng/courses/IC_2007/PROJECT_MATH_CLASS3/%E5%8D%8A%E5%B0%8E%E9%AB%94%E8%A3%BD%E7%A8%8B%E7%B0%A1%E4%BB%8B.pdf

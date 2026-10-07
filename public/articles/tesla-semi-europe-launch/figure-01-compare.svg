@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="300" viewBox="0 0 720 300" font-family="system-ui, -apple-system, sans-serif">
+<rect width="720" height="300" fill="#f8fafc"/>
+<text x="24" y="32" font-size="18" font-weight="700" fill="#0f172a">Tesla Semi 三版本對照（原廠明說值）</text>
+<text x="24" y="54" font-size="12" fill="#64748b">歐版 40T 滿載 vs 美版 37.2T（82,000 lb）評級，重量基準不同，不可直接比大小</text>
+<!-- headers -->
+<text x="240" y="92" font-size="13" font-weight="700" fill="#0f172a" text-anchor="middle">歐版（2026-09-11）</text>
+<text x="420" y="92" font-size="13" font-weight="700" fill="#64748b" text-anchor="middle">美 Standard Range</text>
+<text x="600" y="92" font-size="13" font-weight="700" fill="#64748b" text-anchor="middle">美 Long Range</text>
+<!-- range bars -->
+<text x="24" y="128" font-size="13" fill="#0f172a">續航</text>
+<rect x="120" y="112" width="220" height="20" rx="6" fill="#dc2626"/>
+<rect x="120" y="140" width="209" height="20" rx="6" fill="#94a3b8"/>
+<rect x="120" y="168" width="322" height="20" rx="6" fill="#cbd5e1"/>
+<text x="348" y="126" font-size="12" font-weight="700" fill="#fff">550 km</text>
+<text x="337" y="154" font-size="12" fill="#0f172a">523 km</text>
+<text x="450" y="182" font-size="12" fill="#0f172a">805 km</text>
+<!-- battery -->
+<text x="24" y="216" font-size="13" fill="#0f172a">電池 / 車重</text>
+<text x="120" y="216" font-size="13" fill="#0f172a">~548 kWh 推算 · 9,100 kg</text>
+<text x="360" y="216" font-size="13" fill="#64748b">548 kWh · ~9,100 kg</text>
+<text x="560" y="216" font-size="13" fill="#64748b">822 kWh · ~10,430 kg</text>
+<!-- charging -->
+<text x="24" y="250" font-size="13" fill="#0f172a">充電峰值</text>
+<text x="120" y="250" font-size="13" font-weight="700" fill="#dc2626">800 kW（歐）</text>
+<text x="360" y="250" font-size="13" fill="#64748b">800 kW 推算</text>
+<text x="560" y="250" font-size="13" fill="#64748b">1.2 MW</text>
+<text x="24" y="282" font-size="11" fill="#64748b">本站整理：歐版車重落在標準版區間，550 km 高於美版 523 km 主因是歐洲 90 km/h 限速＋評級重量不同。</text>
+</svg>

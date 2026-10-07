@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="420" viewBox="0 0 720 420" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="720" height="420" rx="12" fill="#faf9f7"/>
+  <rect x="0" y="0" width="720" height="420" rx="12" fill="none" stroke="#e5e0d8" stroke-width="1.5"/>
+  <text x="28" y="36" font-size="18" font-weight="700" fill="#1c1917">動態尺用在哪裡：FIG. 2C 與 FIG. 2E 的兩種佈置</text>
+  <text x="28" y="58" font-size="12.5" fill="#78716c">本站依 X 長文第 6 節（FIG. 2C／2E 解讀）自繪；動態＝執行期現算 scale，靜態＝事先定好</text>
+
+  <!-- Lane A: FIG 2C -->
+  <text x="28" y="92" font-size="13.5" font-weight="700" fill="#1c1917">A．FIG. 2C（動態為主）：Q／K／V 與 attention 矩陣乘法前都先動態量化</text>
+  <rect x="28" y="104" width="664" height="104" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="1.5"/>
+  <rect x="44" y="122" width="120" height="40" rx="8" fill="#ffffff" stroke="#059669" stroke-width="1.5"/>
+  <text x="104" y="147" font-size="12.5" font-weight="600" fill="#065f46" text-anchor="middle">token 輸入</text>
+  <rect x="176" y="122" width="150" height="40" rx="8" fill="#059669"/>
+  <text x="251" y="147" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle">Dynamic quant／token</text>
+  <rect x="338" y="122" width="180" height="40" rx="8" fill="#ffffff" stroke="#059669" stroke-width="1.5"/>
+  <text x="428" y="147" font-size="12.5" font-weight="600" fill="#065f46" text-anchor="middle">INT8 Q／K／V＋attention</text>
+  <rect x="530" y="122" width="146" height="40" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="603" y="147" font-size="12.5" font-weight="600" fill="#92400e" text-anchor="middle">回升 BF15／BF16</text>
+  <text x="44" y="188" font-size="12.5" fill="#065f46">高精度孤島：RMS norm、RoPE（保位置精度）、softmax；僅 value 路徑圖標 per-channel，文字［0113］寫 per-token（圖文出入，作者已點名）</text>
+
+  <!-- Lane B: FIG 2E -->
+  <text x="28" y="240" font-size="13.5" font-weight="700" fill="#1c1917">B．FIG. 2E（靜態為主）：分佈穩定處用固定尺，只在 norm 後動態一次</text>
+  <rect x="28" y="252" width="664" height="104" rx="10" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+  <rect x="44" y="270" width="150" height="40" rx="8" fill="#ffffff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="119" y="295" font-size="12.5" font-weight="600" fill="#5b21b6" text-anchor="middle">輸入／Q／K／V…</text>
+  <rect x="206" y="270" width="150" height="40" rx="8" fill="#7c3aed"/>
+  <text x="281" y="295" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle">Static quantize ×N</text>
+  <rect x="368" y="270" width="150" height="40" rx="8" fill="#059669"/>
+  <text x="443" y="295" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle">norm 後 dynQ ×1</text>
+  <rect x="530" y="270" width="146" height="40" rx="8" fill="#ffffff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="603" y="295" font-size="12.5" font-weight="600" fill="#5b21b6" text-anchor="middle">後續 static</text>
+  <text x="44" y="336" font-size="12.5" fill="#5b21b6">該處 scale 以平均 SNR 20 為設計目標（非實測值，作者已聲明）；1x1xf32＝全 tensor 共用一個 scale</text>
+
+  <line x1="28" y1="360" x2="692" y2="360" stroke="#e5e0d8" stroke-width="1"/>
+  <text x="28" y="382" font-size="12.5" fill="#78716c">一句話：尺是工具不是信仰——範圍會漂的地方現算，不漂的地方事先定好。</text>
+  <text x="28" y="402" font-size="12.5" fill="#78716c">出處：US 2026/0299881 A1，FIG. 2C／2E；Nx1xf32＝每 token 一個 scale。</text>
+</svg>

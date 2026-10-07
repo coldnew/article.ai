@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 380" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="740" height="380" rx="12" fill="#f5f8fa"/>
+  <text x="24" y="32" font-size="16" font-weight="700" fill="#0f1419">果蠅開無人機：信號鏈裡誰是生物、誰是人工</text>
+  <g font-size="12">
+    <rect x="24" y="60" width="130" height="76" rx="10" fill="#ffffff" stroke="#b8892e" stroke-width="2"/>
+    <text x="89" y="84" font-weight="700" fill="#0f1419" text-anchor="middle">攝影機</text>
+    <text x="89" y="102" fill="#5b6570" text-anchor="middle">看手／看房間</text>
+    <text x="89" y="120" fill="#c2410c" text-anchor="middle">人工選擇的輸入</text>
+    <rect x="178" y="60" width="150" height="76" rx="10" fill="#fff7ed" stroke="#c2410c" stroke-width="2"/>
+    <text x="253" y="84" font-weight="700" fill="#0f1419" text-anchor="middle">Eyes 編碼器</text>
+    <text x="253" y="102" fill="#5b6570" text-anchor="middle">視覺特徵檢測</text>
+    <text x="253" y="120" fill="#c2410c" text-anchor="middle">人工設計＋擬合</text>
+    <rect x="352" y="60" width="170" height="76" rx="10" fill="#eef7ee" stroke="#2e7d32" stroke-width="2"/>
+    <text x="437" y="84" font-weight="700" fill="#0f1419" text-anchor="middle">FlyBrain LIF</text>
+    <text x="437" y="102" fill="#5b6570" text-anchor="middle">166,700 神經元</text>
+    <text x="437" y="120" fill="#2e7d32" text-anchor="middle">腦內零訓練（生物接線）</text>
+    <rect x="546" y="60" width="170" height="76" rx="10" fill="#fff7ed" stroke="#c2410c" stroke-width="2"/>
+    <text x="631" y="84" font-weight="700" fill="#0f1419" text-anchor="middle">Readout 解碼</text>
+    <text x="631" y="102" fill="#5b6570" text-anchor="middle">線性讀出→油門</text>
+    <text x="631" y="120" fill="#c2410c" text-anchor="middle">人工擬合（有訓練）</text>
+    <g stroke="#5b6570" stroke-width="1.5" marker-end="url(#arr)">
+      <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#5b6570" stroke-width="1.5"/></marker></defs>
+      <line x1="154" y1="98" x2="176" y2="98"/>
+      <line x1="328" y1="98" x2="350" y2="98"/>
+      <line x1="522" y1="98" x2="544" y2="98"/>
+    </g>
+    <rect x="24" y="160" width="692" height="120" rx="10" fill="#ffffff" stroke="#cfd9de" stroke-width="1.5"/>
+    <text x="44" y="186" font-weight="700" fill="#0f1419">讀法：把「沒人教」拆成三段分別打分</text>
+    <text x="44" y="210" fill="#0f1419">1．腦內接線 —— 真的沒訓練（MaleCNS v1.0 電鏡接線，LIF 直接跑）。</text>
+    <text x="44" y="232" fill="#0f1419">2．輸入編碼 —— 人工的（哪顆視覺神經元看哪個像素，人寫的 Eyes 映射）。</text>
+    <text x="44" y="254" fill="#0f1419">3．輸出解碼 —— 有訓練的（降神經元→油門的線性讀出是擬合出來的）。</text>
+  </g>
+  <text x="24" y="310" font-size="11" fill="#5b6570">本站依 flybrain 0.1.0（PyPI）文件自繪：FlyBrain 零訓練／Readout 擬合／Eyes 編碼器三段結構。</text>
+  <text x="24" y="328" font-size="11" fill="#5b6570">結論先行：接線是生物的，介面是人工的；「接管」成立的範圍只到演示。</text>
+  <text x="24" y="346" font-size="11" fill="#5b6570">CPU（numba）可跑亦支援 GPU（CUDA）；演示實際硬體未公開。</text>
+</svg>

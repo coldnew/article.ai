@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="260" viewBox="0 0 720 260" font-family="system-ui, -apple-system, sans-serif">
+<rect width="720" height="260" fill="#f8fafc"/>
+<text x="24" y="32" font-size="18" font-weight="700" fill="#0f172a">為什麼 800 kW 在歐洲夠用：法規休息窗數學</text>
+<text x="24" y="54" font-size="12" fill="#64748b">歐盟駕駛時間規則：連開 4.5 小時必須休息 45 分鐘 · 卡車限速約 90 km/h</text>
+<!-- timeline bar -->
+<rect x="24" y="80" width="672" height="56" rx="10" fill="#e2e8f0"/>
+<rect x="24" y="80" width="440" height="56" rx="10" fill="#0f172a"/>
+<text x="44" y="104" font-size="13" font-weight="700" fill="#fff">開車 4.5h × 90 km/h ≈ 405 km</text>
+<text x="44" y="124" font-size="12" fill="#cbd5e1">約耗 405 kWh（以 1 kWh/km 計）</text>
+<rect x="464" y="80" width="232" height="56" rx="10" fill="#dc2626"/>
+<text x="484" y="104" font-size="13" font-weight="700" fill="#fff">休息 45 分鐘</text>
+<text x="484" y="124" font-size="12" fill="#fecaca">30 分鐘回約 330 km（60%）</text>
+<!-- bottom notes -->
+<text x="24" y="168" font-size="13" fill="#0f172a">550 km × 60% ≈ <tspan font-weight="700">330 km</tspan>，一次休息窗補回約八成單班里程。</text>
+<text x="24" y="192" font-size="13" fill="#0f172a">長程版多出的 274 kWh 在 40T 上限下約吃掉 <tspan font-weight="700">1.3 噸載重</tspan>，歐洲法規內反而是負擔。</text>
+<text x="24" y="224" font-size="11" fill="#64748b">本站自繪：充電數字為 Tesla 原文明說（800 kW / 30 分鐘 60%）；載重換算為合理推斷，見內文。</text>
+</svg>

@@ -1,0 +1,74 @@
+---
+title: "留著 IKEA 的殼、換掉它的大腦：ESP32 鳩佔鵲巢＋AI 逆向晶片"
+description: "整理《wastemobile》這則 X 貼文：轉述 Threads 作者 davidhuanglab 把 IKEA 時鐘拆開，請 AI 找出晶片控制方式，再用 ESP32 接管面板，實現 Wi-Fi 自動校時與自繪圖案。貼文只有成果展示、沒有釋出程式碼，接線與晶片型號皆未被支撐。"
+publishedAt: 2026-09-27
+topic: "硬體改造"
+sourceType: "article"
+sourceUrl: "https://x.com/wastemobile/status/2104030040346550300?s=20"
+authors: ["wastemobile（@wastemobile）", "davidhuanglab（Threads 原作者，經截圖轉述）"]
+analyst: "Muse Spark"
+venue: "X · wastemobile (@wastemobile)"
+tags: ["IKEA", "ESP32", "硬體改造", "逆向工程", "AI 協作"]
+readTime: "6 分鐘"
+evidence: "探索中"
+featured: false
+sourceCount: 2
+accent: "red"
+---
+import XPostCard from '../../components/XPostCard.astro';
+
+## 一句話結論
+
+《wastemobile》這則貼文轉述了一次典型的「鳩佔鵲巢」式硬體改造：Threads 作者 davidhuanglab 拆開 IKEA 時鐘（原文明說），請 AI 協助找出晶片控制方式，再用 ESP32 接管原廠 LED 面板，做出 Wi-Fi 自動校時與自繪圖案（經貼圖截圖轉述，未能直接核實 Threads 原文）。
+
+> 閱讀方式：下文用四種標記區分內容性質——（原文明說）、（從原文可直接推出）、（合理推斷）、（未被支撐）。單則轉述貼文加一張截圖，evidence 只能給「探索中」。
+
+## 當事人貼文嵌入
+
+以下貼文以本站靜態卡片還原（X 原生嵌入需載入外部 JS 且離線不可見，故改以靜態還原＋本地頭像呈現；文字、時間、數據皆逐字核對）：
+
+<XPostCard author="wastemobile" handle="@wastemobile" avatar="/article.ai/articles/ikea-clock-esp32-hack-analysis/wastemobile-avatar.jpg" timestamp="2:07 AM · Sep 27, 2026" views="30.1K" replies="4" reposts="14" likes="267" sourceUrl="https://x.com/wastemobile/status/2104030040346550300?s=20" mediaUrl="/article.ai/articles/ikea-clock-esp32-hack-analysis/ikea-clock-hack.jpg" mediaAlt="davidhuanglab 的 Threads 截圖：紅色 IKEA LED 時鐘顯示 03:15 32">
+<p>有人拆開 IKEA 時鐘、請 AI 找出控制晶片的方法，再用 ESP32 接管。 真是太棒了👏！ 「鳩佔鵲巢」的 AI hack 大法，學起來～</p>
+</XPostCard>
+
+<small class="figure-caption">嵌入 1｜@wastemobile 主貼文靜態還原（認證狀態不確定故省略徽章；書籤數 X 本來不顯示，故省略）。配圖為貼文附圖的本地存檔：內含 davidhuanglab Threads 截圖，15 萬次瀏覽、3,636 個讚，紅色長條 LED 時鐘顯示 03:15。貼文內文已是繁體，毋須另譯。</small>
+
+貼圖內 davidhuanglab 的兩段文字，經圖片轉述如下（未能直接開啟 Threads 核實，以轉述看待）：第一段說最近把 IKEA 的時鐘拆開研究，請 AI 幫忙找出晶片的控制方式，再用 ESP32 接管面板，現在可以連上 Wi-Fi 自動校時，也能顯示自己畫的圖案；第二段說另外還使用視訊鏡頭，請 AI 幫忙確認每個 LED 燈的位置分別如何控制。
+
+## 這篇文章真正解決的問題
+
+《wastemobile》這則貼文解的不是「IKEA 時鐘怎麼改」，而是「量產小家電的大腦太笨時怎麼辦」。
+
+它的核心判斷是：外殼、面板、機構都是量產現成的精華，笨的是原廠主控（合理推斷）。與其從零做一個時鐘，不如把原廠晶片晾在一邊，用 ESP32 直接驅動同一塊面板（原文明說「用 ESP32 接管」＋從原文可直接推出）。AI 在這裡扮演的不是寫韌體的角色，而是逆向工程師：讀晶片絲印、找 datasheet、推腳位與掃描時序（合理推斷，貼文只說「找出控制晶片的方法」）。
+
+這個視角有用，因為它把硬體改造從「電路功力」改寫成「流程問題」：拆機拍照、AI 逆向、逐顆驗證、MCU 接管，四步缺一不可。
+
+![鳩佔鵲巢式改造流程：留面板、換大腦，AI 負責逆向，ESP32 負責接管。](/article.ai/articles/ikea-clock-esp32-hack-analysis/figure-01-nest-takeover.svg)
+
+<small class="figure-caption">圖 1｜本站自繪：拆機留殼→拍照逆向→AI 查控制方式→ESP32 接管→Wi-Fi 校時與自繪圖案。視訊鏡頭逐顆確認 LED 映射一段來自截圖轉述。</small>
+
+## 流程拆解
+
+把《wastemobile》轉述的改造拆成五步，每步標註性質：
+
+1. 拆機留殼（原文明說）：把 IKEA 時鐘拆開，外殼與 LED 面板保留。貼圖中的紅色長條鐘體、接腳底座即是保留件（從原文可直接推出）。
+2. 拍照逆向（合理推斷）：拍下 PCB 正反面與晶片絲印，丟給 AI 辨識型號、找 datasheet、推電源腳、時脈腳、資料腳與掃描方式。貼文只寫「請 AI 找出控制晶片的方法」，具體用哪家模型、問了幾輪，皆未被支撐。
+3. 視訊鏡頭逐顆驗證（經截圖轉述，未被支撐）：用鏡頭對著面板，請 AI 確認每顆 LED 的位置與控制對應。這是全文最有意思的一步——把「眼睛看燈」外包給視覺模型，但點亮順序、對照方法都沒有公開。
+4. ESP32 接管（原文明說）：繞過原廠主控，用 ESP32 直驅面板。至於是 GPIO 直驅、經移位暫存器，還是保留原驅動 IC 只接管邏輯，皆未被支撐。
+5. 新能力上線（經截圖轉述）：Wi-Fi 自動校時＋自繪圖案顯示。校時協定（NTP）、圖案格式、更新介面都沒有說明，只能當成果展示看。
+
+wastemobile 在後續回覆補了一句重要的話（原文明說）：原串作者尚未釋出 GitHub 或其他分享連結。這句話直接決定了本文的證據上限。
+
+## 風險與盲點
+
+- 接線細節全缺（未被支撐）：沒有晶片型號、沒有腳位表、沒有電壓與電流、沒有時序圖。照著做最可能發生的事是燒板，而不是復刻成功。
+- 兩手轉述（未被支撐）：X 貼文轉述 Threads 截圖，截圖再轉述改造過程。時鐘型號（貼圖外觀疑似 KORTLINJE 系列，合理推斷）、韌體、接線照片全都沒有第二來源。
+- AI 逆向的幻覺風險（合理推斷）：晶片絲印磨掉、副廠相容料、時序猜錯，都是視覺模型容易自信答錯的地方。沒有三用電錶＋邏輯分析儀交叉驗證，AI 說的腳位只能當假設。
+- 視訊驗證不可重現（未被支撐）：「請 AI 確認每顆 LED 位置」聽起來很酷，但鏡頭畸變、反光、掃描餘暉都會干擾判斷。沒有公開驗證流程，就無法區分是真逐顆對上，還是抽查幾顆。
+- 安全與保固（從原文可直接推出）：拆機即失保固；用 ESP32 供電給原面板若電壓不匹配，有燒毀與過熱風險。量產外殼的散熱是按原功耗設計的，改造後功耗不同要重估。
+
+## 來源
+
+- 《wastemobile》 X 主貼文（2026-09-27，30.1K 瀏覽）：https://x.com/wastemobile/status/2104030040346550300 ——本文靜態卡片、內文逐字與互動數據之出處；配圖本地存檔於本站
+- davidhuanglab Threads 截圖（經 X 配圖轉述，15 萬次瀏覽）：Wi-Fi 自動校時、自繪圖案、視訊鏡頭逐顆確認三段宣稱之出處，未能直接開啟 Threads 核實
+- 《wastemobile》後續回覆：原串作者尚未釋出 GitHub 或其他分享連結 ——證據上限之出處

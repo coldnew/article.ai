@@ -1,0 +1,106 @@
+---
+title: "Tesla 雙專利拆解：每 token 一把尺的 INT8 量化，與 15 位元 BF15（E7M7）"
+description: "分析 @tslaming 解讀的兩件 Tesla 專利公開案 US 2026/0299881 A1（混合精度 transformer）與 US 2026/0299533 A1（BF15 數字格式）：per-token 動態量化、MaxAbs 定尺、E7M7 指數範圍，逐條與說明書段號核對。本文另以執行驗算覆核 10^19 範圍，並指出申請案≠量產上車、零精度實測、15 位元對齊代價三處未支撐。"
+publishedAt: 2026-10-05
+topic: "AI 晶片"
+sourceType: "patent"
+sourceUrl: "https://x.com/tslaming/status/2106894809550279048"
+authors: ["Ming（@tslaming）"]
+analyst: "Muse Spark"
+venue: "X 貼文 · Tesla 專利解讀"
+tags: ["Tesla", "專利", "量化", "Transformer", "推論優化", "BF16"]
+readTime: "10 分鐘"
+evidence: "中"
+featured: false
+sourceCount: 3
+accent: "orange"
+---
+
+import XPostCard from '../../components/XPostCard.astro';
+
+## 先說結論
+
+《Ming（@tslaming）的 Tesla 專利速報》這則貼文講的是兩件 2026 年 10 月 1 日公開的 Tesla 專利申請案——混合精度 transformer（**US 2026/0299881 A1**）與緊湊數字格式（**US 2026/0299533 A1**），同一四位發明人。**本站把 USPTO 全文拉下來逐段核對：per-token 動態量化、`inv_scale = INT_MAX/max_abs` 定尺、只有矩陣乘法降 INT8、E7M7 保留 BF16 全部 7 個尾數位、轉換管線的 shift 加兩次加法、以及把指數修正併入 scale 省一次加法——六項技術轉述全部對得上，E7M7 的 10^19 範圍本站另以執行驗算獨立覆核成立。但「Tesla has figured out」是完成式敘事：兩件都是未獲證的公開申請案（A1），全文零精度實測、零數據集、未對應任何 Tesla 晶片，「舊晶片跑更大模型」是貼文的推論而非專利內容。單一解讀貼文加兩件公司申請案，證據等級給「中」。**
+
+以下貼文以本站靜態卡片還原（X 原生嵌入需載入外部 JS 且離線不可見，故改以靜態還原＋本地頭像呈現；文字、時間、互動數皆逐字核對；貼文另附兩張圖——作者自繪資訊圖與兩件專利首頁拼圖，依本站慣例存檔於站內並在「原圖解讀」一節逐項引用，此處卡片掛載專利首頁拼圖）：
+
+<XPostCard author="Ming" handle="@tslaming" avatar="/article.ai/articles/tesla-mixed-precision-transformer-bf15-analysis/tslaming-avatar.jpg" timestamp="11:50 PM · Oct 4, 2026" views="2,576" replies="4" reposts="10" likes="47" sourceUrl="https://x.com/tslaming/status/2106894809550279048" mediaUrl="/article.ai/articles/tesla-mixed-precision-transformer-bf15-analysis/post-fig2.jpg" mediaAlt="兩件 Tesla 專利公開案的首頁拼圖">
+<p><strong>GOOD NEWS 🧮 Tesla has figured out how to shrink AI's numbers without losing detail: give every token its own ruler and trim a bit the AI rarely uses 🔥</strong></p>
+<p>The neural networks powering Tesla's cars and robots keep growing, and the ongoing challenge is fitting them onto onboard computers without needing a hardware upgrade every cycle. Two patent applications from the same four inventors tackle this challenge from complementary angles: a mixed-precision transformer (US 2026/0299881 A1) and a compact number format (US 2026/0299533 A1).</p>
+<p>A common way to accelerate neural networks is to run their heavy math using 8-bit integers, which chips can crunch rapidly. But 8 bits offer only 256 distinct values, like a ruler with just 256 tick marks, forcing every number to round to the nearest tick. The traditional static approach sets the ruler's length in advance. That falls short when inputs shift: a scale calibrated for bright daylight compresses a dark night scene into just a handful of ticks, wiping out critical details.</p>
+<p>The mixed-precision transformer solves this by resizing the ruler on the fly. Input data arrives as tokens (compact chunks of data). For each token, the system identifies its most extreme value and scales the ruler so that value lands on the very last tick mark. Every token gets its own tailored ruler, and no tick marks go to waste. Crucially, only the heavy matrix multiplications, where the bulk of the compute happens, drop down to 8 bits. Sensitive operations like normalization, softmax, and the running totals carried between layers stay in higher precision, preserving the numerical stability the network needs.</p>
+<p>Many of those higher-precision operations rely on a format called BF15, introduced in the number-format patent. Computers store floating-point numbers much like scientific notation: an exponent defines the overall magnitude, while the remaining bits capture precision. The standard 16-bit format, BF16, allocates 8 bits to the exponent, providing a dynamic range spanning roughly 10⁻³⁸ to 10³⁸. But running inference on a trained model rarely demands that broad of a reach. Trimming a single exponent bit leaves a 15-bit format dubbed E7M7. It still covers a range of roughly 10⁻¹⁹ to 10¹⁹, but makes every value lighter to store and move across memory channels. Because it preserves all 7 of BF16's precision bits, trained BF16 models can run in E7M7 without any training-inference mismatch.</p>
+<p>The number-format patent also outlines how to make E7M7 computationally cheap to handle in hardware. A value converts into a standard 32-bit float with a single shift, followed by two additions to restore its sign and translate the exponent back into standard form. From there, converting values into integers reuses the transformer's ruler trick: scale everything so the peak value lands on the final tick. Because every number gets multiplied by that scale factor anyway, an optimized hardware implementation folds the exponent fix directly into the scale itself, letting each value skip an addition entirely.</p>
+<p>Together, the two innovations divide and conquer. One packs each token into 8-bit integers for heavy math without wasting dynamic range, while the other makes surrounding high-precision calculations smaller and faster to process. Both cut memory traffic, reduce power consumption, and speed up predictions, letting Tesla scale up its models while keeping existing chips in place.</p>
+</XPostCard>
+
+<small class="figure-caption">靜態還原＋繁體譯文要點：好消息，Tesla 找到不丟細節壓縮 AI 數值的方法——每個 token 配一把專屬尺（per-token 動態量化），並剪掉推論時用不到的一個指數位（BF15／E7M7）；兩件同發明人專利分工：混合精度 transformer（US 2026/0299881 A1）＋緊湊數字格式（US 2026/0299533 A1）；只有大矩陣乘法降 INT8，正規化、softmax、層間殘差留高精度；E7M7 保留 BF16 全部 7 個尾數位、範圍約 10⁻¹⁹～10¹⁹；轉換為一次移位加兩次加法，指數修正可併入 scale 省一次加法；結論稱兩者合力省記憶體流量、降功耗、加速預測，讓舊晶片撐住更大模型。認證徽章因無法確認而省略；書籤數 X 本來不顯示，故未還原。</small>
+
+## 這兩件專利真正解決的問題
+
+貼文解決的是敘事問題：車上與機器人上的模型越長越大，怎麼不換硬體就塞進去。專利解決的是兩個具體的技術問題，分開寫：
+
+1. **靜態 INT8 量化的動態範圍浪費**（881 案）：8 位元只有 256 格，傳統做法事先定好尺的長度；輸入分佈一漂移（貼文的日光／夜景比喻），小值全擠在幾格裡，細節被抹掉。解法是動態量化層（dynamic quantization layers）：on the fly 按 token（也支援按通道、按區塊）各算各的 scale。
+2. **推論時 BF16 指數範圍過剩**（533 案）：BF16 的 8 位指數撐出 10⁻³⁸～10³⁸，但前向傳遞維持精度用不了這麼大的動態範圍。解法是 E7M7：指數砍到 7 位（bias 從 127 改 63），尾數 7 位原樣保留，總長 15 位。
+
+## 流程拆解
+
+### 第一步：書目核對——兩案確為同源兄弟案
+
+【本站核對，底本為 USPTO 公開案 PDF 全文】兩案申請人皆 Tesla, Inc.（Austin, TX），發明人皆 Ritvik Rawat（Sunnyvale, CA）、Valeriy Rotan（Los Gatos, CA）、Alex Singh（Austin, TX）、Srihari Sampathikumar（Palo Alto, CA）四人；同於 2026 年 10 月 1 日公開。881 案題為《MIXED PRECISION TRANSFORMER WITH INTEGER MULTIPLY ACCUMULATE》（申請號 19/322,393，2025 年 9 月 8 日申請）；533 案題為《SYSTEMS AND METHODS FOR QUANTIZING FLOATING-POINT VALUES DURING OPERATION OF AN AUTOMATED ROBOTIC SYSTEM》（申請號 19/629,949，2026 年 3 月 26 日申請）。值得注意的是兩案的臨時案同日提出——63/780,053 與 63/780,070，皆為 2025 年 3 月 28 日——編號相鄰，是同一天協調送件的兄弟案（【從原文可直接推出】）。
+
+### 第二步：宣稱對照表——六項技術轉述逐條驗收
+
+| 貼文聲稱 | 專利實際（段號） | 判定 |
+|---|---|---|
+| 兩件申請、同一四位發明人、互補角度 | 書目全中；881 管 transformer 動態量化，533 管數字格式與轉換 | 【原文明說】成立 |
+| 每 token 一把尺，極值落最後一格、刻度不浪費 | 881［0079］：per token／per channel／per block，on the fly，每列一個 scale 存暫存器；533［0076］–［0077］：`inv_scale = INT_MAX/max_abs`，全值乘上該 scale | 【原文明說】成立 |
+| 只有大矩陣乘法降 INT8；norm、softmax、層間殘差留高精度 | 881：INT8 MAC＋FP32 SIMD（［0078］）；normalization 層以 BF15 保持數值穩定（［0081］）；殘差流維持高精度、residual addition 用 BF16（［0117］）；softmax 轉機率分佈（［0095］）；matmul 前降 INT8、之後升回 BF15（［0094］） | 【原文明說】成立 |
+| BF15＝E7M7；同 BF16 尾數；範圍 10⁻¹⁹～10¹⁹；無訓練推論落差 | 533［0036］：bias 63、E7M7、same mantissa bits as bf16、without train-test mismatch；本站以 `python3 -c` 獨立驗算：最大正規數約 3.675e19、最小正規數約 2.17e-19 | 【原文明說＋本站驗算】成立 |
+| 轉換＝一次移位＋兩次加法；指數修正併入 scale 省一次加法 | 533［0075］–［0079］：`shift_left(element, 16)` 對齊進 fp32 暫存器、取 sign（`& 0x40000000`）、`+sign`、`+(64<<23)` 回填指數；［0078］明說可把 64 加進 inverse scale | 【原文明說】成立 |
+| Tesla 已經搞定、舊晶片跑更大模型 | 兩件皆為公開申請案（A1），未獲證；專利只寫通用 INT8 MAC＋FP32 SIMD，未對應任何 Tesla 晶片；全文無精度、速度實測數據 | 【仍未被支撐的主張】 |
+
+![固定尺與每 token 一把尺的對比。](/article.ai/articles/tesla-mixed-precision-transformer-bf15-analysis/figure-01-ruler.svg)
+
+<small class="figure-caption">圖 1｜本站依 881 案［0079］與 533 案［0076］–［0077］自繪。左：固定尺下小值擠在同一格；右：每 token 以自身 max_abs 定尺，最大值落在第 256 格。注意右側的另一面：同一 token 內的離群極端值會壓扁其他小值，專利未討論離群值處理。</small>
+
+### 第三步：E7M7 的算法——剪指數、留尾數、bias 63
+
+【專利［0036］明說】IEEE 浮點 bias 127 配 8 位指數；降到 7 位後 bias 變 63，仍可表示大到 10^19、小到 10^-19 的值；新格式 E7M7 與訓練期通用格式 bf16（E8M7）尾數位相同，故可免 train-test mismatch，直接拿 BF16 訓練好的模型跑推論。摘要裡「從指數部拿一位給尾數部」（reassign）的寫法是權利範圍的上位概括，E7M7 實施例是剪指數、尾數維持 7 位，兩者是概括與實施例的關係，不是矛盾（【合理推斷】）。
+
+![BF16 與 E7M7 位元配置及硬體轉換管線。](/article.ai/articles/tesla-mixed-precision-transformer-bf15-analysis/figure-02-e7m7.svg)
+
+<small class="figure-caption">圖 2｜本站依 533 案［0036］與［0075］–［0079］自繪。上：BF16（1＋8＋7）對 E7M7（1＋7＋7），虛線格為剪掉的指數位；下：bf15 → 左移 16 位 → 加 sign → 加 (64&lt;&lt;23) → 乘 inv_scale 得 INT8，其中指數修正可併入 scale。範圍數字經本站執行驗算，見圖注。</small>
+
+## 原圖解讀
+
+貼文附圖共兩張，本站皆已存檔。
+
+![兩件專利公開案首頁拼圖。](/article.ai/articles/tesla-mixed-precision-transformer-bf15-analysis/post-fig2.jpg)
+
+<small class="figure-caption">圖 3｜貼文附圖第二張，兩件公開案首頁拼圖（USPTO 公開文件）。左：533 案，題名、申請人 Tesla, Inc.、四位發明人、申請號 19/629,949、2026 年 3 月 26 日申請、臨時案 63/780,070（2025 年 3 月 28 日）、2026 年 10 月 1 日公開，摘要載明 max absolute value 與指數部剪位；右：881 案，題名、同一申請人與發明人、申請號 19/322,393、2025 年 9 月 8 日申請、臨時案 63/780,053（2025 年 3 月 28 日）、同日公開，摘要載明 per-token 動態量化 transformer。兩首頁的 FIG.1A 皆為 ego computing／analytics server 系統圖。出處：USPTO 公開文件，貼文附圖存檔。</small>
+
+![作者自繪的雙專利解說資訊圖。](/article.ai/articles/tesla-mixed-precision-transformer-bf15-analysis/post-fig1.jpg)
+
+<small class="figure-caption">圖 4｜貼文附圖第一張，作者自繪資訊圖（右下自述 Illustration based on the text and figures of both applications，即二次詮釋、非專利原圖）。三段式：上段 BF16／E7M7 位元條（指數 8→7、尾數 7 位全留、範圍 10^38→10^19）；中段固定尺 vs 每 token 一把尺（註明 16 of 256 ticks drawn）；下段 INT8 矩陣運算＋結果回流高精度步驟。經與說明書比對，三段轉述大致忠實，屬詮釋圖而非證據圖。</small>
+
+## 風險與盲點
+
+- **申請案不是專利權，更不是量產（【仍未被支撐的主張】）**：A1 是公開號不是獲證號；審查可能限縮、也可能不准。專利通篇談的是 ego computing device／analytics server 的通用架構，沒有 HW4／AI4／AI5 的字樣，「keeping existing chips in place」是貼文的結論句，專利裡沒有。
+- **「without losing detail」沒有數字**：兩件全文沒有任何精度、困惑度、速度、功耗實測，只有一句定性的「do not significantly degrade the model's performance」（881［0094］前後文）。沒有數據集口徑、沒有模擬 vs 實測對照，這句標題級承諾目前是零證據。
+- **15 位元的對齊稅**：容量只省 1/16（6.25%），且 15 bits 非位元組對齊，存放要打包、讀寫要移位；若實作圖省事 pad 到 16 位，容量節省直接歸零，剩的只有 bias 63 帶來的指數運算簡化。貼文只談「lighter to store and move」，沒談打包代價。
+- **per-token 定尺的離群值弱點**：`INT_MAX/max_abs` 把全 token 的動態範圍綁在單一極端值上，一個離群大值就能把同 token 其他值壓扁。專利給了 per-channel／per-block 選項，但沒談離群值偵測或裁剪，這是 INT8 量化文獻裡的經典坑。
+- **指數範圍輕微不對稱**：bias 63 給出指數 −62～＋64，上寬下窄各一檔；專利用「substantially symmetric」帶過，工程上無礙，但讀到「對稱」字樣時知道它約等於對稱即可。
+- **利益揭露**：@tslaming 自介為 Tesla／SpaceX／Neuralink 愛好者，屬同好解讀而非中立評測；但本次六項技術轉述經本站逐段核對大致忠實，立場未扭曲技術內容——取捨是：可引用其轉述的機制，結論句（已搞定、舊晶片夠用）要打折。
+
+## 我們的判讀
+
+《Tesla 雙專利》最值得帶走的不是 E7M7 這個格式，而是一個可遷移的判斷框架：**看到「量化專利」，先問「尺是誰定的、多久定一次」，再問「誰不用降精度」**。這兩件的答案很乾淨：尺是每個 token 用自己的最大值現定的（`INT_MAX/max_abs`），精度只降在矩陣乘法，norm、softmax、殘差流全部留在高精度；E7M7 則是把推論用不到的指數範圍還給儲存與頻寬。機制乾淨，但記住它停在申請案階段：沒有精度數字之前，「without losing detail」是願景不是結果。和站上另兩篇 Tesla 專利解讀（雙軸浮動卡扣談公差、Robovan 外觀談形狀資產）對照，Tesla 的專利佈局是三層各做各的：機構管組裝、外觀管識別、這兩件管推論成本；三者互不替代。
+
+## 來源
+
+- @tslaming X 主貼文（2026-10-04）：https://x.com/tslaming/status/2106894809550279048 ——本文解讀對象，約 2,576 瀏覽；附圖兩張（自繪資訊圖、兩專利首頁拼圖）已存檔站內
+- US 2026/0299881 A1 全文 PDF（USPTO 公開文件）：https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/20260299881 ——混合精度 transformer，申請號 19/322,393
+- US 2026/0299533 A1 全文 PDF（USPTO 公開文件）：https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/20260299533 ——BF15／E7M7 數字格式，申請號 19/629,949
+- 專利 canonical 頁（發稿時 Google Patents 尚未索引， opened 404）：https://patents.google.com/patent/US20260299881A1/en ——待索引上線後可回來補 canonical 連結
+- E7M7 範圍驗算：本站以 `python3 -c` 執行，`(2-2^-7)×2^64 ≈ 3.675e19`、`2^-62 ≈ 2.17e-19`，貼文的 10^±19 成立

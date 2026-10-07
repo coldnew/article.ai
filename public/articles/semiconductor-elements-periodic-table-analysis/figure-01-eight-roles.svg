@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560" font-family="Noto Sans TC, Hiragino Sans, sans-serif">
+<rect width="960" height="560" fill="#f8fafc" rx="16"/>
+<text x="480" y="44" text-anchor="middle" font-size="24" font-weight="700" fill="#0f172a">半導體製程中的元素八種角色（本站自繪）</text>
+<text x="480" y="70" text-anchor="middle" font-size="14" fill="#64748b">原圖為日文互動周期表，此圖把圖例轉寫為繁體中文並標出代表元素</text>
+<g font-size="15">
+<!-- row 1 -->
+<g><rect x="40" y="100" width="440" height="96" rx="12" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/><text x="60" y="130" font-weight="700" fill="#0c4a6e">1 基板・基礎</text><text x="60" y="156" fill="#334155">Si 矽（主角）、Ge 鍺、SiC、GaN 用的 C、N</text><text x="60" y="178" fill="#64748b" font-size="13">純度拉到 eleven-nine，晶圓的一切起點</text></g>
+<g><rect x="500" y="100" width="420" height="96" rx="12" fill="#ffedd5" stroke="#ea580c" stroke-width="2"/><text x="520" y="130" font-weight="700" fill="#7c2d12">2 摻雜劑（不純物）</text><text x="520" y="156" fill="#334155">B 硼（p 型）、P 磷、As 砷、Sb 銻（n 型）</text><text x="520" y="178" fill="#64748b" font-size="13">幾個 ppm 就決定電晶體是開還是關</text></g>
+<!-- row 2 -->
+<g><rect x="40" y="210" width="440" height="96" rx="12" fill="#f1f5f9" stroke="#64748b" stroke-width="2"/><text x="60" y="240" font-weight="700" fill="#1e293b">3 配線・電極・金屬</text><text x="60" y="266" fill="#334155">Cu 銅、Al 鋁、W 鎢、Co 鈷、Ti、Ta、Au 金</text><text x="60" y="288" fill="#64748b" font-size="13">導線、阻障層、接觸插塞都是它們</text></g>
+<g><rect x="500" y="210" width="420" height="96" rx="12" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/><text x="520" y="240" font-weight="700" fill="#14532d">4 絕緣膜（High-k 等）</text><text x="520" y="266" fill="#334155">O 氧（SiO2）、N 氮（SiN）、Hf 鉿、Zr 鋯</text><text x="520" y="288" fill="#64748b" font-size="13">閘極介電層、層間絕緣都靠氧化與氮化</text></g>
+<!-- row 3 -->
+<g><rect x="40" y="320" width="440" height="96" rx="12" fill="#ccfbf1" stroke="#0d9488" stroke-width="2"/><text x="60" y="350" font-weight="700" fill="#134e4a">5 製程氣體・藥液</text><text x="60" y="376" fill="#334155">H 氫、He 氦、N2、Ar 氬、F 氟、Cl 氯</text><text x="60" y="398" fill="#64748b" font-size="13">蝕刻、清洗、保護氣氛的主角（F、Cl 最兇）</text></g>
+<g><rect x="500" y="320" width="420" height="96" rx="12" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/><text x="520" y="350" font-weight="700" fill="#4c1d95">6 化合物半導體</text><text x="520" y="376" fill="#334155">Ga 鎵、As 砷、In 銦、P 磷、N 氮</text><text x="520" y="398" fill="#64748b" font-size="13">GaAs、GaN、InP：光電、射頻、功率元件</text></g>
+<!-- row 4 -->
+<g><rect x="40" y="430" width="440" height="96" rx="12" fill="#fef9c3" stroke="#ca8a04" stroke-width="2"/><text x="60" y="460" font-weight="700" fill="#713f12">7 封裝・發光・次世代</text><text x="60" y="486" fill="#334155">Pb 鉛、Sn 錫、Ag 銀、Au 金、Bi 鉍</text><text x="60" y="508" fill="#64748b" font-size="13">銲料、打線、接點；發光與新材料也在此</text></g>
+<g><rect x="500" y="430" width="420" height="96" rx="12" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/><text x="520" y="460" font-weight="700" fill="#7f1d1d">8 污染物（大敵）</text><text x="520" y="486" fill="#334155">Na 鈉、K 鉀、Fe 鐵、Cu 銅（亂跑時）</text><text x="520" y="508" fill="#64748b" font-size="13">可動離子污染，黃光區最怕的一群</text></g>
+</g>
+<text x="480" y="548" text-anchor="middle" font-size="12" fill="#94a3b8">顏色對應原圖圖例；一個元素可兼多職（例如 Cu 又是配線又是污染源），此圖只標最常見角色</text>
+</svg>

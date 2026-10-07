@@ -1,0 +1,68 @@
+---
+title: "Uber 把 800 個 MCP Server 藏進一個 Gateway：既有 API 就是最快的 Agent 工具"
+description: "整理 Uber Engineering《Designing MCP Gateway》：AutoCrawler 把 Protobuf／Thrift IDL 自動翻成 MCP 工具、預設關閉由業主審核啟用，Proxy Gateway 在線翻譯協定經 Muttley 打到下游；800 server、5000 tool 的規模下再疊 Omni MCP 漸進發現、回傳投影與 aifx Code Mode。"
+publishedAt: 2026-10-04
+topic: "AI 工程"
+sourceType: "article"
+sourceUrl: "https://www.uber.com/us/en/blog/designing-mcp-gateway/"
+authors: ["Uber Engineering"]
+analyst: "Muse Spark"
+venue: "Uber Engineering · X"
+tags: ["MCP", "Uber", "AI Agent", "閘道器", "平台工程"]
+readTime: "12 分鐘"
+evidence: "中"
+featured: false
+sourceCount: 2
+accent: "green"
+---
+
+import XPostCard from '../../components/XPostCard.astro';
+
+## 一句話結論
+
+《Uber Engineering》這篇文章公開了內部的 MCP Gateway：一個擋在所有 AI agent 與後端服務之間的中央閘道，把既有 HTTP、gRPC、TChannel API 自動翻譯成 MCP 工具，目前承載超過 800 個 MCP server、5000 個工具——核心主張是既有 API 就是最快的 agent 工具來源，不必重寫服務。
+
+> 閱讀方式：下文用四種標記區分內容性質——（原文明說）、（從原文可直接推出）、（合理推斷）、（未被支撐）。全文是 Uber 單一公司的自述，規模數字未經第三方驗證。
+
+## 貼文原文（靜態還原）
+
+<XPostCard author="Uber Engineering" handle="@UberEng" avatar="/article.ai/articles/uber-mcp-gateway-analysis/ubereng-avatar.png" timestamp="5:21 PM · Oct 2, 2026" views="420.3K" replies="26" reposts="248" likes="1.9K" sourceUrl="https://x.com/UberEng/status/2106071967619322330" mediaUrl="/article.ai/articles/uber-mcp-gateway-analysis/cover.jpg" mediaAlt="Designing MCP Gateway 文章封面圖">
+<p>Designing MCP Gateway — Uber's MCP Management Platform</p>
+<p>全文以 X Article 形式刊出，與 Uber 官網工程部落格同名文章（2026 年 10 月 1 日）內容一致。</p>
+</XPostCard>
+
+<small class="figure-caption">靜態還原：@UberEng 於 2026 年 10 月 2 日以 X Article 發布該文，420.3K 瀏覽、26 則回覆、248 轉發、1.9K 喜歡；封面圖已存站內。官網同名文章列於來源節。</small>
+
+## 這篇文章真正解決的問題
+
+《Uber Engineering》這篇文章解的不是「MCP 協定怎麼寫」，而是「數百個團隊同時做 agent 整合時，碎片化怎麼收斂」。
+
+背景是兩段式的（原文明說）：早期各團隊臨時接 MCP，證明了 agent 拿到線上業務上下文後能力大增；但採用一加速，各團隊自建整合導致工具難發現、難維運、跟特定服務或 agent 實作綁死。小規模可行，數百個團隊進場就變成維運複雜度、安全風險與開發摩擦的三重上漲。
+
+作者開出的需求清單很平台工程味（原文明說）：抽象掉 HTTP、gRPC、TChannel 的協定差異，統一安全與可觀測性保證，讓 MCP 工具好建、好發現、好重用——同時保留各團隊彈性。這正是 Gateway 這個答案的形狀。
+
+## 流程拆解：控制平面長工具，資料平面跑請求
+
+【原文明說】Gateway 是微服務架構，兩大件各管一面（詳見圖 1 自繪）：
+
+**1. 控制平面：MCP Registry＋AutoCrawler，只管「長出工具」。** AutoCrawler 是跑在 Cadence 上的分散式 workflow，定時訂閱 Uber 內部 IDL registry 與服務訊號。對 Protobuf／Thrift 定義的傳統服務，它做五件事：新增或更新對應的虛擬 MCP server、解析 IDL 抽方法名與 schema 及註解、用 LLM 生成 agent 友善的工具描述、把 schema 轉成 MCP 相容的 JSON-RPC 2.0、寫回 Registry——而且一律預設關閉。原生 MCP server（用 Uber 的 MCPFx 框架自建、直接講 MCP 協定）則靠 heartbeat 訊號被發現，AutoCrawler 打 `listTools` 把工具抄回 Registry 做虛擬代理。第三方（Jira、Google 等）走 token 轉交：Gateway 把內部 user token 往下傳，由 3P 服務換成外部 token 再打，照樣吃同一套授權、限流、去識別化。
+
+**2. 關鍵原則：發現不等於曝光。** 每個 server 與工具從關閉狀態起步，必須由所屬服務團隊審核啟用；工具描述一改就產生 config diff，業主要批准才能部署，還能回滾（原文明說）。 crawl 很快、開關很嚴——這是整套設計裡最值得抄的一句。
+
+![控制平面與資料平面分工。](/article.ai/articles/uber-mcp-gateway-analysis/figure-01-control-vs-data-plane.svg)
+
+<small class="figure-caption">圖 1｜本站依原文 Figure 1–5 自繪。左邊建目錄、長工具、管開關；右邊跑請求、翻協定、擋風險；中間是免重啟的即時 config 同步。</small>
+
+**3. 資料平面：Proxy Gateway，只管「跑請求」。** 定時從控制平面吃設定、常駐記憶體，工具啟用即時生效不用重啟。每個虛擬 server 對外只露一個端點（形如 `/{service}/mcp`，service 換成服務名），請求進來由內建 proxy 路由到對應的 server handler。IDL 系下游走四步：MCP JSON 轉線路格式、序列化成 Protobuf 或 Thrift bytes、經 Muttley（Uber 的 service mesh sidecar）打到下游、回程翻回 MCP JSON；原生 server 則透明代理轉發。安全是內建的：走 Uber 內部存取控管做分級授權，server 層政策加 tool 層覆寫，回傳預設做 PII 與敏感資料抹除（原文明說）。
+
+**4. 規模化三招：為 800 server 量級止血 context 與成本（原文明說）。** 第一，Omni MCP：MCP 沒有跨 server 搜尋概念，全接等於塞爆 model context，所以做單一代理入口加四個漸進發現工具（找 server、找工具、拿 schema、執行），一次只載入需要的。第二，Response Projection：GraphQL 式呼叫，請求裡帶要的欄位路徑，Gateway 在線裁剪回傳。第三，Code Mode：coding agent 常在 shell 工作，把輸出寫檔比塞進 context 划算，`aifx` CLI 提供 list、search、call 三命令串接，現已是 Uber 內部 coding agent 預設用法。
+
+## 風險與盲點
+
+**盲點一：數字是自述，沒有第三方驗證（未被支撐）。** 800 server、5000 tool、Omni 省多少 token、Code Mode 成為預設後的實測收益，原文都沒給可重算的基準與方法。照慣例證據等級給「中」，讀時把它當架構參考而非效能承諾。
+
+**盲點二：LLM 生成的工具描述是品質地雷（合理推斷）。** 從 IDL 註解加 schema 自動長描述，寫得好不好直接決定 agent 會不會選錯工具；原文只說業主可審核修飾，沒談描述漂移、版本管理與評估方式。自建的人要先想好這層 QA。
+
+**盲點三：中央閘道是單點，也是權力集中點（從原文可直接推出）。** 全公司 agent 對服務的互動都經過它，授權、限流、抹除都收斂一處：維運壓力、可觀測性與變更審批流程一旦塞車，影響半徑就是全公司。這是 gateway 架構的固有代價，原文著墨不多。
+
+**盲點四：留言區已有外部回音，但不在同一證據等級。** 例如有人指出該拓撲與 agentenv 框架的 RL Env gateway 相近、有人問能否接外部 Uber 叫車場景、有人單純稱讚非灌水文（原文明說，留言區可見）。這些是讀者反應，不構成對原文技術主張的佐證。

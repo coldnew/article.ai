@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 500" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="960" height="500" rx="12" fill="#f5f8fa"/>
+  <text x="28" y="34" font-size="17" font-weight="700" fill="#0f1419">十四天計畫：先固定早晨，再收晚上（依《Bruce Jinji 睡眠完全指南》重繪）</text>
+  <text x="28" y="56" font-size="12" fill="#5b6570">原則：一次只改重複出現的那一項，不要同時改十件事；記錄估大概就好，不要為記錄半夜看鐘</text>
+
+  <g font-size="12">
+    <rect x="28" y="72" width="212" height="210" rx="8" fill="#ffffff" stroke="#1c3a52" stroke-width="2"/>
+    <text x="44" y="100" font-size="14" font-weight="700" fill="#1c3a52">第 1–3 天 · 記錄</text>
+    <text x="44" y="124" fill="#0f1419">上床 / 關燈 / 多久睡著</text>
+    <text x="44" y="144" fill="#0f1419">夜醒幾次、幾點真正離床</text>
+    <text x="44" y="164" fill="#0f1419">午睡、最後一杯咖啡幾點</text>
+    <text x="44" y="184" fill="#0f1419">有無喝酒、運動、白天多困</text>
+    <text x="44" y="212" fill="#c2410c">→ 找出重複出現的那一項</text>
+    <text x="44" y="232" fill="#c2410c">（時間不夠？週末差 4 小時？</text>
+    <text x="44" y="252" fill="#c2410c">下午還在喝咖啡？床上辦公？）</text>
+
+    <rect x="256" y="72" width="212" height="210" rx="8" fill="#ffffff" stroke="#1c3a52" stroke-width="2"/>
+    <text x="272" y="100" font-size="14" font-weight="700" fill="#1c3a52">第 4–7 天 · 固定起床</text>
+    <text x="272" y="124" fill="#0f1419">起床時間守住，週末差距</text>
+    <text x="272" y="144" fill="#0f1419">控制在 1 小時左右</text>
+    <text x="272" y="164" fill="#0f1419">起床後盡快接觸室外光線</text>
+    <text x="272" y="184" fill="#0f1419">咖啡因在睡前 8 小時停止</text>
+    <text x="272" y="204" fill="#0f1419">午睡放早、縮短；沒困意</text>
+    <text x="272" y="224" fill="#0f1419">不提前久躺（防床上清醒）</text>
+    <text x="272" y="252" fill="#5b6570">機制：清醒越久困意越濃＋</text>
+    <text x="272" y="268" fill="#5b6570">光線校準生理時鐘</text>
+
+    <rect x="484" y="72" width="212" height="210" rx="8" fill="#ffffff" stroke="#1c3a52" stroke-width="2"/>
+    <text x="500" y="100" font-size="14" font-weight="700" fill="#1c3a52">第 8–10 天 · 收晚上</text>
+    <text x="500" y="124" fill="#0f1419">一次只改影響最大的一項：</text>
+    <text x="500" y="144" fill="#0f1419">手機移出床邊（睡前 1–2h</text>
+    <text x="500" y="164" fill="#0f1419">停工、停刷資訊）</text>
+    <text x="500" y="184" fill="#0f1419">停用酒助眠（後半夜易醒）</text>
+    <text x="500" y="204" fill="#0f1419">只修真問題：遮光 / 耳塞 /</text>
+    <text x="500" y="224" fill="#0f1419">降溫；不疊設備</text>
+    <text x="500" y="252" fill="#5b6570">只開夜間模式繼續滑＝幫助有限</text>
+
+    <rect x="712" y="72" width="220" height="210" rx="8" fill="#1c3a52"/>
+    <text x="728" y="100" font-size="14" font-weight="700" fill="#ffffff">第 11–14 天 · 床的關係</text>
+    <text x="728" y="124" fill="#ffffff">有困意再上床；床上不工作、</text>
+    <text x="728" y="144" fill="#ffffff">不看刺激內容</text>
+    <text x="728" y="164" fill="#ffffff">夜醒煩躁→暫離床（暗處靜坐，</text>
+    <text x="728" y="184" fill="#ffffff">不看鐘），困了再回</text>
+    <text x="728" y="204" fill="#ffffff">次日仍按固定時間起床</text>
+    <text x="728" y="232" fill="#fbbf24">打破迴圈：擔心→早躺→</text>
+    <text x="728" y="252" fill="#fbbf24">檢查→更緊張→更醒</text>
+  </g>
+  <g stroke="#1c3a52" stroke-width="2">
+    <line x1="240" y1="177" x2="256" y2="177"/><line x1="468" y1="177" x2="484" y2="177"/><line x1="696" y1="177" x2="712" y2="177"/>
+  </g>
+
+  <rect x="28" y="298" width="904" height="86" rx="8" fill="#ffffff" stroke="#d0d7de" stroke-width="1"/>
+  <text x="44" y="324" font-size="13" font-weight="700" fill="#0f1419">兩週後評估：拿第一週和第二週一起比（不要只挑最好或最差的一晚）</text>
+  <text x="44" y="346" font-size="12" fill="#0f1419">更容易困？躺床清醒變短？夜醒後更快睡回？白天少困一點？→ 有改善：留最有效的兩三件事繼續；無改善或白天已無法工作 → 專業評估（CBT-I），不再加設備補劑</text>
+  <text x="44" y="368" font-size="12" fill="#c2410c">紅旗不用等 14 天：大聲打鼾＋呼吸暫停/憋醒、白天失控打瞌睡、腿動才緩解、夢中喊打傷人——直接去睡眠門診</text>
+
+  <text x="28" y="412" font-size="12" font-weight="700" fill="#0f1419">安全邊界（貼文明說，指南一致：不可自行壓縮睡眠時間者）</text>
+  <rect x="28" y="422" width="904" height="52" rx="8" fill="#fff7ed" stroke="#c2410c" stroke-width="1"/>
+  <text x="44" y="444" font-size="12" fill="#0f1419">雙相情感障礙、癲癇、跌倒風險、嚴重日間嗜睡、需開車或操作危險設備者：CBT-I 的床上時間調整須由專業人員按安全風險執行</text>
+  <text x="44" y="462" font-size="12" fill="#0f1419">褪黑素：孕期哺乳、兒童老人、長期用藥（抗凝、抗癲癇）先問醫師藥師；困倦已影響駕駛：當天停駕，不先跑 14 天計畫</text>
+</svg>

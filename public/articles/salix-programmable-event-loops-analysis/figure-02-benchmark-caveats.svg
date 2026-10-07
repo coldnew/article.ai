@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="720" height="360" rx="12" fill="#faf9f5"/>
+  <text x="24" y="34" font-size="17" font-weight="700" fill="#141413">10,000 個 Loop 的實測：數字對得上，但附帶條件很多</text>
+  <g font-size="12.5" fill="#141413">
+    <rect x="24" y="56" width="160" height="70" rx="8" fill="#fff" stroke="#1b365d" stroke-width="2"/>
+    <text x="104" y="80" text-anchor="middle" font-weight="700">64,312 B / 個</text>
+    <text x="104" y="100" text-anchor="middle" fill="#6b6a64" font-size="11">增量 PSS，常駐</text>
+    <rect x="200" y="56" width="160" height="70" rx="8" fill="#fff" stroke="#1b365d" stroke-width="2"/>
+    <text x="280" y="80" text-anchor="middle" font-weight="700">3.07 秒載入</text>
+    <text x="280" y="100" text-anchor="middle" fill="#6b6a64" font-size="11">10,000 個全啟動</text>
+    <rect x="376" y="56" width="160" height="70" rx="8" fill="#fff" stroke="#1b365d" stroke-width="2"/>
+    <text x="456" y="80" text-anchor="middle" font-weight="700">1.56 秒廣播</text>
+    <text x="456" y="100" text-anchor="middle" fill="#6b6a64" font-size="11">每 Loop 一事件＋RPC</text>
+    <rect x="552" y="56" width="144" height="70" rx="8" fill="#fff" stroke="#1b365d" stroke-width="2"/>
+    <text x="624" y="80" text-anchor="middle" font-weight="700">0.223 ms p99</text>
+    <text x="624" y="100" text-anchor="middle" fill="#6b6a64" font-size="11">閒置控制請求</text>
+  </g>
+  <rect x="24" y="146" width="672" height="190" rx="8" fill="#fff" stroke="#e8e6dc"/>
+  <text x="40" y="174" font-size="13.5" font-weight="700" fill="#141413">README 與 RESULTS 自己寫的但書（比貼文誠實）</text>
+  <text x="40" y="196" font-size="12.5" fill="#6b6a64">1 MB 是設計目標，不是強制 quota；小 Loop 短測，不代表任意程式上界。</text>
+  <text x="40" y="218" font-size="12.5" fill="#6b6a64">卸載後仍留約 543 MB PSS（執行緒高水位池化）；VMA 與頁表另計，需調 vm.max_map_count。</text>
+  <text x="40" y="240" font-size="12.5" fill="#6b6a64">正式驗算：10,000 × 64,312 B ≈ 613.3 MiB，另加編譯器基線 21.7 MB，與 664.81 MB 總量吻合。</text>
+  <text x="40" y="262" font-size="12.5" fill="#6b6a64">x86_64 後端有約 4 萬行 Lean 證明；arm64 只測試未證明；helper、映射、trampoline 皆屬信任基。</text>
+  <text x="40" y="284" font-size="12.5" fill="#6b6a64">24 小時 churn / soak 在 DESIGN 是必要證據，RESULTS 明說尚未建立，不算 24/7 已驗證。</text>
+  <text x="40" y="306" font-size="12.5" fill="#b3261e">結論：密度故事成立於小監控 Loop；通用 C、重負載、大 BSS 不在此數內。</text>
+</svg>

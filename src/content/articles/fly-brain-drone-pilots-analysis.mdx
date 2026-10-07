@@ -1,0 +1,108 @@
+---
+title: "果蠅大腦開無人機：16.7 萬神經元是真的，「沒人教過」只對三分之一"
+description: "分析 @michaelchiu777 轉述的果蠅大腦無人機演示：源頭是 @SpikeCalls 9 月 15 日影片，底層為 9 月 13 日發布的 flybrain 0.1.0 套件（MaleCNS v1.0，166,700 神經元、25.6M 連接）。本文核對數字、時間線與套件文件：腦內零訓練屬實，但輸入編碼與輸出解碼皆為人工設計擬合；英文原文已掛上社群註記。"
+publishedAt: 2026-09-16
+topic: "神經科學"
+sourceType: "article"
+sourceUrl: "https://x.com/michaelchiu777/status/2100009564775366855"
+authors: ["Michael Chao（@michaelchiu777）", "Spike 1%（@SpikeCalls）"]
+analyst: "Muse Spark"
+venue: "X 貼文 · 賽博果蠅系列"
+tags: ["果蠅", "connectome", "MaleCNS", "無人機", "flybrain"]
+readTime: "9 分鐘"
+evidence: "探索中"
+featured: false
+sourceCount: 6
+accent: "green"
+---
+
+import XPostCard from '../../components/XPostCard.astro';
+
+## 先說結論
+
+《Michael Chao（@michaelchiu777）的果蠅無人機轉述》這則貼文（約 57 萬瀏覽）是英文原文的中文翻譯：**16.7 萬果蠅神經元接管 3 架無人機，沒人教過它們怎麼飛**。順著轉引鏈找到源頭 @SpikeCalls 9 月 15 日的影片（約 71 萬瀏覽），再順著技術鏈找到底層套件——**9 月 13 日剛發布的 `flybrain` 0.1.0（PyPI）：MaleCNS v1.0 全中樞神經圖譜，166,700 神經元、25.6M 連接，LIF 跑全腦，腦內確實零訓練**。**但本站把套件文件逐項核對後發現，「沒人教過」只對三分之一：接線是生物的，輸入的 Eyes 視覺編碼器是人寫的映射，輸出的線性讀出（readout）是擬合出來的——那個把降神經元變成油門的轉換，恰恰是訓練出來的。英文原文底下已經掛上社群註記（Community Note）指名這一點。這是單一轉述貼文加業餘演示，證據等級給「探索中」。**
+
+以下兩則貼文以本站靜態卡片還原（X 原生嵌入需載入外部 JS 且離線不可見，故改以靜態還原＋本地頭像呈現；文字、時間、瀏覽數皆逐字核對；兩貼另附影片各一支，依本站 IP 慣例不轉載；中文卡保留原貼簡體字形）：
+
+<XPostCard author="Michael Chao" handle="@michaelchiu777" avatar="/article.ai/articles/fly-brain-drone-pilots-analysis/michaelchiu777-avatar.jpg" timestamp="11:51 PM · Sep 15, 2026" views="569.5K" sourceUrl="https://x.com/michaelchiu777/status/2100009564775366855">
+<p>16.67万个果蝇神经元刚刚接管了3架无人机，没人教过它们怎么飞。</p>
+<p>科学家绘制了一只真实果蝇的完整大脑，每一个神经元以及全部2500万个连接，并免费放到了网上。</p>
+<p>把这个大脑复制了3份，每份接入一架无人机。</p>
+<p>没有飞行代码，没有手势预设，没有“避开椅子”的规则，只是摄像头把画面喂给果蝇的眼睛，神经元直接控制油门。</p>
+<p>一架悬停，一架从椅子旁滑过，一架落到地板上并稳住。</p>
+<p>这个大脑花了3.5亿年学习如何待在空中，现在它又回到了属于它的地方。</p>
+<p>没有GPU，没有训练过程，没有千亿美元的数据中心，只是一颗像糖果粒一样的大脑。</p>
+<p>一只苍蝇给你3个飞行员，1000只苍蝇给你一个机群。</p>
+<p>苍蝇死了，但它的大脑刚刚拥有了一支中队。</p>
+</XPostCard>
+
+<small class="figure-caption">卡片 1｜@michaelchiu777 中文轉述靜態還原（簡體原文逐字保留，認證徽章因無法確認而省略）。繁體要點：16.67 萬神經元接管 3 架無人機、完整大腦加 2,500 萬連接已公開上網、一機懸停一機繞椅一機落地穩住、無 GPU 無訓練、3.5 億年演化、一蠅三飛手。原貼轉引 @SpikeCalls 影片（下則卡片），回覆數等互動指標本次未取得，僅還原可核對的瀏覽數。</small>
+
+<XPostCard author="Spike 1%" handle="@SpikeCalls" avatar="/article.ai/articles/fly-brain-drone-pilots-analysis/spikecalls-avatar.jpg" timestamp="4:52 PM · Sep 15, 2026" views="708.3K" sourceUrl="https://x.com/SpikeCalls/status/2099904250256277829">
+<p>166,700 fruit fly neurons just took over 3 drones, and nobody taught them to fly. Scientists mapped the full brain of 1 real fly, every neuron and all 25 million connections, and put it online for free. Someone copied that brain 3 times and plugged each copy into a drone. No flight code, no gesture presets, no "avoid the chair" rule, just a camera feeding the fly's eyes and neurons turning into throttle. 1 drone hovers, 1 slips past a chair, 1 drops to the floor and holds. This brain spent 350 million years learning to stay in the air, and now it's back where it belongs. No GPUs, no training run, no $100B data center, just a brain smaller than a grain of salt. 1 fly gives you 3 pilots, and 1,000 flies give you a swarm. The fly is dead, but its brain just got a squadron.</p>
+</XPostCard>
+
+<small class="figure-caption">卡片 2｜@SpikeCalls 英文源頭靜態還原（逐字）。中文卡即此篇的翻譯，數字與情節一一對應。注意：此貼文下方已掛上 X 社群註記，指其誇大了業餘演示，詳見「風險與盲點」。</small>
+
+## 這件事真正是什麼
+
+它不是一篇論文，而是一個**開源套件發布隔天的客廳演示**，時間線緊湊到以天計算（【PyPI 與貼文時間戳明說】）：
+
+1. **9 月 3 日**：Google 官方部落格公布 MaleCNS 雄性全圖譜（Cell 論文，166,691 神經元）——本站全景篇已核實，這是 9 月整波狂歡的燃料。
+2. **9 月 13 日**：`flybrain` 0.1.0 上架 PyPI，把 MaleCNS v1.0 包成 `pip install` 即用的脈衝網路：166,700 神經元、25.6M 連接，LIF 全腦仿真，腦檔案約 260MB。
+3. **9 月 14 日**：SpikeCalls 先發臥室版——一架無人機、一部看著他張開手掌的攝影機，畫面中間是即時跑著的 166,700 神經元面板。
+4. **9 月 15 日下午**：三無人機版（本文源頭，約 71 萬瀏覽）；**同日晚間**：michaelchiu777 中文轉述版（約 57 萬瀏覽）——轉述與原文僅隔數小時，翻譯忠實，唯「像糖果粒一樣的大腦」對應原文其實是 smaller than a grain of salt（比鹽粒還小），中文把鹽粒寫成了糖果粒，尺寸感覺差了一個量級。
+
+定位上，這是本站〈賽博果蠅狂歡全景〉之後的新章：9 月第一週是行為藝術週（Bad Apple、Minecraft、Beat Saber），9 月第二週是**無人機週**——同一張 MaleCNS 地圖，從屏幕裡的身體（MuJoCo／Minecraft）走出來，接上了真實世界的螺旋槳。
+
+## 流程拆解
+
+### 數字核對：16.7 萬與 2,500 萬從哪來
+
+【套件文件明說，全對得上】`flybrain` PyPI 頁寫明：MaleCNS v1.0，166,700 神經元、25.6M 連接——貼文寫 2500 萬是取整，不算錯；166,700 對全景篇核實過的 166,691 是取整到百位。免費上網也屬實：MaleCNS 走 Neuprint／CC-BY 公開，腦檔案首次執行即下載。**這是全篇最硬的部分：數字鏈完整。**
+
+![信號鏈自繪：攝影機、Eyes 編碼器、FlyBrain、Readout 四段，標出哪段人工、哪段訓練。](/article.ai/articles/fly-brain-drone-pilots-analysis/figure-01-signal-chain.svg)
+
+<small class="figure-caption">圖 1｜本站依 flybrain 0.1.0 文件重繪的信號鏈。關鍵在顏色：綠色（腦內）零訓練，橘色（輸入編碼、輸出解碼）皆為人工。</small>
+
+### 信號鏈拆解：「沒人教過」要拆三段看
+
+【套件文件明說，這是全文的鑰匙】：
+
+1. **腦內——真的沒訓練**：`FlyBrain` 是全連接組上的 LIF 網路，`Nothing inside the brain is trained` 是文件原話。攝影機不直接碰神經元，而是驅動果蠅自己的視覺投射神經元，再往前跑一步、讀降神經元（大腦對身體的命令通道）在做什麼。
+2. **輸入——人工寫的映射**：`Eyes, FeatureDetectors` 是一個視覺編碼器，負責把像素餵給視覺投射神經元。哪顆神經元看哪個像素、什麼叫 looming、什麼叫運動——這些對應關係是套件作者設計的，不是果蠅自己長出來的。9 月 14 日臥室版「攝影機看著張開的手掌」即是一例：手的影像如何變成神經元注入，本身就是一套手工介面。
+3. **輸出——擬合出來的讀出**：`Trace, run, Readout` 明載 reservoir computing——收某群神經元在任務中的脈衝軌跡，再對標籤擬合帶交叉驗證的線性或邏輯 PCA 讀出。**把降神經元放電變成油門指令的那個轉換，是拿數據擬合出來的，這在機器學習的定義裡就是訓練**。貼文的 nobody taught them 只在第一段成立，第二、三段恰恰是人教的。
+
+【從原文可直接推出】社群註記的措辭——「靜態接線圖加自定義輸入映射與輸出解碼的鬆散控制」（static wiring map loosely controlling via custom input mappings and output decoding）——與文件三段結構逐字咬合，屬於有出處的批評，不是情緒。
+
+## 哪些解讀可採信、哪些要打折
+
+- **可採信（套件文件與時間戳逐項有據）**：166,700／25.6M 數字、MaleCNS v1.0 出處、腦內零訓練、CC-BY 公開免費下載、9/13 套件→9/14 臥室版→9/15 三機版的時間線、LIF 全腦模型。中文轉述對英文原文的翻譯基本忠實。
+- **作者的合理推論（方向合理，但非演示內容）**：「一蠅三飛手、千蠅一機群」是算術外推（`batch=8` 一次跑 8 隻獨立果蠅確有其事），但三機同飛的影片未證明群體協同；「回到屬於它的地方」是修辭，不是結論。
+- **未被支撐（不可引用）**：「沒有 GPU」——套件同時支援 CPU（numba）與 GPU（CUDA 12），CPU 單步在 24 線程上約 12–15ms，RTX 4060 上約 1.4ms；演示實際用什麼硬體跑，源頭貼文隻字未提。以及「3.5 億年」——雙翅目遠沒有那麼老，數字是演化修辭，不是分類學主張。
+- **翻譯走樣（一處）**：smaller than a grain of salt（鹽粒）被譯成「糖果粒」，體積意象放大了約一個量級；引用尺寸時請用原文。
+
+## 風險與盲點
+
+- 【原文明說】英文源頭已掛社群註記：指名這是業餘演示的誇大——靜態接線圖、鬆散控制、非生物神經元的字面「接管」。轉述版（本文對象）沒有同步這則註記，傳播時請連註記一起轉。
+- 【套件文件明說】Readout 擬合是訓練：引用「無訓練」時必須限定為「腦內無訓練」，否則與文件自述矛盾。
+- 【回覆區觀點，非獨立驗證】中文版回覆區已有兩類質疑：一派稱唯一作用是騙投資（類比當年巴鐵），一派轉述「原作者承認這是計算模型」並提醒關鍵在細節。兩則都是立場先行的評論，但後者與套件文件一致，可參考；前者無證據，不採用。
+- 【方法論天花板】全景篇已立過的規矩在此繼續有效：連接強度未知（突觸數作權重代理）、感覺調諧與肌肉力學是建模選擇——降神經元到油門之間隔著的，仍是三層人工介面。
+- 【單一來源天花板】一則轉述貼文加一支業餘演示影片，證據等級只能給「探索中」；數字引用時請認明上節的四級標籤。
+
+## 我們的判讀
+
+《果蠅大腦開無人機》最值得帶走的不是三架飛機，而是一個可遷移的驗屍框架：**看到 connectome 演示，先問輸入編碼與輸出解碼是誰寫的**。腦可以是生物的，只要介面是人工的，「接管」就是有邊界的。`flybrain` 的文件其實是全場最誠實的一份——它把零訓練的腦和要擬合的讀出寫在同一頁，是轉述把它讀成了一半。
+
+與全景篇的關係：本篇是它的續集。9 月第一週證明了地圖加物理引擎等於行為藝術週；9 月第二週證明了再加一個 PyPI 套件，等於把藝術週搬進客廳——`pip install flybrain` 讓 166,700 神經元變成人人可跑的進程。三個月前 Eon 的 91% 需要發新聞稿，今天同等量級的演示只需要發一支影片；地圖越完整，驗證門檻的下限和上限同時下降——這句話在全景篇寫過，在這裡再應驗一次。
+
+實用提醒：想自己跑的讀者，套件要 Python 3.10 以上，腦檔案首次下載約 260MB，CPU 可跑但首步需等 numba 編譯；想引用的讀者，請認明 Berg 等人 Cell 2026（MaleCNS）與 FlyWire Dorkenwald 等人 Nature 2024，不要把轉述貼文當成科學出處。
+
+## 來源
+
+- @michaelchiu777 中文轉述（2026-09-15，約 57 萬瀏覽）：https://x.com/michaelchiu777/status/2100009564775366855 ——本文解讀對象
+- @SpikeCalls 英文源頭（2026-09-15，約 71 萬瀏覽，附社群註記）：https://x.com/SpikeCalls/status/2099904250256277829 ——數字與情節之出處
+- @SpikeCalls 臥室版前作（2026-09-14）：https://x.com/SpikeCalls/status/2099635431566377010 ——單機手勢輸入版之出處
+- flybrain 0.1.0（PyPI，2026-09-13 發布）：https://pypi.org/project/flybrain/ ——166,700／25.6M、腦內零訓練、Readout 擬合、Eyes 編碼器、CPU／GPU 性能之出處
+- Google Research MaleCNS 官方部落格（2026-09-03）：https://research.google/blog/a-connectomics-milestone-mapping-the-complete-male-fruit-fly-brain ——166,691 神經元、Cell 論文之出處
+- 站上全景篇〈賽博果蠅狂歡全景〉：同一系列前作，時間線與方法論天花板互鏈

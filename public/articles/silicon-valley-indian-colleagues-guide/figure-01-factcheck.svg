@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 600" font-family="-apple-system, 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif">
+  <rect x="0" y="0" width="920" height="600" rx="12" fill="#fafaf8"/>
+  <text x="36" y="44" font-size="22" font-weight="700" fill="#1a1a1a">《X 貼文》關鍵數字核實：宣稱 vs 官方數據</text>
+  <text x="36" y="68" font-size="13" fill="#666">左：宗教結構（印度 2011 人口普查）｜右：素食率（Pew 2021，約 3 萬人面訪）</text>
+
+  <!-- Panel A -->
+  <text x="36" y="104" font-size="15" font-weight="700" fill="#1a1a1a">A｜宗教結構：貼文「80 / 15 / 2」基本吻合普查</text>
+  <g font-size="13" fill="#333">
+    <text x="36" y="138">印度教 79.8%</text>
+    <rect x="170" y="122" width="478" height="20" rx="4" fill="#e8a13d"/>
+    <text x="36" y="168">穆斯林 14.2%</text>
+    <rect x="170" y="152" width="85" height="20" rx="4" fill="#4d9e6b"/>
+    <text x="36" y="198">基督教 2.3%</text>
+    <rect x="170" y="182" width="14" height="20" rx="4" fill="#5b8dd9"/>
+    <text x="36" y="228">錫克教 1.7%</text>
+    <rect x="170" y="212" width="10" height="20" rx="4" fill="#9b6dd6"/>
+    <text x="36" y="258">其他 2.0%</text>
+    <rect x="170" y="242" width="12" height="20" rx="4" fill="#999"/>
+  </g>
+  <text x="36" y="288" font-size="12" fill="#666">佛教 0.7%＋耆那教 0.4%＋其他信仰 0.7%＋未表態 0.2%。資料：RGI 2011 普查公報。</text>
+
+  <!-- Panel B -->
+  <text x="36" y="328" font-size="15" font-weight="700" fill="#1a1a1a">B｜素食率：貼文「50%」高估，且南北差三倍</text>
+  <g font-size="13" fill="#333">
+    <text x="36" y="362">北印印度教徒 71%</text>
+    <rect x="200" y="346" width="355" height="20" rx="4" fill="#4d9e6b"/>
+    <text x="36" y="392">中印印度教徒 61%</text>
+    <rect x="200" y="376" width="305" height="20" rx="4" fill="#4d9e6b"/>
+    <text x="36" y="422">西印印度教徒 57%</text>
+    <rect x="200" y="406" width="285" height="20" rx="4" fill="#7cc49a"/>
+    <text x="36" y="452">南印印度教徒 30%</text>
+    <rect x="200" y="436" width="150" height="20" rx="4" fill="#e8a13d"/>
+    <text x="36" y="482">東印印度教徒 18%</text>
+    <rect x="200" y="466" width="90" height="20" rx="4" fill="#e8a13d"/>
+    <text x="36" y="512">全印度成年人 39%</text>
+    <rect x="200" y="496" width="195" height="20" rx="4" fill="#5b8dd9"/>
+  </g>
+  <!-- 50% claim line: scale 500px = 100%, so 50% -> x=200+250=450 -->
+  <line x1="450" y1="336" x2="450" y2="524" stroke="#c0392b" stroke-width="2" stroke-dasharray="6 4"/>
+  <rect x="456" y="336" width="220" height="24" rx="4" fill="#c0392b"/>
+  <text x="464" y="353" font-size="13" font-weight="700" fill="#fff">貼文宣稱 50%（高估 11 個百分點）</text>
+
+  <text x="36" y="560" font-size="12" fill="#666">Pew《Religion in India》2021：39% 成年人自稱素食（定義由受訪者自定）；另有 42% 部分限肉，合計 81% 有飲食限制。</text>
+  <text x="36" y="582" font-size="12" fill="#666">實務含義：拿北印經驗套南方同事會踩雷——南印印度教徒 7 成吃肉。</text>
+</svg>

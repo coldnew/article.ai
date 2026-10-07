@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <text x="20" y="28" font-size="16" font-weight="700" fill="#333">鳩佔鵲巢式 AI hack：留面板、換大腦</text>
+  <rect x="20" y="48" width="150" height="72" rx="8" fill="#fdecea"/>
+  <text x="34" y="72" font-size="13" font-weight="700" fill="#333">1. 拆機留殼</text>
+  <text x="34" y="92" font-size="12" fill="#333">IKEA 時鐘外殼</text>
+  <text x="34" y="108" font-size="12" fill="#333">LED 面板保留</text>
+  <text x="182" y="84" font-size="18" fill="#999">→</text>
+  <rect x="210" y="48" width="150" height="72" rx="8" fill="#fff8e1"/>
+  <text x="224" y="72" font-size="13" font-weight="700" fill="#333">2. 拍照逆向</text>
+  <text x="224" y="92" font-size="12" fill="#333">PCB 正反面＋晶片</text>
+  <text x="224" y="108" font-size="12" fill="#333">丟給 AI 讀型號</text>
+  <text x="372" y="84" font-size="18" fill="#999">→</text>
+  <rect x="400" y="48" width="300" height="72" rx="8" fill="#e8f0fe"/>
+  <text x="414" y="72" font-size="13" font-weight="700" fill="#333">3. AI 查控制方式</text>
+  <text x="414" y="92" font-size="12" fill="#333">datasheet＋腳位＋掃描／驅動時序</text>
+  <text x="414" y="108" font-size="12" fill="#333">視訊鏡頭逐顆確認 LED 映射</text>
+  <text x="20" y="152" font-size="13" font-weight="700" fill="#999">接管之後：原廠主控退場，ESP32 上場</text>
+  <rect x="20" y="164" width="320" height="72" rx="8" fill="#e6f4ea"/>
+  <text x="34" y="188" font-size="13" font-weight="700" fill="#333">4. ESP32 接管面板</text>
+  <text x="34" y="208" font-size="12" fill="#333">繞過原廠晶片，直驅 LED 面板</text>
+  <text x="34" y="224" font-size="12" fill="#666">原廠板只剩電源／機構功能</text>
+  <text x="352" y="200" font-size="18" fill="#999">→</text>
+  <rect x="380" y="164" width="320" height="72" rx="8" fill="#e6f4ea"/>
+  <text x="394" y="188" font-size="13" font-weight="700" fill="#333">5. 新能力</text>
+  <text x="394" y="208" font-size="12" fill="#333">Wi-Fi 自動校時＋自繪圖案顯示</text>
+  <text x="394" y="224" font-size="12" fill="#666">韌體可迭代，外殼零重做</text>
+  <rect x="20" y="256" width="680" height="72" rx="8" fill="#f1f3f4"/>
+  <text x="34" y="280" font-size="13" font-weight="700" fill="#333">可重用心法：便宜量產殼＋AI 逆向＋通用 MCU 接管</text>
+  <text x="34" y="300" font-size="12" fill="#666">適用所有「面板不錯、主控太笨」的量產小家電；風險是接線／電壓接錯燒板</text>
+</svg>

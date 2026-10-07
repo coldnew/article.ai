@@ -1,0 +1,154 @@
+---
+title: "Agent 自己寫外迴圈：拆解 Comma Salix 的 eBPF Loop 與 10,000 個常駐監控"
+description: "整理 Heyang Zhou 10 月 1 日 X 長文與 Comma 官方部落格、spinfoam README、bench/RESULTS、async-ebpf：外迴圈省 token 的敘事成立，10,000 個 Loop 約 64KB、3.07 秒載入等數字皆可在 repo 找到出處；但 1MB 只是設計目標、卸載殘留約 543MB、arm64 未證明、24 小時 soak 未做，Ryan Dahl 的 Durable Objects 質疑仍有效。"
+publishedAt: 2026-10-05T08:00:00+08:00
+topic: "Agent 基礎設施"
+sourceType: "article"
+sourceUrl: "https://x.com/heyang_zhou/status/2105517547500253434?s=20"
+authors: ["Heyang Zhou（@heyang_zhou）"]
+analyst: "Muse Spark"
+venue: "X · Heyang Zhou"
+tags: ["Comma", "Salix", "eBPF", "spinfoam", "Agent Loop", "Jev"]
+readTime: "14 分鐘"
+evidence: "中"
+featured: false
+sourceCount: 5
+accent: "violet"
+---
+
+import XPostCard from '../../components/XPostCard.astro';
+
+## 一句話結論
+
+《Heyang Zhou 的 X 貼文》把「外迴圈省 token」講成了 eBPF 密度故事，炒作成分是把短測小 Loop 的數字寫成通用 24/7 能力，成立部分是省 token 的雙層架構與 10,000 個監控 Loop 的實測皆有 repo 出處可核。【合理推斷】方向是對的，數字只在小 Loop 口徑內成立。
+
+## 當事人貼文嵌入
+
+以下以本站靜態卡片還原（不用 X widgets.js，離線可見；文字、時間、數據逐字核對）：
+
+<XPostCard author="Heyang Zhou" handle="@heyang_zhou" avatar="/article.ai/articles/salix-programmable-event-loops-analysis/avatar.jpg" timestamp="4:37 AM · Oct 1, 2026" views="22K" replies="9" reposts="41" likes="483" sourceUrl="https://x.com/heyang_zhou/status/2105517547500253434?s=20" mediaUrl="/article.ai/articles/salix-programmable-event-loops-analysis/cover.jpg" mediaAlt="Programmable event loops for our distributed agent harness 封面圖">
+<p><strong>Programmable event loops for our distributed agent harness</strong></p>
+<p>Always-on agents need to continuously watch and respond to events, from many more sources than it can keep track of in its context window. Comma's distributed harness, Salix, gives agents the capability to load tiny eBPF programs into the cluster and have them execute persistently, 24/7, to monitor events, call Jev for fast intelligent decisions, and wake up the main agent loop when something interesting happens.</p>
+<p>The familiar agent loop is simple: send the context to a model, run the tool calls it returns, append the results, repeat. That loop is good at doing work. It is bad at waiting for work.</p>
+</XPostCard>
+
+<small class="figure-caption">嵌入｜@heyang_zhou 主貼文靜態還原（此處依慣例節錄標題、開頭與證據段）。原貼 2026-10-01 04:37，約 2.2 萬瀏覽。繁體譯文要點：常駐 agent 需要盯住遠超 context window 的事件源；Salix 讓 agent 載入微型 eBPF 程式 24/7 執行監控，以 Jev 做快速判斷，只在有趣時喚醒主迴圈。全文要點在流程拆解中重述。</small>
+
+![原貼附圖：外迴圈篩選事件、內迴圈只在喚醒時跑。](/article.ai/articles/salix-programmable-event-loops-analysis/diagram.jpg)
+
+<small class="figure-caption">原圖解讀｜原貼第二張附圖。本站存檔轉載：左側事件流入 eBPF Loop，中間經 Jev 判斷，右側極少數 `agent.notify` 才喚醒大模型。紅框是本文重點：篩選層不花 model token，喚醒層才花。</small>
+
+## 這篇文章真正解決的問題
+
+《Heyang Zhou 的 X 貼文》這篇文章指出一個真問題：內迴圈不擅長等待，「告訴我合約簽回來了沒」「盯住碰 billing 的 PR」這類需求，用輪詢等於每次空轉都付一次大模型錢。但它真正解決的是敘事問題——把「便宜等待＋貴喚醒」的雙層架構翻譯成「eBPF 又小又安全」的技術故事。
+
+《Comma 官方部落格與 spinfoam repo》真正解決的則是窄而硬的工程問題：在單節點單執行緒上，如何讓上萬個 agent 寫的 C 程式各自等待而不互相拖死，並讓編譯器本身也關在沙箱裡。【原文明說】前者是 Salix 的產品需求，後者是 `spinfoam` 的 runtime 需求，兩者要分開讀。
+
+作者是誰（已驗證）：Heyang Zhou，AFK Surf 共同創辦人，現做 `@CommaAgents`，自述曾做 Deno Deploy 早期版本與 mvSQLite。【原文明說】回覆區 Ryan Dahl（Deno 創始人）親自下場質疑，更說明這不是路人轉述，是創始團隊的架構宣言。
+
+## 流程拆解
+
+### 1. 內迴圈為何不夠：輪詢的稅
+
+【原文明說】《Comma 官方部落格》把內迴圈定義得很乾淨：送 context 給模型、跑回傳的 tool call、append 結果、重複。做事可以，等事不行。
+
+【從原文可直接推出】兩個壞選項其實是同一個稅：定時 poll 或 heartbeat／cron 都是「大模型讀大 context 來決定沒事發生」。安靜的 tick 佔多數，錢花在 quiet 上。這是外迴圈存在的唯一理由。
+
+![外迴圈篩事件、內迴圈只在喚醒時跑；Jev 擋在中間。](/article.ai/articles/salix-programmable-event-loops-analysis/figure-01-outer-inner-loop.svg)
+
+<small class="figure-caption">圖 1｜本站依《Comma 官方部落格》流程自繪。重點只有一個：左邊輪詢每次都付稅，右邊外迴圈把稅收到每 10 分鐘最多 6 次喚醒。</small>
+
+### 2. Loop 是什麼：agent 寫的 C，長成 `for (;;)` 等待形
+
+【原文明說】《Comma 官方部落格》給的 Loop 形狀是單一 C 檔，`#include "spinfoam.h"`，`SF_MAIN` 進 `for (;;)`：`sf_event_next(60000)` 或 `sf_sleep_ms` 等待，讀 config、調 read-only 工具檢查，極少數情況 `sf_host_call("agent.notify", args, 10000)` 喚醒。工具鏈是 `loop.sdk` 取標頭與指南、`loop.build` 編譯、`loop.create` 啟動，無模板、無 DSL。
+
+【原文明說】方言限制很直白：整數 C、無浮點、無有號除法、4 KiB 棧幀、最多 8 層、無遞迴、無 `sprintf`、最多 128 個 live handle。貼文說模型適應良好，因為都是編譯器報錯能講清楚的限制。【合理推斷】這是把「agent 會寫 C」當成前提，換來免容器、免工具鏈、免特權。
+
+為何不用 Python 容器？【原文明說】設計目標是數百萬 agent、每核逾 100 個 agent，agent 本人沒有常駐沙箱，watch 也不能有。eBPF 的三個理由是小（等待中僅數十 KB，無行程、無直譯器、無堆）、可跑未審查代碼（無 syscall、無函數指標、無無界棧，只能算自己的記憶體加調 host 函數）、等待便宜（阻塞在 `sf_event_next` 即只佔記憶體）。
+
+### 3. spinfoam：使用者空間 eBPF，加 async 外衣
+
+【原文明說】《spinfoam README》寫明它是獨立 Rust 行程，跑 C 寫的使用者空間 eBPF，經 stdio 雙向 JSON-RPC，`async-ebpf` 釘在 `7e8a7cb` 提交，Linux GNU 與 macOS 皆建 x86_64 與 arm64 四種二進位，無需 kernel eBPF 或特權。職責切分嚴格：spinfoam 管本地執行、隔離、取消、有界投遞；Salix 管崩潰後要活的東西：放置、持久狀態、重啟、憑證、網路。
+
+【原文明說】async 的含義是每個載入程式各一個長壽 invocation、各跑自己的 coroutine，`sf_sleep_ms` 等 helper 以 Tokio 掛起，C 棧與全域變數原地保留，timer 或回包到才從下一行恢復。Fully preemptive 的含義是全部 guest 跑在單 Tokio 執行緒，加 watcher 執行緒用訊號搶佔，`for (;;) {}` 空轉會被沒收時間片，停它不需它配合。
+
+【原文明說】《spinfoam bench/RESULTS》2026-09-17 嵌入式 TinyCC 一爐：10,000 個 TinyCC 產出 Loop 全活在單執行緒，增量 PSS 每個 64,312 位元組，事件加 RPC 後 67,194 位元組，載入加啟動 3.07 秒，對每 Loop 投遞一事件並回 RPC 共 1.56 秒，閒置控制請求 p99 為 0.223 毫秒，載入時 4 執行緒、閒置 2 執行緒。貼文四個數字逐字對得上。
+
+本站驗算（`python3 -c`）：`10000 × 64312 B ≈ 613.3 MiB`，另加編譯器基線 21.7 MB 得約 635 MB，與回報總 PSS 664.81 MB 同量級，差額約為事件後每 Loop 增量與開銷。【從原文可直接推出】密度故事在小監控 Loop 口徑內是自洽的。
+
+![10,000 個 Loop 四個數字與四條但書。](/article.ai/articles/salix-programmable-event-loops-analysis/figure-02-benchmark-caveats.svg)
+
+<small class="figure-caption">圖 2｜本站依《spinfoam bench/RESULTS》與 README 自繪。數字全有出處，但書也全是原文自己寫的，不是本站加戲。</small>
+
+### 4. 記憶體安全：先籠子，再證明
+
+【原文明說】《Comma 官方部落格》與上游 `async-ebpf` 一致：每程式資料關進 pointer cage 加隨機 guard page；guest 棧是單幀孤島，間隙寬到任何 eBPF 記憶體指令跨不過去；JIT 頁不同時可寫可執行。
+
+【原文明說】x86_64 後端分三段：eBPF 函數 lower 成 macro、check 做記憶體安全閘、expand 成固定 x86 序列再組位元組，同一 Rust 模組經 Charon 與 Aeneas 轉 Lean，約 4 萬行手寫 Lean 證 validator 可靠、函數封閉、生成碼只碰允許位址、位元組與模型一致。連硬體處兩處銜接：可執行模擬器被證為 Lean 機器模型的 run，另以 2 萬條隨機指令序列差分測試模擬器對真 CPU。
+
+【原文明說】未證部分貼文明說：x86 語義只測未證、entry trampoline、fault handler、映射、helper 的 host 側、Charon 與 Aeneas 本身皆屬信任基；定理只保記憶體安全，不保功能正確與不洩漏；arm64 後端只測未證。這段誠實，核實類應給分。
+
+### 5. 編譯器也關進去：TinyCC 編成 eBPF 再跑
+
+【原文明說】《spinfoam README》寫明 Cargo 抓 TinyCC 釘選源碼，在 `OUT_DIR` 編成 eBPF 內嵌，不提交二進位。每 build 是全新 compiler guest：8 MiB arena、僅含提交源碼與 SDK 的記憶體檔案系統、15 秒死線、無網路行程與 host 檔案。產出仍視為不可信，載入一律重走驗證。這就是 `loop.build` 無需工具鏈與特權的原因。
+
+### 6. 喚醒是最貴的：`agent.notify` 加預算
+
+【原文明說】Loop 對外說話只有 `agent.notify` 一條路，`content` 上限 8 KiB，`dedup_key` 如 provider message ID，投遞形如 `loop:<id>:<dedup_key>`，同一郵件或告警只醒一次。配額是每 10 分鐘 6 次，滿一小時即以 `budget` 暫停並告知 agent。設計意圖直白：buggy Loop 變成可見的 paused Loop，不變成帳單。
+
+### 7. 中間那層小模型：Jev 的 decide
+
+【原文明說】《Comma 官方部落格》範例問的是三選一：`notify`（須即時處理）、`quiet`（無需打擾）、`defer`（證據不足）。`decide` 支援 choice、yes／no 多題、score 排序，只回判斷，不讀 source、不跑工具、不授權，Loop 自己設閾值。
+
+【從原文可直接推出】兩個設計是關鍵：不確定是合法答案（`none`／`defer` 成功回傳，Loop 留下事件不硬判），以及便宜到可每事件都問。報價是 `typesafe/jev-1.13.0` 每百萬 input token 0.042 美元、output 免費。本站試算每封約 2k token、1,000 封約 0.084 美元，確實是篩每封信的價位。
+
+【仍未被支撐的主張】《Jev 官方文件》原語是 Choice、Score、Noul（含 confidence），部落格寫的「separate yes／no questions」應是 Noul 的應用寫法，但原文未給對應表與校準數據，準確率與誤喚醒率無從核。
+
+### 8. 事件進來要耐久：202 不等於處理完
+
+【原文明說】三條入口：Salix API `POST /v1/agent-groups/:group_id/loops/:loop_id/events`、可開關輪替的 secret webhook、`loop.webhook` 管理、Composio trigger 帶 provider event ID。202 只代表 Postgres 留存，不代表 Loop 處理；guest 到安全點（quiet 判斷或 `agent.notify` 成功）才 `loop.ack`；Reconciler 在遷移重啟後與每分鐘重播 pending；15 分鐘未 ack 轉 failed 並保留事件供重試或丟棄。
+
+【原文明說】最硬的一課是 admission 去重：spinfoam mailbox 按 event ID 在 admission 去重，不按業務完成。早期原型指望 provider 重送來重試失敗的模型調用，結果重送被正確丟掉。結論寫進 SDK：重試是 guest 的事（留事件、有界重試），崩潰恢復是 durable inbox 的事。ack、Session 落盤、可見訊息、外部副作用四者各有主人，不承諾 exactly-once 外部效果。
+
+### 9. 在會漂移的叢集上跑 forever：lease＋incarnation＋checkpoint
+
+【原文明說】Loop 跑在持有 agent lease 的節點，跟 lease 走：claim 即認養，passivate 或 fence 即釋放；有 active Loop 的閒置 agent 續 lease 不停車。每次載入 bump incarnation，舊 incarnation 的 host call 與 ack 拒收。`loop.state.put` 存至多 16 KiB，下次載入作 `config.state` 回吐，只存 cursor 與 last-seen。fault 從 checkpoint 重載，每小時至多 3 次，否則 failed 並通知一次。另有掃蕩重啟孤兒 Loop。原始碼真相在檔案系統：`loop.build` 寫 ELF、`loop.create` 記路徑與 SHA-256，每次載入重讀驗 hash。
+
+### 10. 權限：白名單＋委託主體＋配額
+
+【原文明說】Loop 只能調封閉 allowlist：`agent.notify`、`loop.state.*`、`loop.ack`、`loop.log`、唯讀 Salix 工具、環境裝置工具、SSH、讀會話、`web.http_request`、`composio.execute`、`decide`，其餘 `SF_DENIED`，無 grant 步驟可錯。每調走正常 agent 的 tool dispatch 與資訊流檢查，以 `schedule|loop:<id>|<creator>` 委託主體、creator 的揭露規則、Loop 的 sealed origin 執行；事件荷載是資料，無權威，不擴權。配額另有每 agent 20、每 group 100、每 Loop 32 pending 各 16 KiB、webhook 限流。
+
+### 11. 附帶的第二用途：`script.run`
+
+【原文明說】同一 runtime 一次性用法：單 tool call 內編譯執行整數 C，經 `salix.call` 用當輪工具，無 row、無 incarnation、無 checkpoint、無 `agent.notify`，把多次 model round-trip 併成一次確定性程式。官方稱已有兩個內建 skill 是這樣跑的 C 程式。
+
+### 宣稱對照表（X 聲稱 vs repo 實際）
+
+| X／部落格聲稱 | repo／文件實際 | 標籤 |
+|---|---|---|
+| 10,000 Loop 單執行緒、每約 64KB、載入 3.07 秒、廣播 1.56 秒、p99 0.223 毫秒 | 《spinfoam bench/RESULTS》2026-09-17 同數字逐字命中，附編譯器提交與 ELF SHA | 【原文明說】成立，口徑限小監控 Loop |
+| 等待零成本、每核逾 100 agent、數百萬 agent | DESIGN 規劃預算，RESULTS 僅短測，無 24 小時 churn／soak，無多租戶生產數據 | 【仍未被支撐的主張】目標非已驗證 |
+| 1MB 內可跑任意 Loop | README 明說 1MB 是設計目標、非強制 quota；RESULTS 明說短測不等於任意程式上界 | 【仍未被支撐的主張】貼文未提但書 |
+| 記憶體安全形式化驗證 | x86_64 核心約 4 萬行 Lean，arm64 僅測試，helper 與映射等在信任基內 | 【原文明說】成立但範圍限縮 |
+| Jev 每事件可問、0.042 美元／百萬 token | 《Jev 官方文件》確有 Choice／Score／Noul 與 confidence，價目為自家 catalog，未給召回與誤喚率 | 【原文明說】機制成立，效果未支撐 |
+| 202 即耐久、15 分鐘 ack、exactly-once 不承諾 | PROTOCOL 與部落格一致，mailbox 按 admission 去重，重試歸 guest | 【原文明說】成立，是全文最硬的一節 |
+| Durable Objects 可替代（Ryan Dahl 回覆） | 貼文未回應；DESIGN 只談單行程單執行緒＋embedder 自理分散式，無 JS 對照基準 | 【合理推斷】取捨未被證偽，密度換可寫性 |
+
+## 風險與盲點
+
+- 【仍未被支撐的主張】24/7 在漂移叢集上的證據缺口：DESIGN 要求的 10,000 與 20,000 混跑、暖 JIT、可變全域、24 小時 churn，RESULTS 只交了 10,000 小 Loop 短測與 60 秒等待，並自陳不等於 24 小時結果。lease 跟隨、incarnation 圍欄、孤兒掃蕩是設計，未見生產事故复盤。
+- 【從原文可直接推出】記憶體的實現落差：增量 PSS 64KB 之外，虛擬映射與頁表另計，大族群需調 `vm.max_map_count`；卸載後池化殘留約 543MB，不承諾即時回 OS；loader／JIT 峰值與編譯器峰值分開報，容量規劃不能只看 64KB。10,000 個 30 秒 poll 即約 333 次 host 請求每秒，embedder 與 stdio 吞吐才是天花板。
+- 【合理推斷】Ryan Dahl 的質疑打在點上：Durable Objects 加 JS 是可寫性換密度，eBPF 加整數 C 是密度換可寫性。貼文證明前者在極限密度下可行，未證明多數 watch 需要此密度，也未給 JS 方案的對照成本。兩個內建 skill 已用 `script.run` 寫 C，代表團隊押注 agent 會寫受限 C；若 watch 邏輯變複雜，128 handle 與 8 幀很快變成生產力稅。
+- 【合理推斷】Jev 是單點依賴：小模型篩每事件，誤判即漏醒或-protein；`defer` 留事件的策略在高事件量下會積壓 pending（上限 32 個各 16KiB），滿了回 `MAILBOX_FULL`，部落格未給積壓水位與降級曲線。價格便宜不等於判斷夠準。
+- 【仍未被支撐的主張】安全敘事的邊界：定理保記憶體安全，不保功能正確與不洩漏；外部世界全經 host call，authority 靠 Salix 的 allowlist 與資訊流檢查。若 embedder 配錯 capability 約束或 Composio 動作過寬，guest 仍可合法地做壞事。`composio.execute` 與 `web.http_request` 在 allowlist 內，代表 Loop 不是純沙箱，是有聯網能力的受限主體。
+- 利益揭露：Heyang Zhou 為 Comma／AFK Surf 共同創辦人，spinfoam 與 async-ebpf 星數僅個位數（抓取時 2 星與 3 星），無外部複現；Jev 為 TypeSafe 商業模型，報價出自自家 catalog。本文證據等級取「中」，上限即此。
+- 不確定性聲明：本文核對了 X 全文、部落格全文、spinfoam README、DESIGN、bench/RESULTS、async-ebpf README、Jev 介紹頁，但未獨立編譯執行 spinfoam，亦未取得 Salix 的 Loop 配額與喚醒生產數據；X 互動數為抓取時可見值，可能隨時間變動。
+
+## 來源
+
+- 《Heyang Zhou》 X 主貼文（2026-10-01）：https://x.com/heyang_zhou/status/2105517547500253434?s=20 ——本文解讀對象，約 2.2 萬瀏覽；回覆含 Ryan Dahl 質疑與 mailbox 去重討論
+- 《Programmable event loops for our distributed agent harness》 Comma 官方部落格：https://comma.surf/blog/agent-programmable-event-loops ——X 長文底本，全文數字與 SDK 範例之出處
+- 《spinfoam》 README 與 bench/RESULTS：https://github.com/AFK-surf/spinfoam ——64KB、3.07 秒、1.56 秒、0.223 毫秒、543MB 殘留、1MB 非 quota 之出處
+- 《spinfoam》 DESIGN：https://github.com/AFK-surf/spinfoam/blob/main/DESIGN.md ——單執行緒、incarnation、mailbox 有界、24 小時驗收標準之出處
+- 《async-ebpf》 README：https://github.com/losfair/async-ebpf ——使用者空間、預搶佔、x86_64 證明範圍之出處
+- 《Jev Introduction》 TypeSafe 文件：https://docs.typesafe.ai/introduction ——Choice／Score／Noul、confidence、state 加 questions 之出處

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="720" height="430" rx="12" fill="#f5f8fa"/>
+  <text x="24" y="32" font-size="16" font-weight="700" fill="#0f1419">BF15（E7M7）：剪掉指數用不到的那一位（依 US 2026/0299533 A1 [0036] 重繪）</text>
+  <text x="24" y="70" font-size="13" font-weight="700" fill="#0f1419">BF16（E8M7）＝ 16 bits，指數範圍約 10<tspan baseline-shift="super" font-size="9">−38</tspan>～10<tspan baseline-shift="super" font-size="9">38</tspan></text>
+  <g>
+    <rect x="24" y="80" width="36" height="30" rx="4" fill="#1c3a52"/><text x="42" y="100" font-size="12" fill="#fff" text-anchor="middle">S</text>
+    <rect x="64" y="80" width="288" height="30" rx="4" fill="#1c3a52"/><text x="208" y="100" font-size="12" fill="#fff" text-anchor="middle">指數 8 bits（bias 127）</text>
+    <rect x="356" y="80" width="252" height="30" rx="4" fill="#5b8c5a"/><text x="482" y="100" font-size="12" fill="#fff" text-anchor="middle">尾數 7 bits（全保留）</text>
+  </g>
+  <text x="24" y="140" font-size="13" font-weight="700" fill="#0f1419">E7M7 ＝ 15 bits，指數範圍約 10<tspan baseline-shift="super" font-size="9">−19</tspan>～10<tspan baseline-shift="super" font-size="9">19</tspan>（本站驗算：最大 3.675×10<tspan baseline-shift="super" font-size="9">19</tspan>）</text>
+  <g>
+    <rect x="24" y="150" width="36" height="30" rx="4" fill="#8a94a6"/><text x="42" y="170" font-size="12" fill="#fff" text-anchor="middle">S</text>
+    <rect x="64" y="150" width="252" height="30" rx="4" fill="#c2410c"/><text x="190" y="170" font-size="12" fill="#fff" text-anchor="middle">指數 7 bits（bias 63）</text>
+    <rect x="320" y="150" width="252" height="30" rx="4" fill="#5b8c5a"/><text x="446" y="170" font-size="12" fill="#fff" text-anchor="middle">尾數 7 bits（全保留）</text>
+    <rect x="576" y="150" width="36" height="30" rx="4" fill="#ffffff" stroke="#c2410c" stroke-width="2" stroke-dasharray="4 3"/><text x="594" y="170" font-size="12" fill="#c2410c" text-anchor="middle">−1</text>
+  </g>
+  <text x="24" y="202" font-size="11" fill="#5b6570">剪掉 1 個指數位（虛線格）；尾數 7 位與 BF16 相同，故 BF16 訓練模型可直接跑、無 train-test mismatch（專利 [0036] 明說）</text>
+  <text x="24" y="230" font-size="13" font-weight="700" fill="#0f1419">硬體轉換管線（專利 [0075]–[0079]，以 fp32 暫存器為中繼）</text>
+  <g font-size="11">
+    <rect x="24" y="240" width="110" height="44" rx="6" fill="#ffffff" stroke="#0f1419" stroke-width="1.5"/><text x="79" y="258" text-anchor="middle" fill="#0f1419">bf15 值</text><text x="79" y="273" text-anchor="middle" fill="#5b6570">15 bits</text>
+    <rect x="150" y="240" width="130" height="44" rx="6" fill="#ffffff" stroke="#0f1419" stroke-width="1.5"/><text x="215" y="258" text-anchor="middle" fill="#0f1419">左移 16 位對齊</text><text x="215" y="273" text-anchor="middle" fill="#5b6570">shift_left 16</text>
+    <rect x="296" y="240" width="110" height="44" rx="6" fill="#ffffff" stroke="#0f1419" stroke-width="1.5"/><text x="351" y="258" text-anchor="middle" fill="#0f1419">＋ sign</text><text x="351" y="273" text-anchor="middle" fill="#5b6570">加法 ①</text>
+    <rect x="422" y="240" width="130" height="44" rx="6" fill="#ffffff" stroke="#0f1419" stroke-width="1.5"/><text x="487" y="258" text-anchor="middle" fill="#0f1419">＋ (64&lt;&lt;23)</text><text x="487" y="273" text-anchor="middle" fill="#5b6570">加法 ②（指數回填）</text>
+    <rect x="568" y="240" width="128" height="44" rx="6" fill="#1c3a52"/><text x="632" y="258" text-anchor="middle" fill="#fff">× inv_scale</text><text x="632" y="273" text-anchor="middle" fill="#cbd5e1">→ INT8</text>
+  </g>
+  <g stroke="#0f1419" stroke-width="1.5">
+    <line x1="134" y1="262" x2="150" y2="262"/><line x1="280" y1="262" x2="296" y2="262"/><line x1="406" y1="262" x2="422" y2="262"/><line x1="552" y1="262" x2="568" y2="262"/>
+  </g>
+  <rect x="24" y="298" width="672" height="96" rx="8" fill="#ffffff" stroke="#d0d7de" stroke-width="1"/>
+  <text x="40" y="320" font-size="12" fill="#0f1419">優化：把「＋(64&lt;&lt;23)」併入 inv_scale，逐值省一次加法（專利 [0078] 明說可直接推出）</text>
+  <text x="40" y="342" font-size="12" fill="#0f1419">容量只省 1/16（6.25%），且 15 bits 非位元組對齊、存放需打包；主利是記憶體頻寬與搬運功耗</text>
+  <text x="40" y="364" font-size="11" fill="#5b6570">本站驗算（python3）：E7M7 最大正規數 (2−2<tspan baseline-shift="super" font-size="8">−7</tspan>)×2<tspan baseline-shift="super" font-size="8">64</tspan> ≈ 3.675e19；最小正規數 2<tspan baseline-shift="super" font-size="8">−62</tspan> ≈ 2.17e−19——貼文的 10<tspan baseline-shift="super" font-size="8">±19</tspan> 成立。</text>
+  <text x="40" y="382" font-size="11" fill="#5b6570">注意：bias 63 給出指數 −62～＋64，略不對稱；專利稱「substantially symmetric」。</text>
+</svg>

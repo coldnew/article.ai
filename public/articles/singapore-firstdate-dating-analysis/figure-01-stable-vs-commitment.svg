@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <text x="20" y="28" font-size="16" font-weight="700" fill="#333">穩定配對保證了什麼、沒保證什麼</text>
+  <rect x="20" y="48" width="320" height="100" rx="8" fill="#e8f0fe"/>
+  <text x="34" y="72" font-size="13" font-weight="700" fill="#333">Gale-Shapley 保證的事</text>
+  <text x="34" y="92" font-size="12" fill="#333">配對結束後，沒有兩個人</text>
+  <text x="34" y="108" font-size="12" fill="#333">同時更想跟彼此配、</text>
+  <text x="34" y="124" font-size="12" fill="#333">而不想跟現任配（穩定性）</text>
+  <rect x="380" y="48" width="320" height="100" rx="8" fill="#fdecea"/>
+  <text x="394" y="72" font-size="13" font-weight="700" fill="#333">它沒保證的事</text>
+  <text x="394" y="92" font-size="12" fill="#333">你會滿意、會想赴約、</text>
+  <text x="394" y="108" font-size="12" fill="#333">會愛上對方、不會去找</text>
+  <text x="394" y="124" font-size="12" fill="#333">池子外面的人（承諾）</text>
+  <rect x="20" y="168" width="680" height="60" rx="8" fill="#f1f3f4"/>
+  <text x="34" y="192" font-size="13" font-weight="700" fill="#333">FirstDate 的斷層：每輪只給一個配對，但赴約與否完全自願</text>
+  <text x="34" y="210" font-size="12" fill="#666">住院醫師分發、學校分發能用，因為分到了就得去；交友分到了可以已讀不回，數學前提即失效</text>
+  <rect x="20" y="248" width="680" height="54" rx="8" fill="#f1f3f4"/>
+  <text x="34" y="270" font-size="12" fill="#333">Aphrodite Project 佐證：一年只給一個演算法命定配對，人照樣被 ghost（作者 2024 年訪談原文明說）</text>
+  <text x="34" y="288" font-size="12" fill="#666">Hinge 也稱用同算法推「最相容」，用戶大概率不在乎，因為最佳選項可能根本不在池裡</text>
+</svg>

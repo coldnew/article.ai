@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" font-family="-apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif">
+  <rect x="0" y="0" width="1200" height="560" rx="16" fill="#ffffff" stroke="#e5e0d5"/>
+  <text x="40" y="48" font-size="24" font-weight="700" fill="#1c1917">光遺傳學之路：從池塘綠藻到 2026 諾貝爾生醫獎</text>
+  <text x="40" y="74" font-size="14" fill="#78716c">底本：Nobel Prize 官網 press release＋popular information；論文書目見內文來源節</text>
+
+  <line x1="60" y1="200" x2="1140" y2="200" stroke="#d6d3d1" stroke-width="3"/>
+
+  <g font-size="15" font-weight="700">
+    <circle cx="130" cy="200" r="12" fill="#0ea5e9"/>
+    <text x="130" y="165" text-anchor="middle" fill="#0c4a6e">2002</text>
+    <text x="130" y="240" text-anchor="middle" fill="#1c1917">ChR1 發現</text>
+    <text x="130" y="262" text-anchor="middle" font-size="12" font-weight="400" fill="#57534e">Science 光控質子通道</text>
+
+    <circle cx="310" cy="200" r="12" fill="#0ea5e9"/>
+    <text x="310" y="165" text-anchor="middle" fill="#0c4a6e">2003</text>
+    <text x="310" y="240" text-anchor="middle" fill="#1c1917">ChR2 青蛙卵細胞</text>
+    <text x="310" y="262" text-anchor="middle" font-size="12" font-weight="400" fill="#57534e">0.2ms 開通道・PNAS</text>
+
+    <circle cx="500" cy="200" r="14" fill="#f59e0b"/>
+    <text x="500" y="165" text-anchor="middle" fill="#92400e">2005</text>
+    <text x="500" y="240" text-anchor="middle" fill="#1c1917">培養神經元放電</text>
+    <text x="500" y="262" text-anchor="middle" font-size="12" font-weight="400" fill="#57534e">Boyden 等・毫秒精度</text>
+
+    <circle cx="690" cy="200" r="12" fill="#0ea5e9"/>
+    <text x="690" y="165" text-anchor="middle" fill="#0c4a6e">2007</text>
+    <text x="690" y="240" text-anchor="middle" fill="#1c1917">活鼠：鬍鬚＋促醒</text>
+    <text x="690" y="262" text-anchor="middle" font-size="12" font-weight="400" fill="#57534e">運動皮層・hypocretin</text>
+
+    <circle cx="880" cy="200" r="12" fill="#0ea5e9"/>
+    <text x="880" y="165" text-anchor="middle" fill="#0c4a6e">2021</text>
+    <text x="880" y="240" text-anchor="middle" fill="#1c1917">盲人部分復明</text>
+    <text x="880" y="262" text-anchor="middle" font-size="12" font-weight="400" fill="#57534e">ChrimsonR・n＝1・Nat Med</text>
+
+    <circle cx="1060" cy="200" r="14" fill="#dc2626"/>
+    <text x="1060" y="165" text-anchor="middle" fill="#7f1d1d">2026-10-05</text>
+    <text x="1060" y="240" text-anchor="middle" fill="#1c1917">諾貝爾生醫獎</text>
+    <text x="1060" y="262" text-anchor="middle" font-size="12" font-weight="400" fill="#57534e">三人・光控離子通道</text>
+  </g>
+
+  <g>
+    <rect x="40" y="310" width="540" height="200" rx="12" fill="#f0f9ff" stroke="#bae6fd"/>
+    <text x="64" y="342" font-size="17" font-weight="700" fill="#0c4a6e">光遺傳學：寫入（write-in）</text>
+    <text x="64" y="370" font-size="14" fill="#334155">啟動子＋病毒載體 → 只有目標細胞長出光敏蛋白</text>
+    <text x="64" y="394" font-size="14" fill="#334155">藍光開 ChR2（興奮）・黃光開 NpHR／Arch（抑制）</text>
+    <text x="64" y="418" font-size="14" fill="#334155">代價：改基因＋光要穿過會散射的腦組織</text>
+    <text x="64" y="452" font-size="14" font-weight="700" fill="#0c4a6e">人的臨床破口在眼睛：透明＋存活的視網膜迴路</text>
+    <text x="64" y="476" font-size="13" fill="#64748b">Sahel 2021：單眼注射 ChrimsonR＋護目鏡，定位／計數／觸碰</text>
+  </g>
+
+  <g>
+    <rect x="620" y="310" width="540" height="200" rx="12" fill="#fffbeb" stroke="#fde68a"/>
+    <text x="644" y="342" font-size="17" font-weight="700" fill="#92400e">電極陣列：讀出（read-out）</text>
+    <text x="644" y="370" font-size="14" fill="#44403c">Neuralink N1：1024 電極／64 條柔軟線，記錄放電</text>
+    <text x="644" y="394" font-size="14" fill="#44403c">數學解碼器把運動意圖翻成游標指令</text>
+    <text x="644" y="418" font-size="14" fill="#44403c">寫回難：電流在組織液散開，細胞型別不分</text>
+    <text x="644" y="452" font-size="14" font-weight="700" fill="#92400e">Blindsight 走視覺皮層：FDA 突破性認定（2024-09）</text>
+    <text x="644" y="476" font-size="13" fill="#78716c">尚無人體植入；初期解析度如 Atari 畫面（Musk 說法）</text>
+  </g>
+
+  <text x="40" y="540" font-size="13" fill="#78716c">本站自繪：左藍＝諾獎 popular information 確認之事實；右黃＝Neuralink 官網規格；互補非替代為貼文作者評論（合理推斷）。執行驗算：無數字試算需求，本圖僅整理已核實書目。</text>
+</svg>

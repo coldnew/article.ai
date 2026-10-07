@@ -1,0 +1,108 @@
+---
+title: "SETI Park 的 Tesla 尺子系列第三彈：每 token 一把尺，全文逐段核對"
+description: "分析 @seti_park 的 X 長文《One Ruler per Token》（US 2026/0299881 A1 混合精度 transformer 解讀）：per-token 動態量化、FIG. 2C／2E 動靜佈置、claims 解讀、ZeroQuant 先前技術，逐條與 USPTO 全文及本站 OCR 核對；另驗證同日兄弟案 US 2026/0299946 A1（quantized FlashAttention），並勘誤發明人拼寫。本文另以執行驗算覆核長文的 40 倍刻度與 37 倍誤差表。"
+publishedAt: 2026-10-07
+topic: "AI 晶片"
+sourceType: "patent"
+sourceUrl: "https://x.com/seti_park/status/2107634446677741619"
+authors: ["SETI Park（@seti_park）"]
+analyst: "Muse Spark"
+venue: "X 貼文＋X 長文 · Tesla 專利解讀"
+tags: ["Tesla", "專利", "量化", "Transformer", "INT8", "FlashAttention"]
+readTime: "11 分鐘"
+evidence: "中"
+featured: false
+sourceCount: 6
+accent: "red"
+---
+
+import XPostCard from '../../components/XPostCard.astro';
+
+## 先說結論
+
+《SETI Park 的每 token 一把尺》這則貼文＋X 長文解讀的是 Tesla 專利公開案 **US 2026/0299881 A1**（混合精度 transformer，INT8 MAC），自稱是「同日五件 AI 運算申請中的第三件」。**本站把 USPTO 全文拉下來逐段核對：per-token 動態量化與極值落 127 格、FIG. 2C／2E 的動靜佈置、獨立項與附屬項的分工、ZeroQuant／SmoothQuant 先前技術引用——技術轉述大致忠實，長文的 40 倍刻度與 37 倍誤差表本站另以執行驗算獨立覆核成立；作者全程標明哪些數字自編、哪些是設計目標而非實測，敘事自律明顯優於同題材的完成式解讀。但「五件系列」目前只驗到兩件：第四件 US 2026/0299946 A1（quantized FlashAttention，同日公開、同一四位發明人）經本站下載首頁確認存在，第一、二、五件的案號仍未能核實；另勘誤一處發明人拼寫。單一解讀者加未獲證申請案，證據等級給「中」。**
+
+以下貼文以本站靜態卡片還原（X 原生嵌入需載入外部 JS 且離線不可見，故改以靜態還原＋本地頭像呈現；文字、時間、互動數皆逐字核對；貼文連結的 X 長文全文要點在流程拆解中重述，此處卡片掛載長文封面圖）：
+
+<XPostCard author="SETI Park" handle="@seti_park" avatar="/article.ai/articles/seti-park-one-ruler-per-token-analysis/seti-park-avatar.jpg" timestamp="12:49 AM · Oct 7, 2026" views="426" replies="1" likes="3" sourceUrl="https://x.com/seti_park/status/2107634446677741619" mediaUrl="/article.ai/articles/seti-park-one-ruler-per-token-analysis/post-cover.jpg" mediaAlt="X 長文封面：夜景曝光對比與共用尺／專屬尺示意">
+<p>Shoot a night street on daytime settings and you get a nearly black photo. The scene still has differences in brightness; the exposure is just tuned for daylight, so the camera can't capture them. @Tesla's car AI chips face a similar problem. To compute fast, they store numbers as INT8, or 8-bit integers. Eight bits give only 2⁸ = 256 values, so every number has to land on an integer from −128 to 127. When large and small numbers share one ruler, the small ones crowd into a few marks near zero, and their differences vanish. A Tesla patent application published on October 1 gives every token, each chunk of data the AI reads, its own ruler. It finds the largest value in each token and maps it to 127, the top of INT8. A small value like 0.07 rounds to zero on a shared ruler but survives when each token gets its own. Yet the drawings show Tesla doesn't do this at every step. The full post below walks through where it does, and why some steps keep a fixed ruler.</p>
+</XPostCard>
+
+<small class="figure-caption">靜態還原＋繁體譯文要點：日間設定拍夜街只剩全黑——場景的明暗差還在，只是曝光為白天調的；Tesla 車用 AI 晶片為算得快把數字存成 INT8（256 格、−128～127），大小值共用一把尺時小值全擠在零附近；10 月 1 日公開的 Tesla 申請案給每個 token 配專屬尺，取 token 內最大值映射到 127，0.07 這種小值在共用尺下歸零、在專屬尺下存活；但圖式顯示並非每一步都這麼做，長文詳述用在哪、為何有些步驟留固定尺。認證徽章因無法確認而省略；轉發數原頁未顯示，故未還原；此處依慣例節錄短貼全文，連結的 X 長文《One Ruler per Token: How Tesla Runs Its Transformers in INT8》要點見下文重述。</small>
+
+## 這篇長文真正解決的問題
+
+貼文解決的是敘事問題：把 INT8 量化的動態範圍困境講成人話（曝光比喻），並預告一個五件連載系列的第三集。專利解決的是具體的技術問題，分開寫：
+
+1. **靜態尺的範圍浪費**（881 案）：事先定好的 scale 遇上分佈漂移就浪費位元；全 tensor 共用一把尺時，大 token 定尺長、小 token 的值全擠在幾格裡（專利稱 compresses or saturates，［0102］前後文）。
+2. **動態尺的放置問題**：尺現算現用不是免錢的（多一次比較＋一次除法、多一組 scale 要存），所以要決定哪些步驟值得動態、哪些分佈穩定的步驟用固定尺就好——FIG. 2C 與 FIG. 2E 就是兩個答案。
+3. **尺密度的選擇問題**：per-token、per-channel、per-block 是三種尺密度，尺越多越準、但最後的加總步驟越貴（FIG. 5，［0142］–［0145］）。
+
+## 流程拆解
+
+### 第一步：書目核對——881 案是舊相識，9946 案是新面孔
+
+【本站核對，底本為 USPTO 公開案 PDF 全文】881 案（申請號 19/322,393，2025 年 9 月 8 日申請，臨時案 63/780,053，2025 年 3 月 28 日）即本站前一篇已全文 OCR 的混合精度 transformer 案，書目無誤。長文預告的第四件 **US 2026/0299946 A1《QUANTIZED FLASH ATTENTION》**經本站從 USPTO 下載首頁確認：申請人 Tesla, Inc.，同一四位發明人，申請號 19/321,931（同為 2025 年 9 月 8 日申請），臨時案 63/780,076（同為 2025 年 3 月 28 日），同於 2026 年 10 月 1 日公開。臨時案編號 053／070／076 同日相鄰、正式案號 19/321,931 與 19/322,393 同日相鄰，是同一天協調送件的家族（【從原文可直接推出】）。
+
+但「共五件」的第一、二、五件案號，本站透過 Google Patents（限流 429）、Justia（403）、X 文章列表（需登入）三路均未能取得，只能記為【仍未被支撐的主張】——不是說它錯，是本站獨立驗不到。注意本站前一篇的 533 案（BF15，申請號 19/629,949，2026 年 3 月 26 日申請）批次不同，未必是五件之一，不要自行併入。
+
+### 第二步：宣稱對照表——技術轉述逐條驗收
+
+| 長文聲稱 | 專利實際（段號）與本站覆核 | 判定 |
+|---|---|---|
+| 每 token 一把尺，token 內最大值映射到 127 | 881［0137］；獨立項 claim 1 原文即「per-token scale factor based on a range of values」（本站 OCR 逐字覆核） | 【原文明說】成立 |
+| 0.07 共用尺下歸零、專屬尺下存活；刻度密約 40 倍、最大誤差小約 37 倍 | 本站以 `python3` 執行驗算：共用尺一格約 0.157，存成 [3, −2, 1, 0]，還原 [0.472, −0.315, 0.157, 0]，最大誤差 0.07；專屬尺一格約 0.0039，存成 [127, −79, 30, 18]，還原 [0.5, −0.311, 0.118, 0.071]，最大誤差 0.0019，比值 37.0。作者已聲明表格數字自編、僅最大值 20 取自專利例 | 【原文明說＋本站驗算】成立 |
+| FIG. 2E 只有 norm 後一處動態，其餘靜態；該處 scale 以平均 SNR 20 為設計目標 | 本站 OCR 見 FIG. 2E 註記「Avg SNR of group: 20」；長文主動聲明 20 是設計目標非實測值 | 【原文明說】成立 |
+| FIG. 2C 各操作精度分工；value 路徑圖標 per-channel 但文字［0113］寫 per-token | 圖文出入是作者自己點名的（非本站抓包）；本站 OCR 未能獨立覆核［0113］全文，暫記作者誠實揭露 | 【原文明說】成立，附帶圖文出入警示 |
+| 新增計算很小：每數一次比較、每 token 一次除法；scale 存暫存器降 memory latency | 881［0134］［0136］（N 個 scale、存暫存器、降 memory latency）；「專利沒給實測代價、這是我的估計」作者已聲明 | 【原文明說＋作者推導】成立 |
+| 獨立項只寫 processor；INT8 MAC／SIMD 在附屬項 7／17；per-channel 在 2／3／12／13；per-block 在 8／9／18／19 | 本站 OCR 逐條覆核 claim 1／2／3／7／8／9／11 文字的確如此（8 為 tiling 切 block、9 為 block max abs＋block scale） | 【原文明說】成立 |
+| per-token 動態量化早有前例：ZeroQuant（2022-06）、SmoothQuant（2022-11）；本案貢獻是 INT8 MAC＋FP32 SIMD 加速器上的佈置 | arXiv:2206.01861（2022-06-04，token-wise activation、每 token 動態算 min／max）與 SmoothQuant 引文（「ZeroQuant applies dynamic per-token activation quantization」）皆核實；貢獻定位是作者觀點（in my view） | 【原文明說】成立 |
+| 發明人 Srihari Sampathkumar | 三份首頁（881／533／9946）白紙黑字皆為 **SAMPATHIKUMAR**（本站目檢確認，OCR 會掉字不可為據）；長文 References 漏了一個 I | 【勘誤】作者筆誤 |
+| 開篇即聲明 A1 未獲證 | 「This is a published application (A1)… not a granted patent」為長文原句；對照同題材「Tesla has figured out」式完成敘事，敘事自律高下立見 | 【原文明說】成立 |
+
+![共用尺與專屬尺的最大還原誤差對比。](/article.ai/articles/seti-park-one-ruler-per-token-analysis/figure-01-error-bars.svg)
+
+<small class="figure-caption">圖 1｜本站依長文第 5 節表格以 python3 執行驗算後自繪。共用尺最大誤差 0.07（0.07 直接歸零），專屬尺最大誤差 0.0019，比值約 37 倍；刻度密度比約 40 倍。注意表格數字除 20 外皆為作者自編示例，不是專利實測。</small>
+
+![FIG. 2C 與 FIG. 2E 的動靜佈置對比。](/article.ai/articles/seti-park-one-ruler-per-token-analysis/figure-02-where-dynamic.svg)
+
+<small class="figure-caption">圖 2｜本站依長文第 6 節自繪。上（FIG. 2C）：Q／K／V 與 attention 矩陣乘法前先動態量化，norm／RoPE／softmax 留高精度；下（FIG. 2E）：分佈穩定處全靜態，只在 norm 後動態一次（Avg SNR 20 為設計目標）。Nx1xf32 即每 token 一個 scale。</small>
+
+### 第三步：原圖解讀
+
+貼文連結的長文含 7 張圖（封面＋FIG. 4／FIG. 3／尺表／FIG. 2C／FIG. 2E／FIG. 5），本站存檔其中關鍵三張。
+
+![X 長文封面：夜景曝光與兩把尺的對比。](/article.ai/articles/seti-park-one-ruler-per-token-analysis/post-cover.jpg)
+
+<small class="figure-caption">圖 3｜長文封面（作者自繪，非專利原圖）。左欄「Night shot? Reset the exposure」：同一條街，日間設定全黑 vs 專屬設定細節盡現；右欄「Give each token its own ruler」：共用尺下四值擠在 (3, −2, 1, 0)、0.07 歸零，專屬尺下攤開為 (−79, 18, 30, 127)、誤差降約 37 倍。頁腳自帶三行自律聲明：published application not granted、panels 1–2 concept my numbers、rule max→127（［0137］）：把「哪裡是詮釋」先寫出來，是全文最硬的證據習慣。出處：X 長文附圖存檔。</small>
+
+![長文引用的 FIG. 3：per-token 動態量化的三個盒子。](/article.ai/articles/seti-park-one-ruler-per-token-analysis/article-fig3.jpg)
+
+<small class="figure-caption">圖 4｜長文引用的專利 FIG. 3（USPTO 公開文件）：收 tensor（301）→ 每 token 取最大絕對值 MaxAbs（303）→ 除以自家 scale 量化成 INT8（305）。出處：US 2026/0299881 A1，X 長文附圖存檔。</small>
+
+![長文引用的 FIG. 2C：每操作精度分工。](/article.ai/articles/seti-park-one-ruler-per-token-analysis/article-fig2c.jpg)
+
+<small class="figure-caption">圖 5｜長文引用的專利 FIG. 2C（USPTO 公開文件）：Q／K／V 生成與 attention 用 INT8，RMS norm 與 RoPE 用高精度浮點，頂部 Nx1xf32 即 N 個 per-token scale。注意 value 路徑 206d 的 per-channel 標籤與文字［0113］的 per-token 存在圖文出入（長文已主動點名）。出處：US 2026/0299881 A1，X 長文附圖存檔。</small>
+
+## 風險與盲點
+
+- **五件只驗到兩件（【仍未被支撐的主張】）**：881 與 9946 的同日＋同團隊＋同批次成立；第一、二件（含 driving instruction 步驟之說）與第五件的案號本站未能獨立取得。在作者貼出第四篇之前，「五件系列」先當作者的連載預告讀，不要當已驗事實。
+- **申請案不是專利權，更不是上車**：作者開篇自陳 A1 未獲證，值得肯定；但全文依然零精度、零速度、零功耗實測，「−128 不用」（值域落在 −127～127）這類細節正確，不代表整體精度無損有數字背書。
+- **「car AI chips」是敘事框架**：專利通篇是 ego computing device／analytics server 通用架構＋INT8 MAC／FP32 SIMD，未對應任何 Tesla 晶片；車用只是故事包裝，機制本身與車無關。
+- **per-token 定尺的離群值弱點長文只談一半**：第 7 節承認尺越多越準、動態量化仍是精度損失主因，但同 token 內的單一離群值壓扁全 token 問題只以「more rulers」帶過，無裁剪方案（與本站前篇判讀一致）。
+- **利益揭露**：@seti_park 自介「I read patents and make some stories」，首爾個人帳號，約 22.2K 追隨者，專利故事連載作者；未見付費會員、售書、返佣連結，無課程漏斗跡象。本次技術轉述經本站覆核大致忠實，立場屬同好深挖而非中立評測——取捨是：機制轉述可引用，系列完整性（五件之說）與貢獻評價（in my view 段）要打折。
+- **與本站前篇的關係**：881 案的機制（per-token、MaxAbs、INT8 MAC＋高精度孤島）前篇已驗，本篇增量在三處——FIG. 2C／2E 動靜佈置、claims 分工解讀、先前技術定位，外加 9946 兄弟案的書目確認；E7M7／BF15 內容請見前篇，不重複。
+
+## 我們的判讀
+
+《每 token 一把尺》最值得帶走的不是曝光比喻，而是一種可遷移的讀專利姿勢：**看到量化案，先問尺誰定、多久定一次、放哪裡，再問權利項把什麼寫進獨立項、把什麼留給附屬項**。這篇長文三題全答：尺是每 token 用自身最大值現定的；只放在範圍會漂的步驟（FIG. 2E 只留 norm 後一處）；獨立項只鎖 per-token 框架，MAC／SIMD、per-channel、per-block 全下放附屬項——保護傘大、落地選項多，是典型的家族佈局寫法。機制乾淨、揭露誠實，但記住它停在申請案階段：沒有精度數字之前，37 倍誤差縮小是作者自編示例上的算術，不是路測結果。
+
+## 來源
+
+- @seti_park X 主貼文（2026-10-07）：https://x.com/seti_park/status/2107634446677741619 ——本文解讀對象，約 426 瀏覽；連結 X 長文一則，封面與關鍵圖已存檔站內
+- SETI Park X 長文《One Ruler per Token: How Tesla Runs Its Transformers in INT8》：https://x.com/i/article/2107633662284136851 ——全文已讀，段號引用逐條覆核
+- US 2026/0299881 A1 全文 PDF（USPTO 公開文件）：https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/20260299881 ——混合精度 transformer，申請號 19/322,393
+- US 2026/0299946 A1 首頁（USPTO 公開文件）：https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/20260299946 ——quantized FlashAttention，申請號 19/321,931；本站下載確認書目，系列第四件
+- Z. Yao 等，ZeroQuant，arXiv:2206.01861（2022-06-04）：https://arxiv.org/abs/2206.01861 ——token-wise activation、每 token 動態範圍
+- G. Xiao 等，SmoothQuant，arXiv:2211.10438（2022-11）：「ZeroQuant applies dynamic per-token activation quantization」引文出處
+- 長文表格驗算：本站以 `python3` 執行，共用尺一格約 0.157、專屬尺一格約 0.0039、最大誤差 0.07 vs 0.0019、比值約 37 倍，與長文一致

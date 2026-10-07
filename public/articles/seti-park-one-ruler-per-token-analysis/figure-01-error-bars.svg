@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="340" viewBox="0 0 720 340" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="720" height="340" rx="12" fill="#faf9f7"/>
+  <rect x="0" y="0" width="720" height="340" rx="12" fill="none" stroke="#e5e0d8" stroke-width="1.5"/>
+  <text x="28" y="36" font-size="18" font-weight="700" fill="#1c1917">暗 token 四個值的最大還原誤差：共用尺 vs 專屬尺</text>
+  <text x="28" y="58" font-size="12.5" fill="#78716c">token ＝ [0.50, −0.31, 0.12, 0.07]；本站以 python3 執行驗算，數字與長文表格一致</text>
+
+  <!-- shared ruler bar -->
+  <text x="28" y="102" font-size="13.5" font-weight="600" fill="#1c1917">共用尺（以 20 定尺，一格 ≈ 0.157）→ 存成 [3, −2, 1, 0]</text>
+  <rect x="28" y="114" width="560" height="26" rx="6" fill="#dc2626" opacity="0.85"/>
+  <text x="596" y="133" font-size="15" font-weight="700" fill="#dc2626">0.0700</text>
+  <text x="28" y="158" font-size="12.5" fill="#78716c">0.07 存成 0，直接消失；四值擠在 −2～3 共 6 格</text>
+
+  <!-- own ruler bar -->
+  <text x="28" y="198" font-size="13.5" font-weight="600" fill="#1c1917">專屬尺（以自身 0.50 定尺，一格 ≈ 0.0039）→ 存成 [127, −79, 30, 18]</text>
+  <rect x="28" y="210" width="15" height="26" rx="6" fill="#059669" opacity="0.9"/>
+  <text x="51" y="229" font-size="15" font-weight="700" fill="#059669">0.0019 ← 誤差縮小約 37 倍</text>
+  <text x="28" y="254" font-size="12.5" fill="#78716c">刻度密約 40 倍（0.157 ÷ 0.0039）；最大值 0.50 精確落 127 格</text>
+
+  <!-- scale note -->
+  <line x1="28" y1="276" x2="692" y2="276" stroke="#e5e0d8" stroke-width="1"/>
+  <text x="28" y="298" font-size="12.5" fill="#78716c">上 bar 為 0.07 等比繪製；下 bar 同比例僅約 15 px（圖上加寬示意，數值見標籤）。</text>
+  <text x="28" y="318" font-size="12.5" fill="#78716c">判定：【原文明說＋本站驗算】成立；但作者已聲明表格數字自編，僅最大值 20 取自專利例。</text>
+</svg>

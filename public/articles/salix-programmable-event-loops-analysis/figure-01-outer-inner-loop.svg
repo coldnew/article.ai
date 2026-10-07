@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 380" font-family="system-ui, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="720" height="380" rx="12" fill="#faf9f5"/>
+  <text x="24" y="34" font-size="17" font-weight="700" fill="#141413">外迴圈 vs 內迴圈：誰在燒 token</text>
+  <g font-size="12.5" fill="#141413">
+    <rect x="24" y="56" width="200" height="110" rx="8" fill="#fff" stroke="#b3261e" stroke-width="2"/>
+    <text x="124" y="80" text-anchor="middle" font-weight="700">舊做法：內迴圈輪詢</text>
+    <text x="124" y="100" text-anchor="middle" fill="#6b6a64" font-size="11">每幾分鐘醒一次</text>
+    <text x="124" y="118" text-anchor="middle" fill="#6b6a64" font-size="11">大模型讀大 context</text>
+    <text x="124" y="136" text-anchor="middle" fill="#b3261e" font-size="11" font-weight="700">幾乎每次都是空轉，卻照付費</text>
+    <rect x="260" y="56" width="200" height="110" rx="8" fill="#fff" stroke="#1b365d" stroke-width="2"/>
+    <text x="360" y="80" text-anchor="middle" font-weight="700">外迴圈 Loop（eBPF）</text>
+    <text x="360" y="100" text-anchor="middle" fill="#6b6a64" font-size="11">agent 寫的 C → eBPF</text>
+    <text x="360" y="118" text-anchor="middle" fill="#6b6a64" font-size="11">spinfoam 常駐，約 64KB</text>
+    <text x="360" y="136" text-anchor="middle" fill="#1b365d" font-size="11" font-weight="700">等待零成本，只佔記憶體</text>
+    <rect x="496" y="56" width="200" height="110" rx="8" fill="#eef3f9" stroke="#1b365d"/>
+    <text x="596" y="80" text-anchor="middle" font-weight="700">內迴圈（大模型）</text>
+    <text x="596" y="100" text-anchor="middle" fill="#6b6a64" font-size="11">只在 agent.notify 才跑</text>
+    <text x="596" y="118" text-anchor="middle" fill="#6b6a64" font-size="11">6 次 / 10 分鐘預算</text>
+    <text x="596" y="136" text-anchor="middle" fill="#1b365d" font-size="11" font-weight="700">安靜的一小時零 token</text>
+  </g>
+  <g stroke="#8a5a2b" stroke-width="2" fill="none">
+    <line x1="224" y1="111" x2="258" y2="111"/><polygon points="258,106 266,111 258,116" fill="#8a5a2b" stroke="none"/>
+    <line x1="460" y1="111" x2="494" y2="111"/><polygon points="494,106 502,111 494,116" fill="#8a5a2b" stroke="none"/>
+  </g>
+  <rect x="24" y="188" width="672" height="168" rx="8" fill="#fff" stroke="#e8e6dc"/>
+  <text x="40" y="216" font-size="13.5" font-weight="700" fill="#141413">事件流：webhook / API / Composio / timer → Loop → decide（Jev）→ 極少數 wake</text>
+  <text x="40" y="238" font-size="12.5" fill="#6b6a64">Loop 形狀固定：for (;;)  等待 sf_event_next / sf_sleep_ms；檢查 read-only 工具；達標才 agent.notify。</text>
+  <text x="40" y="260" font-size="12.5" fill="#6b6a64">中間先過小模型：Jev choice / score，只回結構化判斷，不讀 source、不跑工具、不授權。</text>
+  <text x="40" y="282" font-size="12.5" fill="#6b6a64">不懂就回 defer / none：不確定是合法答案，Loop 留下事件而不是硬判 quiet。</text>
+  <text x="40" y="304" font-size="12.5" fill="#6b6a64">投遞語義：202 只是 Postgres 留存，loop.ack 到安全點才算數；15 分鐘未 ack 轉 failed。</text>
+  <text x="40" y="326" font-size="12.5" fill="#b3261e">注意：mailbox 按 admission 去重，不是按業務完成；重試要寫在 guest 裡。</text>
+</svg>
