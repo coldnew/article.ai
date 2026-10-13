@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="300" role="img" aria-label="Turbopack 宣稱與實測對比">
+<rect x="0" y="0" width="720" height="300" fill="#ffffff"/>
+<text x="24" y="30" font-size="16" font-weight="bold" fill="#111">Turbopack 宣稱 vs 轉述實測（HMR 更新耗時，越短越好）</text>
+<text x="24" y="52" font-size="12" fill="#555">發布會說法：比 Webpack 快 700 倍，比 Vite 快 10 倍｜實測數字引自《Elliot 長文》轉述 Evan You 測試，本站未逐字核對 discussion 原文</text>
+<text x="24" y="96" font-size="13" fill="#111">根組件更新：Vite 338.2ms</text>
+<rect x="280" y="80" width="338" height="22" fill="#888"/>
+<text x="24" y="128" font-size="13" fill="#111">根組件更新：Turbopack 334.6ms（約 1.01 倍）</text>
+<rect x="280" y="112" width="334" height="22" fill="#111"/>
+<text x="24" y="172" font-size="13" fill="#111">葉子組件更新：Vite 141.8ms</text>
+<rect x="280" y="156" width="142" height="22" fill="#888"/>
+<text x="24" y="204" font-size="13" fill="#111">葉子組件更新：Turbopack 84.4ms（約 1.68 倍）</text>
+<rect x="280" y="188" width="84" height="22" fill="#111"/>
+<text x="24" y="248" font-size="12" fill="#555">判讀：正常場景下是「快一點」，不是「快一個數量級」；700 倍僅在特定極端場景口徑下成立。</text>
+<text x="24" y="270" font-size="12" fill="#555">灰＝Vite，黑＝Turbopack。口徑差異見正文宣稱對照表。</text>
+</svg>

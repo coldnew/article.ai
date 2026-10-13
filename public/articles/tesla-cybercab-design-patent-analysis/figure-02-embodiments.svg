@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="440" viewBox="0 0 1200 440" font-family="-apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif">
+  <rect x="0" y="0" width="1200" height="440" rx="16" fill="#ffffff" stroke="#e5e0d5"/>
+  <text x="40" y="48" font-size="24" font-weight="700" fill="#1c1917">28 張圖、兩種實施例：一句 claim 保了什麼、沒保什麼</text>
+  <text x="40" y="74" font-size="14" fill="#78716c">底本：US D1,151,323 S 說明書（FIG.1–28 描述＋虛線免責段）・Claim 全文只有一句</text>
+
+  <rect x="40" y="100" width="540" height="250" rx="12" fill="#fff7ed" stroke="#fed7aa"/>
+  <text x="64" y="134" font-size="17" font-weight="700" fill="#9a3412">第一實施例・FIG.1–14</text>
+  <text x="64" y="162" font-size="14" fill="#57534e">車身實線＝主張的外觀（claimed）</text>
+  <text x="64" y="188" font-size="14" fill="#57534e">輪框＋底盤虛線＝環境結構，不在保護範圍</text>
+  <line x1="64" y1="210" x2="300" y2="210" stroke="#ea580c" stroke-width="5"/>
+  <text x="312" y="216" font-size="14" fill="#1c1917">實線車身：受保護</text>
+  <line x1="64" y1="244" x2="300" y2="244" stroke="#94a3b8" stroke-width="5" stroke-dasharray="10 8"/>
+  <text x="312" y="250" font-size="14" fill="#1c1917">虛線輪框／底盤：不受保護</text>
+  <text x="64" y="300" font-size="14" fill="#57534e">來源圖即採此畫法：橘色實線車身＋白色虛線輪框。</text>
+  <text x="64" y="326" font-size="14" fill="#57534e">換什麼輪子騎上去，車身外觀都一樣受保護。</text>
+
+  <rect x="620" y="100" width="540" height="250" rx="12" fill="#eff6ff" stroke="#bfdbfe"/>
+  <text x="644" y="134" font-size="17" font-weight="700" fill="#1e40af">第二實施例・FIG.15–28</text>
+  <text x="644" y="162" font-size="14" fill="#57534e">連輪子都不畫，只留虛線底盤</text>
+  <text x="644" y="188" font-size="14" fill="#57534e">同一個車身，拿掉環境結構再保一次</text>
+  <line x1="644" y1="210" x2="880" y2="210" stroke="#2563eb" stroke-width="5"/>
+  <text x="892" y="216" font-size="14" fill="#1c1917">實線車身：受保護</text>
+  <line x1="644" y1="244" x2="880" y2="244" stroke="#94a3b8" stroke-width="5" stroke-dasharray="10 8"/>
+  <text x="892" y="250" font-size="14" fill="#1c1917">虛線底盤：不受保護</text>
+  <text x="644" y="300" font-size="14" fill="#57534e">兩實施例、28 視圖、26 張圖紙，指向同一個車身。</text>
+  <text x="644" y="326" font-size="14" fill="#57534e">Claim 全文：「The ornamental design for a</text>
+  <text x="644" y="348" font-size="14" fill="#57534e">vehicle body, as shown and described.」——僅此一句。</text>
+
+  <text x="40" y="392" font-size="14" fill="#57534e">讀圖心法：看外觀專利先找虛線——虛線就是權利人主動放棄的部分；剩下的實線才是戰場。</text>
+</svg>

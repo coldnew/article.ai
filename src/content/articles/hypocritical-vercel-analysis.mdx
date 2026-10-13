@@ -1,0 +1,82 @@
+---
+title: "虛偽的 Vercel？把 8 節指控逐條核對：成立三件，誇大兩件，待查三件"
+description: "核實 Elliot《虛偽的 Vercel》長文：反鎖定與部署黑盒、Turbopack 10 倍說法、CVE-2025-29927 與 React2Shell、2026 年 3 月 ToS 訓練條款多有官方出處；但毫秒實測數、帳單個案、安全內網事件與滿意度差距等本站未獨立核實，不宜直接當事實轉述。"
+publishedAt: 2026-10-13
+topic: "前端基建"
+sourceType: "article"
+sourceUrl: "https://x.com/elliothux/status/2109596469292572679?s=20"
+authors: ["Elliot（@elliothux）"]
+analyst: "Muse Spark"
+venue: "X 貼文 · Vercel 批判長文解讀"
+tags: ["Vercel", "Next.js", "Turbopack", "vendor lock-in", "CVE", "React2Shell"]
+readTime: "12 分鐘"
+evidence: "中"
+featured: false
+sourceCount: 6
+accent: "slate"
+---
+
+import XPostCard from '../../components/XPostCard.astro';
+
+## 先說結論
+
+《Elliot X 長文》指控 Vercel「反鎖定人設、部署黑盒、發布會浮誇、計費刺客、安全拉胯」，成立的部分是核心技術指控多有官方出處（反鎖定博文、部署轉接 RFC、兩顆 CVE、2026 年 3 月 ToS 訓練條款皆經本站核對原文）；炒作成分是把轉述數字當實測（Turbopack 毫秒數、帳單截圖、16.5 萬脆弱 IP、滿意度 40% 鴻溝等皆未附可逐字核對的一手來源）、把個別事件寫成全站定論，且通篇辱罵性定性（本站不承接，只核事實）。單一立場長文加多手轉述，證據等級給「中」。
+
+以下貼文以本站靜態卡片還原（X 原生嵌入需載入外部 JS 且離線不可見，故改以靜態還原呈現；X Article 長文依慣例只節錄標題、開頭與證據段，全文要點在流程拆解中重述；認證徽章因無法確認而省略）：
+
+<XPostCard author="Elliot" handle="@elliothux" timestamp="10:46 AM · Oct 12, 2026" views="4,829" sourceUrl="https://x.com/elliothux/status/2109596469292572679?s=20">
+<p><strong>虚伪的 Vercel</strong></p>
+<p>在硅谷所有的商业把戏里，最让人反胃的从来不是资本赤裸裸地抢钱，而是「又当又立」……估值近百亿美元、坐拥 CEO Guillermo Rauch、把持着全网前端命脉的 Next.js。</p>
+<p>此處依慣例節錄：全文八節，依序為反鎖定與部署黑盒、發布會與 Turbopack、開源與 Hyper、2026 年 3 月服務條款、計費與 DDoS 帳單、安全漏洞與內網事件、政治合影爭議、選型建議（原文首發見其個人博客，參考資料列 30 餘項）。</p>
+</XPostCard>
+
+<small class="figure-caption">靜態還原＋繁體譯文要點：作者自介為 Lynx AI 共同創辦人兼 CTO；全文為檄文體，含 30 餘項參考連結；本站只核其中可追到 primary source 的技術主張，不承接人身定性。</small>
+
+## 這篇文章真正解決的問題
+
+**《Elliot X 長文》解決敘事問題：**回答「為什麼越來越多團隊想搬離 Vercel」。用八節指控給出一個記憶點：又貴、又鎖、又不安全。
+
+**被引用的 primary sources 解決的則是各自的技術問題：**《Vercel 反鎖定博文》定義何謂鎖定並給出 70% 外部運行數據；《Netlify 部署挑戰博文》說明跨平台支援成本；GitHub Advisory 與 CVE 記錄給出漏洞影響面與修復版本；《Vercel 2026 年 3 月 ToS 更新》給出訓練資料的預設值與退出時限。兩者不可混稱。
+
+## 流程拆解
+
+### 第一步：書目核對——長文確有出處，不是憑空寫的
+
+【本站核對，底本為各官方頁面】《Elliot 個人博客》全文與 X 長文同文，文末參考資料可逐條點開；《Vercel 反鎖定博文》確實存在（2025-11-10，作者 Malte Ubl、Tom Occhino、Kevin Corbett）；GitHub Advisory `GHSA-f82v-jwr5-mffw` 與 CVE 記錄 `CVE-2025-55182` 皆可公開查到；《Vercel 2026 年 3 月 ToS 更新》官方 changelog 仍在線。估值「近百億」亦有旁證：第三方數據顯示 2025-09-30 Series F 估值 93 億美元。
+
+### 第二步：宣稱對照表——成立、誇大、待查分開標
+
+| 《Elliot X 長文》聲稱 | Primary source 實際 | 判定 |
+|---|---|---|
+| Vercel 高喊反鎖定，自家 Next.js 卻是最大黑盒；`.next` 無公開文件，各平台靠逆向，OpenNext 是被迫的擦屁股工程 | 《Vercel 反鎖定博文》確實主張 framework-defined infrastructure、可攜性，並稱約 70% Next.js 跑在 Vercel 之外；《Netlify 部署挑戰博文》與 Deployment Adapters RFC `#77740` 的存在，側證跨平台轉接確有成本 | 【原文明說】博文與 RFC 存在成立；但「70% 在外運行」是 Vercel 自家遙測口徑，Biilmann／amasad 原帖本站未逐字核對，歸【仍未被支撐的主張】 |
+| Turbopack 發布會稱比 Webpack 快 700 倍、比 Vite 快 10 倍，實測根組件 338.2ms vs 334.6ms、葉子 141.8ms vs 84.4ms，只是快一點 | Evan You 的 `vite-vs-next-turbo-hmr` 討論串確實存在；發布會 700 倍／10 倍為特定場景口徑 | 【合理推斷】方向成立（口徑落差是經典 benchmark 花招）；但毫秒數字引自長文轉述，本站未逐字核對 discussion 原文，不宜直接引用 |
+| CVE-2025-29927 因 `x-middleware-subrequest` 可繞過中介層鑑權，CVSS 9.1 | GitHub Advisory：影響 Next.js 11.1.4 起多版本，修復於 12.3.5／13.5.9／14.2.25／15.2.3，CVSS 9.1，緩解法為擋該標頭，Vercel 託管自動受護 | 【原文明說】成立；「壓一個月、改日誌、包裝成行銷」屬 Amjad 個人指控，未見獨立證據，歸【仍未被支撐的主張】 |
+| React2Shell（CVE-2025-55182）CVSS 10.0 滿分，預設腳手架即脆弱，Shadowserver 16.5 萬 IP、Wiz 39%、CISA 下令整改 | CVE 記錄：Meta 於 2025-12-03 公開，RSC 反序列化預授權 RCE，影響 React 19.0.0–19.2.0，CVSS 10.0；CVE-2025-66478（Next.js）被標為重複併入；Microsoft 確認預設配置即脆弱 | 【原文明說】漏洞本體成立；Shadowserver／Wiz／CISA 數字本站未獨立核實，歸【仍未被支撐的主張】 |
+| 2026 年 3 月 ToS：Hobby 預設被拿去訓練 AI 並可分享給第三方，Pro 預設不參與，3/31 前退出，「逾期概不撤回」 | 官方 changelog：Hobby（含 Trial Pro）預設 opt-in、Pro 預設 opt-out、Enterprise 永不參與；資料集含程式碼、agent 對話、遙測、建置錯誤、彙總流量；3/31 前退出則不用不分享 | 【從原文可直接推出】前半成立；但「逾期概不撤回」與原文不符——原文寫逾期後退出則「自該時點起不再使用與分享」，屬【仍未被支撐的主張】，已勘誤 |
+| 天價帳單（Bart $40+ vs CF $0、Reddit $1141、Cara 10 萬）與「特赦公關」；State of JS 滿意度與 Astro 差 40%；4 月內網被穿、憑證掛牌 200 萬美元 | 皆為 X／Reddit／論壇個案截圖轉述；The Register 報導與 State of JS 2025 本站未逐一核對 | 【仍未被支撐的主張】計費結構複雜是真（官方價目有多項分開計費），但個案金額、DDoS 因果、40% 鴻溝、內網事件未經獨立核實 |
+| 結論：生產環境不要用 Vercel，Cloudflare 全面碾壓，Vercel 只是二道販子 | 作者個人選型意見，無基準測試支撐；Vercel 自述其生產流量層橫跨 19 個區域，且承認依賴 AWS（2025-10-20 事故報告） | 【合理推斷】僅為一家之言：轉售／自建之爭須看延遲、可用性、總持有成本三組系統基準，缺一不可下此結論 |
+
+![Turbopack 宣稱與轉述實測對比：正常場景快一點，不是快一個數量級。](/article.ai/articles/hypocritical-vercel-analysis/figure-01-turbopack.svg)
+
+<small class="figure-caption">圖 1｜本站依《Elliot 長文》轉述數字自繪 SVG。毫秒數未經本站逐字核對 discussion 原文，僅示意口徑落差：發布會倍數 vs 正常 HMR 場景。</small>
+
+## 風險與盲點
+
+- **實現落差：元件基準≠系統結論**：HMR 毫秒、單一帳單、單一 CVE 都只是元件證據；要下「全面碾壓／全面封殺」的系統結論，需要吞吐、P99 延遲、可用性、總成本、修補時效五組對照，目前雙方都沒給全。
+- **缺失的對照組**：長文引用的 70% 外部運行、帳單對比、滿意度調查皆無方法學附錄；Vercel 官方遙測同樣是單方口徑。無外部複現時，泛化句一律降級為觀察哨。
+- **高風險建議邊界**：「生產環境不要用 Vercel」屬商業選型建議，有遷移成本尾部風險：ISR／Data Cache 語義、圖片優化管線、邊緣中介層重寫皆須重測，不可只看單月帳單就搬家。
+- **利益揭露**：《Elliot X 長文》作者自介為 Lynx AI 共同創辦人兼 CTO，主張「下一代 AI 基建」，與 Vercel／Cloudflare 存在潛在競爭關係；文末導向其個人博客與聯繫方式，屬立場型評測。取捨已寫出：技術出處核實有效，但選例與定性請自行折價。
+- **語言邊界**：原文含「雙標狗」「小丑」等辱罵性定性，本站不承接、不複述為事實，僅核對可驗證的技術主張。
+
+## 我們的判讀
+
+《虛偽的 Vercel》最值得帶走的不是情緒，而是一個可遷移的判斷框架：**看到「反鎖定」，先問「轉接契約在哪一版才落地」；看到「快 N 倍」，先問「什麼場景、什麼口徑」；看到「預設拿去訓練」，先打開官方 changelog 對預設值與截止條款逐字核對**。本案三處經核對成立（部署轉接確有成本、兩顆 CVE 皆為真、ToS 預設值確如其言但撤回說被誇大），其餘先當觀察哨，不要當判決書。
+
+## 來源
+
+- Elliot X 主貼文（2026-10-12，4,829 瀏覽）：https://x.com/elliothux/status/2109596469292572679?s=20 ——本文解讀對象；原文首發：https://elliothu.me/blog/zh/hypocritical-vercel
+- 《Vercel 反鎖定博文》（2025-11-10）：https://vercel.com/blog/vercel-the-anti-vendor-lock-in-cloud ——存在性與 70% 口徑已核對
+- GitHub Advisory GHSA-f82v-jwr5-mffw（CVE-2025-29927）：CVSS 9.1、標頭繞過、修復版本已核對
+- CVE-2025-55182（React2Shell）：https://www.cve.org/CVERecord?id=CVE-2025-55182 ——CVSS 10.0、2025-12-03 公開已核對
+- 《Vercel 2026 年 3 月 ToS 更新》：https://vercel.com/changelog/updates-to-terms-of-service-march-2026 ——預設值與 3/31 條款已核對，並勘誤「概不撤回」說
+- Evan You 測試討論串：https://github.com/yyx990803/vite-vs-next-turbo-hmr/discussions/8 ——存在性已確認，毫秒數未逐字核對

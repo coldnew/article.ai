@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="300" viewBox="0 0 760 300" role="img">
+<title>REA 調查流程</title>
+<style>
+.box{fill:#1a1a2e;stroke:#e94560;stroke-width:1.5;rx:12}
+.label{fill:#fff;font-family:sans-serif;font-size:14px;text-anchor:middle}
+.sub{fill:#aaa;font-family:sans-serif;font-size:11px;text-anchor:middle}
+.arrow{stroke:#e94560;stroke-width:2;fill:none;marker-end:url(#ah)}
+</style>
+<defs><marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#e94560"/></marker></defs>
+<rect class="box" x="10" y="100" width="150" height="90" rx="12"/><text class="label" x="85" y="140">你的 Agent</text><text class="sub" x="85" y="160">Claude / Codex</text><text class="sub" x="85" y="176">問本地目標</text>
+<rect class="box" x="210" y="100" width="150" height="90" rx="12"/><text class="label" x="285" y="140">REA MCP + CLI</text><text class="sub" x="285" y="160">npx rea-agents</text><text class="sub" x="285" y="176">同一 workflow</text>
+<rect class="box" x="410" y="100" width="150" height="90" rx="12"/><text class="label" x="485" y="140">分析工具</text><text class="sub" x="485" y="160">Hopper / Ghidra</text><text class="sub" x="485" y="176">JADX / Binwalk</text>
+<rect class="box" x="610" y="100" width="140" height="90" rx="12"/><text class="label" x="680" y="140">證據回傳</text><text class="sub" x="680" y="160">code + refs</text><text class="sub" x="680" y="176">unknowns</text>
+<path class="arrow" d="M160,145 H205"/><path class="arrow" d="M360,145 H405"/><path class="arrow" d="M560,145 H605"/>
+<text class="sub" x="380" y="260">Agent 再解釋 / 實作 / 測試．分析全程本地執行．重繪自 rea-investigation-flow.svg</text>
+</svg>
