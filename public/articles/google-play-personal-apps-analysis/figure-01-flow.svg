@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+  <style>
+    .box { fill: var(--card, #f6f8fa); stroke: #888; stroke-width: 1.5; rx: 10; }
+    .title { font-size: 14px; font-weight: 700; fill: #1f2328; }
+    .body { font-size: 12px; fill: #57606a; }
+    .arrow { stroke: #555; stroke-width: 1.8; fill: none; marker-end: url(#ah); }
+    .note { font-size: 12px; fill: #8250df; font-style: italic; }
+    @media (prefers-color-scheme: dark) {
+      .title { fill: #e6edf3; }
+      .body { fill: #9aa4b2; }
+    }
+  </style>
+  <defs>
+    <marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#555"/>
+    </marker>
+  </defs>
+
+  <rect class="box" x="20" y="60" width="150" height="120" rx="10"/>
+  <text class="title" x="35" y="90">AI Studio</text>
+  <text class="body" x="35" y="112">聊天式 vibe coding</text>
+  <text class="body" x="35" y="130">生成 Android App</text>
+  <text class="body" x="35" y="148">一般 Google 帳號</text>
+  <text class="body" x="35" y="166">免開發者帳號</text>
+
+  <line class="arrow" x1="170" y1="120" x2="235" y2="120"/>
+  <text class="note" x="172" y="108">無線推送</text>
+
+  <rect class="box" x="240" y="60" width="150" height="120" rx="10"/>
+  <text class="title" x="255" y="90">個人庫</text>
+  <text class="body" x="255" y="112">Personal Library</text>
+  <text class="body" x="255" y="130">僅本人可見可裝</text>
+  <text class="body" x="255" y="148">不進公開目錄</text>
+  <text class="body" x="255" y="166">不經 Play 審核</text>
+
+  <line class="arrow" x1="390" y1="120" x2="455" y2="120"/>
+  <text class="note" x="392" y="108">裝機</text>
+
+  <rect class="box" x="460" y="60" width="150" height="120" rx="10"/>
+  <text class="title" x="475" y="90">自己的裝置</text>
+  <text class="body" x="475" y="112">手機／平板／PC</text>
+  <text class="body" x="475" y="130">與公開商店隔離</text>
+  <text class="body" x="475" y="148">Play Protect 未明</text>
+
+  <line class="arrow" x1="315" y1="180" x2="315" y2="235"/>
+  <text class="note" x="325" y="222">未來幾個月</text>
+
+  <rect class="box" x="240" y="240" width="150" height="48" rx="10"/>
+  <text class="body" x="255" y="260">分享給親友小圈圈</text>
+  <text class="body" x="255" y="278">免開發者帳號（人數未定）</text>
+
+  <line class="arrow" x1="535" y1="180" x2="535" y2="235"/>
+  <text class="note" x="545" y="222">想公開上架</text>
+
+  <rect class="box" x="460" y="240" width="150" height="48" rx="10"/>
+  <text class="body" x="475" y="260">升級正式開發者帳號</text>
+  <text class="body" x="475" y="278">走完整審核流程</text>
+</svg>
