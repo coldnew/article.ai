@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="340" viewBox="0 0 720 340" font-family="system-ui, -apple-system, 'PingFang TC', 'Noto Sans TC', sans-serif">
+  <text x="360" y="24" text-anchor="middle" font-size="16" font-weight="700" fill="currentColor">Fiverr：買家數跌、客單價漲的剪刀差</text>
+  <text x="360" y="42" text-anchor="middle" font-size="11" fill="gray">資料來源：Fiverr 官方財報（20-F、Q1/Q2 2026 公告）本站整理</text>
+  <!-- axes -->
+  <line x1="70" y1="60" x2="70" y2="280" stroke="gray" stroke-width="1"/>
+  <line x1="70" y1="280" x2="430" y2="280" stroke="gray" stroke-width="1"/>
+  <line x1="470" y1="60" x2="470" y2="280" stroke="gray" stroke-width="1"/>
+  <line x1="470" y1="280" x2="690" y2="280" stroke="gray" stroke-width="1"/>
+  <!-- left panel: buyers (bars), scale 0-4500k, y = 280 - v/4500*200 -->
+  <text x="60" y="120" text-anchor="end" font-size="10" fill="gray">4000k</text>
+  <text x="60" y="190" text-anchor="end" font-size="10" fill="gray">2000k</text>
+  <text x="250" y="56" text-anchor="middle" font-size="12" font-weight="600" fill="#c2410c">活躍買家（千人）</text>
+  <g fill="#fb923c">
+    <rect x="100" y="101" width="44" height="179"><title>2023：4027千人</title></rect>
+    <rect x="178" y="119" width="44" height="161"><title>2024：3630千人</title></rect>
+    <rect x="256" y="141" width="44" height="139"><title>2025：3135千人</title></rect>
+    <rect x="334" y="161" width="44" height="119"><title>Q2'26：2676千人</title></rect>
+  </g>
+  <g font-size="11" text-anchor="middle" fill="currentColor">
+    <text x="122" y="92">4027</text>
+    <text x="200" y="110">3630</text>
+    <text x="278" y="132">3135</text>
+    <text x="356" y="152">2676</text>
+    <text x="122" y="296">2023</text>
+    <text x="200" y="296">2024</text>
+    <text x="278" y="296">2025</text>
+    <text x="356" y="296">Q2'26</text>
+  </g>
+  <!-- right panel: spend per buyer (line), scale 200-400, y = 280 - (v-200)/200*200 -->
+  <text x="580" y="56" text-anchor="middle" font-size="12" font-weight="600" fill="#1d4ed8">客單價（美元）</text>
+  <text x="462" y="203" text-anchor="end" font-size="10" fill="gray">278</text>
+  <text x="462" y="143" text-anchor="end" font-size="10" fill="gray">338</text>
+  <polyline points="500,202 553,178 607,138 660,112" fill="none" stroke="#3b82f6" stroke-width="2.5"/>
+  <g fill="#3b82f6">
+    <circle cx="500" cy="202" r="5"><title>2023：$278</title></circle>
+    <circle cx="553" cy="178" r="5"><title>2024：$302</title></circle>
+    <circle cx="607" cy="138" r="5"><title>2025：$342</title></circle>
+    <circle cx="660" cy="112" r="5"><title>Q2'26：$368</title></circle>
+  </g>
+  <g font-size="11" text-anchor="middle" fill="currentColor">
+    <text x="500" y="222">$278</text>
+    <text x="553" y="198">$302</text>
+    <text x="607" y="158">$342</text>
+    <text x="660" y="132">$368</text>
+    <text x="500" y="296">2023</text>
+    <text x="553" y="296">2024</text>
+    <text x="607" y="296">2025</text>
+    <text x="660" y="296">Q2'26</text>
+  </g>
+  <text x="360" y="326" text-anchor="middle" font-size="11" fill="gray">買家 -33.5%（4027→2676 千人），客單 +32.4%（$278→$368）</text>
+</svg>
