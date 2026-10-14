@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="system-ui, 'PingFang TC', 'Microsoft JhengHei', sans-serif">
+  <text x="360" y="28" text-anchor="middle" font-size="18" font-weight="700" fill="var(--foreground, #111)">《$1 億美金 ARR，我的 48 條反思》五板塊結構</text>
+  <text x="360" y="48" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #666)">Meshy 胡淵鳴 · 從 $80M 寫到 $100M ARR · 全文約五大段 48 條</text>
+  <g font-size="13">
+    <rect x="20" y="70" width="128" height="200" rx="10" fill="var(--chart-1, #4f7cff)" opacity="0.14" stroke="var(--chart-1, #4f7cff)" stroke-width="2"/>
+    <text x="84" y="96" text-anchor="middle" font-weight="700" fill="var(--foreground, #111)">I. 溫度與原則</text>
+    <text x="84" y="118" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">條 1–6</text>
+    <text x="84" y="140" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">先人後己</text>
+    <text x="84" y="160" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">公正 · 客觀真誠</text>
+    <text x="84" y="180" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">全局權衡</text>
+    <text x="84" y="200" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">小善 vs 大善</text>
+    <text x="84" y="228" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">防「懲罰責任心」</text>
+    <text x="84" y="248" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">薪資公開測試</text>
+    <rect x="160" y="70" width="128" height="200" rx="10" fill="var(--chart-2, #22b07d)" opacity="0.14" stroke="var(--chart-2, #22b07d)" stroke-width="2"/>
+    <text x="224" y="96" text-anchor="middle" font-weight="700" fill="var(--foreground, #111)">II. 時間與</text>
+    <text x="224" y="114" text-anchor="middle" font-weight="700" fill="var(--foreground, #111)">Founder Mode</text>
+    <text x="224" y="136" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">條 7–15</text>
+    <text x="224" y="158" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">時間是唯一</text>
+    <text x="224" y="178" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">不可再生資源</text>
+    <text x="224" y="200" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">每秒機會成本</text>
+    <text x="224" y="228" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">Ego vs 傲慢</text>
+    <text x="224" y="248" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">情緒價值三來源</text>
+    <rect x="300" y="70" width="128" height="200" rx="10" fill="var(--chart-3, #b07d22)" opacity="0.14" stroke="var(--chart-3, #b07d22)" stroke-width="2"/>
+    <text x="364" y="96" text-anchor="middle" font-weight="700" fill="var(--foreground, #111)">III. AI 與人</text>
+    <text x="364" y="118" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">條 16–23</text>
+    <text x="364" y="140" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">基本功＋AI＝</text>
+    <text x="364" y="160" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">強者更強</text>
+    <text x="364" y="180" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">形式×內容解耦</text>
+    <text x="364" y="200" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">可驗證領域先失守</text>
+    <text x="364" y="228" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">數學證明／Lean</text>
+    <text x="364" y="248" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">祭司→神諭隱喻</text>
+    <rect x="440" y="70" width="128" height="200" rx="10" fill="var(--chart-4, #b04f7c)" opacity="0.14" stroke="var(--chart-4, #b04f7c)" stroke-width="2"/>
+    <text x="504" y="96" text-anchor="middle" font-weight="700" fill="var(--foreground, #111)">IV. 團隊與管理</text>
+    <text x="504" y="118" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">條 24–38 · 最長</text>
+    <text x="504" y="140" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">人才密度不可逆</text>
+    <text x="504" y="160" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">寧缺毋濫</text>
+    <text x="504" y="180" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">Founder mode 全員化</text>
+    <text x="504" y="200" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">Low performer 快刀</text>
+    <text x="504" y="228" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">防老登＝持續創造</text>
+    <text x="504" y="248" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">Frostpunk 測試</text>
+    <rect x="580" y="70" width="128" height="200" rx="10" fill="var(--chart-5, #7c4fb0)" opacity="0.14" stroke="var(--chart-5, #7c4fb0)" stroke-width="2"/>
+    <text x="644" y="96" text-anchor="middle" font-weight="700" fill="var(--foreground, #111)">V. 戰略與執行</text>
+    <text x="644" y="118" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">條 39–48</text>
+    <text x="644" y="140" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">難而正確的事</text>
+    <text x="644" y="160" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">以終為始 ×10 倍</text>
+    <text x="644" y="180" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">資源可置換</text>
+    <text x="644" y="200" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">精益求精＋聚焦</text>
+    <text x="644" y="228" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">基礎事做到 top 1%</text>
+    <text x="644" y="248" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #555)">草台班子論</text>
+  </g>
+  <text x="360" y="300" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #666)">寫作背景：從 $80M ARR 寫到 $100M，歷時約一個月，國慶出差五天刪掉 2/3（作者自述）</text>
+  <text x="360" y="320" text-anchor="middle" font-size="12" fill="var(--muted-foreground, #666)">時間線：2026-07 B 輪近 $400M（估值 $1.5B）→ 09-10 Meshy 7.1 → 09-30 $100M ARR 公告 → 10-05 a16z 收入榜 #31</text>
+</svg>
