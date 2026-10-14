@@ -72,6 +72,12 @@ import XPostCard from '../../components/XPostCard.astro';
 - MDX 地雷：內文不可出現 `<` 緊接數字或中文標點（例如 `<3 m`），會被當成 JSX 解析失敗；用 backtick 包起來或改寫。
 - 證據等級：單一公司自述或單則貼文，evidence 只能給「中」或「探索中」，並在內文明確標註未支撐處。即使追到 peer-reviewed 論文，若解讀主體是 X 貼文的外推，上限仍為「中」；只核對貼文文字而未讀論文者，一律給「探索中」。
 - 寫完跑 `npm run build`，確認新頁面生成且首頁 index 有收錄。
+- 發佈流程：build 過 → 查 `dist/articles/<slug>/` 有 index.html → `git add` 只收 `public/articles/<slug>/` 與 `src/content/articles/<slug>.mdx`（根目錄 `screenshot.png`、`tmp-*.png` 類暫存檔不收）→ commit 訊息沿用「新增 N 篇 X 來源分析文：…系列」格式 → push。
+
+## 非 X 來源的取證規範
+
+- 來源是 arXiv 論文／教材時：`sourceType` 用 `paper`，不掛 `XPostCard`（卡片只屬於 X 貼文）。先讀摘要頁核書目（作者、版本、頁數、授權、提交日），再用 HTML 實驗版（`https://arxiv.org/html/<id>v1`）讀目錄與關鍵章節；數百頁大書不必逐頁讀，但必須在內文明示閱讀邊界（讀了哪章、哪幾節），證據等級上限「中」。引用寫 DOI（`10.48550/arXiv.<id>`），授權（如 CC0）一併記錄。教材類非主張型論文無 hype 可拆，重點改為體系拆解與修課／重用路線。
+- 來源是 GitHub 倉庫時：primary source 是倉庫本身，stars／forks 數字會變動，一律寫明抓取時點的數值；README 的 DISCLAIMER 與 FAQ 否認句優先引用（例如不還原原始碼、不自動複刻）；社群轉述的應用案例無倉庫連結、無版本號者，一律降級為【仍未被支撐的主張】，不得寫成官方能力。
 
 ## 核實類禁語（hype 過濾）
 
