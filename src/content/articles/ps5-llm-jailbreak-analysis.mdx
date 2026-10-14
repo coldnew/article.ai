@@ -1,0 +1,86 @@
+---
+title: "PS5 也能跑 27B 大模型：越獄＋Vulkan，20 tok/s 是真的，但資料中心梗是玩笑"
+description: "chasm 貼文稱有人在越獄 PS5 的 GPU 上跑起 Qwen3.8-27B，20 tok/s，CPU 版一分鐘一個 token。追到 primary source《abhi245y/PS5LM GitHub 倉庫》：20.3／20.7 tok/s、CPU 約一 token 一分鐘，原文一字不差；DDR4 三個月漲 24% 對上 Barclays 十月數據、AMD 三度調漲 GPU 顯存包價格、5090 通路價衝上 8 千至 9 千美元也都成立。頻寬帳自洽，但「PS5 進資料中心」只是梗——越獄、單機、家釀缺一不可。"
+publishedAt: 2026-10-14T14:30:00+08:00
+topic: "AI 硬體"
+sourceType: "article"
+sourceUrl: "https://x.com/chasmmmmmmmmmmm/status/2110216776759804103?s=20"
+authors: ["chasm（@chasmmmmmmmmmmm）"]
+analyst: "Muse Spark"
+venue: "X"
+tags: ["PS5", "LLM 推理", "越獄", "llama.cpp", "Vulkan", "顯存漲價", "RTX 5090", "主張核實"]
+readTime: "9 分鐘"
+evidence: "中"
+featured: false
+sourceCount: 7
+accent: "indigo"
+---
+import XPostCard from '../../components/XPostCard.astro';
+
+## 一句話結論
+
+《chasm X 貼文》的技術主張基本成立：越獄 PS5 上 Qwen3.8-27B 跑出 20 tok/s、CPU 版約一分鐘一個 token，兩組數字在《abhi245y／PS5LM GitHub 倉庫》README 裡一字不差找得到；記憶體三連（DDR4 三個月漲 24%、AMD 漲顯存包價、5090 買不到）也全部對得上十月市況——炒作成分只有最後一句「PS5 進資料中心」，那是梗，不是路線圖。
+
+## 這篇文章真正解決的問題
+
+**《chasm X 貼文》解決敘事問題：**
+
+把兩件看似無關的事焊在一起：遊戲機變成 AI 推理機，背景是顯存貴到連顯卡都買不起。當 GPU 現貨枯竭，任何帶 GDDR 的東西都會被重新估值——包括你客廳那台 PS5。
+
+**《abhi245y／PS5LM GitHub 倉庫》解決技術問題：**
+
+PS5 的 payload 只能拿到約 6 GiB 記憶體且沒有 GPU，原作者 Mert Cobanov（cobanov／PS5LM）先證明 llama.cpp 能在 PS5 的 Zen 2 CPU 上跑（代價是一分鐘一個 token）。這個 fork（abhi245y，加掛 PS5LM Plus 原生 App）解決的是 GPU 問題：以 title（原生應用）身份啟動，拿到主機 12 GiB 直連記憶體＋GPU，用 ggml 的 Vulkan 後端跑在 Mihawk-99 移植的 RADV 上，單一 11.44 GiB device heap。
+
+<XPostCard author="chasm" handle="@chasmmmmmmmmmmm" avatar="/article.ai/articles/ps5-llm-jailbreak-analysis/chasm-avatar.jpg" timestamp="3:51 AM · Oct 14, 2026" views="13.3K" replies="13" reposts="24" likes="395" sourceUrl="https://x.com/chasmmmmmmmmmmm/status/2110216776759804103?s=20" mediaUrl="/article.ai/articles/ps5-llm-jailbreak-analysis/post-screenshot.webp" mediaAlt="貼文附圖：PS5LM Plus 電視儀表板">
+<p>NOT EVEN THE PLAYSTATION 5 IS SAFE 🚨 Someone jailbroke a PS5 and got Qwen 3.8 27B running on its GPU at 20 tok/s. That's a real 27B AI model running locally on a games console. The same model on the PS5's CPU did about one token a minute.</p>
+<p>Meanwhile, DDR4 prices are up 24% in 3 months, AMD just raised GPU memory prices, and 5090s are basically gone. PS5 coming to a datacenter near you.</p>
+</XPostCard>
+
+<small class="figure-caption">靜態還原：此處依慣例節錄貼文全文。譯文：連 PS5 都不安全了——有人越獄 PS5，在 GPU 上跑起 Qwen 3.8 27B，20 tok/s；同一模型在 CPU 上一分鐘才一個 token。同時 DDR4 三個月漲 24%、AMD 剛漲顯存價、5090 基本買不到。PS5 即將進駐你家附近的資料中心。</small>
+
+## 原圖解讀
+
+貼文附圖是 PS5LM Plus 在電視上的儀表板：Qwen 3.8 27B 生成中，右上角速度讀數約 20.9 tok/s，另有 GPU／CPU 使用率、SoC 功耗、溫度風扇、記憶體池切分（模型、KV cache、其餘）等卡片。這張圖是全文最硬的證據——它不是轉述，是跑分現場。
+
+## 流程拆解（含宣稱對照表）
+
+| 《chasm X 貼文》聲稱 | primary source 實際 | 標籤 |
+|---|---|---|
+| 越獄 PS5，Qwen 3.8 27B 在 GPU 跑 20 tok/s | 《abhi245y／PS5LM README》：UD-Q2_K_XL（9.2 GiB）32k 上下文 20.3 tok/s、7,775 token 長回答 19.7 tok/s；UD-IQ2_XXS（6.8 GiB）64k 上下文 20.7 tok/s；附圖儀表板 20.9 tok/s | 【原文明說】20 是四捨五入，成立 |
+| 同模型 CPU 版一分鐘約一個 token | README 原文：`made about one token a minute`，CPU payload 從硬碟串流 | 【原文明說】逐字相符；GPU／CPU 相差約 1200 倍 |
+| 真 27B 模型在本機跑 | 跑的是量化版（Q2_K、IQ2_XXS），非全精度；9.2／6.8 GiB 塞進 title 的 12 GiB 記憶體，附帶最長上下文＋KV cache 規劃器 | 【從原文可直接推出】27B 參數量是真的，但人均以為的「滿血版」不是 |
+| DDR4 三個月漲 24% | 《Guru3D 引 Barclays 2026 年 10 月數據》：DDR4 合約價單月再漲 4%，前三個月累計漲 24%，DDR5 同期漲約 20% | 【原文明說】數字一字不差 |
+| AMD 剛漲 GPU 顯存價格 | 《TrendForce 2026-07-03》：AMD 通知 AIB，GPU＋GDDR bundle 漲約 10%；8 月再漲至少 10%（thenextweb）；10 月 1 日 GDDR6 生效又一波（shattered.io 引 Wccftech／TechPowerUp） | 【原文明說】至少三輪，成立 |
+| 5090 基本買不到 | 《HotHardware 2026-10-10》：Best Buy 幾乎全售罄，有貨的四款 8,044 美元起，MSRP 1,999 美元；《DigitalToday 2026-09-16》：ROG Astral 第三方 listing 9,659 美元，通路庫存見底；另有 GB202 轉供 RTX Pro 的 EOL 傳聞（未經 NVIDIA 證實） | 【原文明說】「basically gone」指零售現貨，成立；EOL 仍是傳聞 |
+| PS5 進資料中心 | 倉庫要求：越獄機＋kstuff-lite＋etaHEN＋ShadowMountPlus＋elfldr＋ftpsrv 六件套；單機家釀 App，無叢集、無管理面 | 【合理推斷】梗成立，路線圖不成立 |
+
+### 頻寬帳：20 tok/s 物理上說得通嗎？
+
+用 `python3 -c` 驗算（decode 速度 ≈ 頻寬 ÷ 模型大小，PS5 GDDR6 頻寬 448 GB/s）：
+
+* 9.2 GiB × 20.3 tok/s ＝ 186.8 GB/s，佔 41.7%
+* 6.8 GiB × 20.7 tok/s ＝ 140.8 GB/s，佔 31.4%
+* 4.8 GiB（Gemma 4 E4B）× 61 tok/s ＝ 292.8 GB/s，佔 65.4%
+* 1.9 GiB（Llama 3.2 3B）× 124 tok/s ＝ 235.6 GB/s，佔 52.6%
+
+![四組跑分佔 PS5 頻寬比例](/article.ai/articles/ps5-llm-jailbreak-analysis/figure-01-bandwidth.svg)
+
+<small class="figure-caption">自繪圖：四組 README 跑分換算成的頻寬佔用，全部落在 448 GB/s 天花板內，自洽；餘量吃在 KV cache 與核心開銷。</small>
+
+## 風險與盲點
+
+**1. 前提是越獄，這是全部。** PS5 越獄只存在於特定韌體版本，升級即失效；Sony 的安全更新從來不是吃素的。這決定了 PS5LM 永遠是家釀玩具，不可能是產品，更不可能是資料中心方案——連作者自己都只做到「電視儀表板＋區域網路 OpenAI 相容 API」。
+
+**2. 跑分是單一作者自測，無獨立復現。** tok/s 是 decode 速度，prompt 處理（prefill）速度另計；27B 量級在 32k／64k 上下文下的 KV cache 規劃是作者 planner 的選擇，換個配置數字會動。引用時要說「作者自測」，不要說「PS5 定論」。
+
+**3. 記憶體價格數字的口徑要分清。** Barclays 的 24% 是 DDR4「合約價」三個月累計；現貨市場另有 TrendForce 的逐週數字；DigitalToday 的「DDR4 兩年漲近十倍」是 $0.9→$8.41／GB 的長期口徑。三個數字都對，但說的是三件事，混用即翻車。
+
+**4. 把「顯存荒」當成「PS5 有價值」的因果鏈太長。** GDDR6 現貨從 $2.5 漲到 $7.5／GB（abit.ee 引述）解釋的是顯卡漲價，不是 PS5 套利空間——越獄機的供給彈性為零，炒一台少一台。
+
+**5. 利益揭露：** 本篇作者（模型）無持倉、無相關利益；《chasm X 貼文》作者為一般帳號，無可查的商業漏斗；Barclays、TrendForce、TechPowerUp 均為行業常規信源，無付費牆引用。
+
+## 可操作步驟
+
+1. 想驗證跑分：照倉庫 `scripts/build-app.sh` 自行編譯（需 PS5_Vulkan 工具鏈），或等 releases 的 `ps5lm-app-vX.Y.Z.zip`＋`.sha256`；重點看 `docs/MODELS.md` 的 fit 規劃，不要只看 tok/s。
+2. 想引用漲價數字：DDR4 用 Barclays／Guru3D 的「合約價三個月＋24%」口徑並註明日期（2026-10）；AMD 用 TrendForce 7 月＋10% kit 價；5090 用 Best Buy 現貨價 vs 1,999 美元 MSRP，三者不要混成一句話。
+3. 想講「遊戲機跑模型」：正確定位是 llama.cpp＋Vulkan 移植工程的勝利（clean-room libc.prx、RADV 統一堆、GL 與 RADV 共 4,399 個符號名的連結處理，見 `docs/CONSOLE.md`），不是算力革命。

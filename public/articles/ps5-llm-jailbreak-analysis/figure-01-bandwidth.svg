@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="-apple-system, 'Noto Sans TC', sans-serif">
+  <text x="20" y="28" font-size="16" font-weight="700" fill="currentColor">PS5 跑 LLM：頻寬帳算得過嗎？</text>
+  <text x="20" y="48" font-size="12" fill="gray">PS5 GDDR6 256-bit @14Gbps = 448 GB/s；decode 速度 ≈ 頻寬 ÷ 模型大小</text>
+  <g font-size="12" fill="currentColor">
+    <text x="20" y="92">Qwen3.8-27B Q2_K_XL 9.2GiB @20.3t/s</text>
+    <rect x="250" y="78" width="167" height="16" rx="3" fill="#4f8ff7"/>
+    <text x="425" y="92">186.8 GB/s（41.7%）</text>
+    <text x="20" y="132">Qwen3.8-27B IQ2_XXS 6.8GiB @20.7t/s</text>
+    <rect x="250" y="118" width="126" height="16" rx="3" fill="#4f8ff7"/>
+    <text x="384" y="132">140.8 GB/s（31.4%）</text>
+    <text x="20" y="172">Gemma4 E4B QAT 4.8GiB @61t/s</text>
+    <rect x="250" y="158" width="262" height="16" rx="3" fill="#34a853"/>
+    <text x="520" y="172">292.8 GB/s</text>
+    <text x="20" y="212">Llama3.2-3B Q4 1.9GiB @124t/s</text>
+    <rect x="250" y="198" width="210" height="16" rx="3" fill="#34a853"/>
+    <text x="468" y="212">235.6 GB/s</text>
+  </g>
+  <line x1="250" y1="66" x2="250" y2="222" stroke="gray" stroke-dasharray="4"/>
+  <line x1="570" y1="66" x2="570" y2="222" stroke="red" stroke-dasharray="4"/>
+  <text x="560" y="240" font-size="11" fill="red">448 GB/s 上限</text>
+  <text x="20" y="262" font-size="11" fill="gray">四組數字全部落在 PS5 頻寬天花板內，自洽；餘量吃在 KV cache 與核心開銷。</text>
+  <text x="20" y="280" font-size="11" fill="gray">資料：abhi245y/PS5LM README；驗算：模型大小 × tok/s。</text>
+</svg>
