@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 340" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="760" height="340" rx="12" fill="#0f172a"/>
+  <text x="380" y="30" text-anchor="middle" fill="#f1f5f9" font-size="17" font-weight="700">雅達利時刻對照：1983 vs 2026（本站自繪）</text>
+
+  <!-- 1983 panel -->
+  <rect x="20" y="48" width="350" height="272" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="195" y="74" text-anchor="middle" fill="#38bdf8" font-size="15" font-weight="700">1983 北美遊戲崩潰</text>
+  <text x="40" y="102" fill="#cbd5e1" font-size="13">供給：上百家公司灌卡帶，E.T.、Pac-Man 趕工上市</text>
+  <text x="40" y="126" fill="#cbd5e1" font-size="13">瓶頸：實體貨架有限，滯銷只能大甩賣清倉</text>
+  <text x="40" y="150" fill="#cbd5e1" font-size="13">信任崩：32 億美元（1982）→ 約 1 億（1985）</text>
+  <text x="40" y="174" fill="#cbd5e1" font-size="13">零售商下架、拒收新品，通路關閉</text>
+  <rect x="40" y="192" width="310" height="52" rx="8" fill="#0c4a6e"/>
+  <text x="195" y="214" text-anchor="middle" fill="#bae6fd" font-size="13" font-weight="700">重組者：任天堂 NES（1985）</text>
+  <text x="195" y="234" text-anchor="middle" fill="#bae6fd" font-size="12">Seal of Quality＋授權管制，重建信任</text>
+  <text x="40" y="268" fill="#64748b" font-size="12">出處：《Wikipedia》Video game crash of 1983</text>
+  <text x="40" y="288" fill="#64748b" font-size="12">VGC 2026-03：Romero 稱今夕更「crashier」</text>
+
+  <!-- 2026 panel -->
+  <rect x="390" y="48" width="350" height="272" rx="10" fill="#1e293b" stroke="#fb7185" stroke-width="1.5"/>
+  <text x="565" y="74" text-anchor="middle" fill="#fb7185" font-size="15" font-weight="700">2026 AI 內容供給爆炸</text>
+  <text x="410" y="102" fill="#cbd5e1" font-size="13">供給：Steam 年增 2.1 萬款（SteamDB 2025）</text>
+  <text x="410" y="126" fill="#cbd5e1" font-size="13">瓶頸：用戶每天仍只有 24 小時＋算法入口</text>
+  <text x="410" y="150" fill="#cbd5e1" font-size="13">信任稀釋：紅果日活 1.68 億，爆款率不足 0.1%</text>
+  <text x="410" y="174" fill="#cbd5e1" font-size="13">分發改寫：免費＋廣告，創作者議價走弱</text>
+  <rect x="410" y="192" width="310" height="52" rx="8" fill="#881337"/>
+  <text x="565" y="214" text-anchor="middle" fill="#fecdd3" font-size="13" font-weight="700">重組者：？（下一台 FC，尚未出現）</text>
+  <text x="565" y="234" text-anchor="middle" fill="#fecdd3" font-size="12">候選：新平台／AI 原生交互／分發機制</text>
+  <text x="410" y="268" fill="#64748b" font-size="12">出處：《SteamDB》發行統計；《界面新聞》</text>
+  <text x="410" y="288" fill="#64748b" font-size="12">QuestMobile 2026-07；《21 世紀經濟報導》</text>
+
+  <text x="380" y="334" text-anchor="middle" fill="#94a3b8" font-size="12">相同：供給洪水 → 信任稀釋 → 平台重組；不同：貨架有限 vs 注意力有限</text>
+</svg>
