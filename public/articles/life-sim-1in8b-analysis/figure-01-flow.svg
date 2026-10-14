@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="300" viewBox="0 0 720 300" font-family="sans-serif">
+<rect x="0" y="0" width="720" height="300" fill="var(--background, #ffffff)"/>
+<text x="20" y="28" font-size="16" font-weight="bold" fill="var(--foreground, #111)">『80億分の1』一局流程：出生抽卡 → 人生抉擇 → 四人並行 → 紀念館</text>
+<g font-size="13" text-anchor="middle">
+<rect x="20" y="60" width="140" height="70" rx="10" fill="none" stroke="var(--chart-1, #2563eb)" stroke-width="2"/>
+<text x="90" y="88" fill="var(--foreground, #111)">出生抽卡</text>
+<text x="90" y="108" fill="var(--foreground, #111)">國×家庭×性別</text>
+<polygon points="160,95 178,95 169,108" fill="var(--chart-1, #2563eb)"/>
+<rect x="185" y="60" width="140" height="70" rx="10" fill="none" stroke="var(--chart-2, #16a34a)" stroke-width="2"/>
+<text x="255" y="88" fill="var(--foreground, #111)">人生抉擇</text>
+<text x="255" y="108" fill="var(--foreground, #111)">升學×就業×婚戀</text>
+<polygon points="325,95 343,95 334,108" fill="var(--chart-2, #16a34a)"/>
+<rect x="350" y="60" width="140" height="70" rx="10" fill="none" stroke="var(--chart-3, #d97706)" stroke-width="2"/>
+<text x="420" y="88" fill="var(--foreground, #111)">同秒四人並行</text>
+<text x="420" y="108" fill="var(--foreground, #111)">5/15/30/50/70 暫停提問</text>
+<polygon points="490,95 508,95 499,108" fill="var(--chart-3, #d97706)"/>
+<rect x="515" y="60" width="185" height="70" rx="10" fill="none" stroke="var(--chart-4, #7c3aed)" stroke-width="2"/>
+<text x="607" y="88" fill="var(--foreground, #111)">終局：點陣回顧</text>
+<text x="607" y="108" fill="var(--foreground, #111)">分享卡×紀念館（付費存檔）</text>
+</g>
+<g font-size="12">
+<text x="20" y="170" fill="var(--foreground, #111)">底層：172 國統計（UN WPP2024／WHO／World Bank WDI／UNESCO／ILO 等，多經 Our World in Data，CC BY 授權加工）</text>
+<text x="20" y="192" fill="var(--foreground, #111)">狀態條：健康 × 幸福 × 知識 × 人際（0–100，只改變機率，不決定結果）</text>
+<text x="20" y="214" fill="var(--foreground, #111)">模式：過去世界（當年統計）／現在世界／未來世界（UN 預測）× 出生數或人口比例抽國</text>
+<text x="20" y="236" fill="var(--foreground, #111)">開發：個人開發者 Jin Hwi-eus（化名），生成式 AI 輔助，初期版約 4 小時（2025-10-05 公開，現 v0.6.95 beta）</text>
+<text x="20" y="258" fill="var(--foreground, #111)">分級 15+：疾病／死亡／戰爭／貧困／自殺按統計出現，不描繪場面並附諮詢資訊</text>
+<text x="20" y="280" fill="var(--muted-foreground, #666)">自繪流程圖，據《KAI-YOU 報導》《AUTOMATON 報導》《1in8b.life 官網》整理。年份以官網 v0.6.95 為準。</text>
+</g>
+</svg>
