@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="600" viewBox="0 0 640 600" font-family="system-ui, 'PingFang TC', 'Microsoft JhengHei', sans-serif">
+  <style>
+    .t { fill: var(--foreground, #1a1a1a); }
+    .s { fill: var(--muted-foreground, #666); }
+    .b1 { fill: var(--chart-1, #4f7cff); }
+    .b2 { fill: var(--chart-2, #22b08d); }
+    .ln { stroke: var(--border, #ddd); }
+    .th { stroke: #e5484d; stroke-dasharray: 6 4; stroke-width: 2; }
+  </style>
+  <text x="24" y="30" font-size="16" font-weight="700" class="t">A · 日本儿童家庭厅调查（2026-08-31 中期结果，未婚 15–39 岁，n≈4.4 万）</text>
+  <text x="24" y="52" font-size="12" class="s">结婚意愿（单选）</text>
+  <g font-size="12">
+    <text x="24" y="76" class="t">没有结婚打算</text>
+    <rect x="150" y="62" width="421" height="16" rx="3" class="b1"/>
+    <text x="576" y="76" class="t">35.1%</text>
+    <text x="24" y="100" class="t">将来想结婚</text>
+    <rect x="150" y="86" width="450" height="16" rx="3" class="b1"/>
+    <text x="604" y="100" class="t">37.5%</text>
+    <text x="24" y="124" class="t">2–3 年内结婚</text>
+    <rect x="150" y="110" width="124" height="16" rx="3" class="b1"/>
+    <text x="278" y="124" class="t">10.3%</text>
+    <text x="24" y="148" class="t">马上结婚</text>
+    <rect x="150" y="134" width="114" height="16" rx="3" class="b1"/>
+    <text x="268" y="148" class="t">9.5%</text>
+  </g>
+  <text x="24" y="176" font-size="12" class="s">结婚阻力 TOP4（多选）</text>
+  <g font-size="12">
+    <text x="24" y="200" class="t">收入难维持婚姻</text>
+    <rect x="150" y="186" width="480" height="16" rx="3" class="b2"/>
+    <text x="604" y="200" class="t">40.0%</text>
+    <text x="24" y="224" class="t">自由时间减少</text>
+    <rect x="150" y="210" width="413" height="16" rx="3" class="b2"/>
+    <text x="567" y="224" class="t">34.4%</text>
+    <text x="24" y="248" class="t">没遇到结婚对象</text>
+    <rect x="150" y="234" width="391" height="16" rx="3" class="b2"/>
+    <text x="545" y="248" class="t">32.6%</text>
+    <text x="24" y="272" class="t">缺住房／购房资金</text>
+    <rect x="150" y="258" width="364" height="16" rx="3" class="b2"/>
+    <text x="518" y="272" class="t">30.3%</text>
+  </g>
+  <line x1="24" y1="296" x2="616" y2="296" class="ln"/>
+  <text x="24" y="324" font-size="16" font-weight="700" class="t">B · 中国 25–40 岁口径占总人口比（七普 2020，亿人）</text>
+  <text x="24" y="346" font-size="12" class="s">0.92＋1.24＋0.99＋0.93/5＝3.34 亿 ÷ 14.12 亿，以 python3 -c 验算</text>
+  <line x1="60" y1="420" x2="600" y2="420" stroke="var(--foreground, #1a1a1a)" stroke-width="1.5"/>
+  <g font-size="12" text-anchor="middle">
+    <text x="60" y="440" class="s">0%</text>
+    <text x="334" y="440" class="s">17.5%</text>
+    <text x="600" y="440" class="s">35%</text>
+  </g>
+  <g font-size="13" font-weight="700" text-anchor="middle">
+    <line x1="424" y1="380" x2="424" y2="420" stroke="var(--chart-1, #4f7cff)" stroke-width="4"/>
+    <text x="424" y="370" fill="var(--chart-1, #4f7cff)">实算 23.6%</text>
+    <line x1="446" y1="380" x2="446" y2="420" class="th"/>
+    <text x="446" y="470" fill="#e5484d">付鹏阈值 25%</text>
+    <line x1="477" y1="380" x2="477" y2="420" stroke="var(--chart-4, #a479ff)" stroke-width="4"/>
+    <text x="500" y="370" fill="var(--chart-4, #a479ff)">贴文声称 27%</text>
+  </g>
+  <text x="24" y="505" font-size="12" class="s">结论：按七普数，25–40 岁口径 2020 年已跌破 25% 线；</text>
+  <text x="24" y="525" font-size="12" class="s">「现在 27%、接近临界点」与公开普查数对不上，27% 无出处。</text>
+  <text x="24" y="560" font-size="12" class="s">另注意：付鹏原文口径是 24–45 岁，贴文转述为 25–40 岁。</text>
+  <text x="24" y="582" font-size="11" class="s">数据来源：こども家庭厅中期结果（经共同社／JT 2026-08-31）、国家统计局七普公报、网易付鹏演讲全文。</text>
+</svg>
