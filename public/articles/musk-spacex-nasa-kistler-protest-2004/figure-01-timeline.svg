@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 240" font-family="system-ui, -apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="720" height="240" rx="12" fill="var(--card, #f8fafc)"/>
+  <text x="24" y="30" font-size="15" font-weight="700" fill="var(--foreground, #0f172a)">2004 SpaceX 抗議 NASA 獨家採購 Kistler 時間線</text>
+  <line x1="40" y1="120" x2="680" y2="120" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <g font-size="12" fill="var(--foreground, #0f172a)">
+    <circle cx="90" cy="120" r="7" fill="#dc2626"/>
+    <text x="90" y="92" text-anchor="middle" font-weight="700">2004-02-02</text>
+    <text x="90" y="152" text-anchor="middle">NASA 預告獨家給</text>
+    <text x="90" y="168" text-anchor="middle">Kistler（約 2.27 億美元）</text>
+    <circle cx="260" cy="120" r="7" fill="#d97706"/>
+    <text x="260" y="92" text-anchor="middle" font-weight="700">2004 春</text>
+    <text x="260" y="152" text-anchor="middle">SpaceX 向 GAO 提採購抗議</text>
+    <text x="260" y="168" text-anchor="middle">附 Sarsfield 私人郵件為證</text>
+    <circle cx="430" cy="120" r="7" fill="#2563eb"/>
+    <text x="430" y="92" text-anchor="middle" font-weight="700">2004-06-17</text>
+    <text x="430" y="152" text-anchor="middle">GAO 律師表態 NASA 會輸</text>
+    <text x="430" y="168" text-anchor="middle">NASA 撤回合約、避開正式敗訴</text>
+    <circle cx="610" cy="120" r="7" fill="#16a34a"/>
+    <text x="610" y="92" text-anchor="middle" font-weight="700">2006-08</text>
+    <text x="610" y="152" text-anchor="middle">COTS 公開競標</text>
+    <text x="610" y="168" text-anchor="middle">SpaceX 獲 2.78 億美元協議</text>
+  </g>
+  <text x="24" y="222" font-size="11" fill="#64748b">自繪圖。依據：CAGW 2004 新聞稿、spacetoday.net 2004-06-24、NASA COTS 文件。金額口徑見內文對照。</text>
+</svg>
