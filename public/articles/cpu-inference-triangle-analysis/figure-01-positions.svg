@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="420" viewBox="0 0 860 420" font-family="system-ui, -apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif">
+  <rect x="0" y="0" width="860" height="420" fill="#fafafa"/>
+  <text x="30" y="36" font-size="20" font-weight="700" fill="#111">四家 CPU 推理暴露方式</text>
+  <g font-size="14">
+    <rect x="30" y="55" width="185" height="120" rx="10" fill="#fff" stroke="#4f46e5" stroke-width="2"/>
+    <text x="45" y="82" font-weight="700" fill="#4f46e5">AMD：出貨量直連</text>
+    <text x="45" y="106" fill="#333">伺服器份額 34.5%</text>
+    <text x="45" y="128" fill="#333">Citi 目標價 $800</text>
+    <text x="45" y="150" fill="#666">風險：同樣缺貨、57x PE</text>
+    <rect x="235" y="55" width="185" height="120" rx="10" fill="#fff" stroke="#0ea5e9" stroke-width="2"/>
+    <text x="250" y="82" font-weight="700" fill="#0ea5e9">Intel：供給受限</text>
+    <text x="250" y="106" fill="#333">僅滿足 50% 需求</text>
+    <text x="250" y="128" fill="#333">漲價最高 20% 護毛利</text>
+    <text x="250" y="150" fill="#666">風險：客戶轉向 AMD/ARM</text>
+    <rect x="440" y="55" width="185" height="120" rx="10" fill="#fff" stroke="#10b981" stroke-width="2"/>
+    <text x="455" y="82" font-weight="700" fill="#10b981">ARM：授權＋版稅</text>
+    <text x="455" y="106" fill="#333">授權 23.1 億＋版稅 26.1 億</text>
+    <text x="455" y="128" fill="#333">伺服器份額→17.7%</text>
+    <text x="455" y="150" fill="#666">變數：自研 AGI CPU 上市</text>
+    <rect x="645" y="55" width="185" height="120" rx="10" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
+    <text x="660" y="82" font-weight="700" fill="#b45309">NVIDIA：生態抽成</text>
+    <text x="660" y="106" fill="#333">$20B 收 Groq 資產</text>
+    <text x="660" y="128" fill="#333">d-Matrix 入股（傳）</text>
+    <text x="660" y="150" fill="#666">NVLink 機架綁定對手</text>
+  </g>
+  <text x="30" y="212" font-size="20" font-weight="700" fill="#111">2030 CPU TAM 預測譜系（十億美元）</text>
+  <g font-size="13">
+    <text x="30" y="245" fill="#666">2025 基準 ~29</text>
+    <rect x="30" y="255" width="60" height="26" rx="4" fill="#cbd5e1"/>
+    <text x="100" y="250" fill="#666">UBS ~170</text>
+    <rect x="100" y="255" width="200" height="26" rx="4" fill="#93c5fd"/>
+    <text x="310" y="250" fill="#666">Su / NVDA 200+</text>
+    <rect x="310" y="255" width="110" height="26" rx="4" fill="#4f46e5"/>
+    <text x="425" y="273" fill="#fff" font-weight="700">200</text>
+    <text x="430" y="250" fill="#666">Mizuho 209</text>
+    <rect x="430" y="255" width="120" height="26" rx="4" fill="#0ea5e9"/>
+    <text x="560" y="250" fill="#666">Citi 300（最高）</text>
+    <rect x="560" y="255" width="240" height="26" rx="4" fill="#f59e0b"/>
+    <text x="700" y="273" fill="#fff" font-weight="700">300 ★居頂</text>
+  </g>
+  <text x="30" y="320" font-size="14" fill="#333">驗證錨（貼文原話）：接下來幾個季度伺服器 CPU 的<tspan font-weight="700">出貨量</tspan>和<tspan font-weight="700">定價</tspan>。</text>
+  <text x="30" y="344" font-size="14" fill="#333">已發生：CPU 漲價潮（Intel 傳最高 20%）；待驗證：下季財報出貨量、Mercury／UBS 份額報告。</text>
+  <text x="30" y="380" font-size="12" fill="#888">來源：TrendForce 10-12／10-13、Yahoo Finance 10-07、CRN／Mercury、Citi／UBS／Mizuho 研報、Arm FY2026 年報、NVIDIA 官方部落格。製圖：Muse Spark。</text>
+</svg>
