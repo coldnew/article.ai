@@ -1,0 +1,80 @@
+---
+title: "讓 AI 操作 iPhone 的四條路線：XCTest 原生派 vs ESP32 外掛派，差別不在模型，在手和眼"
+description: "haoran.cv 貼文梳理四種 iPhone-use 實現：钟二信的 WDA 方案、OpenMinis 自研 XCTest Runner、Henry 的 ESP32＋AirPlay、作者自研的板載 MCP。四個倉庫 README 逐一核對：描述基本準確，3.6k／422／1.8k／21 stars；真正的分水嶺是 XCTest 原生元素樹 vs HID 像素操作——前者要簽名與 DDI，後者要板子與輔助觸控，天下沒有白吃的自動化。"
+publishedAt: 2026-10-14T14:55:00+08:00
+topic: "AI Agent"
+sourceType: "article"
+sourceUrl: "https://x.com/hr98w/status/2110250526256574526?s=20"
+authors: ["haoran.cv（@hr98w）"]
+analyst: "Muse Spark"
+venue: "X"
+tags: ["iPhone-use", "AI Agent", "XCTest", "WebDriverAgent", "ESP32", "MCP", "主張核實"]
+readTime: "8 分鐘"
+evidence: "中"
+featured: false
+sourceCount: 5
+accent: "indigo"
+---
+import XPostCard from '../../components/XPostCard.astro';
+
+## 一句話結論
+
+《haoran.cv X 貼文》把四種「讓 AI 操作 iPhone」的方案按同一座標系（Agent 跑在哪、怎麼看屏、怎麼動手）攤開比較，四組描述在各自《GitHub 倉庫 README》裡都找得到原文依據，基本準確；唯一的折價在第四個——作者自研的 anan-iphone-use 只有 21 stars，且「任何 MCP client 都能控、只需一部手機」前面，README 自己加了「其他客戶端互通尚未驗證、Anan 螢幕共享要 iOS 27+」的但書。
+
+## 這篇文章真正解決的問題
+
+**《haoran.cv X 貼文》解決敘事問題：**
+
+iPhone-use 正火，但四個同名不同命的项目讓人眼花。貼文用一張原理對比圖回答：同樣是 AI 按手機，Agent 在哪裡運行、如何讀取屏幕、怎麼執行動作，其實很不一樣。
+
+**四個《GitHub 倉庫》解決技術問題：**
+
+iOS 沒有開放的無障礙自動化後門，想讓 Agent 按手機只有兩條路：走蘋果官方測試通道（XCTest），或假裝自己是人（螢幕＋滑鼠鍵盤）。四個倉庫是這兩條路上的四個施工點。
+
+<XPostCard author="haoran.cv | 公众号：独立开发" handle="@hr98w" avatar="/article.ai/articles/iphone-use-four-routes-analysis/hr98w-avatar.jpg" timestamp="6:05 AM · Oct 14, 2026" views="671" replies="5" reposts="2" likes="12" sourceUrl="https://x.com/hr98w/status/2110250526256574526?s=20" mediaUrl="/article.ai/articles/iphone-use-four-routes-analysis/post-compare.webp" mediaAlt="作者在回覆串貼出的四方案原理對比圖">
+<p>最近 iPhone-use 挺火，梳理了一些主流的实现方案。同样是让 AI 操作 iPhone，Agent 在哪里运行、如何读取屏幕、怎么执行动作，其实很不一样。</p>
+<p>1. @zhongerxin 的 iPhone-use：电脑上的 Agent 通过 WebDriverAgent 操作手机，底层 XCTest……需要 Mac、Xcode、开发签名，以及电脑上的 Agent、MCP 和转发服务。</p>
+<p>2. @wsvn53 的 OpenMinis/iCTRL：自己实现了 XCTest Runner……Agent 可以在电脑，也可以在同一台手机上……签名、Developer Mode、DDI 仍需要准备。</p>
+<p>3. @iamhenryyuan 的 esp32-iphone-agent：电脑通过 AirPlay 获取画面……再通过 Wi-Fi 给 ESP32-S3 发命令，板子模拟 USB 鼠标键盘……可以用 Linux。</p>
+<p>4. 我自己做的 anan-iphone-use：ESP32-S3 上部署 MCP Server……同一根 USB 线同时承载网络和输入……只需一部手机……无需 XCTest、WDA、无需模拟器。</p>
+</XPostCard>
+
+<small class="figure-caption">靜態還原：此處依慣例節錄貼文四方案要點，附圖為作者在回覆串貼出的原理對比圖（已存檔）。譯文見各節重述。另有 @iamhenryyuan 本人在串內回覆「感谢收录」。</small>
+
+## 流程拆解（含宣稱對照表）
+
+先說結論性的分類：1、2 號是 **XCTest 原生派**（讀得到元素樹，要蘋果簽名）；3、4 號是 **HID 外掛派**（只看得到像素，不用簽名，但要多一塊板子開輔助觸控）。
+
+| 《haoran.cv X 貼文》聲稱 | primary source 實際 | 標籤 |
+|---|---|---|
+| 1. zhongerxin iPhone-use：電腦 Agent 經 WDA 操作手機，XCTest 執行點擊滑動輸入；支援原生元素＋截圖，可按文字或看圖點座標；要 Mac、Xcode、開發簽名、電腦端 Agent／MCP／轉發 | 《zhongerxin／iPhone-use README》：3.6k stars、366 forks、MIT；明確「使用 WebDriverAgent 與 iPhone 通信」「WDA 是運行在手機上的執行服務」；依賴表列 macOS、完整 Xcode、Apple 開發團隊簽名、USB iPhone；17 個 MCP 工具（pua_tap／pua_observe 等），本地 loopback 轉發，默認端口 18100 | 【原文本說】全對得上。附帶：README 仍留有一句「仓库目前为私有」，與頁面可公開訪問的狀態有出入，疑為過渡文字 |
+| 2. OpenMinis／iCTRL：自研 XCTest Runner＋接口，原生元素查詢、截圖、OCR、輸入；Runner 與目標 App 同機，底層仍 XCTest；Agent 可在電腦或同機，日常可脫離電腦；仍要簽名、Developer Mode、DDI | 《OpenMinis／iCTRL README》：422 stars、38 forks、Apache-2.0（1.32.0 前為 AGPL）；「runs a long-lived XCUITest runner…JSON-RPC 2.0 API over HTTP（:8200）」；X25519 配對＋HMAC 加密；「No Mac required」「agent on the phone reaches the runner on 127.0.0.1」；免費 Apple ID 經 SideStore 簽名＋裝置端掛載 DDI；tap 約 280ms、可見屏讀取 p50 416ms、內建 Vision OCR 兜底 | 【原文明說】成立，且倉庫自帶與 WDA 的實測對比表（tap 280ms vs 0.5–1s）。小註：貼文歸屬 @wsvn53，倉庫組織號為 OpenMinis，未見署名反證 |
+| 3. esp32-iphone-agent：電腦經 AirPlay 取畫面，視覺 Agent 決策，Wi-Fi 發命令給 ESP32-S3，板子模擬 USB 鍵鼠；不依賴測試 Runner；要電腦跑 Agent＋投屏接收；可用 Linux | 《onehumanbeing／esp32-iphone-agent README》：1.8k stars、226 forks、MIT；標語「AirPlay eyes, USB HID hands」「No Mac, no developer account, no jailbreak」；眼＝UxPlay 投屏，手＝ESP32-S3 USB HID＋AssistiveTouch，腦＝任意 OpenAI 相容視覺模型；主機 Mac 或 Linux；限制：豎屏、ASCII 輸入、不镜像密碼／支付／DRM 畫面；Roadmap 明寫「Exploring: drop the computer」——正是 4 號方案想走的方向 | 【原文明說】逐字相符。連「需要電腦」這個缺點倉庫都認了，並列為下一步 |
+| 4. anan-iphone-use：ESP32-S3 跑 MCP Server，模擬 USB 鍵鼠點拖輸入；同一條 USB 同時走網路與輸入；iPhone 裝自家 client agent，省掉 AirPlay／投屏／電腦；理論上任何 MCP client 可控；無需 XCTest／WDA／模擬器 | 《ananhq／anan-iphone-use README》：21 stars、5 forks、GPL-3.0；「MCP server running on ESP32-S3…through USB mouse and keyboard」；目標硬體 M5Stack StopWatch，預設端點 `http://192.168.7.1/mcp`，工具 tap／drag／key／type_ascii／stop；「It runs no model and provides no phone screenshots」；限制節：僅豎屏、US ASCII 無中文直輸、Wi-Fi/BLE 未實現、「Other client interoperability…remain to be verified」；Anan 螢幕共享要 iOS 27+，Anan 本體「coming soon as open source」；比較節致謝並引用 esp32-iphone-agent（MIT 聲明保留） | 【合理推斷】架構描述成立，但「只需一部手機、任何 client」是理論值：README 自己承認跨客戶端互通待驗證，且眼睛（看屏）完全交給客戶端，自家眼睛還沒開源 |
+
+### 一張圖看懂：眼、手、腦放在哪
+
+![四方案眼手腦分佈](/article.ai/articles/iphone-use-four-routes-analysis/figure-01-senses.svg)
+
+<small class="figure-caption">自繪：按倉庫 README 整理的四方案「眼（看屏）／手（執行）／腦（Agent）」位置對照。1、2 號的手在手機內（XCTest）；3、4 號的手在手機外（HID 板子）。</small>
+
+## 風險與盲點
+
+**1. 實現落差：天下沒有白吃的自動化。**
+
+XCTest 派的稅是蘋果 Deux（簽名 7 天過期、DDI 重啟掉線、免費號 3 個側載位）；HID 派的稅是硬體與眼睛（多一塊板子、AssistiveTouch 小圓點常駐、AirPlay 延遲、看不到密碼框與 DRM）。貼文把四者的代價都寫出來了，這是它最老實的地方。
+
+**2. 安全與合規邊界：**
+
+iCTRL README 開頭即紅字警告：配對金鑰外洩、未授權客戶端、支付與訊息操作無人值守，風險自負。esp32-iphone-agent 也有「只動自己的設備帳號、看著它、急停鍵放手邊」。這類工具全開即等於把手機交出去，轉發時不要只轉酷的部分。
+
+**3. 單一敘事上限：**
+
+四個倉庫的效能數字（280ms、416ms、20 tok/s 式跑分）均為作者自測，無第三方基準；anan-iphone-use 僅 6 個 commit、21 stars，屬於早期實驗，「理論上」三個字要按字面理解。evidence 取「中」，不更高。
+
+## 可操作步驟
+
+1. 有 Mac＋開發者帳號、要穩定讀元素樹：從 1 號（zhongerxin／iPhone-use，3.6k stars，生態最成熟）或 2 號（iCTRL，可脫離 Mac、響應更快）起手。
+2. 只有 Linux／不想碰簽名：3 號（esp32-iphone-agent），花約 7 美元買 XIAO ESP32S3，認 ASCII＋豎屏限制。
+3. 想玩板載 MCP、接受實驗性：4 號（anan-iphone-use），先讀 `docs/validation.md` 再決定要不要跟。
+4. 驗證任何「AI 玩手機」影片：先問三句——眼睛是什麼（元素樹還是截圖）、手是什麼（XCTest 還是 HID）、簽名／板子／投屏三件套各在哪。

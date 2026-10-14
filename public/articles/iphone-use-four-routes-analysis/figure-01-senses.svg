@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" font-family="sans-serif">
+  <style>
+    .t { font-size: 15px; font-weight: bold; fill: #1e293b; }
+    .s { font-size: 12px; fill: #475569; }
+    .tag1 { font-size: 11px; fill: #1d4ed8; }
+    .tag2 { font-size: 11px; fill: #b45309; }
+    .box { fill: #f8fafc; stroke: #cbd5e1; rx: 8; }
+  </style>
+  <rect class="box" x="10" y="10" width="360" height="160"/>
+  <text class="t" x="24" y="36">1 · zhongerxin / iPhone-use</text>
+  <text class="tag1" x="24" y="54">XCTest 原生派 · WDA · 3.6k stars</text>
+  <text class="s" x="24" y="78">眼：原生元素樹＋截圖（手機內）</text>
+  <text class="s" x="24" y="98">手：WDA Runner，XCTest（手機內）</text>
+  <text class="s" x="24" y="118">腦：電腦上 Agent，MCP＋轉發</text>
+  <text class="s" x="24" y="142">代價：Mac＋Xcode＋開發簽名</text>
+
+  <rect class="box" x="390" y="10" width="360" height="160"/>
+  <text class="t" x="404" y="36">2 · OpenMinis / iCTRL</text>
+  <text class="tag1" x="404" y="54">XCTest 原生派 · 自研 Runner · 422 stars</text>
+  <text class="s" x="404" y="78">眼：元素樹＋截圖＋裝置端 OCR</text>
+  <text class="s" x="404" y="98">手：自研 XCUITest runner :8200</text>
+  <text class="s" x="404" y="118">腦：電腦或同機（127.0.0.1）</text>
+  <text class="s" x="404" y="142">代價：簽名＋Developer Mode＋DDI</text>
+
+  <rect class="box" x="10" y="190" width="360" height="160"/>
+  <text class="t" x="24" y="216">3 · esp32-iphone-agent</text>
+  <text class="tag2" x="24" y="234">HID 外掛派 · AirPlay＋ESP32 · 1.8k stars</text>
+  <text class="s" x="24" y="258">眼：AirPlay 投屏（UxPlay，電腦收）</text>
+  <text class="s" x="24" y="278">手：ESP32-S3 USB 鍵鼠＋輔助觸控</text>
+  <text class="s" x="24" y="298">腦：電腦上視覺模型（Mac/Linux）</text>
+  <text class="s" x="24" y="322">代價：一塊板子＋投屏＋豎屏ASCII</text>
+
+  <rect class="box" x="390" y="190" width="360" height="160"/>
+  <text class="t" x="404" y="216">4 · anan-iphone-use</text>
+  <text class="tag2" x="404" y="234">HID 外掛派 · 板載 MCP · 21 stars</text>
+  <text class="s" x="404" y="258">眼：交給客戶端（自家待 iOS 27+）</text>
+  <text class="s" x="404" y="278">手：ESP32-S3 MCP Server，USB 輸入</text>
+  <text class="s" x="404" y="298">腦：手機上 client agent</text>
+  <text class="s" x="404" y="322">代價：實驗性，跨客戶端待驗證</text>
+</svg>
