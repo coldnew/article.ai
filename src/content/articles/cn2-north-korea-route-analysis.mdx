@@ -1,0 +1,87 @@
+---
+title: "上海電信 CN2 到平壤的 95.5ms：繞了大半個中國，卻穩成一條直線"
+description: "Noe1017 實測上海電信 CN2 到朝鮮 Star JV 公網：median 95.5ms、標準差 0.3ms、近乎零丟包。追到 primary source 交叉：Star JV 確為朝鮮與泰國 Loxley 合資的唯一 ISP（AS131279）；聯通香港上游 2013 年即有 Renesys 的 BGP 實證，與貼文的香港 POP 繞行說法互相咬合；物理驗算 95ms 與上海南下香港再北上拉回的路徑自洽。但路由細節來自作者自有監測，未獨立核實，「只有將軍一家在用」是梗不是結論。"
+publishedAt: 2026-10-15T09:37:00+08:00
+topic: "網路"
+sourceType: "article"
+sourceUrl: "https://x.com/Noe1017_Monad/status/2110391076574167264?s=20"
+authors: ["Noe1017（@Noe1017_Monad）"]
+analyst: "Muse Spark"
+venue: "X"
+tags: ["朝鮮", "Star JV", "中國聯通", "CN2", "BGP", "traceroute", "Smokeping", "主張核實"]
+readTime: "9 分鐘"
+evidence: "中"
+featured: false
+sourceCount: 6
+accent: "indigo"
+---
+import XPostCard from '../../components/XPostCard.astro';
+
+## 一句話結論
+
+《Noe1017 X 貼文》的背景知識全對——Star JV 確是朝鮮唯一的公網 ISP、聯通確是其中方上游、香港 POP 繞行 2013 年就有 BGP 實證、95ms 與繞行路徑的物理驗算自洽；但路由逐跳細節來自作者自有監測、無法獨立核實，「將軍獨享專線」是玩笑話，真正的技術含義是「小眾前綴＋無擁塞＝天然穩定」。
+
+<XPostCard author="Noe1017" handle="@Noe1017_Monad" avatar="/article.ai/articles/cn2-north-korea-route-analysis/Noe1017_Monad-avatar.jpg" timestamp="3:23 PM · Oct 14, 2026" views="87.5K" replies="31" reposts="32" likes="337" sourceUrl="https://x.com/Noe1017_Monad/status/2110391076574167264?s=20" mediaUrl="/article.ai/articles/cn2-north-korea-route-analysis/post-shot-2.webp" mediaAlt="Smokeping 監測圖：median 95.5ms、標準差 0.3ms 的平直綠線">
+<p><strong>上海電信 CN2 出口到朝鮮公網的網路品質分析。這條專線，基本上只有將軍一家在用。</strong></p>
+<p>（此處依慣例節錄）延遲 Median 95.5ms／Max 97.2ms／Min 95.3ms；上海到平壤直線僅約 950km，直連 RTT 理論 20ms 以內，實測 95ms 印證大繞彎：上海電信 CN2 跨網轉接至聯通境內骨幹，出境匯聚至香港，再經聯通香港 POP 北上拉回平壤。標準差僅 0.3ms，末端丟包率 0.00%，品質評級 SSS 級。總結：電信 ➔ 聯通 ➔ 香港 ➔ 平壤的折返大繞彎，跑出端到端零丟包、極低抖動的硬核品質，非常標準的特種網路樣本。</p>
+</XPostCard>
+<small class="figure-caption">靜態還原《Noe1017 X 貼文》核心段落，譯文：上海 CN2 到朝鮮 Star JV 公網 median 95.5ms、標準差 0.3ms，路徑為電信轉聯通、南下香港、北上平壤，雖繞行但極端穩定。</small>
+
+## 這篇文章真正解決的問題
+
+**《Noe1017 X 貼文》解決敘事問題：**
+
+把一條「延遲高但穩得離譜」的獵奇路由，講成一個有因果鏈的故事：為什麼繞了大半個中國，抖動還能壓到 0.3ms？答案是路徑雖長，但每一截都是空閒的、策略鎖定的、無人競爭的。
+
+**各方文獻解決技術問題：**
+
+《NorthKoreaTech／Martyn Williams（38 North）》十幾年來用 BGP 公告追蹤朝鮮公網的上游變遷：2010 年 Star JV 經中網通（後併入聯通）上線、2012 年加 Intelsat 衛星備援、2013 年聯通香港（AS10099）出現第三條路——貼文的「香港 POP」不是猜的，Renesys 當年就觀測到了。
+
+## 流程拆解
+
+### 宣稱對照表：《X 貼文》vs 可查證來源
+
+| 《Noe1017 X 貼文》聲稱 | 可查證來源 | 標籤 |
+|---|---|---|
+| 對端是朝鮮星合營会社（Star JV）公網 | 【原文明說】《Wikipedia／Internet in North Korea》：Star JV 為朝鮮郵電省與泰國 Loxley Pacific 合資，是該國 ISP；2009 年接管位址分配；幾乎所有流量經中國疏導 | 【原文明說】對端身份成立 |
+| Star 網路在中國方向主要上游是聯通 | 【原文明說】《NorthKoreaTech》2012／2013：主力經中網通／聯通；2013 年新增聯通香港 AS10099 上游，Renesys 的 Doug Madory 證實 traceroute 改走香港 Unicom | 【原文明說】上游關係成立，香港節點有 BGP 實證 |
+| 上海—平壤 950km，直連應在 20ms 內 | 【從原文可直接推出】光纖傳播約 200km／ms，950km 直連 RTT 理論值約 9.5ms，加設備開銷，20ms 內是保守估計 | 【從原文可直接推出】物理口徑正確 |
+| 實測 95.5ms 對應電信→聯通→香港→平壤繞行 | 【合理推斷】驗算：上海—香港—北京—丹東／平壤單向光纜約 6500km，傳播 RTT 約 65ms，剩餘約 30ms 給十餘跳設備轉發，與實測 95.5ms 自洽 | 【合理推斷】數量級咬合，但逐跳路由未公開 |
+| 標準差 0.3ms、末端 0.00% 丟包、SSS 級 | 【原文明說】附圖 Smokeping 原圖：median／now 95.5ms、sd 0.3ms，min／now 丟包 0.00%；但 avg 0.02%、max 0.83%，「零丟包」指當前窗口而非全程絕對零 | 【原文明說】數據自洽，表述需加時間限定 |
+| 中間聯通節點 ICMP 超時高、末端依然穩定 | 【合理推斷】運營商中間節點限速 ICMP 回應是常見控制面策略，不影響轉發面；末端穩定與此前不矛盾 | 【合理推斷】符合行業常識 |
+| 這條專線只有將軍一家在用 | 無出處。朝鮮公網用戶確極少（外國人、留學生、少數機構），但「獨享」「專線」是修辭；附圖一是金正恩視察梗圖，非監測數據 | 【仍未被支撐的主張】梗，不是結論 |
+
+### 原圖解讀
+
+貼文附兩圖，已存檔站內。圖一是人物梗圖（呼應「將軍獨享」），無技術資訊；圖二是 Smokeping 監測圖，全文最硬的證據，逐項核對：
+
+- 綠線自週日 00:00 拉到週二（`Tue Oct 6 23:59:00 2026`）近乎水平，median 95.5ms、avg 97.2ms、max 與 min 僅差 1.9ms——與 0.3ms 標準差自洽，確實是「天際線」形態。
+- 探測條件：`20 ICMP Echo Pings（56 Bytes）every 300s`，即每 5 分鐘 20 個包，取樣密度中等；偶發藍色小點對應 max 0.83% 丟包——貼文「0.00%」應理解為 min／now 窗口值。
+- 未附 traceroute 逐跳輸出：路由故事（境內轉聯通、香港洗牌、北上拉回）是作者基於自有追蹤的解讀，讀者無法從公開材料復現。
+
+![上海 CN2 到平壤：直連與實測繞行路徑示意](/article.ai/articles/cn2-north-korea-route-analysis/figure-01-route.svg)
+<small class="figure-caption">自繪示意：直連 950km 只存在於理論中；實測 95.5ms 對應上海南下香港、再北上拉回平壤的折返路徑，繞行傳播約 65ms＋設備約 30ms。</small>
+
+## 風險與盲點
+
+**1. 實現落差：你復現不了這條路。**
+
+Smokeping 的探測源、目標前綴、測試時段都沒公開；Star JV 的公網前綴（`175.45.176.0/20` 段）在全球視角下可見的是 BGP 公告，不是這條 CN2 發起的端到端路徑。沒有探測源 IP 和目標 IP，這組數字只能「讀」，不能「驗」。
+
+**2. 替代路徑被略過：俄羅斯方向。**
+
+2017 年起朝鮮經俄羅斯 TransTeleCom 開了第二個陸地出口（Dyn／Oracle 當年有報告）。貼文只講聯通故事，對「為何是聯通、不是俄羅斯」沒有討論——從上海 CN2 出發選聯通是自然的，但完整的朝鮮出口圖景不止這一條。
+
+**3. 歸因鏈條有一處跳躍。**
+
+「香港 POP 做路由判別與計費結算」是合理的運營商行為解釋，但 BGP 選路只認 AS_PATH 和策略，不認「結算」動機。繞經香港更可能是聯通國際網的匯聚結構使然（國際前綴在香港交換），把商業動機寫成選路原因，屬於動機外推。
+
+**4. 利益揭露。**
+
+《Noe1017 X 貼文》作者自介為價值投資／格雷厄姆佈道者、合作聯繫走 Telegram，並非網路運維從業者。這是一次跨界的獵奇測量分享，不是運營商視角的故障排查——取捨要寫出來：數據可看，歸因折價。
+
+## 可操作步驟
+
+1. 想驗證物理口徑：記住 `200km／ms` 這個數，任何跨境延遲先算傳播下限，剩下的才是設備和排隊的帳——95ms 對 6500km 繞行是咬合的，9.5ms 對 950km 直連也是咬合的，兩邊都對，才有意思。
+2. 想追朝鮮公網變遷：按時間線讀 Martyn Williams 在 NorthKoreaTech 的系列（2010 上線 → 2012 Intelsat → 2013 聯通香港 → 2017 俄羅斯），比單看一條 Smokeping 曲線完整得多。
+3. 想做自己的特種路由分析：學貼文的格式——Smokeping 長圖＋median／max／min／sd 四件套＋傳播驗算＋逐跳解讀，缺一即不可下「SSS 級」這種結論。
