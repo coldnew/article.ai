@@ -1,0 +1,116 @@
+---
+title: "Tesla 用 Starlink 定位車輛？專利原文裡沒有 Starlink 半個字"
+description: "SETI Park 轉述 Tesla US20260309876A1 車輛定位專利，書目全對，但「Starlink 定位」是貼文加的戲：22 頁全文寫的是 GPS／GLONASS／Galileo 差分修正，優先權一路回到 2017 年 Starlink 商轉前。"
+publishedAt: "2026-10-15 13:55"
+topic: "tesla-patent"
+sourceType: "patent"
+sourceUrl: "https://x.com/seti_park/status/2110595845179785377?s=20"
+authors: ["SETI Park"]
+analyst: "Muse Spark"
+venue: "X"
+tags: ["Tesla", "專利", "車輛定位", "GNSS", "Starlink"]
+readTime: "8 分鐘"
+evidence: "中"
+featured: false
+sourceCount: 2
+accent: "blue"
+---
+
+import XPostCard from '../../components/XPostCard.astro';
+
+# Tesla 用 Starlink 定位車輛？專利原文裡沒有 Starlink 半個字
+
+**一句話結論：**《SETI Park X 貼文》的書目資訊（標題、專利號、Tesla 申請人、5 位發明人）經 USPTO 全文核實全部成立，但「用 Starlink 定位車輛」是貼文自己加的戲——22 頁全文沒有 Starlink、SpaceX、LEO 半個字，寫的是 GPS／GLONASS／Galileo 差分修正，優先權鏈一路回到 2017 年 Starlink 商轉之前；「申請人是 Tesla 不是 SpaceX 好驚訝」更是誤會一場，這本來就是 Tesla 車輛定位專利家族的延續案。
+
+<XPostCard author="SETI Park" handle="@seti_park" avatar="/article.ai/articles/tesla-vehicle-positioning-patent/seti_park-avatar.jpg" timestamp="4:57 AM · Oct 15, 2026" views="556" replies="1" reposts="1" likes="5" sourceUrl="https://x.com/seti_park/status/2110595845179785377?s=20" mediaUrl="/article.ai/articles/tesla-vehicle-positioning-patent/post-frontpage.webp" mediaAlt="US20260309876A1 專利首頁截圖">
+<p>인공위성(Starlink)으로 차량의 위치를 파악하는 특허. 출원인이 SpaceX가 아닌 Tesla라니, 정말 "놀랍네요" 😉</p>
+<p>📋 Title: SYSTEMS AND METHODS FOR VEHICLE POSITIONING</p>
+<p>#️⃣ Patent No.: US20260309876A1</p>
+<p>🏢 Applicant: @Tesla</p>
+<p>👥 Inventors: Neda CVIJETIC, Robert COFIELD, Mark MCCLELLAND, Zeljko POPOVIC, Francis HAVLAK</p>
+</XPostCard>
+
+<small class="figure-caption">靜態還原，譯文：「用人工衛星（Starlink）掌握車輛位置的專利。申請人不是 SpaceX 而是 Tesla，真是『令人驚訝』。」附圖為專利首頁。</small>
+
+## 這篇貼文真正想講 vs 專利真正解決的問題
+
+**《SETI Park X 貼文》解決敘事問題：** Tesla＋Starlink 夢幻連動——「Tesla 車以後用自家衛星定位，不靠 GPS 了？」外加一個反差梗：衛星專利的申請人居然不是 SpaceX。
+
+**《US20260309876A1 專利》解決技術問題：** 導航衛星訊號在建築物、橋樑、樹木遮蔽下精度只剩約 5 公尺（說明書 [0003] 原話，連智慧手機都拿來舉例），對自動駕駛不夠用。解法是車隊互相當基準站：會定位的車把修正值丟上伺服器，伺服器廣播給時空鄰近的車做差分。這是把 Tesla 最熟的 fleet learning 套用到定位上。
+
+## 流程拆解
+
+### 書目核實：全對【原文明說】
+
+USPTO 全文 PDF（22 頁，Appl. No. `19/715,055`，Filed Jun. 22, 2026，Pub. Date Oct. 8, 2026）首頁 OCR：
+
+- 標題 `SYSTEMS AND METHODS FOR VEHICLE POSITIONING` ✓
+- 申請人 `TESLA, INC., Austin, TX` ✓
+- 發明人 5 位：Cvijetic（Mountain View）、Cofield（Mountain View）、McClelland（舊金山）、Popovic（舊金山）、Havlak（Palo Alto）✓
+- 分類號 `G01S 19/51`、`G01S 19/07`——這就是衛星無線電信標定位（GPS 那一科），不是通訊衛星。
+
+### 宣稱對照表：《X 貼文》vs《專利實際》
+
+| 《SETI Park X 貼文》聲稱 | 《US20260309876A1》實際 | 標籤 |
+|---|---|---|
+| 用人工衛星（Starlink）掌握車輛位置 | 說明書 [0032] 點名的衛星只有 `GPS, GLONASS, Galileo`；請求項 6–7 寫 `signals from satellites` = `GNSS signals`；全文 OCR 零次 Starlink、零次 SpaceX、零次 LEO | 【仍未被支撐的主張】Starlink 是貼文括號裡自己加的 |
+| 申請人是 Tesla 不是 SpaceX，「驚訝」 | 本案是延續案，優先權鏈：2022 `17/834,772`（已獲准 `12,693,432`）→ 2020 `16/741,467`（已獲准 `11,366,238`）→ 2017 `15/610,785`「TECHNOLOGIES FOR VEHICLE POSITIONING」（已獲准 `10,534,092`），全是 Tesla 車輛定位家族；2017 年 Starlink 還沒商轉，SpaceX 當申請人才奇怪 | 【合理推斷】不驚訝，這案子出生時 Starlink 還在天上數星星 |
+| （隱含）這是新技術 | 延續案不加新 matter；核心手法（基準站分享 offset／raw GNSS data 差分、車輛當基準站）是 DGPS／RTK 玩了三十年的路數，新意在「車隊互助＋視覺定位綁定」 | 【從原文可直接推出】 |
+| 附圖專利首頁 | 首頁確為本案，圖面出現 ANTENNA／TRANSCEIVER（車載天線＋收發器） | 【原文明說】 |
+
+### 專利真正的新東西：車輛當基準站＋視覺綁定
+
+請求項 1（apparatus）四步走：
+
+1. `vision-localize the vehicle to a map`——行駛中用車載相機影像比對地圖定姿態；
+2. 位置量測取平均、方差過閾值才算數，生成 `correction data`（offset）；
+3. 同步生成 `raw positioning measurement value`（GNSS 原始值）；
+4. 姿態＋修正值＋原始值上傳 `hardware server`，由伺服器廣播給時空鄰近的第二輛車，對方用來自定相對位置向量。
+
+說明書 [0005]–[0009] 另有：把參考站訊號範圍外推（車當中繼）、靜止車直接當參考站、一群車組成協同靜止參考站。白話：沒有基地台的地方，Tesla 車隊自己就是基地台。
+
+<svg viewBox="0 0 640 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="車隊差分定位流程圖">
+  <defs>
+    <marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8" fill="none" stroke="#60a5fa" stroke-width="1.5"/>
+    </marker>
+  </defs>
+  <rect x="10" y="60" width="130" height="80" rx="8" fill="#1e293b" stroke="#60a5fa" stroke-width="1.5"/>
+  <text x="75" y="90" fill="#e2e8f0" font-size="13" text-anchor="middle">GNSS 衛星</text>
+  <text x="75" y="110" fill="#94a3b8" font-size="11" text-anchor="middle">GPS／GLONASS</text>
+  <text x="75" y="126" fill="#94a3b8" font-size="11" text-anchor="middle">／Galileo</text>
+  <rect x="180" y="60" width="140" height="80" rx="8" fill="#1e293b" stroke="#60a5fa" stroke-width="1.5"/>
+  <text x="250" y="88" fill="#e2e8f0" font-size="13" text-anchor="middle">車 A（會定位）</text>
+  <text x="250" y="108" fill="#94a3b8" font-size="11" text-anchor="middle">視覺定姿 ＋ 取平均</text>
+  <text x="250" y="124" fill="#94a3b8" font-size="11" text-anchor="middle">生成 correction</text>
+  <rect x="360" y="60" width="110" height="80" rx="8" fill="#1e293b" stroke="#60a5fa" stroke-width="1.5"/>
+  <text x="415" y="90" fill="#e2e8f0" font-size="13" text-anchor="middle">硬體伺服器</text>
+  <text x="415" y="110" fill="#94a3b8" font-size="11" text-anchor="middle">收修正值</text>
+  <text x="415" y="126" fill="#94a3b8" font-size="11" text-anchor="middle">廣播鄰近車</text>
+  <rect x="510" y="60" width="120" height="80" rx="8" fill="#1e293b" stroke="#60a5fa" stroke-width="1.5"/>
+  <text x="570" y="90" fill="#e2e8f0" font-size="13" text-anchor="middle">車 B（待定位）</text>
+  <text x="570" y="110" fill="#94a3b8" font-size="11" text-anchor="middle">差分算出</text>
+  <text x="570" y="126" fill="#94a3b8" font-size="11" text-anchor="middle">相對位置向量</text>
+  <path d="M140,100 L178,100" stroke="#60a5fa" stroke-width="1.5" fill="none" marker-end="url(#ah)"/>
+  <path d="M320,100 L358,100" stroke="#60a5fa" stroke-width="1.5" fill="none" marker-end="url(#ah)"/>
+  <path d="M470,100 L508,100" stroke="#60a5fa" stroke-width="1.5" fill="none" marker-end="url(#ah)"/>
+  <text x="320" y="180" fill="#94a3b8" font-size="11" text-anchor="middle">重點：沒有基地台的地方，車隊自己就是基地台</text>
+</svg>
+
+<small class="figure-caption">自繪：本案核心流程。衛星只負責 GNSS 原始訊號，不存在 Starlink 下行定位。</small>
+
+## 風險與盲點
+
+**1. 實現落差：** 視覺定位綁地圖意味著要高精度圖資＋相機時刻在線；「方差過閾值才生成修正值」在市區峽谷可能長期生不出來；廣播修正值給時空鄰近車輛，吃網路覆蓋與延遲。這是 fleet-scale 系統工程，不是裝一顆接收器就好。
+
+**2. 缺失的系統級基準：** 全文無精度數字（公分級？分米級？）、無收斂時間、無與 RTK／PPP 的對照。這是 `A1` 公開案，不是獲准專利，請求項還會再修。
+
+**3. 敘事風險：** 「Tesla × Starlink」是流量最強的組合技，但本案與 Starlink 零關係。真要追 Starlink 直連車輛，看的是 SpaceX 申請人＋衛星通訊分類號的案子，不是這件 `G01S` 定位案。把括號裡的 Starlink 當成專利原文的人，會追錯一整條線。
+
+**4. 同日批次：** 本案公開日 Oct. 8, 2026，與上一篇觸覺感測器 `US20260310299A1` 同一天——Tesla 的公開案是成批出來的，單件不宜過度解讀為產品路線圖。
+
+## 可操作步驟
+
+1. 要驗證：去 USPTO 下載 `US20260309876A1`，搜 `Starlink`——零命中；搜 `GNSS`——隨便一抓一把。
+2. 要追 Starlink 上車：改追申請人 SpaceX、分類號衛星通訊（`H04B 7/185` 一系）的案子。
+3. 要追這條定位線：順著優先權鏈去讀已獲准的 `10,534,092`／`11,366,238`，那才是這家族的權利地基。
