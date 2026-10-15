@@ -1,0 +1,64 @@
+---
+title: ScaleMAS：多 Agent 擴展到 128 個，解讀基本靠譜，但「MIT」是錯的
+description: 南晚解讀哈佛／Meta 的 ScaleMAS 論文，主體機制、三操作、引用加權、128 agent 皆與 arXiv 原文相符；機構掛名誤植 MIT，55.1%／80.0% 並非 128 agent 設定下的數字。
+publishedAt: "2026-10-15 14:02"
+topic: multi-agent
+sourceType: article
+sourceUrl: https://x.com/snwiki238337/status/2110559535928627572?s=20
+authors:
+  - 南晚Nanwan
+analyst: Muse Spark
+venue: X
+tags:
+  - multi-agent
+  - ScaleMAS
+  - 論文解讀
+readTime: 8 分鐘
+evidence: 中
+featured: false
+sourceCount: 3
+accent: "#7c3aed"
+---
+
+import XPostCard from '../../components/XPostCard.astro';
+
+## 一句話結論
+
+《南晚Nanwan X 貼文》對 ScaleMAS 的機制轉述基本靠譜（三操作、引用加權、128 agent 都有原文依據），但有兩處硬傷：作者機構是哈佛＋Meta FAIR＋Kempner，**沒有 MIT**；55.1%／80.0% 是 4 agent 設定下的數字，不是 128 agent 跑出來的。
+
+<XPostCard author="南晚Nanwan" handle="@snwiki238337" avatar="/article.ai/articles/scalemas-substrate-coordination/snwiki238337-avatar.jpg" timestamp="2:33 AM · Oct 15, 2026" views="3,284" replies="3" reposts="8" likes="59" sourceUrl="https://x.com/snwiki238337/status/2110559535928627572?s=20" mediaUrl="/article.ai/articles/scalemas-substrate-coordination/post-figure.webp" mediaAlt="論文首頁截圖：標題、作者與機構、四個基準曲線">
+<p>此處依慣例節錄：Multi-Agent 加到 8 個以上整體智商斷崖式下跌；哈佛、MIT、Meta FAIR 發表 Scaling Multi-Agent Intelligence with Substrate-Centric Coordination，提出 ScaleMAS；Agent 間禁止直接對話，只與非同步結構介質打交道（發布／檢索／調閱）；檢索看引用頻次；擴展到 128 個 Agent，複雜網絡研究、程式碼工程基準分別 55.1%、80.0%。</p>
+</XPostCard>
+<small class="figure-caption">靜態還原，原貼為簡體中文，此處轉為繁體節錄。附圖為論文首頁，見下節原圖解讀。</small>
+
+## 原圖解讀
+
+附圖即《Scaling Multi-Agent Intelligence with Substrate-Centric Coordination》論文第一頁：標題下作者機構標註為 `1FAIR at Meta, 2Meta AI, 3Harvard, 4Kempner Institute`——【原文明說】沒有 MIT。摘要三段與貼文轉述一致：三個問題（reading burden、dilution、fragility）、三個操作、引用排序、128 agents。下方四張曲線圖正是 BrowseComp-Plus、FATE-M、SWE-Bench Verified、Contradiction Audit (x4) 的擴展性曲線。
+
+![對照圖](/article.ai/articles/scalemas-substrate-coordination/figure-01-compare.svg)
+<small class="figure-caption">自繪對照：Agent-Centric 全員廣播讀負擔隨規模爆炸；ScaleMAS 每次讀取至多 k 條，按引用加權排序。</small>
+
+## 宣稱對照表：《X 貼文》vs《arXiv:2610.16120》
+
+| 貼文聲稱 | 論文實際 | 標籤 |
+|---|---|---|
+| 哈佛、MIT、Meta FAIR | 10 位作者：FAIR at Meta（7 人，Qi 等）、Meta AI（Zhao）、Harvard（Qi、Lakkaraju、Du）、Kempner（Du）；Qi 另註 work done at Meta | 【仍未被支撐的主張】MIT 無掛名，Yilun Du 現職是 Harvard／Kempner |
+| Agent 間完全禁止直接對話 | 【原文明說】No agent holds a role, sends messages to another agent, or assigns work（§2） | 【原文明說】 |
+| 三原子操作：發布／檢索／調閱 | 【原文明說】publish（附 references）、search（至多回 k 條）、visit（按 address）（§2.2） | 【原文明說】 |
+| 檢索看被引用頻次，灌水沉底 | 【原文明說】score＝引用權重＋正規化 BM25；權重只增不靠中央裁判，被引多者置頂（§2.3，公式 1） | 【原文明說】 |
+| 黑板只能緩解單點崩潰 | 【原文明說】blackboard-style relieve only the last problem（摘要） | 【原文明說】 |
+| 擴展到 128 個 Agent | 【原文明說】N＝128 掃到 Contradiction Audit x4 達 50.9%，FATE-M 在 16 後趨平近 60%（§3.4） | 【原文明說】但只在兩個基準上掃到 128 |
+| 複雜網絡研究、程式碼工程 55.1%、80.0% | Table 2：4 個 Qwen3.5-9B 下 BrowseComp-Plus 55.1、SWE-bench Verified 80.0；是消融對照表的設定，不是 128 agent 的成績 | 【合理推斷】數字本身存在，但貼文把兩組實驗縫成一句 |
+| 8 個以上斷崖式下跌 | MAD 在 FATE-M 到 N＝32 見頂回落，DeLM 在 128 比 8 差；ScaleMAS 在每基準 1→8 皆升 | 【從原文可直接推出】方向對，閾值被簡化了 |
+| MAD 16 agent 燒 48.5M tokens 準確率不動 | 【原文明說】5.6M→48.5M，準確率 28%～32%（§3.3） | 【原文明說】 |
+
+## 真正解決的問題
+
+《X 貼文》解決敘事問題：把「人多變笨」包裝成介質缺失的故事，用登月／Linux 類比讓結論好傳播。《論文》解決技術問題：把協調結構從 agent 指令裡抽出來放進共享介質，用 k 上界保證讀負擔有界、用引用次數當品質代理、用訊息持久化容忍掉線，附自建 Contradiction Audit 基準證明擴展性。
+
+## 風險與盲點
+
+1. **裁判也是 LLM**：Contradiction Audit 的矛盾注入與四輪 judge 全用 GPT-5.6，自己出題自己改卷；且文中模型（Qwen3.5-9B、Claude-5-Sonnet、GPT-5.6）皆為未來式，外人無法獨立復現。
+2. **未見公開程式碼**：全文只提到 smolagents／mini-SWE-agent harness，無倉庫連結，工程細節以附錄為準。
+3. **128 只覆蓋一半基準**：BrowseComp-Plus 與 SWE-bench 到 16 即止，128 的成績只在 FATE-M（趨平）與 Contradiction Audit（50.9%）上成立。
+4. **作者為 HKU 在讀博士**，屬前沿追蹤型帳號，無商業漏斗，但「里程碑之作」屬個人評價，非同行共識。
