@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" font-family="system-ui, -apple-system, sans-serif">
+<rect width="640" height="360" fill="var(--card, #fafafa)"/>
+<text x="20" y="30" font-size="16" font-weight="bold" fill="var(--foreground, #111)">《codila 全程課》宣稱 vs 可核實來源</text>
+<g font-size="12">
+<rect x="20" y="50" width="590" height="56" rx="8" fill="#e8f5e9"/>
+<text x="32" y="72" font-weight="bold" fill="#1b5e20">成立：REA 本體＋安裝＋可分析目標清單</text>
+<text x="32" y="92" fill="#333">morluto/rea README、rea.tools 官方文件逐字對得上</text>
+<rect x="20" y="114" width="590" height="56" rx="8" fill="#e8f5e9"/>
+<text x="32" y="136" font-weight="bold" fill="#1b5e20">成立：ArtCraft 七件套＋Office 三件套＋Kotaku 報導</text>
+<text x="32" y="156" fill="#333">The Register / PetaPixel / HotHardware / Kotaku 10/9 均有獨立報導</text>
+<rect x="20" y="178" width="590" height="56" rx="8" fill="#fff8e1"/>
+<text x="32" y="200" font-weight="bold" fill="#e65100">折價：單一信源（Steam 30 分鐘、C# 全反編譯、365 小時移植）</text>
+<text x="32" y="220" fill="#333">僅見 X 貼文或作者自述，無第二來源；移植站在既有 decomp 上</text>
+<rect x="20" y="242" width="590" height="56" rx="8" fill="#ffebee"/>
+<text x="32" y="264" font-weight="bold" fill="#b71c1c">不成立／越線：TradingView 付費指標免費拿</text>
+<text x="32" y="284" fill="#333">僅 RohOnChain 單則貼文；且作者自己寫了「拿付費指標不 OK」</text>
+</g>
+<text x="20" y="330" font-size="11" fill="#888">自繪對照圖；來源見內文。出處：morluto/rea、rea.tools、各媒體報導</text>
+</svg>

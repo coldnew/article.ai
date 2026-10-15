@@ -1,0 +1,80 @@
+---
+title: REA「最危險倉庫」全程課：教程是真的，免費午餐不是
+description: codila 10/12 長文把 REA 寫成完整教程，主張「付費功能免費重建」。逐條核實：REA 本體、ArtCraft、Kotaku 報導成立；Steam 30 分鐘、移植工時為單一信源；TradingView 付費指標免費拿既無第二來源、也踩了作者自己畫的線。
+publishedAt: 2026-10-15 13:21
+topic: ai-tools
+sourceType: article
+sourceUrl: https://x.com/0xCodila/status/2109623431763292649?s=20
+authors:
+  - codila（@0xCodila）
+analyst: Muse Spark
+venue: X
+tags:
+  - REA
+  - 逆向工程
+  - MCP
+  - Claude Code
+  - clean-room
+readTime: "9"
+evidence: 中
+featured: false
+sourceCount: 12
+accent: red
+---
+
+import XPostCard from '../../components/XPostCard.astro';
+
+## 一句話結論
+
+《codila X 貼文》這堂「REA 全程課」是 REA 爆火以來資訊密度最高、也相對最誠實的一篇轉述——安裝步驟抄官方文件、法律段自己貼了 Community Note、文末自列五條做不到的事；炒作成分集中在標題句「任何付費功能免費重建」，其唯一實例（拿 TradingView 付費指標免費用）既無第二來源，也正好踩在作者自己寫的「那條線」上。
+
+<XPostCard author="codila" handle="@0xCodila" avatar="/article.ai/articles/rea-dangerous-repo-course-analysis/codila-avatar.jpg" timestamp="12:33 PM · Oct 12, 2026" views="1.4M" replies="113" reposts="366" likes="4.9K" sourceUrl="https://x.com/0xCodila/status/2109623431763292649?s=20">
+<p><strong>Reverse Engineering: How to Get Anything for FREE With Most Dangerous Repo &amp; Opus 5.5 (Full Course)</strong></p>
+<p>REA is most dangerous thing on the internet right now... It lets your AI agent reverse engineer any app, down to the binary. If you use it correctly, you can rebuild any feature you pay for, for FREE. In this article, I show you how:</p>
+<p>此處依慣例節錄：原文為 X Article 長文，含安裝、案例、提示詞包共十節，全文要點在下文重述。</p>
+</XPostCard>
+
+<small class="figure-caption">靜態還原，數字逐字核對。譯文：REA 是現在網路上最危險的東西……它讓你的 AI 代理逆向任何 App，直達二進位。用得對，任何付費功能都能免費重建。這篇教你怎麼做。</small>
+
+## 這篇文章真正解決的問題
+
+**《codila X 貼文》解決敘事問題：** 把過去三天散落的截圖（Software is done、Closed source is dead）收斂成一條可跟著做的鏈：裝什麼、讀什麼、什麼能做、什麼會被告、提示詞怎麼抄。之前《余温 X 貼文》只給了「能幹嘛」的獵奇清單，這篇補上了「怎麼做」。
+
+**《morluto／rea GitHub 倉庫》解決技術問題：** 同前篇核實——MCP＋CLI 把逆向工具接給 Agent，本地分析、附證據與未知項。不再贅述。
+
+## 流程拆解：宣稱對照表
+
+![宣稱 vs 可核實來源](/article.ai/articles/rea-dangerous-repo-course-analysis/figure-01-verdict.svg)
+
+<small class="figure-caption">自繪對照圖，四類判定對應下表。</small>
+
+| 《codila X 貼文》聲稱 | 核實結果 | 標籤 |
+|---|---|---|
+| REA 是 MCP＋CLI，接 Claude／Codex／Cursor／Gemini，本地跑、附證據 | 《morluto／rea GitHub 倉庫》README 與 rea.tools 逐字相符 | 【原文明說】 |
+| 可讀清單：Electron、網站、HAR、exe／Mac／DOS、.NET 免工具、APK、EVM、韌體 | 與倉庫分析清單一致；Unity 邏輯多為 .NET 是關鍵細節，屬實 | 【原文明說】 |
+| 安裝五步、Notes 範例、Ghidra／Hopper／IDA／JADX 引擎 | 基本抄官方 get-started，版本號可對上 | 【原文明說】 |
+| ArtCraft 重建七個 Adobe＋三個 Office，Rust＋Opus 5.5 | 《The Register》10/8、《PetaPixel》10/7、《HotHardware》均有獨立報導；作者 Brandon Thomas 自稱 clean-room；但實測 WordCraft 僅約 62% 功能對等，DOCX 相容測試尚未開始 | 【原文明說】＋完成度降級 |
+| Steam 遊戲 30 分鐘進 Unity、全反編譯 C# | 僅見單則 X 貼文，無第二來源、無倉庫連結 | 【仍未被支撐的主張】 |
+| SMS 移植：約 365 agent 小時、17.3B tokens | 倉庫 chasem-dev/sms-pc-port 存在；但 README 明寫站在既有 matching decompilation 上，工時數字僅作者自述 | 【合理推斷】AI 提速為真，從零重建為假 |
+| Tomba! 無經驗三週靜態重編譯 | 《1379.tech》作者自述全文存在（2026-03），工具是 Claude Code Sonnet 4.6＋Ghidra——早於 REA 爆火，非 REA 功勞 | 【原文明說】但歸因需修正 |
+| Kotaku：Halo／GTA／辛普森瀏覽器版能跑 | 《Kotaku》Lewis Parker 10/9 實測報導存在；但第三方註明「哪個 AI 做的，未驗證」 | 【原文明說】＋歸因降級 |
+| Touhou 697 函數 696 命中、12 天可玩 | 出自 REA 官方部落格，屬單一信源自我 Showcase | 按官方戰報折價讀 |
+| 拿 TradingView 付費指標免費用 | 僅見單則貼文；且 codila 自己在同段寫了拿付費指標免費用是不行的——實例與原則自相矛盾 | 【仍未被支撐的主張】＋作者自打臉 |
+| 法律：Sega v. Accolade（1992）、Sony v. Connectix（2000）、geohot 和解（2011-04）、Compaq BIOS 約 100 萬美元 | 均為公認判例與史實；Chamath 說法已被 Community Note 糾正，codila 原文如實引用了該 Note | 【原文明說】 |
+| REA 做不到：碰不到伺服器、反編譯不等於原始碼、裸 C++ 仍難、商用工具要自備授權 | 與倉庫 DISCLAIMER 一致，是全文最誠實的一節 | 【原文明說】 |
+
+## 風險與盲點
+
+**1. 標題與內文的裂縫。** 標題說「任何付費功能免費重建」，內文卻寫「拿別人付費指標免費用是不行的」。讀者只記標題，就會把 clean-room 重寫滑成破解——而這正是 REA 倉庫 DISCLAIMER 要擋的。
+
+**2. 移植案例站在前人肩膀上。** SMS 移植依賴既有反編譯成果、Tomba! 用的是 GhidraMCP 而非 REA、瀏覽器版歸因到 Opus 5.5 的證據只是時間巧合。把生態系的功勞全記在 REA 一個倉庫頭上，是轉述鏈的常見膨脹。
+
+**3. 單一公司敘事上限。** Showcases（DX-Ball、Notion、Aegis）全部出自 REA 官方，無外部複現；贏自家 Showcase 不等於泛化保證。
+
+**4. 利益揭露。** 《codila X 貼文》作者自介為 AI researcher＆coder，文首即掛 substack 訂閱連結，屬課程漏斗上層的流量型教程。對主張強度的影響：選例偏向最獵奇、最易傳播的案例，失敗成本（被告、封號）只在法律段輕輕帶過。取捨已寫出，請自行折價。
+
+## 可操作步驟
+
+1. 想試：照 Part 2 五步裝完，先跑官方 Notes 範例，確認鏈路再碰真 App。
+2. 想重建付費功能：走作者自己的 pro loop——先寫 SPEC（行為、輸入輸出、邊界，不抄代碼），再自建，最後驗證；SPEC 與原程式碼之間必須有人牆，這就是 clean-room。
+3. 想驗證轉述案例：要對方給目標版本、工具版本、證據鏈，缺一律視為故事——本篇表中未被支撐的三列就是這樣篩出來的。
