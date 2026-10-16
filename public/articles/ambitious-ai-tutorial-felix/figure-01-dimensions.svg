@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="420" viewBox="0 0 720 420" font-family="system-ui, -apple-system, sans-serif">
+  <rect x="0" y="0" width="720" height="420" rx="12" fill="#faf9f7"/>
+  <text x="360" y="34" text-anchor="middle" font-size="18" font-weight="bold" fill="#1c1917">雄心的四個維度（Felix Rieseberg）</text>
+  <line x1="360" y1="60" x2="360" y2="380" stroke="#d6d3d1" stroke-width="2"/>
+  <line x1="40" y1="220" x2="680" y2="220" stroke="#d6d3d1" stroke-width="2"/>
+  <g>
+    <rect x="60" y="80" width="240" height="120" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+    <text x="180" y="108" text-anchor="middle" font-size="16" font-weight="bold" fill="#92400e">高度 Altitude</text>
+    <text x="180" y="132" text-anchor="middle" font-size="13" fill="#57534e">問目標背後的目標</text>
+    <text x="180" y="152" text-anchor="middle" font-size="13" fill="#57534e">修單個崩潰 → 零崩潰</text>
+    <text x="180" y="172" text-anchor="middle" font-size="13" fill="#57534e">做 PPT → 重新設計評審機制</text>
+  </g>
+  <g>
+    <rect x="420" y="80" width="240" height="120" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <text x="540" y="108" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">深度 Depth</text>
+    <text x="540" y="132" text-anchor="middle" font-size="13" fill="#57534e">用頂尖專家的工具與原料</text>
+    <text x="540" y="152" text-anchor="middle" font-size="13" fill="#57534e">離譜目標＋對抗假設＋外部裁判</text>
+    <text x="540" y="172" text-anchor="middle" font-size="13" fill="#57534e">產出連專家都能學的新知識</text>
+  </g>
+  <g>
+    <rect x="60" y="240" width="240" height="120" rx="10" fill="#fce7f3" stroke="#db2777" stroke-width="2"/>
+    <text x="180" y="268" text-anchor="middle" font-size="16" font-weight="bold" fill="#9d174d">廣度 Range</text>
+    <text x="180" y="292" text-anchor="middle" font-size="13" fill="#57534e">名詞換動詞，找跨界視角</text>
+    <text x="180" y="312" text-anchor="middle" font-size="13" fill="#57534e">組特遣隊：找方法，不扮演角色</text>
+    <text x="180" y="332" text-anchor="middle" font-size="13" fill="#57534e">紅隊：做空者怎麼做調研就怎麼做</text>
+  </g>
+  <g>
+    <rect x="420" y="240" width="240" height="120" rx="10" fill="#e5e7eb" stroke="#6b7280" stroke-width="2"/>
+    <text x="540" y="268" text-anchor="middle" font-size="16" font-weight="bold" fill="#374151">速度 Speed（略過）</text>
+    <text x="540" y="292" text-anchor="middle" font-size="13" fill="#57534e">同樣工作更少時間</text>
+    <text x="540" y="312" text-anchor="middle" font-size="13" fill="#57534e">AI 經濟價值基本盤，無需創意</text>
+  </g>
+  <text x="360" y="402" text-anchor="middle" font-size="12" fill="#78716c">前提：可裝軟體的電腦環境＋資料存取（MCP 連接器等）——自繪整理，依據 Felix Rieseberg 原文</text>
+</svg>
