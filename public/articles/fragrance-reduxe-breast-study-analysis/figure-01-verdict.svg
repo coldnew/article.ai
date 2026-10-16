@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="340" viewBox="0 0 760 340" font-family="system-ui, -apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif">
+<rect x="0" y="0" width="760" height="340" rx="12" fill="var(--card, #fafafa)"/>
+<text x="24" y="34" font-size="17" font-weight="700" fill="var(--foreground, #111)">《西語貼文》說法 vs 《Chemosphere 2023 論文》實際</text>
+<line x1="24" y1="48" x2="736" y2="48" stroke="#ccc" stroke-width="1"/>
+<g font-size="14" fill="var(--foreground, #222)">
+<text x="24" y="78">❌「最近的研究」</text><text x="330" y="78" fill="#666">→ 2023 年 2 月線上發表，貼文晚了 3 年</text>
+<text x="24" y="116">❌「只拿掉香精這一樣」</text><text x="330" y="116" fill="#666">→ 停用全部含 paraben／phthalate 日用品，發替代包</text>
+<text x="24" y="154">❌「一個致癌基因消失了」</text><text x="330" y="154" fill="#666">→ 多條通路表型逆轉，無任何基因「消失」</text>
+<text x="24" y="192">✅「28 天＋前後細針抽吸」</text><text x="330" y="192" fill="#666">→ 交叉設計 28 天，RPFNA 前後配對</text>
+<text x="24" y="230">✅「尿液代謝物下降」</text><text x="330" y="230" fill="#666">→ paraben／phthalate 代謝物顯著下降</text>
+<text x="24" y="268">⚠️「歐盟也可合法隱藏」</text><text x="330" y="268" fill="#666">→ 歐盟要求致敏香料標示＋限用部分鄰苯，說過頭了</text>
+</g>
+<text x="24" y="312" font-size="13" fill="#888">底線：細胞行為逆轉 ≠ 不得乳癌；作者自己要求後續大樣本試驗。</text>
+</svg>
