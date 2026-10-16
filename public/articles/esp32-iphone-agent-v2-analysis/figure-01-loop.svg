@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" font-family="system-ui, -apple-system, 'PingFang TC', sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#6366f1"/>
+    </marker>
+    <marker id="arr2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#f59e0b"/>
+    </marker>
+  </defs>
+  <text x="360" y="24" text-anchor="middle" font-size="16" font-weight="700" fill="#111">ESP32 iPhone Agent v2：眼（AirPlay）＋手（USB HID）＋脑（本机 App）</text>
+  <rect x="40" y="60" width="180" height="90" rx="10" fill="#eef2ff" stroke="#6366f1" stroke-width="2"/>
+  <text x="130" y="88" text-anchor="middle" font-size="14" font-weight="700" fill="#111">iPhone 本体</text>
+  <text x="130" y="110" text-anchor="middle" font-size="12" fill="#444">投屏（Wi-Fi）＋ 被控（USB）</text>
+  <text x="130" y="128" text-anchor="middle" font-size="12" fill="#444">Agent App＋蜂窝联网</text>
+  <rect x="270" y="60" width="180" height="90" rx="10" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
+  <text x="360" y="88" text-anchor="middle" font-size="14" font-weight="700" fill="#111">XIAO ESP32-S3（约 $7）</text>
+  <text x="360" y="110" text-anchor="middle" font-size="12" fill="#444">自建热点＋AirPlay 接收</text>
+  <text x="360" y="128" text-anchor="middle" font-size="12" fill="#444">H.264 直通＋USB 鼠键</text>
+  <rect x="500" y="60" width="180" height="90" rx="10" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+  <text x="590" y="88" text-anchor="middle" font-size="14" font-weight="700" fill="#111">视觉模型（外部）</text>
+  <text x="590" y="110" text-anchor="middle" font-size="12" fill="#444">OpenAI 兼容接口</text>
+  <text x="590" y="128" text-anchor="middle" font-size="12" fill="#444">planner＋actor</text>
+  <line x1="220" y1="90" x2="265" y2="90" stroke="#6366f1" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="243" y="82" text-anchor="middle" font-size="11" fill="#6366f1">投屏</text>
+  <line x1="265" y1="120" x2="220" y2="120" stroke="#f59e0b" stroke-width="2" marker-end="url(#arr2)"/>
+  <text x="243" y="138" text-anchor="middle" font-size="11" fill="#b45309">BLE 回传</text>
+  <line x1="450" y1="90" x2="495" y2="90" stroke="#6366f1" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="472" y="82" text-anchor="middle" font-size="11" fill="#6366f1">截图</text>
+  <line x1="495" y1="120" x2="450" y2="120" stroke="#f59e0b" stroke-width="2" marker-end="url(#arr2)"/>
+  <text x="472" y="138" text-anchor="middle" font-size="11" fill="#b45309">动作</text>
+  <rect x="40" y="180" width="640" height="100" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="60" y="206" font-size="12" fill="#111">瓶颈写在 README 限制节：BLE 仅 300–500 kbps → 画面 480×1040、≤5 fps，每步数秒；竖屏坐标、ASCII 输入、锁屏即停。</text>
+  <text x="60" y="228" font-size="12" fill="#111">首次仍要 Mac＋Xcode（刷机＋编译）；免费 Apple ID 可签（7 天重签），一键加热点要付费账号。</text>
+  <text x="60" y="250" font-size="12" fill="#111">v0.1.0 旧版（Mac/Linux＋UxPlay＋Python）已归档为 legacy 分支；本版 board＋App 即全部。</text>
+  <text x="60" y="272" font-size="11" fill="#64748b">图：按《onehumanbeing/esp32-iphone-agent README》How it works／Limitations 自绘；原图见仓库 app-screens.png。</text>
+</svg>
