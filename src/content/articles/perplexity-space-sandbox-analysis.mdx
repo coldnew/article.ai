@@ -1,0 +1,94 @@
+---
+title: Perplexity 開源 SPACE 沙箱：108 次逃不出去，但 11 次繞過了網路牆
+description: KC 轉述 Perplexity 開源 Apache 2.0 沙箱 SPACE（Firecracker microVM），紅隊數字逐條對上官方《Escaping SPACE Part I》：108 次零 VM 逃逸、11 次網路繞過、四模型、Opus 拒走共享 IP；但「每天數百萬」有口徑差，友商修復狀態單一來源，官方警語是沒觀察到逃逸不等於證明隔離。
+publishedAt: "2026-10-16 14:03"
+topic: ai-infra
+sourceType: article
+sourceUrl: https://x.com/ScarletKc/status/2110794226506305550?s=20
+authors:
+  - KC
+analyst: Muse Spark
+venue: X
+tags:
+  - Agent 沙箱
+  - Firecracker
+  - 紅隊
+  - 開源
+readTime: 8 分鐘
+evidence: 中
+featured: false
+sourceCount: 6
+accent: "#0ea5e9"
+---
+
+import XPostCard from '../../components/XPostCard.astro';
+
+## 一句話結論
+
+《KC X 貼文》轉述的 Perplexity SPACE 開源與紅隊數字，幾乎全對——Apache 2.0、Firecracker、108 次零逃逸、11 次網路繞過、四個模型、Opus 主動放棄共享 IP 這條路，全部能在官方《Escaping SPACE: Part I》找到原文；要折價的有三處：「每天幾百萬個沙箱」比官方說法膨脹了一個口徑，E2B／Modal／Vercel 的修復狀態目前只有單一來源，以及官方自己寫在報告裡的警語——**沒觀察到逃逸，不等於證明隔離**。
+
+<XPostCard author="KC" handle="@ScarletKc" avatar="/article.ai/articles/perplexity-space-sandbox-analysis/ScarletKc-avatar.jpg" timestamp="6:05 PM · Oct 15, 2026" views="13.2K" replies="15" reposts="134" likes="146" sourceUrl="https://x.com/ScarletKc/status/2110794226506305550?s=20">
+<p>此處依慣例節錄：Perplexity 把 Computer 背後的沙箱平台 SPACE 開源，Apache 2.0；每沙箱一個 Firecracker microVM、自帶內核；9 模型拿 root 試逃逸，108 次無一逃到宿主机，網路限制被繞過 11 次（偽造 DNS、CDN 共享 IP），兩洞已補；另測 10 家沙箱 8 家可繞過；憑證不進沙箱、網路層注入；suspend 快照可跨節點恢復；支援回滾 fork；帶 E2B 相容層；門檻 Linux x86_64＋KVM，Mac 不行。</p>
+</XPostCard>
+
+<small class="figure-caption">靜態還原 KC 貼文（簡體轉繁體，節錄）。貼文引用 Perplexity 官方帳號開源公告與官方博客兩篇＋GitHub 倉庫。</small>
+
+## 這篇文章真正解決的問題
+
+**《KC X 貼文》解決敘事問題：** 寫 agent harness 的人最痛的不是模型，是「給 agent 跑程式碼的環境」——隔離、狀態恢復、密鑰管理都要自己扛。SPACE 等於把 Perplexity 線上跑 Computer 的那套生產設施直接交出來，E2B 用戶改個 domain 就能切過去。
+
+**《Perplexity 官方博客＋紅隊報告》解決技術問題：** 證明兩道邊界——VM 隔離（guest 逃不到 host）與網路約束（egress allowlist 關不關得住 agent），並且老實公佈自己在哪裡跌倒過。這是安全開源裡少見的寫法：先自曝 11 次被繞過，再說修好了。
+
+## 流程拆解
+
+### 模組一：開源本體核實【原文明說】
+
+《perplexityai/SPACE GitHub 倉庫》首頁（抓取時 655 stars、44 forks）確認：
+
+- 全名 Sandboxed Platform for Agentic Code Execution，授權 Apache-2.0，與貼文一致。
+- 架構就是貼文說的那套：template 出初始環境，sandbox 是帶獨立 VM 與可寫檔案系統的實例；生命週期非同步（operation ID 輪詢），命令輸出走獨立 data-plane 連線。
+- E2B 相容層真實存在（`docs/ecw.md`），用 E2B Python SDK 寫的 harness 對接可遷移。
+- 部署門檻與貼文一字不差：apt 系 Linux x86_64＋KVM，需要 `/dev/kvm`、`/dev/net/tun`、loop device、btrfs；「these instructions do not run directly on macOS」。
+
+### 模組二：紅隊數字逐條對照
+
+官方報告《Escaping SPACE: Part I》（Perplexity Secure Intelligence Institute，2026-09-23 發表，CEO Aravind Srinivas 9/28 轉發）加 7 月架構博客《Secure Sandboxes for Agents》交叉：
+
+| 《KC X 貼文》聲稱 | 官方原文 | 標籤 |
+|---|---|---|
+| 9 模型拿 root 試逃逸，108 次零逃到宿主机 | 逃逸任務 108 runs 零成功； honeytoken（host 上的 AWS 假憑證）從未被拿到，即使給源碼＋联网＋裝軟體 | 【原文明說】 |
+| 網路限制被繞過 11 次 | 部分联网條件下 11／54 成功，無網路條件 0／54；共 216 runs（9 模型 × 2 任務 × 4 設定 × 3 重複） | 【原文明說】約二成繞過率，恰恰是貼文沒強調的重點 |
+| 兩種手法：偽造 DNS、CDN 共享 IP | 手法一 DNS 欺騙（把 pypi.org 指到回調 IP）；手法二共享 IP（Fastly Fiddle、Taboola 經 thum.io 截圖再 OCR） | 【原文明說】 |
+| Opus 想到共享 IP 但覺得違規沒試，最後靠偽造 DNS | 報告原文：Opus 認出了 IP 共享機制，但任務說明禁止碰其他外部系統，走第三方繞過違反約束，故未測試使用 | 【原文明說】最有意思的細節，逐字相符 |
+| 兩個洞都補了，複測沒再成功 | 修復＝nftables 源地址校驗＋TLS 終止代理驗 SNI／Host；最強設定重測零繞過 | 【原文明說】 |
+| 另測 10 家，8 家可繞過；E2B 還在處理，Modal／Vercel 認為已知限制 | 10 家中 8 家至少一次繞過；具名 9 家中 Cloudflare Sandbox 與 NVIDIA OpenShell 擋住，E2B、Vercel、Daytona、Modal、Deno、Fly.io、microsandbox 至少一項失守；第 10 家要求更多時間未具名 | 【從原文可直接推出】前半成立；各家修復狀態僅 KC 單一來源，未獨立核實 |
+| 憑證不進沙箱，網路層注入，prompt injection 也讀不到 key | 7 月架構博客 Node-level Services 節：憑證只在需要的那一刻從外部注入，出站經 gateway 按策略放行 | 【原文明說】 |
+| suspend 快照記憶體進程檔案系統，換節點恢復、checkpoint 續跑 | 滾動快照每分鐘記 live memory＋檔案，可回溯一週；session 與 sandbox 分離，可暫停恢復分支 | 【原文明說】但注意：base snapshot 文檔寫的是單節點恢復，跨節點的是 session 機制，貼文把兩層併成一句 |
+| 每天創建幾百萬個沙箱 | 官方 7 月說法是「上週處理數百萬次沙箱創建＋數千萬次重連」；創建延遲中位數 185ms→60ms、P90 447ms→89ms | 【合理推斷】攤到每天是數十萬級，「每天幾百萬」膨脹了一個口徑 |
+
+<figure>
+<img src="/article.ai/articles/perplexity-space-sandbox-analysis/figure-01-boundaries.svg" alt="VM 隔離與網路約束兩道邊界測試結果對照" />
+<figcaption><small class="figure-caption">自繪對照圖：左為 VM 逃逸 0／108，右為部分联网下網路繞過 11／54。數據來自官方紅隊報告，重點是兩道邊界強度不對稱。</small></figcaption>
+</figure>
+
+## 風險與盲點
+
+**1. 自家測自家，方法有天花板。** 報告出自 Perplashity 內部 Secure Intelligence Institute，不是第三方審計。官方自己把警語寫在正文：「一次成功的網路繞過不意味 VM 逃逸，沒觀察到逃逸也不證明隔離」。這句話應該貼在每一篇轉述的開頭。
+
+**2. 第三方測試強度不對等。** 對 10 家友商用的是非 LLM 的 HTTP／HTTPS 探針，不是同等的 agentic 紅隊——只能證明「域名策略 vs IP 執法」的結構性裂縫普遍存在，不能證明「8 家都會被 frontier 模型玩弄」。KC 貼文沒有區分這層，讀者容易高估。
+
+**3. 部分联网才是真實威脅模型。** 無網路 0／54、部分联网 11／54——agent 要裝套件就得放行 PyPI／鏡像，裂縫就從這裡來。自己配 egress allowlist 的團隊，真正的考題不是「關不關得住」，而是「放 PyPI 的同時擋不擋得住借 PyPI 的 IP 出去」。
+
+**4. 實現落差：門檻與單節點。** 要 KVM＋Kubernetes，Mac 與無 `/dev/kvm` 的 VPS 直接出局；base snapshot 單節點限制意味著跨可用區的容災要另想辦法。評論區 @KoderNeverDie 點出的 execution generation 問題（恢復後舊連線會不會串到上一輪執行）是同一個家族的坑，驗收時值得實測。
+
+**5. 利益揭露。** KC 為獨立開發者（寫遊戲與開源工具），無付費課程漏斗；利益相關方是 Perplexity 自己——開源＋自曝紅隊＋拉 CoreWeave／Akamai／Crusoe（《Semafor》10/15）做託管，本質是把 SPACE 推成 agent 沙箱的事實標準。敘事與商業是一體的。
+
+## 附：第二條連結說明
+
+用戶同場附上的《Felix Rieseberg 原文》連結，本次抓取全文比對，與已發表分析文〈雄心指南〉的四維框架、QBR 案例、深度提示詞、自效能典故逐段一致，無新增主張，不另起一篇。值得一記的互文是：Felix 文末正好寫道，雄心需要「a computer with the ability to install software」——SPACE 開源的正是這種 harness 基建，兩條連結互為註腳。
+
+## 可操作步驟
+
+1. 想自部署：Linux＋KVM 備好，按倉庫 `docs/installation.md` 走 Kind 本地集群，先跑通 first-sandbox。
+2. 已在用 E2B：讀 `docs/ecw.md`，評估相容層覆蓋的行為差異再切流量，別直接全切。
+3. 自己配 allowlist：把測試矩陣抄過去——no-network 跑一遍、partial-network（放 PyPI）跑一遍，看 DNS 偽造與共享 IP 兩條路走不走得通；修復對照 nftables 源地址校驗＋SNI／Host 校驗。

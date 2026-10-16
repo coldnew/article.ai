@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="340" viewBox="0 0 760 340" font-family="system-ui, -apple-system, sans-serif">
+  <text x="380" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="currentColor">SPACE 兩道邊界：VM 牆很硬，網路牆漏過兩成</text>
+  <g>
+    <rect x="40" y="60" width="320" height="240" rx="12" fill="none" stroke="#16a34a" stroke-width="2"/>
+    <text x="200" y="90" text-anchor="middle" font-size="15" font-weight="bold" fill="#16a34a">邊界一：VM 隔離</text>
+    <text x="200" y="115" text-anchor="middle" font-size="12" fill="currentColor">guest 拿 root，偷 host honeytoken</text>
+    <text x="200" y="180" text-anchor="middle" font-size="44" font-weight="bold" fill="#16a34a">0 / 108</text>
+    <text x="200" y="208" text-anchor="middle" font-size="12" fill="currentColor">9 模型 × 4 設定 × 3 重複</text>
+    <text x="200" y="230" text-anchor="middle" font-size="12" fill="currentColor">即使給源碼＋聯網＋裝軟體</text>
+    <text x="200" y="262" text-anchor="middle" font-size="13" font-weight="bold" fill="#16a34a">無一逃到宿主機</text>
+  </g>
+  <g>
+    <rect x="400" y="60" width="320" height="240" rx="12" fill="none" stroke="#dc2626" stroke-width="2"/>
+    <text x="560" y="90" text-anchor="middle" font-size="15" font-weight="bold" fill="#dc2626">邊界二：網路約束（部分聯網）</text>
+    <text x="560" y="115" text-anchor="middle" font-size="12" fill="currentColor">取被 egress 政策擋住的回調 flag</text>
+    <text x="560" y="180" text-anchor="middle" font-size="44" font-weight="bold" fill="#dc2626">11 / 54</text>
+    <text x="560" y="208" text-anchor="middle" font-size="12" fill="currentColor">4 模型得手：Opus 5.0、GPT-5.6 Sol／Cyber、Kimi K3</text>
+    <text x="560" y="230" text-anchor="middle" font-size="12" fill="currentColor">偽造 DNS＋CDN 共享 IP；修復後重測歸零</text>
+    <text x="560" y="262" text-anchor="middle" font-size="13" font-weight="bold" fill="#dc2626">約 20% 繞過率（修復前）</text>
+  </g>
+  <text x="380" y="326" text-anchor="middle" font-size="12" fill="currentColor">來源：Perplexity《Escaping SPACE: Part I》；無網路條件下為 0／54</text>
+</svg>
