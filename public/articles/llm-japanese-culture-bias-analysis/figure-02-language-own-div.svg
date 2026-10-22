@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="660" viewBox="0 0 1200 660" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+<rect x="0" y="0" width="1200" height="660" rx="16" fill="#1b2432"/>
+<text x="40" y="44" font-size="25" font-weight="700" fill="#ffffff">語言資源越少，文化版面越窄：24 語言的自家引用、未答與多樣性</text>
+<text x="40" y="70" font-size="13" fill="#9fb0c7">資料來源：《Why are all LLMs Obsessed with Japanese Culture?》附錄 E.1 Table 9、附錄 C Table 6 與正文 Table 3（arXiv:2604.21751v2）；NA 百分比由筆者以 NA/10,560 換算</text>
+<rect x="40" y="80" width="690" height="490" rx="12" fill="#232f40" opacity="0.55"/>
+<text x="60" y="106" font-size="15" font-weight="700" fill="#ffffff">A. 每語言的自家引用率（Own%）與未答率（NA%，8 模型合計）</text>
+<rect x="70.0" y="409.8" width="8.5" height="130.2" fill="#4f8fd0" rx="1.5"/>
+<rect x="80.0" y="532.4" width="8.5" height="7.6" fill="#e08a3c" rx="1.5"/>
+<text x="77.5" y="556" font-size="10" fill="#9fb0c7" text-anchor="middle">en</text>
+<rect x="95.8" y="338.4" width="8.5" height="201.6" fill="#4f8fd0" rx="1.5"/>
+<rect x="105.8" y="529.7" width="8.5" height="10.3" fill="#e08a3c" rx="1.5"/>
+<text x="103.3" y="556" font-size="10" fill="#9fb0c7" text-anchor="middle">zh</text>
+<rect x="121.7" y="246.0" width="8.5" height="294.0" fill="#4f8fd0" rx="1.5"/>
+<rect x="131.7" y="472.1" width="8.5" height="67.9" fill="#e08a3c" rx="1.5"/>
+<text x="129.2" y="556" font-size="10" fill="#9fb0c7" text-anchor="middle">hi</text>
+<text x="129.2" y="467.1" font-size="9" fill="#e08a3c" text-anchor="middle">16%</text>
+<rect x="147.5" y="262.8" width="8.5" height="277.2" fill="#4f8fd0" rx="1.5"/>
+<rect x="157.5" y="534.0" width="8.5" height="6.0" fill="#e08a3c" rx="1.5"/>
+<text x="155.0" y="556" font-size="10" fill="#9fb0c7" text-anchor="middle">es</text>
+<rect x="173.3" y="250.2" width="8.5" height="289.8" fill="#4f8fd0" rx="1.5"/>
+<rect x="183.3" y="520.2" width="8.5" height="19.8" fill="#e08a3c" rx="1.5"/>
+<text x="180.8" y="556" font-size="10" fill="#9fb0c7" text-anchor="middle">ar</text>
+<rect x="199.2" y="304.8" width="8.5" height="235.2" fill="#4f8fd0" rx="1.5"/>
+<rect x="209.2" y="534.6" width="8.5" height="5.4" fill="#e08a3c" rx="1.5"/>
+<text x="206.7" y="556" font-size="10" fill="#9fb0c7" text-anchor="middle">fr</text>
+<rect x="225.0" y="208.2" width="8.5" height="331.8" fill="#4f8fd0" rx="1.5"/>
+<rect x="235.0" y="492.7" width="8.5" height="47.3" fill="#e08a3c" rx="1.5"/>
+<text x="232.5" y="556" font-size="10" fill="#9fb0c7" text-anchor="middle">bn</text>
+<text x="232.5" y="487.7" font-size="9" fill="#e08a3c" text-anchor="middle">11%</text>
+<rect x="250.8" y="233.4" width="8.5" height="306.6" fill="#4f8fd0" rx="1.5"/>
+<rect x="260.8" y="525.8" width="8.5" height="14.2" fill="#e08a3c" rx="1.5"/>
+<text x="258.3" y="556" font-size="10" fill="#9fb0c7" text-anchor="middle">pt</text>
+<rect x="276.7" y="388.8" width="8.5" height="151.2" fill="#4f8fd0" rx="1.5"/>
+<rect x="286.7" y="533.1" width="8.5" height="6.9" fill="#e08a3c" rx="1.5"/>
+<text x="284.2" y="556" font-size="10" fill="#9fb0c7" text-anchor="middle">ru</text>
+<rect x="302.5" y="220.8" width="8.5" height="319.2" fill="#4f8fd0" rx="1.5"/>
+<rect x="312.5" y="505.4" width="8.5" height="34.6" fill="#e08a3c" rx="1.5"/>
+<text x="310.0" y="556" font-size="10" fill="#9fb0c7" text-anchor="middle">id</text>
+<text x="310.0" y="500.4" font-size="9" fill="#e08a3c" text-anchor="middle">8%</text>
+<rect x="328.3" y="246.0" width="8.5" height="294.0" fill="#4f8fd0" rx="1.5"/>
+<rect x="338.3" y="537.2" width="8.5" height="2.8" fill="#e08a3c" rx="1.5"/>
+<text x="335.8" y="556" font-size="10" fill="#9fb0c7" text-anchor="middle">de</text>
+<rect x="354.2" y="292.2" width="8.5" height="247.8" fill="#4f8fd0" rx="1.5"/>
+<rect x="364.2" y="525.1" width="8.5" height="14.9" fill="#e08a3c" rx="1.5"/>
+<text x="361.7" y="556" font-size="10" fill="#9fb0c7" text-anchor="middle">ja</text>
+<rect x="380.0" y="292.2" width="8.5" height="247.8" fill="#4f8fd0" rx="1.5"/>
+<rect x="390.0" y="477.2" width="8.5" height="62.8" fill="#e08a3c" rx="1.5"/>
+<text x="387.5" y="556" font-size="10" fill="#9fb0c7" text-anchor="middle">ko</text>
+<text x="387.5" y="472.2" font-size="9" fill="#e08a3c" text-anchor="middle">15%</text>
+<rect x="405.8" y="300.6" width="8.5" height="239.4" fill="#4f8fd0" rx="1.5"/>
+<rect x="415.8" y="511.3" width="8.5" height="28.7" fill="#e08a3c" rx="1.5"/>
+<text x="413.3" y="556" font-size="10" fill="#9fb0c7" text-anchor="middle">fa</text>
+<text x="413.3" y="506.3" font-size="9" fill="#e08a3c" text-anchor="middle">7%</text>
+<rect x="431.7" y="212.4" width="8.5" height="327.6" fill="#4f8fd0" rx="1.5"/>
+<rect x="441.7" y="534.3" width="8.5" height="5.7" fill="#e08a3c" rx="1.5"/>
+<text x="439.2" y="556" font-size="10" fill="#9fb0c7" text-anchor="middle">sw</text>
+<rect x="457.5" y="325.8" width="8.5" height="214.2" fill="#4f8fd0" rx="1.5"/>
+<rect x="467.5" y="409.9" width="8.5" height="130.1" fill="#e08a3c" rx="1.5"/>
+<text x="465.0" y="556" font-size="10" fill="#9fb0c7" text-anchor="middle">ha</text>
+<text x="465.0" y="404.9" font-size="9" fill="#e08a3c" text-anchor="middle">31%</text>
+<text x="465.0" y="568" font-size="9" fill="#d9534f" text-anchor="middle">D49</text>
+<rect x="483.3" y="225.0" width="8.5" height="315.0" fill="#4f8fd0" rx="1.5"/>
+<rect x="493.3" y="529.9" width="8.5" height="10.1" fill="#e08a3c" rx="1.5"/>
+<text x="490.8" y="556" font-size="10" fill="#9fb0c7" text-anchor="middle">az</text>
+<rect x="509.2" y="216.6" width="8.5" height="323.4" fill="#4f8fd0" rx="1.5"/>
+<rect x="519.2" y="494.9" width="8.5" height="45.1" fill="#e08a3c" rx="1.5"/>
+<text x="516.7" y="556" font-size="10" fill="#9fb0c7" text-anchor="middle">am</text>
+<text x="516.7" y="489.9" font-size="9" fill="#e08a3c" text-anchor="middle">11%</text>
+<text x="516.7" y="568" font-size="9" fill="#d9534f" text-anchor="middle">D38</text>
+<rect x="535.0" y="208.2" width="8.5" height="331.8" fill="#4f8fd0" rx="1.5"/>
+<rect x="545.0" y="500.4" width="8.5" height="39.6" fill="#e08a3c" rx="1.5"/>
+<text x="542.5" y="556" font-size="10" fill="#9fb0c7" text-anchor="middle">su</text>
+<text x="542.5" y="495.4" font-size="9" fill="#e08a3c" text-anchor="middle">9%</text>
+<rect x="560.8" y="246.0" width="8.5" height="294.0" fill="#4f8fd0" rx="1.5"/>
+<rect x="570.8" y="529.9" width="8.5" height="10.1" fill="#e08a3c" rx="1.5"/>
+<text x="568.3" y="556" font-size="10" fill="#9fb0c7" text-anchor="middle">el</text>
+<rect x="586.7" y="191.4" width="8.5" height="348.6" fill="#4f8fd0" rx="1.5"/>
+<rect x="596.7" y="534.4" width="8.5" height="5.6" fill="#e08a3c" rx="1.5"/>
+<text x="594.2" y="556" font-size="10" fill="#9fb0c7" text-anchor="middle">as</text>
+<text x="594.2" y="568" font-size="9" fill="#d9534f" text-anchor="middle">D41</text>
+<rect x="612.5" y="237.6" width="8.5" height="302.4" fill="#4f8fd0" rx="1.5"/>
+<rect x="622.5" y="533.7" width="8.5" height="6.3" fill="#e08a3c" rx="1.5"/>
+<text x="620.0" y="556" font-size="10" fill="#9fb0c7" text-anchor="middle">ca</text>
+<rect x="638.3" y="225.0" width="8.5" height="315.0" fill="#4f8fd0" rx="1.5"/>
+<rect x="648.3" y="536.5" width="8.5" height="3.5" fill="#e08a3c" rx="1.5"/>
+<text x="645.8" y="556" font-size="10" fill="#9fb0c7" text-anchor="middle">gl</text>
+<rect x="664.2" y="212.4" width="8.5" height="327.6" fill="#4f8fd0" rx="1.5"/>
+<rect x="674.2" y="504.1" width="8.5" height="35.9" fill="#e08a3c" rx="1.5"/>
+<text x="671.7" y="556" font-size="10" fill="#9fb0c7" text-anchor="middle">eu</text>
+<text x="671.7" y="499.1" font-size="9" fill="#e08a3c" text-anchor="middle">9%</text>
+<line x1="70" y1="540.0" x2="690" y2="540.0" stroke="#2e3c4f" stroke-width="1"/>
+<text x="62" y="544.0" font-size="10" fill="#9fb0c7" text-anchor="end">0%</text>
+<line x1="70" y1="456.0" x2="690" y2="456.0" stroke="#2e3c4f" stroke-width="1"/>
+<text x="62" y="460.0" font-size="10" fill="#9fb0c7" text-anchor="end">20%</text>
+<line x1="70" y1="372.0" x2="690" y2="372.0" stroke="#2e3c4f" stroke-width="1"/>
+<text x="62" y="376.0" font-size="10" fill="#9fb0c7" text-anchor="end">40%</text>
+<line x1="70" y1="288.0" x2="690" y2="288.0" stroke="#2e3c4f" stroke-width="1"/>
+<text x="62" y="292.0" font-size="10" fill="#9fb0c7" text-anchor="end">60%</text>
+<line x1="70" y1="204.0" x2="690" y2="204.0" stroke="#2e3c4f" stroke-width="1"/>
+<text x="62" y="208.0" font-size="10" fill="#9fb0c7" text-anchor="end">80%</text>
+<line x1="70" y1="120.0" x2="690" y2="120.0" stroke="#2e3c4f" stroke-width="1"/>
+<text x="62" y="124.0" font-size="10" fill="#9fb0c7" text-anchor="end">100%</text>
+<line x1="70" y1="540" x2="690" y2="540" stroke="#55697f" stroke-width="1.5"/>
+<rect x="70" y="584" width="12" height="12" fill="#4f8fd0" rx="2"/>
+<text x="88" y="594" font-size="12" fill="#9fb0c7">Own%（引用該語言官方國家的比例）</text>
+<rect x="320" y="584" width="12" height="12" fill="#e08a3c" rx="2"/>
+<text x="338" y="594" font-size="12" fill="#9fb0c7">NA%（裁判抽不出國家的回答占比）</text>
+<text x="610" y="594" font-size="12" fill="#d9534f">D = Div（提及國家數 &lt; 60 者）</text>
+<rect x="770" y="80" width="400" height="490" rx="12" fill="#232f40" opacity="0.55"/>
+<text x="790" y="106" font-size="15" font-weight="700" fill="#ffffff">B. CommonCrawl 佔比 vs 提及國家數</text>
+<line x1="867.8" y1="120" x2="867.8" y2="540" stroke="#2e3c4f"/>
+<text x="867.8" y="556" font-size="9" fill="#9fb0c7" text-anchor="middle">0.01%</text>
+<line x1="941.4" y1="120" x2="941.4" y2="540" stroke="#2e3c4f"/>
+<text x="941.4" y="556" font-size="9" fill="#9fb0c7" text-anchor="middle">0.1%</text>
+<line x1="1015.0" y1="120" x2="1015.0" y2="540" stroke="#2e3c4f"/>
+<text x="1015.0" y="556" font-size="9" fill="#9fb0c7" text-anchor="middle">1%</text>
+<line x1="1088.6" y1="120" x2="1088.6" y2="540" stroke="#2e3c4f"/>
+<text x="1088.6" y="556" font-size="9" fill="#9fb0c7" text-anchor="middle">10%</text>
+<line x1="800" y1="472.6" x2="1140" y2="472.6" stroke="#2e3c4f"/>
+<text x="792" y="475.6" font-size="9" fill="#9fb0c7" text-anchor="end">40</text>
+<line x1="800" y1="377.5" x2="1140" y2="377.5" stroke="#2e3c4f"/>
+<text x="792" y="380.5" font-size="9" fill="#9fb0c7" text-anchor="end">60</text>
+<line x1="800" y1="310.1" x2="1140" y2="310.1" stroke="#2e3c4f"/>
+<text x="792" y="313.1" font-size="9" fill="#9fb0c7" text-anchor="end">80</text>
+<line x1="800" y1="257.8" x2="1140" y2="257.8" stroke="#2e3c4f"/>
+<text x="792" y="260.8" font-size="9" fill="#9fb0c7" text-anchor="end">100</text>
+<line x1="800" y1="215.0" x2="1140" y2="215.0" stroke="#2e3c4f"/>
+<text x="792" y="218.0" font-size="9" fill="#9fb0c7" text-anchor="end">120</text>
+<line x1="800" y1="178.9" x2="1140" y2="178.9" stroke="#2e3c4f"/>
+<text x="792" y="181.9" font-size="9" fill="#9fb0c7" text-anchor="end">140</text>
+<line x1="800" y1="147.6" x2="1140" y2="147.6" stroke="#2e3c4f"/>
+<text x="792" y="150.6" font-size="9" fill="#9fb0c7" text-anchor="end">160</text>
+<circle cx="1136.5" cy="152.0" r="4" fill="#7ee2a8" opacity="0.85"/>
+<text x="1112.5" y="145.0" font-size="9" fill="#ffffff">en</text>
+<circle cx="1067.4" cy="175.6" r="4" fill="#7ee2a8" opacity="0.85"/>
+<text x="1074.4" y="187.6" font-size="9" fill="#ffffff">zh</text>
+<circle cx="962.4" cy="393.7" r="4" fill="#7ee2a8" opacity="0.85"/>
+<text x="969.4" y="403.7" font-size="9" fill="#ffffff">hi</text>
+<circle cx="1062.1" cy="185.7" r="4" fill="#7ee2a8" opacity="0.85"/>
+<circle cx="1001.4" cy="239.7" r="4" fill="#7ee2a8" opacity="0.85"/>
+<circle cx="1062.8" cy="164.3" r="4" fill="#7ee2a8" opacity="0.85"/>
+<text x="1069.8" y="158.3" font-size="9" fill="#ffffff">fr</text>
+<circle cx="944.2" cy="348.2" r="4" fill="#7ee2a8" opacity="0.85"/>
+<circle cx="1038.2" cy="227.1" r="4" fill="#7ee2a8" opacity="0.85"/>
+<circle cx="1072.8" cy="169.1" r="4" fill="#7ee2a8" opacity="0.85"/>
+<text x="1050.8" y="162.1" font-size="9" fill="#ffffff">ru</text>
+<circle cx="1013.3" cy="316.0" r="4" fill="#7ee2a8" opacity="0.85"/>
+<circle cx="1072.3" cy="211.2" r="4" fill="#7ee2a8" opacity="0.85"/>
+<text x="1050.3" y="204.2" font-size="9" fill="#ffffff">de</text>
+<circle cx="1067.7" cy="227.1" r="4" fill="#7ee2a8" opacity="0.85"/>
+<text x="1074.7" y="239.1" font-size="9" fill="#ffffff">ja</text>
+<circle cx="1006.8" cy="231.2" r="4" fill="#7ee2a8" opacity="0.85"/>
+<circle cx="1007.1" cy="221.0" r="4" fill="#7ee2a8" opacity="0.85"/>
+<circle cx="869.0" cy="285.1" r="4" fill="#7ee2a8" opacity="0.85"/>
+<circle cx="825.9" cy="425.0" r="4" fill="#7ee2a8" opacity="0.85"/>
+<text x="832.9" y="419.0" font-size="9" fill="#ffffff">ha</text>
+<circle cx="926.3" cy="316.0" r="4" fill="#7ee2a8" opacity="0.85"/>
+<circle cx="832.3" cy="484.6" r="4" fill="#7ee2a8" opacity="0.85"/>
+<text x="839.3" y="494.6" font-size="9" fill="#ffffff">am</text>
+<circle cx="807.1" cy="369.8" r="4" fill="#7ee2a8" opacity="0.85"/>
+<text x="814.1" y="363.8" font-size="9" fill="#ffffff">su</text>
+<circle cx="992.1" cy="244.1" r="4" fill="#7ee2a8" opacity="0.85"/>
+<circle cx="823.5" cy="466.8" r="4" fill="#7ee2a8" opacity="0.85"/>
+<circle cx="959.1" cy="213.1" r="4" fill="#7ee2a8" opacity="0.85"/>
+<circle cx="900.6" cy="229.1" r="4" fill="#7ee2a8" opacity="0.85"/>
+<circle cx="903.5" cy="348.2" r="4" fill="#7ee2a8" opacity="0.85"/>
+<line x1="800" y1="540" x2="1140" y2="540" stroke="#55697f" stroke-width="1.5"/>
+<line x1="800" y1="120" x2="800" y2="540" stroke="#55697f" stroke-width="1.5"/>
+<text x="970" y="576" font-size="11" fill="#9fb0c7" text-anchor="middle">CommonCrawl 佔比（log）</text>
+<text x="754" y="330" font-size="11" fill="#9fb0c7" text-anchor="middle" transform="rotate(-90 754 330)">Div 提及國家數（log）</text>
+<text x="812" y="144" font-size="12" font-weight="700" fill="#7ee2a8">Spearman rs = 0.843 (p&lt;0.001)</text>
+<text x="812" y="164" font-size="12" font-weight="700" fill="#7ee2a8">Pearson r = 0.498 (p=0.013)</text>
+<text x="812" y="184" font-size="10" fill="#9fb0c7">筆者用附錄 C Table 6 與 Table 3 獨立複算，與論文一致</text>
+<text x="40" y="642" font-size="12" fill="#8a97a8">自繪圖表，數據取自《Why are all LLMs Obsessed with Japanese Culture?》附錄 E.1 Table 9、附錄 C Table 6 與正文 Table 3（arXiv:2604.21751v2）</text>
+</svg>

@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+<rect x="0" y="0" width="1200" height="640" rx="16" fill="#1b2432"/>
+<text x="40" y="44" font-size="25" font-weight="700" fill="#ffffff">偏誤是在後訓練長出來的：Base → SFT → Instruct 的熵與日本提及次數</text>
+<text x="40" y="70" font-size="13" fill="#9fb0c7">資料來源：《Why are all LLMs Obsessed with Japanese Culture?》附錄 G Table 15 與正文 Table 4（arXiv:2604.21751v2），英文題</text>
+<rect x="60" y="90" width="530" height="430" rx="12" fill="#232f40" opacity="0.55"/>
+<text x="80" y="118" font-size="15" font-weight="700" fill="#ffffff">A. 正規化熵（Ent，越高代表提及分布越平均）</text>
+<text x="550" y="118" font-size="11" fill="#9fb0c7" text-anchor="end">SFT 是熵降幅最大的一段</text>
+<line x1="90" y1="480.0" x2="560" y2="480.0" stroke="#2e3c4f"/>
+<text x="82" y="484.0" font-size="10" fill="#9fb0c7" text-anchor="end">0.60</text>
+<line x1="90" y1="423.3" x2="560" y2="423.3" stroke="#2e3c4f"/>
+<text x="82" y="427.3" font-size="10" fill="#9fb0c7" text-anchor="end">0.65</text>
+<line x1="90" y1="366.7" x2="560" y2="366.7" stroke="#2e3c4f"/>
+<text x="82" y="370.7" font-size="10" fill="#9fb0c7" text-anchor="end">0.70</text>
+<line x1="90" y1="310.0" x2="560" y2="310.0" stroke="#2e3c4f"/>
+<text x="82" y="314.0" font-size="10" fill="#9fb0c7" text-anchor="end">0.75</text>
+<line x1="90" y1="253.3" x2="560" y2="253.3" stroke="#2e3c4f"/>
+<text x="82" y="257.3" font-size="10" fill="#9fb0c7" text-anchor="end">0.80</text>
+<line x1="90" y1="196.7" x2="560" y2="196.7" stroke="#2e3c4f"/>
+<text x="82" y="200.7" font-size="10" fill="#9fb0c7" text-anchor="end">0.85</text>
+<line x1="90" y1="140.0" x2="560" y2="140.0" stroke="#2e3c4f"/>
+<text x="82" y="144.0" font-size="10" fill="#9fb0c7" text-anchor="end">0.90</text>
+<text x="130.0" y="504" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">Base</text>
+<text x="325.0" y="504" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">SFT</text>
+<text x="520.0" y="504" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">Inst.</text>
+<polyline points="130.0,321.3 325.0,412.0 520.0,434.7" fill="none" stroke="#d9534f" stroke-width="2.5"/>
+<circle cx="130.0" cy="321.3" r="4.5" fill="#d9534f"/>
+<text x="138.0" y="315.3" font-size="10" fill="#d9534f">0.74</text>
+<circle cx="325.0" cy="412.0" r="4.5" fill="#d9534f"/>
+<text x="333.0" y="406.0" font-size="10" fill="#d9534f">0.66</text>
+<circle cx="520.0" cy="434.7" r="4.5" fill="#d9534f"/>
+<text x="528.0" y="428.7" font-size="10" fill="#d9534f">0.64</text>
+<text x="96" y="526" font-size="11" fill="#d9534f">Olmo-3-7B</text>
+<polyline points="130.0,321.3 325.0,412.0 520.0,389.3" fill="none" stroke="#e0b83c" stroke-width="2.5"/>
+<circle cx="130.0" cy="321.3" r="4.5" fill="#e0b83c"/>
+<text x="138.0" y="337.3" font-size="10" fill="#e0b83c">0.74</text>
+<circle cx="325.0" cy="412.0" r="4.5" fill="#e0b83c"/>
+<text x="333.0" y="428.0" font-size="10" fill="#e0b83c">0.66</text>
+<circle cx="520.0" cy="389.3" r="4.5" fill="#e0b83c"/>
+<text x="528.0" y="405.3" font-size="10" fill="#e0b83c">0.68</text>
+<text x="96" y="543" font-size="11" fill="#e0b83c">Olmo-3-7B-Think</text>
+<polyline points="130.0,208.0 325.0,446.0 520.0,434.7" fill="none" stroke="#4a90d9" stroke-width="2.5"/>
+<circle cx="130.0" cy="208.0" r="4.5" fill="#4a90d9"/>
+<text x="138.0" y="202.0" font-size="10" fill="#4a90d9">0.84</text>
+<circle cx="325.0" cy="446.0" r="4.5" fill="#4a90d9"/>
+<text x="333.0" y="440.0" font-size="10" fill="#4a90d9">0.63</text>
+<circle cx="520.0" cy="434.7" r="4.5" fill="#4a90d9"/>
+<text x="528.0" y="428.7" font-size="10" fill="#4a90d9">0.64</text>
+<text x="96" y="560" font-size="11" fill="#4a90d9">OLMo-2-7B</text>
+<polyline points="130.0,287.3 325.0,423.3 520.0,355.3" fill="none" stroke="#7fbf7f" stroke-width="2.5"/>
+<circle cx="130.0" cy="287.3" r="4.5" fill="#7fbf7f"/>
+<text x="138.0" y="281.3" font-size="10" fill="#7fbf7f">0.77</text>
+<circle cx="325.0" cy="423.3" r="4.5" fill="#7fbf7f"/>
+<text x="333.0" y="417.3" font-size="10" fill="#7fbf7f">0.65</text>
+<circle cx="520.0" cy="355.3" r="4.5" fill="#7fbf7f"/>
+<text x="528.0" y="349.3" font-size="10" fill="#7fbf7f">0.71</text>
+<text x="96" y="577" font-size="11" fill="#7fbf7f">OLMo-2-32B</text>
+<text x="40" y="622" font-size="12" fill="#8a97a8">自繪圖表，數據取自《Why are all LLMs Obsessed with Japanese Culture?》附錄 G Table 15（arXiv:2604.21751v2）</text>
+<rect x="650" y="90" width="520" height="430" rx="12" fill="#232f40" opacity="0.55"/>
+<text x="670" y="118" font-size="15" font-weight="700" fill="#ffffff">B. 回答中提及日本（JP）的次數</text>
+<line x1="680" y1="480.0" x2="1140" y2="480.0" stroke="#2e3c4f"/>
+<text x="672" y="484.0" font-size="10" fill="#9fb0c7" text-anchor="end">0</text>
+<line x1="680" y1="412.0" x2="1140" y2="412.0" stroke="#2e3c4f"/>
+<text x="672" y="416.0" font-size="10" fill="#9fb0c7" text-anchor="end">100</text>
+<line x1="680" y1="344.0" x2="1140" y2="344.0" stroke="#2e3c4f"/>
+<text x="672" y="348.0" font-size="10" fill="#9fb0c7" text-anchor="end">200</text>
+<line x1="680" y1="276.0" x2="1140" y2="276.0" stroke="#2e3c4f"/>
+<text x="672" y="280.0" font-size="10" fill="#9fb0c7" text-anchor="end">300</text>
+<line x1="680" y1="208.0" x2="1140" y2="208.0" stroke="#2e3c4f"/>
+<text x="672" y="212.0" font-size="10" fill="#9fb0c7" text-anchor="end">400</text>
+<line x1="680" y1="140.0" x2="1140" y2="140.0" stroke="#2e3c4f"/>
+<text x="672" y="144.0" font-size="10" fill="#9fb0c7" text-anchor="end">500</text>
+<rect x="688.0" y="456.2" width="22" height="23.8" fill="#d9534f" opacity="0.95" rx="2"/>
+<text x="699.0" y="451.2" font-size="9" fill="#ffffff" text-anchor="middle">35</text>
+<rect x="714.0" y="211.4" width="22" height="268.6" fill="#d9534f" opacity="0.73" rx="2"/>
+<text x="725.0" y="206.4" font-size="9" fill="#ffffff" text-anchor="middle">395</text>
+<rect x="740.0" y="155.0" width="22" height="325.0" fill="#d9534f" opacity="0.51" rx="2"/>
+<text x="751.0" y="150.0" font-size="9" fill="#ffffff" text-anchor="middle">478</text>
+<text x="738" y="500" font-size="10" fill="#9fb0c7" text-anchor="middle">Olmo-3-7B</text>
+<rect x="803.0" y="456.2" width="22" height="23.8" fill="#e0b83c" opacity="0.95" rx="2"/>
+<text x="814.0" y="451.2" font-size="9" fill="#ffffff" text-anchor="middle">35</text>
+<rect x="829.0" y="172.0" width="22" height="308.0" fill="#e0b83c" opacity="0.73" rx="2"/>
+<text x="840.0" y="167.0" font-size="9" fill="#ffffff" text-anchor="middle">453</text>
+<rect x="855.0" y="217.5" width="22" height="262.5" fill="#e0b83c" opacity="0.51" rx="2"/>
+<text x="866.0" y="212.5" font-size="9" fill="#ffffff" text-anchor="middle">386</text>
+<text x="852" y="500" font-size="10" fill="#9fb0c7" text-anchor="middle">Olmo-3-7B-Think</text>
+<rect x="918.0" y="436.5" width="22" height="43.5" fill="#4a90d9" opacity="0.95" rx="2"/>
+<text x="929.0" y="431.5" font-size="9" fill="#ffffff" text-anchor="middle">64</text>
+<rect x="944.0" y="391.6" width="22" height="88.4" fill="#4a90d9" opacity="0.73" rx="2"/>
+<text x="955.0" y="386.6" font-size="9" fill="#ffffff" text-anchor="middle">130</text>
+<rect x="970.0" y="369.2" width="22" height="110.8" fill="#4a90d9" opacity="0.51" rx="2"/>
+<text x="981.0" y="364.2" font-size="9" fill="#ffffff" text-anchor="middle">163</text>
+<text x="968" y="500" font-size="10" fill="#9fb0c7" text-anchor="middle">OLMo-2-7B</text>
+<rect x="1033.0" y="438.5" width="22" height="41.5" fill="#7fbf7f" opacity="0.95" rx="2"/>
+<text x="1044.0" y="433.5" font-size="9" fill="#ffffff" text-anchor="middle">61</text>
+<rect x="1059.0" y="234.5" width="22" height="245.5" fill="#7fbf7f" opacity="0.73" rx="2"/>
+<text x="1070.0" y="229.5" font-size="9" fill="#ffffff" text-anchor="middle">361</text>
+<rect x="1085.0" y="329.7" width="22" height="150.3" fill="#7fbf7f" opacity="0.51" rx="2"/>
+<text x="1096.0" y="324.7" font-size="9" fill="#ffffff" text-anchor="middle">221</text>
+<text x="1082" y="500" font-size="10" fill="#9fb0c7" text-anchor="middle">OLMo-2-32B</text>
+<rect x="690" y="518" width="11" height="11" fill="#8a97a8" opacity="0.95" rx="2"/>
+<text x="707" y="528" font-size="11" fill="#9fb0c7">Base</text>
+<rect x="764" y="518" width="11" height="11" fill="#8a97a8" opacity="0.73" rx="2"/>
+<text x="781" y="528" font-size="11" fill="#9fb0c7">SFT</text>
+<rect x="838" y="518" width="11" height="11" fill="#8a97a8" opacity="0.51" rx="2"/>
+<text x="855" y="528" font-size="11" fill="#9fb0c7">Inst.</text>
+<text x="40" y="622" font-size="12" fill="#8a97a8">自繪圖表，數據取自《Why are all LLMs Obsessed with Japanese Culture?》附錄 G Table 15（arXiv:2604.21751v2）</text>
+</svg>

@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+<rect x="0" y="0" width="1200" height="600" rx="16" fill="#1b2432"/>
+<text x="40" y="44" font-size="25" font-weight="700" fill="#ffffff">後訓練資料的國家提及次數，解釋不了模型輸出的國家提及次數</text>
+<text x="40" y="70" font-size="13" fill="#9fb0c7">資料來源：《Why are all LLMs Obsessed with Japanese Culture?》附錄 I Table 16（後訓練資料）與附錄 G Table 15（SFT 輸出）（arXiv:2604.21751v2）；同一階段配對比較</text>
+<rect x="50" y="90" width="550" height="430" rx="12" fill="#232f40" opacity="0.55"/>
+<text x="70" y="116" font-size="15" font-weight="700" fill="#ffffff">OLMo-3-7B</text>
+<text x="70" y="136" font-size="11" fill="#9fb0c7">SFT 資料：Dolci-Instruct-SFT　vs　模型輸出：Olmo-3-7B SFT</text>
+<line x1="90" y1="460.0" x2="560" y2="460.0" stroke="#2e3c4f"/>
+<text x="82" y="464.0" font-size="10" fill="#9fb0c7" text-anchor="end">10</text>
+<line x1="90" y1="384.0" x2="560" y2="384.0" stroke="#2e3c4f"/>
+<text x="82" y="388.0" font-size="10" fill="#9fb0c7" text-anchor="end">100</text>
+<line x1="90" y1="308.0" x2="560" y2="308.0" stroke="#2e3c4f"/>
+<text x="82" y="312.0" font-size="10" fill="#9fb0c7" text-anchor="end">1,000</text>
+<line x1="90" y1="232.0" x2="560" y2="232.0" stroke="#2e3c4f"/>
+<text x="82" y="236.0" font-size="10" fill="#9fb0c7" text-anchor="end">10,000</text>
+<line x1="90" y1="156.0" x2="560" y2="156.0" stroke="#2e3c4f"/>
+<text x="82" y="160.0" font-size="10" fill="#9fb0c7" text-anchor="end">100,000</text>
+<line x1="137.0" y1="207.7" x2="137.0" y2="338.7" stroke="#d9534f" stroke-width="2" opacity="0.55"/>
+<circle cx="137.0" cy="207.7" r="6" fill="none" stroke="#d9534f" stroke-width="2.5"/>
+<circle cx="137.0" cy="207.7" r="2" fill="#d9534f"/>
+<polygon points="137.0,332.2 143.0,338.7 137.0,345.2 131.0,338.7" fill="#d9534f"/>
+<text x="137.0" y="196.7" font-size="9" fill="#ffffff" text-anchor="middle">20,883</text>
+<text x="137.0" y="357.7" font-size="9" fill="#ffffff" text-anchor="middle">395</text>
+<text x="137.0" y="482" font-size="12" font-weight="700" fill="#d9534f" text-anchor="middle">JP</text>
+<line x1="231.0" y1="202.7" x2="231.0" y2="359.2" stroke="#4a7fb5" stroke-width="2" opacity="0.55"/>
+<circle cx="231.0" cy="202.7" r="6" fill="none" stroke="#4a7fb5" stroke-width="2.5"/>
+<circle cx="231.0" cy="202.7" r="2" fill="#4a7fb5"/>
+<polygon points="231.0,352.7 237.0,359.2 231.0,365.7 225.0,359.2" fill="#4a7fb5"/>
+<text x="231.0" y="191.7" font-size="9" fill="#ffffff" text-anchor="middle">24,325</text>
+<text x="231.0" y="378.2" font-size="9" fill="#ffffff" text-anchor="middle">212</text>
+<text x="231.0" y="482" font-size="12" font-weight="700" fill="#4a7fb5" text-anchor="middle">US</text>
+<line x1="325.0" y1="214.0" x2="325.0" y2="385.0" stroke="#e0b83c" stroke-width="2" opacity="0.55"/>
+<circle cx="325.0" cy="214.0" r="6" fill="none" stroke="#e0b83c" stroke-width="2.5"/>
+<circle cx="325.0" cy="214.0" r="2" fill="#e0b83c"/>
+<polygon points="325.0,378.5 331.0,385.0 325.0,391.5 319.0,385.0" fill="#e0b83c"/>
+<text x="325.0" y="203.0" font-size="9" fill="#ffffff" text-anchor="middle">17,243</text>
+<text x="325.0" y="404.0" font-size="9" fill="#ffffff" text-anchor="middle">97</text>
+<text x="325.0" y="482" font-size="12" font-weight="700" fill="#e0b83c" text-anchor="middle">IN</text>
+<line x1="419.0" y1="177.3" x2="419.0" y2="428.5" stroke="#7fbf7f" stroke-width="2" opacity="0.55"/>
+<circle cx="419.0" cy="177.3" r="6" fill="none" stroke="#7fbf7f" stroke-width="2.5"/>
+<circle cx="419.0" cy="177.3" r="2" fill="#7fbf7f"/>
+<polygon points="419.0,422.0 425.0,428.5 419.0,435.0 413.0,428.5" fill="#7fbf7f"/>
+<text x="419.0" y="166.3" font-size="9" fill="#ffffff" text-anchor="middle">52,509</text>
+<text x="419.0" y="447.5" font-size="9" fill="#ffffff" text-anchor="middle">26</text>
+<text x="419.0" y="482" font-size="12" font-weight="700" fill="#7fbf7f" text-anchor="middle">CN</text>
+<line x1="513.0" y1="200.4" x2="513.0" y2="381.2" stroke="#b57fd0" stroke-width="2" opacity="0.55"/>
+<circle cx="513.0" cy="200.4" r="6" fill="none" stroke="#b57fd0" stroke-width="2.5"/>
+<circle cx="513.0" cy="200.4" r="2" fill="#b57fd0"/>
+<polygon points="513.0,374.7 519.0,381.2 513.0,387.7 507.0,381.2" fill="#b57fd0"/>
+<text x="513.0" y="189.4" font-size="9" fill="#ffffff" text-anchor="middle">26,091</text>
+<text x="513.0" y="400.2" font-size="9" fill="#ffffff" text-anchor="middle">109</text>
+<text x="513.0" y="482" font-size="12" font-weight="700" fill="#b57fd0" text-anchor="middle">FR</text>
+<line x1="90" y1="460" x2="560" y2="460" stroke="#55697f" stroke-width="1.5"/>
+<rect x="610" y="90" width="550" height="430" rx="12" fill="#232f40" opacity="0.55"/>
+<text x="630" y="116" font-size="15" font-weight="700" fill="#ffffff">OLMo-2-32B</text>
+<text x="630" y="136" font-size="11" fill="#9fb0c7">SFT 資料：tulu-3-sft-olmo-2-mixture　vs　模型輸出：OLMo-2-32B SFT</text>
+<line x1="650" y1="460.0" x2="1120" y2="460.0" stroke="#2e3c4f"/>
+<text x="642" y="464.0" font-size="10" fill="#9fb0c7" text-anchor="end">10</text>
+<line x1="650" y1="384.0" x2="1120" y2="384.0" stroke="#2e3c4f"/>
+<text x="642" y="388.0" font-size="10" fill="#9fb0c7" text-anchor="end">100</text>
+<line x1="650" y1="308.0" x2="1120" y2="308.0" stroke="#2e3c4f"/>
+<text x="642" y="312.0" font-size="10" fill="#9fb0c7" text-anchor="end">1,000</text>
+<line x1="650" y1="232.0" x2="1120" y2="232.0" stroke="#2e3c4f"/>
+<text x="642" y="236.0" font-size="10" fill="#9fb0c7" text-anchor="end">10,000</text>
+<line x1="650" y1="156.0" x2="1120" y2="156.0" stroke="#2e3c4f"/>
+<text x="642" y="160.0" font-size="10" fill="#9fb0c7" text-anchor="end">100,000</text>
+<line x1="697.0" y1="236.2" x2="697.0" y2="341.6" stroke="#d9534f" stroke-width="2" opacity="0.55"/>
+<circle cx="697.0" cy="236.2" r="6" fill="none" stroke="#d9534f" stroke-width="2.5"/>
+<circle cx="697.0" cy="236.2" r="2" fill="#d9534f"/>
+<polygon points="697.0,335.1 703.0,341.6 697.0,348.1 691.0,341.6" fill="#d9534f"/>
+<text x="697.0" y="225.2" font-size="9" fill="#ffffff" text-anchor="middle">8,816</text>
+<text x="697.0" y="360.6" font-size="9" fill="#ffffff" text-anchor="middle">361</text>
+<text x="697.0" y="482" font-size="12" font-weight="700" fill="#d9534f" text-anchor="middle">JP</text>
+<line x1="791.0" y1="231.4" x2="791.0" y2="339.1" stroke="#4a7fb5" stroke-width="2" opacity="0.55"/>
+<circle cx="791.0" cy="231.4" r="6" fill="none" stroke="#4a7fb5" stroke-width="2.5"/>
+<circle cx="791.0" cy="231.4" r="2" fill="#4a7fb5"/>
+<polygon points="791.0,332.6 797.0,339.1 791.0,345.6 785.0,339.1" fill="#4a7fb5"/>
+<text x="791.0" y="220.4" font-size="9" fill="#ffffff" text-anchor="middle">10,188</text>
+<text x="791.0" y="358.1" font-size="9" fill="#ffffff" text-anchor="middle">390</text>
+<text x="791.0" y="482" font-size="12" font-weight="700" fill="#4a7fb5" text-anchor="middle">US</text>
+<line x1="885.0" y1="248.6" x2="885.0" y2="406.2" stroke="#e0b83c" stroke-width="2" opacity="0.55"/>
+<circle cx="885.0" cy="248.6" r="6" fill="none" stroke="#e0b83c" stroke-width="2.5"/>
+<circle cx="885.0" cy="248.6" r="2" fill="#e0b83c"/>
+<polygon points="885.0,399.7 891.0,406.2 885.0,412.7 879.0,406.2" fill="#e0b83c"/>
+<text x="885.0" y="237.6" font-size="9" fill="#ffffff" text-anchor="middle">6,046</text>
+<text x="885.0" y="425.2" font-size="9" fill="#ffffff" text-anchor="middle">51</text>
+<text x="885.0" y="482" font-size="12" font-weight="700" fill="#e0b83c" text-anchor="middle">IN</text>
+<line x1="979.0" y1="238.9" x2="979.0" y2="437.1" stroke="#7fbf7f" stroke-width="2" opacity="0.55"/>
+<circle cx="979.0" cy="238.9" r="6" fill="none" stroke="#7fbf7f" stroke-width="2.5"/>
+<circle cx="979.0" cy="238.9" r="2" fill="#7fbf7f"/>
+<polygon points="979.0,430.6 985.0,437.1 979.0,443.6 973.0,437.1" fill="#7fbf7f"/>
+<text x="979.0" y="227.9" font-size="9" fill="#ffffff" text-anchor="middle">8,123</text>
+<text x="979.0" y="456.1" font-size="9" fill="#ffffff" text-anchor="middle">20</text>
+<text x="979.0" y="482" font-size="12" font-weight="700" fill="#7fbf7f" text-anchor="middle">CN</text>
+<line x1="1073.0" y1="233.1" x2="1073.0" y2="399.8" stroke="#b57fd0" stroke-width="2" opacity="0.55"/>
+<circle cx="1073.0" cy="233.1" r="6" fill="none" stroke="#b57fd0" stroke-width="2.5"/>
+<circle cx="1073.0" cy="233.1" r="2" fill="#b57fd0"/>
+<polygon points="1073.0,393.3 1079.0,399.8 1073.0,406.3 1067.0,399.8" fill="#b57fd0"/>
+<text x="1073.0" y="222.1" font-size="9" fill="#ffffff" text-anchor="middle">9,668</text>
+<text x="1073.0" y="418.8" font-size="9" fill="#ffffff" text-anchor="middle">62</text>
+<text x="1073.0" y="482" font-size="12" font-weight="700" fill="#b57fd0" text-anchor="middle">FR</text>
+<line x1="650" y1="460" x2="1120" y2="460" stroke="#55697f" stroke-width="1.5"/>
+<circle cx="96" cy="520" r="6" fill="none" stroke="#ffffff" stroke-width="2.5"/>
+<text x="112" y="525" font-size="12" fill="#9fb0c7">圓圈 = 後訓練資料中的提及次數（表 16）</text>
+<polygon points="400,514 407,520 400,526 393,520" fill="#ffffff"/>
+<text x="416" y="525" font-size="12" fill="#9fb0c7">菱形 = 同階段模型輸出的提及次數（表 15）</text>
+<text x="40" y="582" font-size="12" fill="#8a97a8">自繪圖表，數據取自《Why are all LLMs Obsessed with Japanese Culture?》附錄 I Table 16 與附錄 G Table 15（arXiv:2604.21751v2）</text>
+</svg>

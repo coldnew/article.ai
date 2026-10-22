@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="500" viewBox="0 0 1200 500" font-family="system-ui, -apple-system, 'Noto Sans TC', sans-serif">
+  <rect x="0" y="0" width="1200" height="500" rx="16" fill="#1b2432"/>
+  <text x="40" y="44" font-size="25" font-weight="700" fill="#ffffff">CROQ 測量流程：1,320 題 × 24 語言 × 8 模型 = 31,680 次開放式文化問答</text>
+  <text x="40" y="70" font-size="13" fill="#9fb0c7">資料來源：《Why are all LLMs Obsessed with Japanese Culture?》第 3 節（題庫）與第 4 節（評測框架）（arXiv:2604.21751v2）</text>
+
+  <g font-size="13" text-anchor="middle">
+    <rect x="20" y="104" width="266" height="168" rx="12" fill="#24425f"/>
+    <text x="153" y="132" font-size="17" font-weight="700" fill="#ffffff">① 造題</text>
+    <text x="153" y="156" font-size="12" fill="#c6d8ea">GPT-5.1 生成 + 人工審閱</text>
+    <text x="153" y="178" font-size="12" fill="#c6d8ea">11 領域 × 66 子題 × 20 題</text>
+    <text x="153" y="200" font-size="12" fill="#c6d8ea">= 1,320 題（英文原題）</text>
+    <text x="153" y="222" font-size="12" fill="#c6d8ea">自動翻譯成 24 語言</text>
+    <text x="153" y="244" font-size="12" fill="#7ee2a8">= 31,680 個「語言格」</text>
+
+    <rect x="312" y="104" width="266" height="168" rx="12" fill="#2f6f4f"/>
+    <text x="445" y="132" font-size="17" font-weight="700" fill="#ffffff">② 作答（8 個前沿模型）</text>
+    <text x="445" y="156" font-size="12" fill="#d7e5d8">gpt-4o-mini / gemini-2.5-flash</text>
+    <text x="445" y="178" font-size="12" fill="#d7e5d8">claude-3.5-haiku / llama-4-maverick</text>
+    <text x="445" y="200" font-size="12" fill="#d7e5d8">command-r / magistral-small</text>
+    <text x="445" y="222" font-size="12" fill="#d7e5d8">deepseek-v3.2-exp / qwen3-next</text>
+    <text x="445" y="244" font-size="12" fill="#7ee2a8">OpenRouter，temp=0.7、top_p=0.9</text>
+
+    <rect x="604" y="104" width="266" height="168" rx="12" fill="#6b3f8a"/>
+    <text x="737" y="132" font-size="17" font-weight="700" fill="#ffffff">③ 裁判抽國</text>
+    <text x="737" y="156" font-size="12" fill="#e5d8f2">gpt-4o-mini as-a-judge</text>
+    <text x="737" y="178" font-size="12" fill="#e5d8f2">每則回答最多抽 5 個國家／地區</text>
+    <text x="737" y="200" font-size="12" fill="#e5d8f2">抽不出就明確標記為 NA</text>
+    <text x="737" y="222" font-size="12" fill="#e5d8f2">試過 Explicit / Infer / Middle</text>
+    <text x="737" y="244" font-size="12" fill="#7ee2a8">最後採用 Middle 策略</text>
+
+    <rect x="896" y="104" width="266" height="168" rx="12" fill="#8a5a2b"/>
+    <text x="1029" y="132" font-size="17" font-weight="700" fill="#ffffff">④ 統計四個指標</text>
+    <text x="1029" y="156" font-size="12" fill="#f0e2cc">Own%：引用該語言官方國家</text>
+    <text x="1029" y="178" font-size="12" fill="#f0e2cc">NA：無法判定出國</text>
+    <text x="1029" y="200" font-size="12" fill="#f0e2cc">Div：提及的國家／地區數</text>
+    <text x="1029" y="222" font-size="12" fill="#f0e2cc">Ent：提及分布的正規化熵</text>
+    <text x="1029" y="244" font-size="12" fill="#7ee2a8">另附各國原始提及次數</text>
+  </g>
+
+  <g stroke="#55697f" stroke-width="2" fill="none" marker-end="url(#ar)">
+    <line x1="288" y1="188" x2="308" y2="188"/>
+    <line x1="580" y1="188" x2="600" y2="188"/>
+    <line x1="872" y1="188" x2="892" y2="188"/>
+  </g>
+  <defs>
+    <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#55697f"/>
+    </marker>
+  </defs>
+
+  <rect x="20" y="298" width="1142" height="118" rx="12" fill="#232f40"/>
+  <text x="44" y="328" font-size="15" font-weight="700" fill="#ffffff">提示模板（24 語言同構，刻意不含任何地域線索）</text>
+  <rect x="44" y="342" width="700" height="50" rx="8" fill="#1b2432"/>
+  <text x="60" y="372" font-size="15" fill="#7ee2a8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">What values shape family life {in region/place}?</text>
+  <text x="60" y="386" font-size="11" fill="#8a97a8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">Be brief. Choose yourself the place.</text>
+  <text x="768" y="366" font-size="13" fill="#9fb0c7">模型必須自己挑一個地方來回答，</text>
+  <text x="768" y="388" font-size="13" fill="#9fb0c7">所以回答裡的國家就是它對該語言的文化先驗。</text>
+  <text x="44" y="440" font-size="12" fill="#8a97a8">自繪流程圖，資料來源：《Why are all LLMs Obsessed with Japanese Culture?》第 3 節與第 4 節（arXiv:2604.21751v2）</text>
+  <text x="44" y="468" font-size="12" fill="#8a97a8">註：31,680 是「題目 × 語言」的格數；資料集實際發布格式為 1,320 列的寬表，每列 24 個語言欄（筆者已下載 HiTZ/CROQ 的 eval.csv 驗證）</text>
+</svg>
