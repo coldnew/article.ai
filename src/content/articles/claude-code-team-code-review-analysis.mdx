@@ -1,0 +1,331 @@
+---
+title: "Claude Code 團隊怎麼做 Code Review：七層審查、收斂問題與人機分工"
+description: "Addy Osmani 轉寫 Anthropic 內部實踐：Claude 寫約 90% 的程式碼時，審查如何從「逐行閱讀」變成「分層自動化」——七層檢查、reviewer 自我進化、以及人 still 要負責的五件事。"
+publishedAt: 2026-10-27T15:32:00+08:00
+topic: "AI 工程"
+sourceType: "article"
+sourceUrl: "https://x.com/addyosmani/status/2114604912520921136"
+authors: ["Addy Osmani"]
+analyst: "Muse Spark"
+venue: "X Article"
+tags: ["Code Review", "Claude Code", "Anthropic", "AI Agent", "工程流程", "CI/CD"]
+readTime: "12 分鐘"
+evidence: "中"
+featured: false
+sourceCount: 2
+accent: "blue"
+---
+
+import XPostCard from '../../components/XPostCard.astro';
+
+# Claude Code 團隊怎麼做 Code Review：七層審查、收斂問題與人機分工
+
+## 一句話結論
+
+《Addy Osmani 的 X 長文〈How the Claude Code team does code review〉》指出，當 Claude 寫下約 90% 的 Claude Code 程式碼時，Anthropic 沒有放棄 Code Review，而是把「逐行閱讀」換成分層自動化：PR 合併數量在 6–9 月翻倍，同時 revert 比例下降超過 40%。關鍵不是少看，而是把人類注意力留給只有人類能做的事，並把每次失誤都寫回 reviewer 的 eval 集。
+
+---
+
+## 這篇文章真正解決的問題
+
+《Addy Osmani 的長文》解決的是**敘事問題**——向外界說明 Anthropic 內部如何在 agent 大量寫碼的壓力下維持品質。但它真正的價值在於把一套可複製的工程實踐攤開：如何在不增加 revert/incident 的前提下，把「每 PR 需要的人類審批數」壓到 1 人以下。
+
+對工程讀者而言，這篇文章回答的是三個技術問題：
+
+1. **Agent 寫的程式碼該怎麼審？** — 七層檢查，每層抓不同類型的 bug。
+2. **Reviewer 自己怎麼越用越好？** — incidents 當 eval、收斂機制、夜間回掃歷史 bug。
+3. **人類還剩什麼要做？** — 五件事，其他全部自動化。
+
+本文把這三個問題從人物/公司敘事中剝離，獨立分析其工程邏輯與可遷移性。
+
+---
+
+## 來源嵌入
+
+此處依慣例節錄：
+
+<XPostCard author="Addy Osmani" handle="@addyosmani" avatar="/article.ai/articles/claude-code-team-code-review-analysis/addyosmani-avatar.jpg" timestamp="6:27 AM · Oct 26, 2026" views="1.8M" replies="336" reposts="1.5K" likes="11K" sourceUrl="https://x.com/addyosmani/status/2114604912520921136" mediaUrl="/article.ai/articles/claude-code-team-code-review-analysis/fig-a-life-of-change.jpg" mediaAlt="FIG A：一個變更從作者環境到上線的典型旅程">
+<p><strong>How the Claude Code team does code review</strong></p>
+<p>We previously mentioned that Claude writes about 90 percent of the code for Claude Code. So how do we do code review at this scale? Who reads code anyway? What happens if code goes wrong?</p>
+<p>This post describes our team's code review process at Claude Code and how we have improved it. Between June and September, we saw more than double the number of pull requests that were merged to the codebase for Claude Code, while the share of pull requests that had to be reverted fell by more than 40 percent.</p>
+</XPostCard>
+
+<small class="figure-caption">靜態還原自 X 貼文。完整長文請連結至來源查看；本卡節錄標題與開頭段。圖為原文 FIG A「一個變更的旅程」。</small>
+
+---
+
+## 流程拆解
+
+### 七層審查
+
+《Addy Osmani 的長文》把一次變更拆成七層檢查，外加 rollback 機制。每層抓某些 bug、漏掉其他；少有 bug 能穿過全部七層。
+
+![Claude Code 團隊的七層審查與自報指標。](/article.ai/articles/claude-code-team-code-review-analysis/figure-01-seven-layers.svg)
+
+<small class="figure-caption">圖 1｜本站自繪，對應長文 FIG B「Layers, not one gate」與各層描述。</small>
+
+**1. Pre-PR 驗證（提交前）**
+
+大部分審查在 PR 建立前就做完了。做法是讓 Claude 做「可執行」的事：跑測試、建置、把截圖和設計稿比對。不是讓它說「做完了」，而是讓它把結果展示出來。接著由一個帶全新 context 的 subagent 審 diff。兩者都是 Anthropic 官方 best practices 的一部分。
+
+提交 PR 前，團隊還會跑幾支內部 skill：bug hunting、diff reduction、end-to-end validation、以及把 UI 變更對照設計指南。
+
+Boris Cherny（Claude Code 創作者）估計，verification process 能把 Claude 輸出品質提升 2–3 倍。
+
+每個領域的驗證方式差很多：有時是一條 bash 指令，有時是整套測試，有時是在瀏覽器或手機模擬器裡測 app。
+
+如果自動 reviewer 反覆標同一類問題，團隊會從源頭修——skill 本身、lint 規則，或更新文件：
+
+- **CLAUDE.md**：專案描述檔，給 Claude 專案 context（技術棧、慣例、目標與非目標）。reviewer 每次審查都會讀它；大型 codebase 要寫短，其餘文件在這裡引用。程式碼違反 CLAUDE.md 的慣例，或某次更新讓 CLAUDE.md 過期，reviewer 會標記。
+- **REVIEW.md**：code owner 告訴 reviewer「自己這塊程式碼什麼最重要」。團隊會另外驗證 reviewer 是否真的遵守這些指南。好的 REVIEW.md 短而聚焦：定義專案失敗模式（文件不能說謊、設定不能錯路由）、限制 nitpick、定義忽略路徑、要求引用檔案 + 行號而不是猜檔名、要求頂層摘要含計數與明確的「無問題」聲明。
+
+**2. 每個 PR 都跑 AI review**
+
+PR 建立後、人類 review 前，Claude 會先審一次。diff 會對照整個 codebase 與 PR 作者陳述的意圖，檢查三件事：變更是否真的解決 issue、是否融入更大系統、是否破壞其他部分。審 bug fix 時，bot 會嘗試找 root cause。
+
+Anthropic 的公開產品 Code Review for Claude Code 已開放給所有 Team/Enterprise 客戶，本地也有輕量版 `/code-review`。
+
+research preview 上線後，內部 PR 有「實質 review comment」的比例從 16% 升到 54%。Code Review 在超過 1,000 行的 PR 上多數能抓到問題，小 PR 多數乾淨。repo 可由 admin 設定 Quick / Standard / Deep 三種模式；Deep 適合「漏一個 bug 的代價遠高於審查時間」的場景。
+
+findings 在交給人類前會被多個 agent 驗證：
+
+- 多個 agent 並行獵 bug
+- 另一個 agent 投票決定 finding 是否有效（false positive 過濾）
+- 只是 style / diagnostics / cleanup 的 finding 被過濾掉（團隊在自己 PR 上 A/B 測試過這些 filter 才上線）
+
+剩餘 finding 以 inline comment 呈現，按嚴重度排序，標記為：
+
+- Important
+- Nit
+- Pre-existing（避免把 PR 之前就存在的 bug 算到作者頭上）
+
+所有 finding 都必須被處理——修掉或 resolve thread 並附理由。很多時候 agent 會在夜間把問題修好，作者隔天回來看到 PR 已經過另一輪 review。
+
+**3. 可阻擋的安全審查**
+
+自動安全審查。只要有未解的 finding（來自 code review 或安全審查），PR 就不能合併。作者可以修掉，或以短理由 close thread（處理 false positive）。後續 commit 若解決了問題，finding 會自動 close。可以用 open-source security review GitHub Action 或 `/security-review` 指令搭建同樣流程。
+
+**4. 自動檢查阻擋**
+
+標準檢查：lint、type check、全平台測試、build。一個典型 CLI PR 在任何人看之前就要跑數十個 check。PR template 會問「怎麼測的」與「怎麼 revert」；Claude 可以代答，但作者要對答案負責。
+
+**5. 依風險分級的人類審批**
+
+不同變更風險不同（docs fix vs auto-updater），需要不同層級的 review。
+
+![風險分級：tier 由 change 決定，不是 author。](/article.ai/articles/claude-code-team-code-review-analysis/fig-c-risk-tiers.jpg)
+
+<small class="figure-caption">圖 2｜原文 FIG C，靜態存檔。風險等級由 classifier 依 change 判定；敏感路徑永遠需要另一人審批。</small>
+
+tier 由 change 決定，不是 author：
+
+- classifier 依變更內容判定風險等級
+- 另一個 classifier 判定某個變更是否「即使 tier 沒要求，仍需要另一人批准」
+- 某些路徑永遠需要另一人：owner 標記為 sensitive 的、任何 CI workflow 檔案
+
+只有 repo trusted list 上的作者（通常是擁有該 repo 的團隊）享有放寬審批；其他人都需要第二人批准。agent approval 不算 human approval。自動 review 可以放行低風險變更，但不能在需要人類時頂替。
+
+變更作者對變更負責，所以 agent 作者的 PR，operator 永遠算作 required reviewer 之一。一次 approval 只對一個 commit 有效；若有新 commit 不可信任（例如 agent push、或手動 resolve merge），PR 必須重新審批。
+
+**6. Merge queue、feature flag 與分階段 rollout**
+
+merge queue 確保所有 check 都在「把變更套到 main 上」的狀態下跑過，避免兩個各自成功的 PR 合併成壞 main。新功能通常躲在 feature flag 後面，Anthropic 員工先用。因為團隊自己就是重度使用者，常在用戶之前就發現 regression。
+
+公開 rollout 時，變更先到 latest channel，stable channel 落後跟進。
+
+**7. 快速回饋與 rollback**
+
+總有壞合併漏過去。最後一道防線的目標是盡快發現。躲在 feature flag 後面的變更可以不用 deploy 就關掉。
+
+Claude Code 有每週 on-call rotation；incident review 會回頭看「哪一層本該抓到這個問題」。除了監控 revert 與 incident dashboard，仍由作者與 on-call 注意壞合併。團隊尚未有「依 dashboard 自動調整審批要求」的 circuit breaker，但正在朝更少人類介入合併的方向研究。
+
+一位團隊成員指出，放慢速度、減少產出其實能提高準確率，但主要是因為總工作量下降。團隊的優先級真的是「提升識別與修正問題的速度」。
+
+### 審查器怎麼越用越好
+
+《Addy Osmani 的長文》把 review process 描述成持續改善的迴圈：
+
+**incidents 當 eval metric。** 團隊收集了導致 incident 的 PR、它們的 fix-forward 與 revert，並由懂 codebase 的工程師驗證每個 bug 的位置與正確性。review 系統每日對整集評分。
+
+![incidents 就是 eval 集。](/article.ai/articles/claude-code-team-code-review-analysis/fig-d-incidents-eval.jpg)
+
+<small class="figure-caption">圖 3｜原文 FIG D，靜態存檔。每次 incident 都加入 eval 集，任何 review 系統變更都對整集重評。</small>
+
+每次 incident 都加入 collection，review 系統的任何變更都對整集重評。
+
+**量測 noise。** 觀察人類對 review comment 的反應：修了、拒絕、澄清為 intentional、或覺得不重要。另外在已知乾淨的 PR 上跑 reviewer，觀察它多常回報「若採納會造成有害變更」的東西。
+
+優先級明確：第一，抓到真實 bug；第二，減少 review 輪數。
+
+對 agent 作者而言，多一輪 review comment 的成本更高——人類 dismiss 一個 nit 只要一秒，但 agent 要處理它就得再 commit 一次、再跑一輪 review。
+
+**收斂問題。** agent 作者與 agent reviewer 可能無限循環。團隊觀察到 CLI 專案有一個 PR 一夜之間 cycle 超過 50 次，靠人工才停下來，否則可能無限繼續。
+
+當團隊對 reviewer 一直在標的程式碼跑 git blame，~59% 是第一版就存在的程式碼——reviewer 很少發現新 bug，每輪只是多抓幾個舊 bug。
+
+團隊原本習慣預設跑好幾輪 review，因為每輪可能抓到不同 bug。高風險變更跑多輪有價值，但不是每個 PR 都需要。團隊開始追蹤「通過需要幾輪」，並更新 re-review 策略：
+
+- 限制輪數：3 輪後，reviewer 要求作者重新評估做法
+- 初輪之後，re-review 只看 diff
+- 指定 bug 類別，讓作者一次修完同類問題，而不是一行一行修
+- 避免重報已知問題
+
+review agent 也會在夜間對當前 codebase 跑，先於 bug 傳播就找出歷史 bug。
+
+![收斂後，每 PR 平均 review 輪數下降。](/article.ai/articles/claude-code-team-code-review-analysis/fig-e-convergence.jpg)
+
+<small class="figure-caption">圖 4｜原文 FIG E，靜態存檔。Convergence 改版後每 PR 平均 review 輪數的下降。</small>
+
+### 人機分工的邊界
+
+人類 reviewer 仍不可或缺，但只在這些事：
+
+- **該不該做這件事？** 決定是否建構、設定願景、品味與目標。有一隊伍宣稱已解決 code review 瓶頸，但仍對「團隊外來的變更」做人類 review，確保做的是對的事。
+- **審計危險程式碼**（billing、auto-updater、CI workflows）。
+- **架構 review**——這些選擇會定下其他人遵循的慣例。
+- **驗證 proofs**（測試輸出、執行過的指令、截圖、reviewer comment）。如果你說不出「這些檢查會漏掉什麼」，不要只要一個 👍，你需要真正的 review。
+- **承擔責任**。每一個上線的變更都有人回答，不管誰打的字。
+
+### 團隊脈絡怎麼傳遞（不靠讀 diff）
+
+Code review 長期以來也承擔「溝通 codebase 變更」的第二目的。如果機器做大部分閱讀，大家怎麼學 codebase？
+
+團隊沒有正式機制。沒有人腦中保有 Claude Code 的完整心智模型，團隊也不認為需要。任何人想了解某塊程式碼，就請 Claude 針對那一小片生成 explainer，幾分鐘就能拿到，而且永遠最新。
+
+![如果機器做大部分閱讀，大家怎麼學 codebase？](/article.ai/articles/claude-code-team-code-review-analysis/fig-f-learning.jpg)
+
+<small class="figure-caption">圖 5｜原文 FIG F，靜態存檔。部分成員會再進一步讓 Claude 生成視覺化 mini artifact，以自己偏好的風格教學。</small>
+
+部分成員會更進一步，讓 Claude 生成視覺化的 mini artifact，以自己偏好的風格教學。這比逐行讀 trivial diff（例如一行文案改動）更能把人類注意力用在刀口上。建立你要修改的模組的 explainer，學到的東西多得多。
+
+此外團隊預設 open，工作在 open Slack channel 進行，邊做邊讓其他人看見。
+
+### 「你合併，你負責」
+
+合併小型或中型變更後若仍出問題，一般期望作者自己修。這不會失控的原因：
+
+- 小變更容易 review、debug、revert
+- 一切皆可 revert：feature flag、revert、staged rollout 多數能在數分鐘內逆轉錯誤
+- blast radius 設定門檻：越昂貴的程式碼得到越多目光與驗證
+- regression 由 telemetry 與內部使用快速浮現
+- 不是 blame game：修問題的人擁有它，因為他 context 最多；incident review 看系統
+- 多數團隊成員在 open channel 共享責任，任何人都能看見他人在做什麼、加入討論、或請 Claude 找缺口；回饋也來自非 code owner。這種 openness 是品質在「不是每行都設閘」的情況下仍高的主因
+
+### 轉向（Changing course）
+
+agent 讓開新工作變便宜，但有時不該做。典型情境：channel 裡有人指出提議的變更走錯路（引用先前決策或建議更好的路徑），作者就關閉 PR 或改實作。
+
+因為程式碼本來就容易寫，關閉 PR 不會讓人有損失感。關鍵是「在 thread 早期 pivot」，不要等到最後才在 finalized PR 上留 blocking comment。
+
+---
+
+## 主張與證據對照表
+
+《Addy Osmani 的長文》大量引用 Anthropic 內部指標。以下逐條列出聲稱與可驗證性：
+
+| 聲稱 | 來源 | 可驗證性 | 備註 |
+|------|------|----------|------|
+| Claude 寫約 90% 的 Claude Code 程式碼 | Anthropic 自述（先前已提） | 低 | 無定義「寫」的邊界（生成/合併/歸因） |
+| 5–9 月 monorepo 每日合併 2,500 → 30,000+ | Anthropic engineering blog | 中 | 自家 repo 數據，口徑未公開 |
+| 6–9 月 Claude Code PR 合併數翻倍 | Anthropic 自述 | 中 | 未公開 repo 範圍與統計方法 |
+| revert 比例下降 >40% | Anthropic 自述 | 中 | 未定義 revert 的判定規則 |
+| 有實質 review comment 的 PR：16% → 54% | Anthropic 自述 | 中 | research preview 上線後；可能受 PR 規模分布影響 |
+| Code Review 在 >1,000 行 PR 上多數能抓到問題 | Anthropic 自述 | 低 | 無公開 benchmark |
+| verification process 提升品質 2–3 倍 | Boris Cherny 估計 | 低 | 主觀估計，無公開實驗 |
+| 某 CLI PR 一夜 cycle 超過 50 次 | Anthropic 自述 | 低 | 單一案例 |
+| ~59% 被標記的程式碼是初版就存在 | git blame 分析 | 中 | 口徑（「被標記」的範圍）未公開 |
+| agent approval 不計入 required approval | 流程規則 | 高 | 規則性陳述，可直接採用 |
+
+結論：這是一份**單一公司自述的工程實踐報告**。數字方向可信（PR 變多、revert 變少的趨勢與業界觀察一致），但精確比例無法獨立驗證。證據等級給「中」。
+
+---
+
+## 風險與盲點
+
+- **指標自報、無獨立驗證**：所有比例與倍數都是 Anthropic 內部統計，口徑與統計方法未公開。把這些數字當成「可複製的基準」是危險的。
+- **單一公司、單一產品**：Claude Code 是 Anthropic 自己的產品，團隊對 codebase 有最深 context、有專屬 tooling（CLAUDE.md、REVIEW.md、內部 skill）。其他團隊的 context 深度與 tooling 成熟度不同，直接照搬七層可能過重。
+- **convergence 問題未根除**：agent 作者 × agent reviewer 的無限循環是真實風險，3 輪上限是 workaround 而非解法。如果 reviewer 的 finding 品質不穩，限制輪數可能漏掉真實 bug。
+- **noise vs recall 的張力**：過濾 style/diagnostics 能降 noise，但也可能順手過濾掉「 disguised as style」的真實問題。團隊靠 A/B 測試校準，但其他團隊沒有同樣的 eval 集。
+- **人類時間是雙面成本**：減少 review 時間但增加 bug 修復時間，等於沒省。revert/incident 是 guardrail，但 guardrail 只在事後發現問題，不預防。
+- **approval 對 commit 有效**：新 commit 讓 approval 失效，這在 agent 頻繁 push 的場景會造成大量 re-approval。需要自動化配合（例如只對 agent push 的 commit 要求 re-approval）。
+- **「你合併，你負責」的文化依賴**：在 blame 文化或責任不清的組織，這條會退化成「沒人負責」。它需要 telemetry、快速 revert 與 blame-free incident review 一起支撐。
+- **缺少 circuit breaker**：團隊自己承認尚未有「依 dashboard 自動調整審批要求」的機制，所以七層裡「人類審批」的門檻仍靠人工判斷。
+- **學習 codebase 的方式轉移**：從「讀 diff」改成「請 Claude 生成 explainer」，對新人的長期效果未知——explainer 永遠最新，但可能喪失「讀到不相關程式碼」的意外學習。
+
+### 實作落差（把文章翻成自己團隊的行動）
+
+把七層直接照搬，和「知道七層」之間有落差：
+
+- **CLAUDE.md / REVIEW.md 要先寫**：沒有這兩份文件，AI reviewer 沒有判準，只會 generic nitpick。寫的順序應是「先記錄團隊真正踩過的坑」，不是「先寫理想慣例」。
+- **CI 必須先穩**：自動檢查阻擋的前提是 check 本身可靠、不 flaky。flaky test 會讓 merge queue 變成瓶頸。
+- **feature flag 基礎設施**：沒有 flag，第 6、7 層的「關掉不用 deploy」就做不到。這是前置投資。
+- **merge queue 與 staged rollout**：需要 CI 與部署管線支援，不是加一個 GitHub Action 就有。
+- **eval 集要自己建**：incidents 當 eval 的前提是「有系統地記錄 incident 與對應 PR」。沒有這個習慣，reviewer 無法迭代。
+- **trusted list 與 risk classifier**：需要先定義「什麼算 sensitive 路徑」，再談自動分級。一開始可以人工標註，累積資料後再自動化。
+
+---
+
+## 實作清單（How to implement）
+
+《Addy Osmani 的長文》附了一份可直接照做的清單，按階段分：
+
+**PR 前**
+
+- 給 agent 一份可跑的 check 清單，寫在短 CLAUDE.md 裡
+- 用 hooks 讓 agent 呼叫 formatter 與 linter
+- 本地跑 `/code-review` 與 `/security-review`，或用新-context subagent 審 diff
+- 建立 REVIEW.md，追蹤重複出現的 review 問題
+
+**每個 PR**
+
+- 強制 CI
+- PR template 加入「Testing」「Risk」「How to revert」
+- 先在一個 repo 加 AI reviewer，迭代 REVIEW.md 幾週再推廣
+- 加自動安全審查
+- 合併前所有 review thread 必須 resolve
+- 依風險調整審查強度：routine change 快速過，高風險區深審（Code Review 有 Quick/Standard/Deep 三級）
+- 限制 review 輪數；幾輪之後只審新 diff
+
+**審批**
+
+- 定義風險等級，由 change 決定而非 author；一開始嚴格，看到證據後逐步放寬
+- 把寬鬆審批路徑留給 trusted author
+- bot approval 不能滿足 required approval；新 commit push 時撤銷 approval
+- 指定人類為 auth、billing、CI、release workflow、installer 的 approver；用 CODEOWNERS 與 branch protection
+
+**合併與上線後**
+
+- 建立 merge queue
+- 實驗 feature flag
+- 先上內部用戶
+- 分階段 rollout
+- 建立 one-step revert 機制
+- 記錄 incidents 與 reverts，建立 eval 集
+- 改動 reviewer 的 prompt/tool/model 時重評分
+- 追蹤人類投入，用 reverts 與 incident rate 當 guardrail
+
+---
+
+## Where this is headed
+
+《Addy Osmani 的長文》最後指出方向：Code Review 產品當初設計時，最終 approval 仍由人類做，產品只貼 findings。但在 Anthropic 自己的 repo，owner 已經在決定「哪些低風險變更在自動檢查通過時可自動合併」，這條邊界會持續演進。
+
+所以每次 reviewer 漏掉某件事，團隊就問「模型的 context 裡少了什麼」，把它變成 CLAUDE.md、skill 或新 check。目標沒變：在不提高 revert rate 的前提下，減少每個變更的人類投入。
+
+文章末尾邀請：如果你也讓 agent 建 PR，請告訴他們你自動化了哪些 check、哪些仍需人類、以及他們做錯了什麼。
+
+---
+
+## 來源與參考
+
+- 原文：Addy Osmani, "How the Claude Code team does code review", X Article, 2026-10-26 — https://x.com/addyosmani/status/2114604912520921136
+- 重寫自 Anthropic 原文 "Solving code review at Anthropic"（https://claude.dev/blog/solving-code-review-at-anthropic/），並以 Pangram 檢查。
+- 相關產品：Code Review for Claude Code（Team/Enterprise）、`/code-review`、`/security-review` — https://code.claude.com/docs/en/code-review
+- Best practices：https://code.claude.com/docs/en/best-practices
+- Boris Cherny 關於 verification process：https://x.com/bcherny/status/2007179861115511237
+- monorepo source control 重設計：https://www.anthropic.com/engineering/redesigning-source-control
+- 本站相關分析：《CLAUDE.md 越寫越長，Agent 還是會忘：該把哪些規則變成程式？》（claudemd-rules-as-code-analysis）
+
+---
+
+<small>證據等級「中」：單一公司自述的工程實踐，數字方向可信但比例無法獨立驗證；解讀主體為 X 長文轉寫，未經 Anthropic 內部資料二次核對。</small>
