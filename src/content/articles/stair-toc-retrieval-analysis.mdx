@@ -1,0 +1,159 @@
+---
+title: "STAIR：用目錄（ToC）把書本知識裝進 LLM 參數的檢索器"
+description: "IBM 研究團隊提出的 STAIR，把 Table of Contents 當成檢索單位與輸入結構，讓 Mistral 7B 學會「依目錄挑 leaf section」：在 SearchTome 基準上 Recall@1 達 82.6%，比 DSI 高 7.4 個百分點，且 hallucination 降至近 0%。"
+publishedAt: 2026-10-28T11:00:00+08:00
+topic: "AI 工程"
+sourceType: "paper"
+sourceUrl: "https://arxiv.org/abs/2609.03874"
+authors: ["Vineet Kumar", "Meghanadh Pulivarthi", "Vishwajeet Kumar", "Jaydeep Sen", "Riyaz Ahmad Bhat", "Sachindra Joshi"]
+analyst: "Muse Spark"
+venue: "arXiv:2609.03874 (cs.AI)"
+tags: ["RAG", "Retrieval", "Table of Contents", "DSI", "LLM", "Benchmark"]
+readTime: "10 分鐘"
+evidence: "中"
+featured: false
+sourceCount: 1
+accent: "teal"
+---
+
+# STAIR：用目錄（ToC）把書本知識裝進 LLM 參數的檢索器
+
+## 一句話結論
+
+《arXiv 論文 STAIR (STructure Aware Information Retriever)》提出把 Table of Contents 當成檢索單位與輸入結構，讓 LLM 不再靠「切塊 + 向量相似度」找答案，而是直接生成「哪個 leaf section 能答這個 query」。在作者自建的 SearchTome 基準（18 本書、6 領域）上，STAIR 的 Recall@1 為 82.6%，比 DSI 高 7.4 個百分點，且 hallucination（生成不存在的 section）降至約 0.05%。
+
+---
+
+## 這篇文章真正解決的問題
+
+《STAIR 論文》解決的是**技術問題**：RAG 系統的檢索品質受限於「長度切塊」丟掉的全域結構。LLM 越來越能處理長 context，但仍有 "lost in the middle" 問題，所以精確檢索仍關鍵。現有 retriever 把長文件切成固定長度的 chunk，過程中丟掉 corpus 的全域語意結構（例如目錄），導致 chunk 之間因缺乏語意邊界而互相競爭。
+
+作者的解法是：把 ToC 這個「人本來就會用」的全域結構餵給 LLM，讓 LLM 把 corpus 知識存進參數，並直接生成 leaf section 標題。論文同時釋出 SearchTome benchmark（18 本書、6 領域）以推動這個方向的研究。
+
+---
+
+## 來源與資料
+
+- 論文：arXiv:2609.03874 v2（cs.AI），2026-09-03 提交，2026-10-13 修訂 v2，CC BY 4.0
+- 作者：Vineet Kumar（IBM，現 Amazon Books Science）、Meghanadh Pulivarthi、Vishwajeet Kumar、Jaydeep Sen、Riyaz Ahmad Bhat、Sachindra Joshi（IBM）
+- 程式碼：https://github.com/meghanadhpulivarthi/stair-clean
+- 資料集：https://huggingface.co/datasets/meghanadh/SearchTome
+
+---
+
+## 方法拆解
+
+### 問題設定：以 leaf node 為檢索單位
+
+給定長文件 D 與其目錄 `ToC_D = {T_1, ..., T_n}`。目錄節點之間有父子關係；leaf node L_D 是那些沒有子節點的節點（內容最細的 section）。目標：給定 query q，檢索出正確的 leaf node T_l，其內容能回答 q。
+
+關鍵洞見：目錄條目本身就是語意連貫的主題單位，有清楚的語意邊界；人類自然會「先看目錄縮小範圍」。把 ToC 當成 retrieval unit，比固定長度 chunk 更符合語意。
+
+### STAIR 的訓練：兩件事同時學
+
+STAIR 建在 Mistral Instruct v0.2（7B）上，透過 LoRA（r=16, alpha=32）微調，最多 200 epochs，以 dev set Recall@1 early stop（patience 20）。它同時學兩件事：
+
+1. **Corpus knowledge ingestion**：把書本文字內容映射到對應的 section title，把知識灌進 LLM 參數（類似 DSI 的 model-based indexing），但差別在於 STAIR 用「細粒度的 section title」而非 document id 作 key，語意連結更強。
+2. **Learning to generate from ToC**：學會從完整 ToC 中挑出最相關的 leaf node。
+
+訓練時輸入為 prompt + (q, ToC_D)；ToC_D 對同一本書的所有 query 都相同。模型被訓練生成對應的 leaf node。輸出限制在 64 tokens，輸入上限 14k tokens（DSI 只有 512）。
+
+訓練資料由 SearchTome 提供：每個段落請 Mixtral 8x7b 生成多個問題，覆蓋段落所有重要主題；部分作訓練、少量作 dev、多數作 test。
+
+### SearchTome benchmark
+
+SearchTome 由 opentextbooks.org 的 18 本書構成，涵蓋 6 領域（Education、Finance、Law、Medicine、Natural Sciences、Social Sciences），每領域 3 本書。用 pymupdf 解析 PDF 並抽取 ToC，再用 LLM 生成 QA。每本書提供 train/dev/test split 與 gold leaf label。
+
+作者主張這是第一個提供「乾淨結構化 view + ToC」的長 context retrieval benchmark；既有 benchmark（ContractNLI、Scrolls、GovReport、Qasper、QuALITY、NarrativeQA、LoCoV1）要麼聚焦摘要/生成、要麼缺 gold passage、要麼沒有 ToC。
+
+### Baselines
+
+- **Mistral（out-of-the-box）**：beam search 產 top-k，測 LLM 內建知識
+- **BM25**（ElasticSearch 8.11.2，leaf node 為 doc id）
+- **DPR**（NV-Embed-v2，MTEB 領先的 open embedding，未在 SearchTome 微調）
+- **DSI**（Tay 2022，fine-tuned on SearchTome train split，input 512 tokens）
+- **STAIR**（本文方法）
+
+### 結果
+
+![Figure 1：人類如何用目錄回答「plurality voting system 是什麼？」。](/article.ai/articles/stair-toc-retrieval-analysis/fig1-toc.png)
+
+<small class="figure-caption">圖 1｜原文 Figure 1，靜態存檔自 PDF。人類會先看目錄縮小到 Chapter "Democracies and Democratization" → Section "Institutions within Democracy" → subsection "Electoral Systems & Political Parties"，該 subsection 內容即含定義。</small>
+
+Table 4（論文）Recall@1 / R@3 / nDCG@3 平均：
+
+| 方法 | Education | Finance | Law | Med | NatSci | SocSci | Avg R@1 |
+|------|-----------|---------|-----|-----|--------|--------|---------|
+| Mistral | 14.8/17.8/16.6 | 16.4/19.4/18.2 | 13.6/15.7/14.9 | 13.7/17.0/15.7 | 13.1/15.3/14.4 | 10.9/13.4/12.4 | 13.8 |
+| BM25 | 58.7/75.8/68.8 | 55.0/76.8/67.8 | 62.0/77.7/71.3 | 59.6/78.7/70.8 | 58.7/78.1/70.1 | 62.8/78.3/72.0 | 59.5 |
+| Haiku | 59.8/80.4/72.0 | 37.7/56.3/48.4 | 41.1/60.6/52.3 | 46.1/65.0/57.2 | 54.6/73.7/65.7 | 34.0/48.8/42.6 | 45.6 |
+| DPR | 71.5/86.8/80.6 | 66.4/85.5/77.7 | 69.6/84.1/78.2 | 72.7/88.8/82.2 | 63.0/84.1/75.7 | 68.8/83.1/77.3 | 68.7 |
+| DSI | 76.2/84.1/80.9 | 78.1/87.8/83.9 | 73.3/82.9/79.0 | 82.1/89.9/86.8 | 76.2/84.7/81.3 | 75.4/82.2/79.4 | 76.9 |
+| STAIR | 83.3/91.2/88.0 | 82.8/91.4/88.0 | 80.8/89.4/85.9 | 86.1/93.2/90.3 | 80.6/90.4/86.4 | 81.8/89.0/86.1 | 82.6 |
+
+STAIR 在所有 6 領域都第一，平均 R@1 82.6%（DSI 76.9%，+7.4pp）。統計顯著性：DSI vs STAIR 在全部 6 個領域（合併該領域所有書）下 randomization test p < 0.05，null hypothesis 被拒絕。
+
+定性範例（Table 3）：query "How do preschoolers react when caregivers and teachers belittle their autonomous actions?"（書 The Whole Child）：
+
+- Mistral：能猜到 2.2.3 Initiative vs. Guilt，但不理解「只選一個」（缺 task training）
+- BM25：關鍵字偏誤，選 8.3.2 Moral Development
+- DPR：詞義匹配，選 2.2.2 Autonomy vs. Shame/Doubt (Toddlerhood)（缺 corpus 訓練）
+- DSI：微調過但精準度不足，選 2.2.2 Autonomy vs. Shame/Doubt (Preschool Years)——且該標題是 hallucinated，不在輸入 ToC
+- STAIR：正確選 2.2.3 Initiative vs. Guilt (Preschool Years)
+
+### Ablation：ToC 降低 hallucination
+
+![Figure 3：訓練樣本越少，DSI 的 hallucination 率越高；STAIR 維持近 0。](/article.ai/articles/stair-toc-retrieval-analysis/fig3-hallucination.png)
+
+<small class="figure-caption">圖 2｜原文 Figure 3，靜態存檔自 PDF。Hallucination 定義為生成 non-leaf node（無效 document identifier）。STAIR 的 hallucination 率幾乎恆定在 ~0，與訓練樣本數無關。</small>
+
+作者把 hallucination 定義為「生成 non-leaf node」。STAIR 的 hallucination 率約 0.05%；DSI 在訓練樣本少的 leaf node 上 hallucination 明顯升高。原因是 DSI 必須「記住」section 結構，樣本少就記不住；STAIR 不必記住 leaf node，因為 ToC 作為輸入直接提供結構。
+
+![Figure 4：各 leaf 的 Recall@1 vs 訓練樣本數；STAIR 在少樣本 leaf 上仍高。](/article.ai/articles/stair-toc-retrieval-analysis/fig4-accuracy.png)
+
+<small class="figure-caption">圖 3｜原文 Figure 4，靜態存檔自 PDF。DSI 與 STAIR 的 R@1 差距在少訓練樣本的 leaf 上最大，樣本越多差距越小，但 STAIR 始終更高。</small>
+
+---
+
+## 主張與證據對照表
+
+| 聲稱 | 證據 | 可驗證性 | 備註 |
+|------|------|----------|------|
+| STAIR R@1 82.6% vs DSI 76.9% | SearchTome test set，Table 4 | 中 | 單一 benchmark、作者自建；無外部複現 |
+| 差異統計顯著（`p<0.05`，6 領域） | randomization test | 中 | 方法描述清楚，但樣本為作者自建 benchmark |
+| Hallucination ~0.05% | 論文 §6.2 | 中 | 依作者定義（non-leaf node）；非一般意義的「事實錯誤」 |
+| ToC 降低 hallucination | ablation Fig 3 | 中 | 因果推論合理，但 DSI 與 STAIR 唯一差異為 ToC 輸入 |
+| SearchTome 第一個 ToC benchmark | 文獻回顧 §3.1 | 中 | 主觀 novelty 主張，難完全驗證 |
+| 18 書 / 6 領域 / 1818 books? | Table 1 | 高 | 18 本書、每領域 3 本；abstract 寫 18 books（非 1818，內文筆誤） |
+| 程式碼與資料公開 | GitHub + HuggingFace 連結 | 高 | 可自行複現 |
+
+注意：abstract 與結論寫「1818 books」，Table 1 實際列 18 本書。這是明顯的筆誤/誇大，應以 Table 1 為準。本分析以 18 本書為準。
+
+---
+
+## 風險與盲點
+
+- **單一 preprint，無 peer review**：arXiv 預印本，未經同儕審查；數字與結論未被獨立驗證。
+- **Benchmark 由作者自建**：SearchTome 的 query 是 LLM（Mixtral 8x7b）生成的，gold label 也是 LLM 生成的；這可能高估檢索器在「LLM 風格問題」上的表現，與真實使用者 query 的分布可能不同。
+- **ToC 前提**：方法只適用於「有全域結構」的 corpus。Limitations 節明確指出：目前只評估有 ToC 的 corpus；真實世界多數文件（網頁、客服對話、程式碼）沒有 ToC。作者提議未來「動態生成 ToC」，但那是未來工作。
+- **Hallucination 定義狹窄**：0.05% 指「生成 non-leaf node」，不是「回答事實錯誤」。 conflating 兩者會高估系統可靠性。
+- **Base LLM 與規模**：只在 Mistral 7B Instruct v0.2 上驗證；其他模型（更大/更小）或非 Mistral 家族的行為未知。DPR baseline 用 NV-Embed-v2 但未在 SearchTome 微調，比較有條件。
+- **Input 長度 14k tokens**：ToC 較大的書可能超出限制；論文未討論截斷策略。
+- **泛化能力**：在 6 領域 18 本書上驗證；企業級 corpus（百萬 URL）未測試。
+- **Query 生成與訓練資料重疊**：訓練/測試 query 都來自同一 LLM 生成流程，可能有分布洩漏。
+- **實作成本**：每本書需微調一個模型（per-book LoRA），部署與維護成本不低；通用化（zero-shot）是未來工作。
+
+---
+
+## 來源與參考
+
+- 論文：Kumar et al., "STAIR (STructure Aware Information Retriever): A novel dataset and LLM based retriever for document structure augmentation", arXiv:2609.03874 v2, 2026 — https://arxiv.org/abs/2609.03874
+- HTML 全文：https://arxiv.org/html/2609.03874v2
+- 程式碼：https://github.com/meghanadhpulivarthi/stair-clean.git
+- 資料集：https://huggingface.co/datasets/meghanadh/SearchTome
+- DOI：https://doi.org/10.48550/arXiv.2609.03874
+- 引用的關鍵前作：Tay et al. (2022) DSI；Karpukhin et al. (2020) DPR；Sarthi et al. (2024) RAPTOR
+
+---
+
+<small>證據等級「中」：單一 arXiv 預印本，作者自建 benchmark 與自報數字；方向與方法有參考價值，但數字未經獨立複現，且 abstract 存在「1818 books」筆誤。</small>
