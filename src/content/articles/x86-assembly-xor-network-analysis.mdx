@@ -1,0 +1,127 @@
+---
+title: "用 x86-64 組合語言訓練 XOR：神經網路教學的成立部分與 ABI 細節"
+description: "核對 TheVixhal 的完整 NASM 程式：2→2→1 網路、反向傳播與 x87 sigmoid 有實作依據，但仍連結 libc，預期輸出也不能當作實測紀錄。"
+publishedAt: 2026-11-03T11:01:00+08:00
+topic: "底層機器學習"
+sourceType: "article"
+sourceUrl: "https://x.com/TheVixhal/status/2044818391240995033"
+authors: ["vixhaℓ"]
+analyst: "Codex"
+venue: "X Article / NASM"
+tags: ["組合語言", "x86-64", "神經網路", "XOR", "ABI", "技術主張核實"]
+readTime: "8 分鐘"
+evidence: "中"
+featured: false
+sourceCount: 4
+accent: "blue"
+---
+
+import XPostCard from '../../components/XPostCard.astro';
+
+# 用 x86-64 組合語言訓練 XOR：神經網路教學的成立部分與 ABI 細節
+
+## 一句話結論
+
+《Building a Neural Network from Scratch in Pure x86-64 Assembly》的宣傳性在於把程式描述成完全不依賴函式庫，以及暗示換幾條 SIMD 指令就能加速；成立的部分是，文內完整列出以組合語言計算前向傳播、反向傳播和權重更新的小型 XOR 網路。它適合用來理解資料如何穿過 CPU，不構成效能優勢或原生執行成功的證明。
+
+## 這篇文章真正解決的問題
+
+《TheVixhal 的 X Article》處理的是「神經網路到底在算什麼」：當張量、自動微分與最佳化器被拿掉後，訓練會變成一連串載入、乘加、暫存與函式呼叫。這個題目沒有需要追查的論文；一手材料就是長文內嵌的完整 `nn.asm`，再以 NASM、System V AMD64 psABI 和 Intel 指令手冊檢查其解說。
+
+本文讀取了長文正文及內嵌程式區塊，靜態檢查最終完整版本，另用 Python 逐步進行 float32 捨入的數值重算。本機是 ARM Mac，未安裝 NASM，Linux 容器服務亦未啟動，因此沒有組譯、連結或執行原版 ELF 程式。以下嚴格區分「程式寫了什麼」「數值流程可否學會 XOR」與「原始機器碼是否實測通過」。
+
+## 來源嵌入
+
+此處依慣例節錄 X Article 標題，完整教學與程式請見來源連結。
+
+<XPostCard author="vixhaℓ" handle="@TheVixhal" avatar="/article.ai/articles/x86-assembly-xor-network-analysis/avatar.jpg" verified="blue" timestamp="4:41 PM · Apr 16, 2026 UTC" views="558,296" replies="25" reposts="178" likes="1,419" sourceUrl="https://x.com/TheVixhal/status/2044818391240995033" mediaUrl="/article.ai/articles/x86-assembly-xor-network-analysis/cover.jpg" mediaAlt="TheVixhal 的 x86-64 組合語言神經網路教學封面">
+<p>Building a Neural Network from Scratch in Pure x86-64 Assembly</p>
+</XPostCard>
+
+<small class="figure-caption">X Article 靜態節錄；欄位由 FxTwitter 回傳資料核對，擷取於 2026-11-03，互動數字非即時。繁體譯文：「從零開始，以純 x86-64 組合語言建立神經網路」。圖片為作者長文封面，不代表本文已完成原生實測。</small>
+
+## 原圖解讀：四筆資料就是整個任務
+
+![原文 XOR 真值表，輸入相同時輸出 0，輸入不同時輸出 1](/article.ai/articles/x86-assembly-xor-network-analysis/source-diagram.png)
+
+<small class="figure-caption">原文內嵌 XOR 真值表，存檔自 X Article。它規定四筆訓練資料的目標，沒有呈現訓練曲線、效能或執行紀錄。</small>
+
+【原文明說】網路是兩個輸入、兩個隱藏神經元、一個輸出，即 2→2→1，隱藏層與輸出層都使用 sigmoid。四筆資料依序是 00、01、10、11，標籤為 0、1、1、0。
+
+【從原文可直接推出】六個連線權重加三個偏差，共九個可訓練參數。四筆資料各含三個 32 位元浮點數，合計 48 位元組；每次取下一筆時指標增加 12 位元組。本文以 Python 執行驗算：`6 + 3 = 9`、`4 × 3 × 4 = 48`。這是極小的教學資料，不能代表大型模型訓練的記憶體與通訊瓶頸。
+
+## 流程拆解：從公式到可追蹤的機器狀態
+
+### 前向傳播：每次呼叫都要知道資料在哪裡
+
+【原文明說】程式先算兩個隱藏節點的加權和，通過 sigmoid 後存到記憶體，再計算輸出節點。`mulss` 與 `addss` 處理的是單一 float32，不是一次處理整個向量。
+
+最值得學的是呼叫邊界。最終完整版本在主迴圈把輸入存入 `save_x1`、`save_x2`，每算一個隱藏節點便重新載入，並把加權和移到 `xmm0` 才呼叫 sigmoid。這比只看「某個暫存器原本放什麼」可靠。
+
+【原文明說】作者中途先展示錯誤草稿，再展示修正版；草稿不只存在輸入遭覆寫的問題，也沒有先把第一個加權和從 `xmm2` 搬到 sigmoid 約定的 `xmm0`。不能把那段未完成示範與最後完整程式混為一談。
+
+【從原文可直接推出】作者提醒 XMM 暫存器可能被呼叫覆寫，方向正確，但只提到 `xmm0–xmm7` 不夠完整：System V AMD64 psABI 也不要求被呼叫者保留 `xmm8–xmm15`。把輸入換放高編號 XMM 暫存器，並不自動解決保存問題。[System V AMD64 psABI：暫存器保存規則](https://gitlab.com/x86-psABIs/x86-64-ABI/-/raw/master/x86-64-ABI/low-level-sys-info.tex)
+
+### sigmoid：指令集沒有把數學函式變成一條指令
+
+【原文明說】作者用 x87 建立指數函式：先把指數換算成以 2 為底，再拆成整數部分和小數部分，用 `f2xm1` 算小數部分、用 `fscale` 補回整數尺度，最後得到 sigmoid。
+
+【從原文可直接推出】這個拆分有實際原因。Intel 手冊對 `F2XM1` 的輸入範圍有要求，不能把任意指數直接丟進去。最終程式也把 x87 結果存回 float32 記憶體，再搬進 SSE 暫存器；「x86-64 程式」可以同時使用兩套浮點機制。[Intel 指令手冊：F2XM1](https://www.intel.com/content/dam/www/public/us/en/documents/manuals/64-ia-32-architectures-software-developer-vol-2a-manual.pdf)
+
+這種寫法有助理解，但沒有完整數值穩定性分析。極端輸入、溢位、浮點控制狀態與誤差，都不能從四筆 XOR 的成功直接推廣。
+
+### 反向傳播：更新方向必須和誤差定義一起讀
+
+【原文明說】誤差定義為目標減輸出，單筆損失是誤差平方的一半。輸出 delta 再乘上 sigmoid 導數；隱藏 delta 使用當下輸出層權重，最後才進入統一的更新函式。
+
+【從原文可直接推出】因為誤差採用這個符號，權重以「加上學習率乘 delta 再乘輸入」更新，仍可對應損失下降方向。不能看到加號就斷言作者把梯度下降寫反。完整版本也先算完兩個隱藏 delta 才更新權重，避免把更新後的輸出權重混進同一筆反傳。
+
+程式沒有真的在訓練迴圈彙整平均損失；正文雖示範損失算法，完整版本主要使用誤差來更新。把單筆半平方誤差稱為 MSE 也略鬆散，應與四筆資料的平均值分開。
+
+### 訓練和列印：ABI 是程式的一部分
+
+【原文明說】訓練共跑一萬個 epoch，每個 epoch 順序處理四筆資料，逐筆更新，之後列印結果。執行驗算是四萬次樣本更新，不是一萬次更新。
+
+【從原文可直接推出】完整程式有 `extern printf`，並透過 GCC 連結。因此可以說沒有使用機器學習函式庫，不能說整個程式沒有任何函式庫依賴。連結命令雖含 `-lm`，核心 sigmoid 並未呼叫 libm 的 `exp`。
+
+列印時，程式用 `cvtss2sd` 把四個 float32 轉成 double，並設定 `rax` 為 4。更精確地說，System V 可變參數呼叫使用的是 `al` 中的向量暫存器使用數上界；這裡寫入 `rax` 讓低位元組也得到正確值。完整版本的主函式保存三個暫存器後，額外調整八位元組，也與呼叫前的 16 位元組堆疊對齊規則一致。這是靜態核對，不代表已確認執行時全部狀態。[System V AMD64 psABI：堆疊與可變參數](https://gitlab.com/x86-psABIs/x86-64-ABI/-/raw/master/x86-64-ABI/low-level-sys-info.tex)
+
+## 宣稱對照與數值重算
+
+| 《TheVixhal 的 X Article》敘述 | 本文核對 |
+| --- | --- |
+| 用組合語言從零建立神經網路 | 【原文明說】核心運算與更新都有完整 NASM 程式；任務限於固定的 XOR 小網路 |
+| 不使用函式庫 | 【仍未被支撐的主張】完整程式呼叫 libc 的 `printf`，應限定為不依賴機器學習函式庫 |
+| 一萬個 epoch 後學會 XOR | 【合理推斷】同初值與更新順序的 Python 數值重算可分類四筆資料；未原生執行組合語言 |
+| 預期輸出可直接當重現結果 | 【仍未被支撐的主張】作者稱數字為約略值，沒有附環境、二進位或執行紀錄 |
+| 把 `mulss` 換成 `mulps` 就能加速 | 【仍未被支撐的主張】還要重排資料、安排各 lane 並處理加總，且沒有時間或吞吐基準 |
+
+本文以 Python `struct` 在基本 float32 運算後捨入，沿用原文初值、學習率 0.5、資料順序與一萬個 epoch，得到：
+
+| 輸入 | 目標 | 本文數值重算輸出 |
+| --- | --- | --- |
+| 0、0 | 0 | 0.0183547 |
+| 0、1 | 1 | 0.9789681 |
+| 1、0 | 1 | 0.9829125 |
+| 1、1 | 0 | 0.0163299 |
+
+以 0.5 為分類門檻，四筆都正確。這只能支持該數值流程能學會這四筆資料；Python 指數函式沒有逐指令模擬 x87 的中間精度與捨入，因此既不要求數字完全一致，也不能用它代替原版程式的執行測試。這裡沒有獨立測試集，更沒有泛化能力證據。
+
+## 風險與盲點
+
+**能學會不等於比較快。** 四筆資料和九個參數幾乎沒有展現大型矩陣運算的特性；呼叫次數、記憶體往返與 x87 指數算法可能影響時間。沒有和最佳化 C、向量化實作或函式庫比較，就沒有效能優勢結論。
+
+**純量改向量需要重新設計。** `mulps` 是逐 lane 相乘，不會自動完成點積加總。XOR 資料目前以每筆三個浮點數排列，也不是換掉指令名稱就能剛好對應四個獨立神經元的布局。需要先決定沿樣本還是沿神經元平行，再安排載入、加總與更新依賴。
+
+**平台範圍要說清楚。** 文章的 ELF64、GCC 和 System V 呼叫慣例以 Linux x86-64 為目標。Windows 的 ABI、macOS 的物件格式與符號規則，以及 Apple Silicon 的指令集都不同，不能原封不動照貼命令。[NASM 文件](https://www.nasm.us/doc/nasm03.html)也區分資料宣告與保留空間：`dd` 和 `resd` 並不是訓練框架自動管理的張量。
+
+**固定初值是教學選擇。** 同一初值和同一順序有利於追蹤，但不能保證換初始化、換任務或換激活函式仍會收斂。改成 ReLU 也需要一起改導數和處理失活問題，不能由「激活函式比較簡單」直接推出訓練一定更快。
+
+**閱讀邊界與利益關係。** 本次取得的長文未見付費課程或返佣連結；作者簡介提及正在建置 GraphDB，但文內未以它作為此程式的驗證依據。這不影響指令規則的核對，也不能補上缺少的執行與效能資料。本文證據等級為「中」，因為最終程式尚未在目標環境執行。
+
+## 來源
+
+1. [TheVixhal：Building a Neural Network from Scratch in Pure x86-64 Assembly](https://x.com/TheVixhal/status/2044818391240995033)：長文與內嵌完整程式，透過 FxTwitter 讀取。
+2. [System V AMD64 psABI 原始文件](https://gitlab.com/x86-psABIs/x86-64-ABI/-/raw/master/x86-64-ABI/low-level-sys-info.tex)：暫存器保存、堆疊對齊及可變參數規則。
+3. [Intel 指令集手冊 Volume 2A](https://www.intel.com/content/dam/www/public/us/en/documents/manuals/64-ia-32-architectures-software-developer-vol-2a-manual.pdf)：x87 指令語義與範圍。
+4. [NASM：The NASM Language](https://www.nasm.us/doc/nasm03.html)：資料宣告與空間保留指令。
